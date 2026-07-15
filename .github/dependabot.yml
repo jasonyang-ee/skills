@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Keeps the pinned action majors current (checkout/setup-node v7 exist upstream).
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: ci
+
+  # Tracks the `skills` CLI so the discovery test keeps running against a
+  # current version of the tool users actually install with.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore

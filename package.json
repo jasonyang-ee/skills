@@ -1,0 +1,34 @@
+{
+  "name": "@jasonyang-ee/skills",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Agent skills for multi-phase plan execution: handoff and workonplan",
+  "keywords": [
+    "agent-skills",
+    "claude-code",
+    "skills",
+    "ai"
+  ],
+  "license": "MIT",
+  "author": "jasonyang-ee",
+  "homepage": "https://github.com/jasonyang-ee/skills#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jasonyang-ee/skills.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jasonyang-ee/skills/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "test:watch": "node --test --watch"
+  },
+  "devDependencies": {
+    "js-yaml": "^4.1.0",
+    "skills": "^1.5.17"
+  }
+}

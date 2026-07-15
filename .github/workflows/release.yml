@@ -1,0 +1,65 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    name: publish GitHub Release
+    runs-on: ubuntu-latest
+    permissions:
+      # Needed to create the release. Scoped to this job only.
+      contents: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # A tag must never ship skills that fail their own contract.
+      - run: npm test
+
+      - name: Verify tag matches package.json
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          MANIFEST="$(node -p "require('./package.json').version")"
+          if [ "$VERSION" != "$MANIFEST" ]; then
+            echo "::error::tag $GITHUB_REF_NAME does not match package.json version $MANIFEST"
+            exit 1
+          fi
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          # index() rather than a built regex: the version contains dots, and a
+          # dynamic regex would read "[1.2.0]" as a character class.
+          awk -v header="## [$VERSION]" '
+            index($0, header) == 1 { found = 1; next }
+            found && index($0, "## [") == 1 { exit }
+            found && /^\[/ { exit }   # stop before trailing link definitions
+            found { print }
+          ' CHANGELOG.md > release-notes.md
+          if [ ! -s release-notes.md ] || ! grep -q '[^[:space:]]' release-notes.md; then
+            echo "::error::CHANGELOG.md has no '## [$VERSION]' section — add one before tagging"
+            exit 1
+          fi
+          echo "--- release notes ---"
+          cat release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            --title "$GITHUB_REF_NAME" \
+            --notes-file release-notes.md \
+            --verify-tag
