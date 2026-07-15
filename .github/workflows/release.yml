@@ -15,7 +15,7 @@ jobs:
       # Needed to create the release. Scoped to this job only.
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v6
         with:
