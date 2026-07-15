@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Dependabot no longer opens version-update pull requests
+  (`open-pull-requests-limit: 0` for both ecosystems). This repo is public, so
+  those PRs were unwanted noise. Dependabot security updates and alerts stay
+  enabled — the lockfile is public either way, so a security PR shortens the
+  exposure window rather than creating it, and alerts stay private to
+  maintainers.
+
 ## [0.1.0] - 2026-07-15
 
 First release: a central collection of 15 skills.

@@ -88,6 +88,27 @@ describe('the spec format needs no FORMAT.md', () => {
   });
 });
 
+describe('dependabot opens no version-update pull requests', () => {
+  const path = join(REPO_ROOT, '.github', 'dependabot.yml');
+
+  // V22 — this repo is public, so every version-update PR is public noise.
+  // Security updates stay on via a repo setting, deliberately out of this file.
+  it('caps every ecosystem at zero open pull requests', () => {
+    assert.ok(existsSync(path), '.github/dependabot.yml missing');
+    const { updates } = yaml.load(readFileSync(path, 'utf8'));
+    assert.ok(updates?.length > 0, 'dependabot.yml declares no updates entries');
+
+    const offenders = updates
+      .filter((entry) => entry['open-pull-requests-limit'] !== 0)
+      .map((entry) => entry['package-ecosystem']);
+    assert.deepEqual(
+      offenders,
+      [],
+      `these ecosystems would open version-update PRs: ${offenders.join(', ')}`,
+    );
+  });
+});
+
 describe('workflows are least-privilege', () => {
   const files = existsSync(WORKFLOWS_DIR)
     ? readdirSync(WORKFLOWS_DIR).filter((f) => f.endsWith('.yml') || f.endsWith('.yaml'))

@@ -28,6 +28,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - Node ≥ 20 LTS.
 - ⊥ private-codebase refs in published skills (∵ repo public).
 - CI ! least-priv top-level `permissions:`. ⊥ secrets beyond `GITHUB_TOKEN`.
+- dependabot version updates ⊥ open PRs → `open-pull-requests-limit: 0` ∀ ecosystem (∵ user ruling 2026-07-15, PR noise). Repo setting `dependabot_security_updates` ! stay enabled & alerts ! stay on (∵ `package-lock.json` public ∴ vuln scannable regardless; security PR closes exposure window ⊥ opens it. Alerts private on public repo ∴ ⊥ disclosure). ⊥ CI-testable (repo API) ∴ manual.
 - ⊥ push | tag without explicit user ask (house policy, `CLAUDE.md`).
 - ⊥ `FORMAT.md`. Format → embedded in `spec` skill + baked header @ top of SPEC.md (§R.13).
 - `SPEC.md` + `AGENTS.md` caveman. `README.md`/`CONTRIBUTING.md`/`NOTICE.md` normal English (∵ human-facing).
@@ -86,6 +87,7 @@ V18: `caveman` ↔ `caveman-encode` ! cross-point in description (∵ §R.13 —
 V19: ∀ skill → ⊥ `scripts/` dir (∵ §C markdown-only, user ruling)
 V20: `skills/spec/SKILL.md` ! ∋ `## FORMAT` & `## BAKED HEADER` & header template
 V21: ∀ skill → ⊥ require `FORMAT.md`; root ⊥ ∃ `FORMAT.md`
+V22: `.github/dependabot.yml` → ∀ `updates[]` entry ! `open-pull-requests-limit: 0` (∵ §C; re-enable = unwanted public PR)
 
 ## §T TASKS
 
@@ -117,7 +119,8 @@ T24|x|impl `tests/attribution.test.mjs`|V15,V16,V17,V18
 T25|x|extend `tests/repo-hygiene.test.mjs` → no-scripts, no-FORMAT.md, spec-embeds-format|V19,V20,V21
 T26|x|rm `FORMAT.md` + bake header into own `SPEC.md`|V21
 T27|x|README — full roster table + credits|I.cmd
-T28|.|`git push -u origin main` + tag `v0.1.0` (∵ v0.1.0 ⊥ released yet → fold collection into 1st release)|-
+T28|~|`git push -u origin main` + tag `v0.1.0` (∵ v0.1.0 ⊥ released yet → fold collection into 1st release). push x @ `ae762ef`; tag ⊥ yet (∵ user ruling 2026-07-15 — push only)|-
+T29|x|dependabot `open-pull-requests-limit: 0` ∀ ecosystem; security updates + alerts stay on|V22,C
 
 ## §B BUGS
 

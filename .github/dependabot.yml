@@ -1,10 +1,13 @@
 version: 2
 updates:
-  # Keeps the pinned action majors current (checkout/setup-node v7 exist upstream).
+  # Tracked so the config records what would be updated, but capped at zero open
+  # PRs: this repo is public and version-update PRs are unwanted noise (V22).
+  # Dependabot security updates stay enabled via repo settings, not this file.
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
+    open-pull-requests-limit: 0
     commit-message:
       prefix: ci
 
@@ -14,5 +17,6 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    open-pull-requests-limit: 0
     commit-message:
       prefix: chore
