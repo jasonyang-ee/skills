@@ -119,7 +119,7 @@ T24|x|impl `tests/attribution.test.mjs`|V15,V16,V17,V18
 T25|x|extend `tests/repo-hygiene.test.mjs` → no-scripts, no-FORMAT.md, spec-embeds-format|V19,V20,V21
 T26|x|rm `FORMAT.md` + bake header into own `SPEC.md`|V21
 T27|x|README — full roster table + credits|I.cmd
-T28|~|`git push -u origin main` + tag `v0.1.0` (∵ v0.1.0 ⊥ released yet → fold collection into 1st release). push x @ `ae762ef`; tag ⊥ yet (∵ user ruling 2026-07-15 — push only)|-
+T28|x|`git push -u origin main` + tag `v0.1.0` (∵ v0.1.0 ⊥ released yet → fold collection into 1st release). push x @ `ae762ef`; tag `v0.1.0` x @ `892da32` (∵ user ask 2026-07-15). §T.29 dependabot + B4 js-yaml folded → `## [0.1.0]` ∵ ⊥ released ∴ ∀ main ∈ v0.1.0|V13
 T29|x|dependabot `open-pull-requests-limit: 0` ∀ ecosystem; security updates + alerts stay on|V22,C
 
 ## §B BUGS
