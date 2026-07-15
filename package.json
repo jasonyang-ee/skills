@@ -28,7 +28,7 @@
     "test:watch": "node --test --watch"
   },
   "devDependencies": {
-    "js-yaml": "^4.1.0",
+    "js-yaml": "^5.2.1",
     "skills": "^1.5.17"
   }
 }
