@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 
 export const REPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 export const SKILLS_DIR = join(REPO_ROOT, 'skills');

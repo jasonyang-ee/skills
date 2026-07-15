@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Test suite works with `js-yaml` 5.x, which is ESM-only and no longer has a
+  default export. The imports are namespace imports now. Affects contributors
+  only; the published skills are markdown and carry no dependencies.
+
 ### Changed
 
 - Dependabot no longer opens version-update pull requests

@@ -2,7 +2,7 @@ import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import yaml from 'js-yaml';
+import * as yaml from 'js-yaml';
 import { REPO_ROOT, SKILLS_DIR, loadSkills } from './helpers.mjs';
 
 const WORKFLOWS_DIR = join(REPO_ROOT, '.github', 'workflows');
