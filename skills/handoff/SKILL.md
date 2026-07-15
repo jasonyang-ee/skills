@@ -26,7 +26,8 @@ what those files say — point at them.
 
 ## WRITE `HANDOFF.md` (repo root, overwrite the whole file — git keeps history)
 
-Caveman encoding (load the caveman skill rules if not loaded). Target ≤60
+Caveman encoding (load the `caveman-encode` skill if not loaded — not the
+`caveman` skill, which is conversational and drops the symbol set). Target ≤60
 lines; agent-facing, not prose. Template:
 
 ```

@@ -1,9 +1,9 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import yaml from 'js-yaml';
-import { REPO_ROOT, loadSkills } from './helpers.mjs';
+import { REPO_ROOT, SKILLS_DIR, loadSkills } from './helpers.mjs';
 
 const WORKFLOWS_DIR = join(REPO_ROOT, '.github', 'workflows');
 
@@ -44,6 +44,47 @@ describe('repo is publishable', () => {
     const path = join(REPO_ROOT, 'CHANGELOG.md');
     assert.ok(existsSync(path), 'CHANGELOG.md missing');
     assert.match(readFileSync(path, 'utf8'), /^## \[Unreleased\]/m);
+  });
+});
+
+describe('skills stay markdown-only', () => {
+  for (const skill of loadSkills()) {
+    // V19 — no Python/script-bearing skills. A skill needing a runtime turns
+    // `npx skills add` into an install that fails later, on someone else's box.
+    it(`skills/${skill.dirName}/ ships no scripts`, () => {
+      assert.equal(
+        existsSync(join(SKILLS_DIR, skill.dirName, 'scripts')),
+        false,
+        `skills/${skill.dirName}/scripts/ exists — this repo is markdown-only`,
+      );
+    });
+  }
+});
+
+describe('the spec format needs no FORMAT.md', () => {
+  const spec = readFileSync(join(SKILLS_DIR, 'spec', 'SKILL.md'), 'utf8');
+
+  // V20 — the format is embedded in the skill…
+  it('spec embeds the format and the baked header', () => {
+    assert.match(spec, /^## FORMAT$/m, 'spec/SKILL.md must embed the FORMAT section');
+    assert.match(spec, /^## BAKED HEADER$/m, 'spec/SKILL.md must define the baked header');
+    assert.match(spec, /SPEC FORMAT \(baked by \/spec/, 'baked header template missing');
+  });
+
+  // V21 — …so no skill may still demand the file, and the repo must not carry one.
+  it('no skill requires a FORMAT.md file', () => {
+    const offenders = loadSkills()
+      .filter((s) => /(read|load)[^.\n]{0,40}`?FORMAT\.md/i.test(s.raw))
+      .map((s) => s.dirName);
+    assert.deepEqual(offenders, [], `these skills still require FORMAT.md: ${offenders.join(', ')}`);
+  });
+
+  it('repo root carries no FORMAT.md', () => {
+    assert.equal(
+      existsSync(join(REPO_ROOT, 'FORMAT.md')),
+      false,
+      'FORMAT.md is superseded by the baked SPEC.md header',
+    );
   });
 });
 

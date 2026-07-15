@@ -6,7 +6,7 @@ description: |
   `/workonplan F1`), and executes phases end-to-end as the SINGLE main agent
   at principal-engineer quality: quality over speed, codebase consistency over
   easiness, lean low-complexity code. Every phase ends green, self-reviewed,
-  and committed. Composes with the build, backprop, caveman, and handoff
+  and committed. Composes with the build, backprop, caveman-encode, and handoff
   skills. Always ends the session by invoking the handoff skill. Triggers:
   "/workonplan", "work on the plan", "continue the plan", "next phase",
   "kick off".
@@ -46,8 +46,8 @@ without asking questions — not code that was fast to write.
    fresh start.
 2. `PLAN.md` — header, ground rules, process contract, existing-assets
    inventory, phase order table, and the FULL section of the target phase.
-3. `SPEC.md` — §C, every §V the phase cites, and the phase's §T row.
-   `FORMAT.md` for caveman rules if the repo uses them.
+3. `SPEC.md` — §C, every §V the phase cites, and the phase's §T row. Its baked
+   header carries the format; no `FORMAT.md` is needed.
 4. `git status`, current branch, and `git log -3 --oneline`.
 5. Run the project's test command once per session BEFORE the first edit, to
    establish a baseline. Find it in `package.json` scripts, `Makefile`,

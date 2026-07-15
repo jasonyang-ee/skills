@@ -2,22 +2,23 @@
 
 ## Codebase Summary
 
-Public repo. Publishes agent skills → installable via `npx skills add jasonyang-ee/skills`.
+Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
+15 skills: own (`handoff`, `workonplan`) + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
 
 - `skills/<name>/SKILL.md` = the products. Scanned by skills CLI.
-- `SPEC.md` = single system truth. Read before any change. §V invariants, §T tasks, §R sourced research.
-- `FORMAT.md` = SPEC.md sections + caveman encoding rules.
-- `tests/` = `node:test`. Contract (spec compliance) + hygiene + real-CLI discovery.
+- `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
+- `NOTICE.md` = upstream MIT notices + per-skill provenance. ! update ∀ new vendor.
+- `tests/` = `node:test`. Contract (spec compliance) + hygiene + attribution + real-CLI discovery.
+- ⊥ `FORMAT.md`. Format → embedded `skills/spec/SKILL.md` §FORMAT + baked header.
 
 ## Commands
 
 - `npm test` — full suite. ! green before commit.
 - `/spec` — sole mutator of `SPEC.md`.
 - `/caveman-commit` — single commit summary.
-- `/caveman-compress` — compress `AGENTS.md`.
 
 ## Rules
 
@@ -25,14 +26,18 @@ Skills = markdown only. ⊥ runtime code shipped to user.
   `name` == parent dir name, ≤64 chars, `[a-z0-9-]`. `description` ≤1024 chars. Body ≤500 lines.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
   Denylist enforced → `tests/repo-hygiene.test.mjs`.
+- ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents (→ silent no-op).
+- Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice. README credit alone ⊥ compliant. `tests/attribution.test.mjs` enforces.
+- `caveman` (chat) ≠ `caveman-encode` (SPEC.md). Contradict on symbols. ! keep descriptions cross-pointing (§V.18).
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.
 - ∀ `.github/workflows/*.yml` ! top-level `permissions:`.
 - Release = tag `v<x.y.z>` → ! matching `## [x.y.z]` in `CHANGELOG.md` & `package.json` version match, else CI blocks.
 
 ## Encoding
 
-- `SPEC.md`, `FORMAT.md`, this file → caveman.
-- `README.md`, `CONTRIBUTING.md`, SKILL.md bodies, commit messages → normal English.
+- `SPEC.md`, this file → caveman.
+- `README.md`, `CONTRIBUTING.md`, `NOTICE.md`, SKILL.md bodies, commit messages → normal English.
+- Vendored SKILL.md → ⊥ restyle. Keep upstream voice. Diff = only what `NOTICE.md` records.
 
 ## End of Chat Checklist
 
