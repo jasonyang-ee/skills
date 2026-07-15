@@ -7,21 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Fixed
-
-- Test suite works with `js-yaml` 5.x, which is ESM-only and no longer has a
-  default export. The imports are namespace imports now. Affects contributors
-  only; the published skills are markdown and carry no dependencies.
-
-### Changed
-
-- Dependabot no longer opens version-update pull requests
-  (`open-pull-requests-limit: 0` for both ecosystems). This repo is public, so
-  those PRs were unwanted noise. Dependabot security updates and alerts stay
-  enabled — the lockfile is public either way, so a security PR shortens the
-  exposure window rather than creating it, and alerts stay private to
-  maintainers.
-
 ## [0.1.0] - 2026-07-15
 
 First release: a central collection of 15 skills.
@@ -47,6 +32,11 @@ First release: a central collection of 15 skills.
   and a discovery test that runs the real `skills` CLI against this repo.
 - CI workflow (Node 20/22/24 on Linux, Node 22 on Windows) and a tag-triggered
   release workflow that derives release notes from this file.
+- Dependabot config tracking GitHub Actions and npm, with version-update pull
+  requests disabled (`open-pull-requests-limit: 0`) — this repo is public and
+  those PRs are noise. Dependabot security updates and alerts stay enabled: the
+  lockfile is public either way, so a security PR shortens the exposure window
+  rather than creating it, and alerts stay private to maintainers.
 
 ### Changed
 
