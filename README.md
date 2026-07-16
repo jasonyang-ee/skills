@@ -190,15 +190,20 @@ Releases are cut from a tag, and there is no npm package — `npx skills add`
 installs straight from GitHub.
 
 ```bash
-# 1. Move Unreleased notes under a new version heading in CHANGELOG.md
-# 2. Match package.json's version to it
-git tag v0.2.0
-git push origin v0.2.0
+./release.sh              # detect the bump from the commits, then confirm
+./release.sh --minor      # or force one
+./release.sh --dry-run    # see the plan and the notes, change nothing
 ```
 
-The release workflow re-runs the tests, verifies the tag matches
-`package.json`, extracts that version's `CHANGELOG.md` section, and publishes a
-GitHub Release with it. A tag without a matching changelog section fails
+That bumps `package.json`, moves the `Unreleased` notes under a new version
+heading, fixes the changelog link definitions, commits, tags, and pushes. The
+bump is read from the commits since the last tag: `BREAKING CHANGE` or `feat!:`
+means major, `feat:` means minor, anything else patch.
+
+Pushing the tag is what publishes. The release workflow re-runs the tests,
+verifies the tag matches `package.json`, extracts that version's `CHANGELOG.md`
+section, and creates the GitHub Release with it — so the script deliberately
+does not create one itself. A tag without a matching changelog section fails
 instead of shipping empty notes.
 
 ## Credits

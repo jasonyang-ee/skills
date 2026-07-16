@@ -28,6 +28,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   rules, and `cook` handoff are unchanged. Released entries below keep the old
   name, since that is what shipped.
 
+- Reworded the README `Encode` step so it reads as the writing discipline the
+  skills apply automatically, rather than a command to invoke.
+
 ### Fixed
 
 - Fixed the documented small-task shortcut, which sent readers from `/spec`
@@ -44,14 +47,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `/caveman-commit` to the support line of the `AGENTS.md` template
   `prep` generates, so bootstrapped repos learn the skill exists.
-
-### Changed
-
-- Rewrote `truth-workflow.md` from a single prose paragraph into the six named
-  steps, matching the README.
-
-- Reworded the README `Encode` step so it reads as the writing discipline the
-  skills apply automatically, rather than a command to invoke.
 
 ## [0.2.0] - 2026-07-16
 
