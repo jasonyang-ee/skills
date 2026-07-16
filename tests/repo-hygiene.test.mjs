@@ -20,7 +20,7 @@ const PRIVATE_REFS = [
   /\bV52\b/,
   /money math/i,
 ];
-const RETIRED_SKILLS = ['backprop', 'build', 'caveman-help', 'check', 'deepen', 'grill', 'research'];
+const RETIRED_SKILLS = ['backprop', 'build', 'caveman-help', 'check', 'deepen', 'grill', 'research', 'review'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -112,6 +112,9 @@ describe('cook stays the planning front door', () => {
     assert.match(cook, /Write sourced findings into `§R`/);
     assert.match(cook, /`HOLD`, `VIOLATE`, or\s+`UNVERIFIABLE`/);
     assert.match(cook, /record the result table in `HANDOFF\.md`/);
+    assert.match(cook, /logic correctness/);
+    assert.match(cook, /unnecessary complexity/);
+    assert.match(cook, /missed reuse/);
   });
 
   it('gives handoff a final verification result shape', () => {
@@ -120,6 +123,36 @@ describe('cook stays the planning front door', () => {
     assert.match(handoff, /item\|status\|evidence\|decision/);
     assert.match(handoff, /HOLD \| VIOLATE \| UNVERIFIABLE/);
     assert.match(handoff, /baseline .* oracle/);
+  });
+});
+
+describe('review and garnish workflow stays coherent', () => {
+  const reviewPlan = readFileSync(join(SKILLS_DIR, 'review-plan', 'SKILL.md'), 'utf8');
+  const implementation = readFileSync(join(SKILLS_DIR, 'review-implementation', 'SKILL.md'), 'utf8');
+  const garnish = readFileSync(join(SKILLS_DIR, 'garnish', 'SKILL.md'), 'utf8');
+
+  it('renames the plan reviewer and preserves the explicit gate', () => {
+    assert.match(reviewPlan, /^name: review-plan/m);
+    assert.match(reviewPlan, /GO or NO-GO/);
+    assert.match(reviewPlan, /\/(?:review-plan)/);
+  });
+
+  it('requires implementation baseline, evidence, and cook handoff', () => {
+    assert.match(implementation, /latest reachable tag/);
+    assert.match(implementation, /explicit release commit/);
+    assert.match(implementation, /complexity/);
+    assert.match(implementation, /reuse/);
+    assert.match(implementation, /correctness/);
+    assert.match(implementation, /file:line/);
+    assert.match(implementation, /invoke `cook`/);
+  });
+
+  it('garnish protects durable state and gates deletion', () => {
+    assert.match(garnish, /every PLAN phase/i);
+    assert.match(garnish, /final verification/);
+    assert.match(garnish, /no unrelated changes/);
+    assert.match(garnish, /Remove exactly `PLAN\.md` and `HANDOFF\.md`/);
+    assert.match(garnish, /Never purge `SPEC\.md`/);
   });
 });
 

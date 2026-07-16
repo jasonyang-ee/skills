@@ -1,5 +1,5 @@
 ---
-name: review
+name: review-plan
 description: |
   Adversarial senior review of the spec before any code is written. Constructs a
   skeptical reviewer whose authority comes from the codebase, §R research, and
@@ -7,11 +7,11 @@ description: |
   finding cites evidence (file:line or source); unverifiable ones are flagged.
   Survivors harden §V; the run ends in an explicit go / no-go gate. Triggers
   before building anything high-blast-radius, when the user says "review the
-  spec", "red-team this", "is this plan sound", "senior review", or invokes
-  /ck:review.
+  plan", "review the spec", "red-team this", "is this plan sound", "senior
+  review", or invokes /review-plan.
 ---
 
-# review — refute the spec before build
+# review-plan — refute the spec before implementation
 
 **Every finding cites evidence — file:line or a source. No evidence → flag `[unverified]`. Default to refuted: a flaw you cannot prove is a flaw you note, not one you wave through.**
 

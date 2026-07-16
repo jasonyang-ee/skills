@@ -15,7 +15,7 @@ Vendored skills:
 | `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `cook` / `workonplan` plan files accordingly. |
 | `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency, and the skill now accepts `cook` planning handoff plus `/spec bug:` in place of a standalone backprop skill. |
 | `skills/cook/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
-| `skills/review/` | `review` | No |
+| `skills/review-plan/` | `review` | Yes — renamed to `review-plan` to distinguish spec/plan review from post-implementation review. |
 
 The `FORMAT.md` schema embedded in `skills/spec/SKILL.md` is also derived from
 cavekit's `FORMAT.md`.
@@ -91,5 +91,6 @@ SOFTWARE.
 
 ## Original work
 
-`skills/handoff/` and `skills/workonplan/` are original to this repository and
-are covered by the root [LICENSE](LICENSE).
+`skills/handoff/`, `skills/workonplan/`, `skills/review-implementation/`, and
+`skills/garnish/` are original to this repository and are covered by the root
+[LICENSE](LICENSE).

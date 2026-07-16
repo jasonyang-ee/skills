@@ -37,7 +37,9 @@ only mutator; everything else reads it or feeds it material.
 | --- | --- |
 | [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
-| [`review`](skills/review/SKILL.md) | Adversarial senior review that tries to *refute* the spec before code exists. Ends in an explicit go/no-go. |
+| [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
+| [`review-implementation`](skills/review-implementation/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `cook`. |
+| [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
 
 ### Session continuity
 
@@ -90,9 +92,12 @@ matching one on its own.
 /handoff             # write the session baton now
 ```
 
-A typical multi-session run: `/cook` → `/review` (if high blast radius) →
+A typical multi-session run: `/cook` → `/review-plan` (if high blast radius) →
 `/workonplan` until the final verification phase closes the loop. For a small,
 already-clear spec task, go straight to `/spec` → `/workonplan`.
+
+After a completed cycle: `/review-implementation` → `/cook` for fixes or
+improvements → `/garnish` after all workonplan phases finish.
 
 ### What they expect
 
@@ -115,7 +120,8 @@ rather than hardcoding one.
 skills/
 ├── caveman/          caveman-commit/   caveman-encode/
 ├── caveman-encode/   caveman-pr/       cook/
-├── handoff/          review/           spec/
+├── garnish/          handoff/          review-plan/
+├── review-implementation/             spec/
 ├── workonplan/
 ```
 
@@ -167,13 +173,13 @@ Most of this collection is the work of **[Julius Brussee](https://github.com/Jul
 vendored under MIT and gratefully used:
 
 - **[cavekit](https://github.com/JuliusBrussee/cavekit)** — `spec`,
-  `review`, and the encoding that ships here as `caveman-encode`, plus the
+  `review` (renamed here as `review-plan`), and the encoding that ships here as `caveman-encode`, plus the
   upstream planning trio (`grill`, `research`, `check`) that was recomposed here
   into `cook`. The `SPEC.md` schema is his design.
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
   `caveman-commit`, `caveman-pr`.
 
-Only `handoff` and `workonplan` are fully original here. `cook` is a composite
+Only `handoff`, `workonplan`, `review-implementation`, and `garnish` are fully original here. `cook` is a composite
 skill derived from cavekit's planning flow. Where skills were modified — the
 `caveman-encode` rename, the embedded format in `spec`, the `cook` composite —
 it's recorded per-skill in [NOTICE.md](NOTICE.md), along with the upstream

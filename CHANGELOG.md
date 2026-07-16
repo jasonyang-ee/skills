@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `cook` — a composite planning skill that turns a user request into a
   caveman-encoded `PLAN.md` and `HANDOFF.md`, hands durable facts to `spec`,
   starts with research, and ends with final verification for `workonplan`.
+- `review-implementation` — principal-engineer code sweep from the latest
+  release baseline, handing accepted fixes and improvements to `cook`.
+- `garnish` — guarded cleanup of completed `PLAN.md` and `HANDOFF.md` cycles.
 
 ### Changed
 
@@ -51,6 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   stop point and next executable step explicit.
 - `AGENTS.md` now includes the caveman-encode symbol legend for cold sessions.
 - Documentation now matches the current engine floor: Node 20+.
+- `review` is now `review-plan`, separating plan review from implementation
+  review; the shipped roster is now 11 skills.
 
 ### Removed
 

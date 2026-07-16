@@ -95,7 +95,7 @@ invokes `spec` with the sections that need durable updates:
 
 Do not write `SPEC.md` directly from `cook`.
 
-High blast radius after the spec update? Recommend `/review` before the first
+High blast radius after the spec update? Recommend `/review-plan` before the first
 implementation phase starts.
 
 ### 4. Write `PLAN.md`
@@ -198,6 +198,8 @@ The last phase replaces the old `check` rhythm. It must, at minimum:
 - run the agreed verification commands;
 - classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or
   `UNVERIFIABLE`, with file/test evidence;
+- sweep touched implementation for logic correctness, unnecessary complexity,
+  missed reuse, and codebase incoherence; cite each finding;
 - name any drift explicitly and decide whether code or spec changes;
 - record the result table in `HANDOFF.md` before closing the phase.
 

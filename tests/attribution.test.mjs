@@ -15,7 +15,7 @@ const VENDORED = [
   'caveman-encode',
   'caveman-pr',
   'cook',
-  'review',
+  'review-plan',
   'spec',
 ];
 

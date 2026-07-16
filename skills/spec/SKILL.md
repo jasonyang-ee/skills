@@ -46,7 +46,7 @@ The other verbs produce material; spec writes it. Ingest their handoff blocks
 into the right section, show a diff, write on OK:
 
 - **cook** → drafted §G/§C/§I, sourced §R rows, proposed §V/§T plan
-- **review** → drafted §V lines + the risk verdict
+- **review-plan** → drafted §V lines + the risk verdict
 
 ⊥ rewrite a section the handoff did not name. Sectioned ownership.
 
@@ -64,7 +64,7 @@ Steps:
 7. Break goal into ordered tasks. → §T pipe table, all status `.`, ids T1…
 8. §B section with header row only (`id|date|cause|fix`).
 
-Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review` if high-blast-radius, else `/workonplan`."
+Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review-plan` if high-blast-radius, else `/workonplan`."
 
 ## DISTILL — code → spec
 

@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-9 skills: own (`handoff`, `workonplan`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+11 skills: own (`handoff`, `workonplan`, `review-implementation`, `garnish`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
@@ -18,6 +18,9 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 
 - `npm test` — full suite. ! green before commit.
 - `/cook` — draft `PLAN.md` + `HANDOFF.md` + spec handoff.
+- `/review-plan` — adversarial review of spec/plan before implementation.
+- `/review-implementation` — post-release code sweep → `cook` fix plan.
+- `/garnish` — verify completed plan, purge `PLAN.md` + `HANDOFF.md`.
 - `/spec` — sole mutator of `SPEC.md`.
 - `/caveman-commit` — single commit summary.
 

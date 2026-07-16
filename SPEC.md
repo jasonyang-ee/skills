@@ -37,10 +37,11 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 ## §I INTERFACES
 
 - cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 11 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 9
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 11
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
+- roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
+- cmd: `/review-plan` → adversarial spec/plan gate; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
@@ -109,6 +110,10 @@ V32: phase close → oracle command & named tests green; session end → full su
 V33: verification failure → classify code bug | spec bug | unspecified edge; spec bug/edge → `spec bug:` before retry
 V34: `workonplan` execution → honors `§R`; no re-derive/contradict sourced facts
 V35: `HANDOFF.md` → records exact test status, uncommitted paths/reasons, stop point, next executable step
+V36: `skills/review-plan/SKILL.md` → old `skills/review/` absent; spec/plan review ends explicit GO/NO-GO with evidence
+V37: `review-implementation` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
+V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final verification `HOLD`, no unrelated uncommitted files; preserve `SPEC.md`
+V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
 
 ## §T TASKS
 
@@ -154,6 +159,10 @@ T38|x|refine `handoff` state capture → exact test status, stop point, next exe
 T39|x|test build-derived session gates and AGENTS symbol legend|V31,V32,V33,V34,V35
 T40|x|retire `build` skill; migrate all `/build` cmd refs to `/workonplan`; update roster to 10 skills|V23,V26
 T41|x|rename `caveman-review` → `caveman-pr`; update roster, NOTICE.md, tests, all refs|V4,V17
+T42|x|rename `review` → `review-plan`; update triggers, docs, NOTICE, tests|V36,V39
+T43|x|add `review-implementation` → baseline code sweep, evidence gate, `cook` handoff|V37,V39
+T44|x|add `garnish` → verify completed plan, purge short-term files, preserve durable state|V38,V39
+T45|x|test new roster, review contracts, garnish safety contract|V36,V37,V38,V39
 
 ## §B BUGS
 
