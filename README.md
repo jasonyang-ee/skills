@@ -13,7 +13,7 @@ between sessions. `/prep` is one-time bootstrap; the core loop has six steps.
 npx skills add jasonyang-ee/skills
 ```
 
-That detects your agents and installs all 12 skills. To be more specific:
+That detects your agents and installs all 13 skills. To be more specific:
 
 ```bash
 # Preview what's in here without installing
@@ -47,10 +47,12 @@ only mutator; everything else reads it or feeds it material.
 | Skill | What it does |
 | --- | --- |
 | [`workonplan`](skills/workonplan/SKILL.md) | Executes `PLAN.md` phases one at a time as a single main agent — verification contract first, self-review before every commit, no sub-agents. |
+| [`dispatchplan`](skills/dispatchplan/SKILL.md) | The parallel alternative: assigns phases to sub-agents through per-phase handoff files, never overlapping their file sets, and reviews each diff before accepting it. |
 | [`handoff`](skills/handoff/SKILL.md) | Writes `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for. |
 
-`workonplan` invokes `handoff` at the end of every session, so the next session
-starts by reading it. The plan holds the intent; the handoff holds the state.
+Both `workonplan` and `dispatchplan` invoke `handoff` at the end of every
+session, so the next session starts by reading it. The plan holds the intent;
+the handoff holds the state.
 
 ## The six core workflow steps
 
@@ -68,7 +70,9 @@ steps:
 3. **Review the plan** — in a cold session, resolve research questions and
    refute the plan until it reaches an explicit GO gate. Repeat as needed.
 4. **Work on the plan** — in another cold session, execute one phase at a
-   time, verify it, commit it, and refresh `HANDOFF.md` before continuing.
+   time with `workonplan`, verify it, commit it, and refresh `HANDOFF.md`
+   before continuing. Or use `dispatchplan` to run phases whose file sets do
+   not overlap in parallel, across sub-agents.
 5. **Garnish** — after all phases pass, route durable cleanup through `spec`,
    then remove short-lived `PLAN.md` and `HANDOFF.md`.
 6. **Review the implementation** — sweep the completed implementation from its
@@ -151,8 +155,9 @@ rather than hardcoding one.
 ```
 skills/
 ├── caveman/          caveman-commit/   caveman-encode/   caveman-pr/
-├── cook/             garnish/          handoff/          prep/
-└── review-code/      review-plan/      spec/             workonplan/
+├── cook/             dispatchplan/     garnish/          handoff/
+├── prep/             review-code/      review-plan/      spec/
+└── workonplan/
 ```
 
 Each skill is a directory with a `SKILL.md`, per the
@@ -209,7 +214,7 @@ vendored under MIT and gratefully used:
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
   `caveman-commit`, `caveman-pr`.
 
-Only `handoff`, `workonplan`, `review-code`, `garnish`, and `prep` are fully original here. `cook` is a composite
+Only `handoff`, `workonplan`, `dispatchplan`, `review-code`, `garnish`, and `prep` are fully original here. `cook` is a composite
 skill derived from cavekit's planning flow. Where skills were modified — the
 `caveman-encode` rename, the embedded format in `spec`, the `cook` composite —
 it's recorded per-skill in [NOTICE.md](NOTICE.md), along with the upstream

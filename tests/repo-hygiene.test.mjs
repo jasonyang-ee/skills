@@ -304,6 +304,78 @@ describe('the code reviewer ships as review-code', () => {
   });
 });
 
+describe('dispatchplan runs phases in parallel without racing', () => {
+  const dispatch = readFileSync(join(SKILLS_DIR, 'dispatchplan', 'SKILL.md'), 'utf8');
+
+  // V62 — the description is all an agent reads when deciding to load a skill.
+  it('declares itself the parallel dispatch front door', () => {
+    assert.match(dispatch, /^name: dispatchplan$/m);
+    const description = dispatch.slice(dispatch.indexOf('description:'), dispatch.indexOf('license:'));
+    for (const term of ['sub-agent', 'dispatch', 'parallel']) {
+      assert.ok(description.includes(term), `dispatchplan description omits "${term}"`);
+    }
+  });
+
+  // V63 — one phase goes to one sub-agent, so the phase id names the
+  // assignment. A drifting filename breaks the purge step and the baton.
+  it('gives every assignment its own dedicated handoff file', () => {
+    assert.match(dispatch, /HANDOFF-<phase-id>\.md/);
+    assert.match(dispatch, /repo root/i);
+  });
+
+  // V64 — concurrent writes to one file are a lost update, and the loser's
+  // work disappears with no error.
+  it('selects sub-agents by complexity and never overlaps file sets', () => {
+    assert.match(dispatch, /complexity/i);
+    assert.match(dispatch, /capability/i);
+    assert.match(dispatch, /[Ss]hared-file safety/);
+    assert.match(dispatch, /disjoint/i);
+    assert.match(dispatch, /lost update/i);
+  });
+
+  // V65 — the completion block is the finish signal, and the dispatcher's own
+  // review of the diff is what makes it true.
+  it('takes a completion block, then runs its own acceptance review', () => {
+    assert.match(dispatch, /## completion/);
+    assert.match(dispatch, /status: <done \| blocked: reason>/);
+    assert.match(dispatch, /evidence:/);
+    assert.match(dispatch, /tests:/);
+    assert.match(dispatch, /[Aa]cceptance review/);
+    assert.match(dispatch, /read the FULL diff/i);
+    // §R.19 / §R.20 — the two skills a sub-agent must never reach for.
+    assert.match(dispatch, /sub-agent must never run `garnish`/);
+    assert.match(dispatch, /Never invoke `\/review-code` mid-dispatch/);
+  });
+
+  // V66 — parallel work outruns one context; an unwritten baton loses it.
+  it('refreshes the main baton at all four points', () => {
+    for (const point of [
+      'before dispatch',
+      'after sub-agent completion',
+      'after acceptance review',
+      'before stop',
+    ]) {
+      assert.ok(dispatch.includes(point), `dispatchplan omits the "${point}" refresh point`);
+    }
+  });
+
+  // V67 — the agent roster is the harness's, not this repo's (§R.21). `skills
+  // add` installs no agents (§R.12), so a named agent is a silent no-op on
+  // every other host.
+  it('names no harness-specific agent', () => {
+    assert.doesNotMatch(dispatch, /sonnet-implementer/);
+    assert.doesNotMatch(dispatch, /\bExplore\b/);
+  });
+
+  // V68 — garnish removes only PLAN.md and HANDOFF.md, and refuses to run with
+  // unrelated files dirty, so leftovers block the cycle close (§R.19).
+  it('purges each assignment file once accepted', () => {
+    assert.match(dispatch, /[Pp]urge the assignment file/);
+    assert.match(dispatch, /delete\s+`HANDOFF-<phase-id>\.md`/);
+    assert.match(dispatch, /no `HANDOFF-<phase-id>\.md` may remain/);
+  });
+});
+
 describe('retired planning skills stay retired', () => {
   for (const name of RETIRED_SKILLS) {
     it(`does not ship skills/${name}/`, () => {

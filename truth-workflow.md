@@ -35,7 +35,9 @@ research to none.
 ## 4. Work on the plan
 
 In another cold session, `workonplan` executes one phase at a time, verifies
-it, and commits it.
+it, and commits it. `dispatchplan` is the parallel alternative: it assigns
+phases to sub-agents, running only those whose file sets do not overlap at the
+same time, and reviews each returned diff before accepting it.
 
 Every phase must end with an updated `HANDOFF.md`. This matters because a
 session can be cut off at any time, and an up-to-date handoff is what lets a

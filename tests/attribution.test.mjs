@@ -43,6 +43,21 @@ describe('vendored skills are attributed', () => {
   }
 });
 
+describe('original skills are accounted for', () => {
+  // V39 — the vendored rows above are enforced, but the Original work roster
+  // was not, so an own skill could be left out with nothing failing. Derived
+  // from disk: every shipped skill is either vendored or original.
+  it('NOTICE.md names every non-vendored skill as original work', () => {
+    const original = notice.slice(notice.indexOf('## Original work'));
+    assert.ok(original.length > 0, 'NOTICE.md has no Original work section');
+    const missing = loadSkills()
+      .map((skill) => skill.dirName)
+      .filter((name) => !VENDORED.includes(name))
+      .filter((name) => !original.includes(`skills/${name}/`));
+    assert.deepEqual(missing, [], `NOTICE.md Original work omits: ${missing.join(', ')}`);
+  });
+});
+
 describe('caveman and caveman-encode stay distinct', () => {
   const byName = new Map(loadSkills().map((s) => [s.dirName, s]));
 

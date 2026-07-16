@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-12 skills: own (`handoff`, `workonplan`, `review-code`, `garnish`, `prep`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+13 skills: own (`handoff`, `workonplan`, `dispatchplan`, `review-code`, `garnish`, `prep`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
@@ -19,6 +19,7 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 2. `/cook` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
 3. `/review-plan` → research/refute plan → GO/NO-GO.
 4. `/workonplan` → execute phase → verify → commit → handoff.
+   alt `/dispatchplan` → same phases via sub-agents, parallel when file sets ⊥ intersect.
 5. `/garnish` → spec cleanup → purge `PLAN.md` + `HANDOFF.md`.
 6. `/review-code` → baseline code sweep → `cook`.
 
