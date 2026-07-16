@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Clarified `SPEC.md` as the authoritative six-step workflow: `cook`,
+  `caveman-encode`, `review-plan`, `workonplan`, `garnish`, and
+  `review-implementation`, with iterative research and follow-up cycles.
+
 - Refined `AGENTS.md` to make the six lifecycle commands explicit and keep
   supporting commands separate.
 

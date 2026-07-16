@@ -14,7 +14,7 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## §G GOAL
 
-Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`) + derived `cook` + vendored cavekit/caveman suite.
+Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`) + derived `cook` + vendored cavekit/caveman suite. Core purpose = 6-step spec-driven workflow defined by `truth-workflow.md`: 1) `cook` turns idea/bug/feature/expected behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`; 2) `caveman-encode` governs every `PLAN.md`/`HANDOFF.md` write; 3) cold-session `review-plan` researches/refutes until plan ready; 4) cold-session `workonplan` executes phases with handoff closure; 5) `garnish` routes durable cleanup through `spec` then purges short-term files; 6) `review-implementation` closes cycle and may trigger next `cook`. Steps 3 and 6 iterate internally; order ! skipped.
 
 ## §C CONSTRAINTS
 
@@ -22,6 +22,9 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - ∀ SKILL.md ! Agent Skills spec compliant. Spec ⊃ skills CLI reqs ∴ spec binds (§R.1, §R.2).
 - Skills = markdown only. ⊥ runtime deps for installing user. ⊥ Python. ⊥ `scripts/` (∵ user ruling 2026-07-15).
 - `cook` ! write caveman `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
+- `PLAN.md` + `HANDOFF.md` ! caveman-encoded ∀ writes (load `caveman-encode` ∵ session-efficiency).
+- core workflow order = `cook` → `caveman-encode` → `review-plan` → `workonplan` → `garnish` → `review-implementation` → (`cook` next cycle). `/prep` bootstraps repo guidance; ⊥ core step. `workonplan` ⊥ without prior `cook` output (`PLAN.md` ∃); `garnish` ⊥ without completed `workonplan`; `review-implementation` ! end by invoking `cook` or declaring ⊥ further work.
+- `workonplan` ! refresh & commit `HANDOFF.md` ∀ phase end (∵ session-cut safety; cold resume ! start from baton).
 - ⊥ vendor skills needing hooks | subagents (∵ `npx skills add` installs ⊥ either → silent no-op. §R.11, §R.12).
 - License MIT. `LICENSE` @ root. Vendored MIT work → `NOTICE.md` ! reproduce upstream copyright + permission notice (∵ MIT §; README credit alone ⊥ sufficient).
 - Publish = GitHub Release only. npm publish ⊥ (∵ §R.3).
@@ -41,8 +44,10 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
 - roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
-- cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; six lifecycle commands listed in order
-- cmd: `/review-plan` → research gate (resolve `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative — each run can reduce research phases to zero; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
+- lifecycle: `cook` → [`review-plan`]* → `workonplan` (phases + `handoff` per phase) → `garnish` → [`review-implementation` → `cook`]*
+- cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
+- workflow: `truth-workflow.md` → canonical six-step narrative; `cook` → `caveman-encode` → `review-plan` → `workonplan` → `garnish` → `review-implementation` → next `cook`
+- cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-implementation` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
 - phase close: `workonplan` → `handoff` refresh + commit after every phase; session end → final refresh
 - garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-implementation`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
@@ -124,6 +129,7 @@ V43: `prep` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` pre
 V44: missing `CLAUDE.md` → created with exact content `@AGENTS.md`; existing non-import content → preserved and reported
 V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `prep` write
 V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six lifecycle steps; unknown project facts marked `?`
+V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3 `review-plan` → 4 `workonplan` → 5 `garnish` → 6 `review-implementation`; `workonplan` ! have `PLAN.md` ∃ (prior `cook`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-implementation` ! end by invoking `cook` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `caveman-encode`
 
 ## §T TASKS
 
@@ -178,7 +184,8 @@ T47|x|refine `garnish` → spec cleanup handoff, guarded purge, review-implement
 T48|x|test per-phase baton + garnish durable close contract|V40,V41
 T49|x|add `prep` → safe six-step repository bootstrap skill|V42,V43,V44,V45,V46
 T50|x|update AGENTS/README/NOTICE/SPEC roster → 12 skills + prep lifecycle|V39,V42
-T51|x|test prep contract → ordered commands, safe-file rules, minimal outputs|V42,V43,V44,V45,V46
+T51|x|document 6-step lifecycle as §G core purpose + §C order constraint + §I flow line + V47 integrity invariant|V47,§G,§C,§I
+T52|x|test prep contract → ordered commands, safe-file rules, minimal outputs|V42,V43,V44,V45,V46
 
 ## §B BUGS
 
