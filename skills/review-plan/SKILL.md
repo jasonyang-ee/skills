@@ -1,85 +1,121 @@
 ---
 name: review-plan
 description: |
-  Adversarial senior review of the spec before any code is written. Constructs a
-  skeptical reviewer whose authority comes from the codebase, §R research, and
-  live best-practice — then tries to REFUTE the spec, not rubber-stamp it. Every
-  finding cites evidence (file:line or source); unverifiable ones are flagged.
-  Survivors harden §V; the run ends in an explicit go / no-go gate. Triggers
-  before building anything high-blast-radius, when the user says "review the
-  plan", "review the spec", "red-team this", "is this plan sound", "senior
-  review", or invokes /review-plan.
+  Review PLAN.md phases before any implementation starts. Opens with a
+  research gate — if open unknowns remain, runs targeted research, records
+  sourced findings in §R via spec, and tightens later phases. Then refutes
+  phase ordering, verification contracts, §T mappings, and phase
+  dependencies. Updates PLAN.md and HANDOFF.md with findings, hands §V
+  changes to spec, and ends with an explicit GO / NO-GO gate. Iterative:
+  each round can reduce the number of needed research phases until none
+  remain. Triggers when the user says "review the plan", "check the plan",
+  "is the plan ready", or invokes /review-plan.
+license: MIT
 ---
 
-# review-plan — refute the spec before implementation
+# review-plan — validate PLAN.md before workonplan
 
-**Every finding cites evidence — file:line or a source. No evidence → flag `[unverified]`. Default to refuted: a flaw you cannot prove is a flaw you note, not one you wave through.**
+A cold session that reads the plan and the spec together, resolves any
+remaining unknowns through research, and decides whether the work is safe
+to hand to `workonplan`. Every finding is corrected before the gate closes.
 
-An LLM cannot self-correct on its own judgment — left alone it drifts or
-degrades. Review fixes that the only way that works: a *separate* skeptic
-anchored to an *external oracle* — the code, §R, the test suite, the docs.
-"Looks good" is not a review. A refutation attempt is.
+## WHEN
 
-## WHEN TO REVIEW
+Before the first `/workonplan`, or after a previous `/review-plan` returns
+NO-GO.
 
-- Before `/workonplan` on a high-blast-radius change (shared module, auth, data, money, public API).
-- Spec touched §I or §V that other code depends on.
-- Right-sizing says the cost of a wrong build > the cost of one review pass.
+Skip when there are no `?` items, all phase contracts are named, and the
+previous `/review-plan` already returned GO.
 
-Skip for a trivial, reversible, well-understood change. Adversarial review on a
-typo hallucinates flaws & wastes the budget — the self-critique paradox is real.
+## LOAD
 
-## PHASE 0 — CAPTURE
+1. Load `caveman-encode` — PLAN.md and HANDOFF.md use that encoding.
+2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every
+   phase section.
+3. Read `SPEC.md`: §G, §C, §I, §R, §V, §T. Note which `§T` rows map to
+   which phases.
+4. Read `HANDOFF.md` if present: current next pointer and watchouts.
+5. Count open research phases: phases with unresolved `?` items or an
+   explicit research goal. Record as "research phases remaining: N".
 
-Read the spec: §G §C §I §R §V §T. Hold the whole thing. You review the *spec*,
-not your memory of the conversation.
+## RESEARCH GATE
 
-## PHASE 1 — CONSTRUCT THE SENIOR
+Before reviewing plan structure, resolve open unknowns.
 
-Build a reviewer with real authority, not a generic critic:
-- **Codebase** — grep/read the modules this spec touches. What patterns, what invariants already hold?
-- **§R** — what did research establish? A spec decision that contradicts §R is a finding.
-- **Live** — for any best-practice claim you are unsure of, fetch it. An out-of-date assumption is a flaw.
+For each open research phase in order:
 
-A reviewer with no evidence is just an opinion. Earn the authority first.
+1. List every `?` item in the phase.
+2. Research them: read codebase modules, existing tests, public docs, or
+   live sources. Every finding must cite a source (file:line or URL).
+   Items that cannot be resolved stay `?` with a note on why.
+3. Record sourced findings in `§R` by invoking `spec`.
+4. Rewrite the affected phase steps with confirmed facts; remove guesses.
+5. If all `?` items in this phase are resolved with no new unknowns, mark
+   it as a removal candidate. Note it in the gate output so the user can
+   confirm removal on the next `/cook` cycle.
 
-## PHASE 2 — REFUTE
+Skip this gate entirely when no `?` items remain in any phase.
 
-Attack the spec on these axes. For each, try to find the case where it breaks:
-- **Goal vs reality** — does §G solve the actual problem, or a proxy?
-- **Missing invariant** — what can go wrong that no §V catches? (most findings live here)
-- **Interface drift** — does §I match what callers already expect? (cite the caller, file:line)
-- **Constraint conflict** — do two §C bullets contradict? does one fight §R?
-- **Unowned edge** — the input, ordering, failure, or concurrency case no §T covers.
-- **Altitude** — §T too vague to act on, or so granular it is just typing?
+## REFUTE THE PLAN
 
-## PHASE 3 — CLASSIFY
+Attack the plan on these axes. Every finding cites evidence or is tagged
+`[unverified]` and down-ranked to NOTE.
 
-Each finding: `evidence → claim → severity`.
-- **BLOCK** — build on this spec ships a real defect. Must fix first.
-- **HARDEN** — add/sharpen a §V so the build cannot regress it.
-- **NOTE** — worth knowing, not blocking.
+- **Phase ordering** — does each phase depend on its predecessor's output?
+- **Verification contracts** — does every phase name the exact test file
+  and case that proves each touched `§V`? "add tests" without a file name
+  is a BLOCK.
+- **§T mapping** — does every phase carry exactly one `task: T<n>` that
+  exists in `SPEC.md §T` and is not already `x`? Duplicate or missing
+  mappings are a BLOCK.
+- **Phase gates** — are all preconditions achievable? Does any gate depend
+  on elapsed time, external approval, or a soak period?
+- **Blast radius** — does any phase touch shared modules, auth, data
+  migrations, or public `§I` surfaces? Flag for an extra safety step in
+  that phase's verification contract.
+- **Altitude** — are steps concrete enough to finish in one session?
+  Unverifiable steps are a BLOCK.
 
-No evidence? Down-rank to NOTE & tag `[unverified]`. ⊥ inflate a hunch to BLOCK.
+## CLASSIFY
 
-## PHASE 4 — HARDEN §V & GATE
+Each finding: evidence → claim → severity.
 
-- Each HARDEN finding → a draft §V line (testable, cites the §I/behavior it guards). Hand to **spec** to write.
-- End on an explicit gate:
+- **BLOCK** — cannot enter `workonplan` with this finding. Fix before GO.
+- **HARDEN** — sharpen a contract, add a `§V`, or split a vague step.
+- **NOTE** — observation, no required action.
+
+No evidence → down-rank to NOTE, tag `[unverified]`.
+
+## UPDATE
+
+1. Hand new `§R` rows and proposed `§V` additions to `spec`.
+2. Rewrite affected `PLAN.md` phases with resolved facts and sharper
+   contracts. Replace `PLAN.md` at repo root.
+3. Update `HANDOFF.md` next pointer and watchouts. If a research phase
+   resolved cleanly, add a watchout: "on next `/cook`, remove F<n> —
+   all unknowns resolved."
+
+## GATE
 
 ```
-## review verdict
-BLOCK: 1 — §I.api shape ≠ caller src/client.ts:40. fix §I before workonplan.
-HARDEN: 2 — drafted V8 (idempotent refund), V9 (tx around dual write).
-NOTE: 1 — §T4 vague, split before /workonplan.
-gate: NO-GO until BLOCK cleared. then /workonplan after spec writes V8,V9.
+## review-plan verdict
+research phases remaining: <n>
+BLOCK: <count>
+- <phase>: <finding> — <fix required>
+HARDEN: <count>
+- <phase>: <finding> — <improvement>
+NOTE: <count>
+- <evidence> — <observation>
+gate: <GO | NO-GO>
+next: /workonplan | /review-plan after fixes
 ```
 
-GO or NO-GO, never a shrug. Review is the checkpoint that stops a confident wrong build.
+GO or NO-GO, never a shrug. A plan with open BLOCKs does not get GO.
 
 ## BOUNDARIES
 
-- ⊥ write SPEC.md. Draft §V & hand to spec.
-- ⊥ pass a finding with no evidence as fact. Flag `[unverified]`.
-- ⊥ review trivia. Right-size or skip.
-- ⊥ rewrite the user's intent. You harden the spec, you do not replace its goal.
+- Do not write code.
+- Do not mark `§T` rows done or alter `§T` status.
+- Do not skip the research gate when `?` items exist.
+- Do not replace `PLAN.md` without updating `HANDOFF.md` to match.
+- `spec` is the sole mutator of `SPEC.md`; hand findings, do not write directly.

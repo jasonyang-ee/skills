@@ -137,6 +137,13 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(reviewPlan, /\/(?:review-plan)/);
   });
 
+  it('reads PLAN.md, runs research gate, and updates plan files', () => { // V36
+    assert.match(reviewPlan, /PLAN\.md/);
+    assert.match(reviewPlan, /research gate/i);
+    assert.match(reviewPlan, /HANDOFF\.md/);
+    assert.match(reviewPlan, /research phases remaining/);
+  });
+
   it('requires implementation baseline, evidence, and cook handoff', () => {
     assert.match(implementation, /latest reachable tag/);
     assert.match(implementation, /explicit release commit/);

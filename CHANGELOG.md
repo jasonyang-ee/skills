@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `cook` now defaults to **expanding** an existing `PLAN.md` when incomplete
+  phases remain, rather than always replacing it. A fresh start requires an
+  explicit user request or a fully-complete prior plan.
+- `review-plan` rebuilt from scratch: now reads `PLAN.md` (not just
+  `SPEC.md`), opens with a research gate that resolves open `?` items and
+  records sourced findings in `§R`, refutes phase ordering / verification
+  contracts / §T mappings, updates `PLAN.md` and `HANDOFF.md`, and ends
+  with an explicit GO / NO-GO gate. Iterative: each round reduces needed
+  research phases toward zero.
+
+### Changed
+
 - Renamed `caveman-review` to `caveman-pr` to better reflect its scope
   (PR review comments rather than general code review). NOTICE.md updated
   to record the upstream name and the rename modification.

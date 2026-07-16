@@ -41,7 +41,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
 - roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
-- cmd: `/review-plan` → adversarial spec/plan gate; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
+- cmd: `/review-plan` → research gate (resolve `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative — each run can reduce research phases to zero; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
@@ -110,7 +110,7 @@ V32: phase close → oracle command & named tests green; session end → full su
 V33: verification failure → classify code bug | spec bug | unspecified edge; spec bug/edge → `spec bug:` before retry
 V34: `workonplan` execution → honors `§R`; no re-derive/contradict sourced facts
 V35: `HANDOFF.md` → records exact test status, uncommitted paths/reasons, stop point, next executable step
-V36: `skills/review-plan/SKILL.md` → old `skills/review/` absent; spec/plan review ends explicit GO/NO-GO with evidence
+V36: `skills/review-plan/SKILL.md` reads `PLAN.md` & `SPEC.md`; research gate resolves open `?` items & records findings in `§R` before refuting plan structure; updates `PLAN.md`/`HANDOFF.md`; ends explicit GO/NO-GO; old `skills/review/` ⊥ ∃
 V37: `review-implementation` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
 V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final verification `HOLD`, no unrelated uncommitted files; preserve `SPEC.md`
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned

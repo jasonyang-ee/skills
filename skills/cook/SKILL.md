@@ -50,6 +50,10 @@ durable memory.
 
 1. Read the user request carefully.
 2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` if they exist.
+   If `PLAN.md` already has incomplete phases (any mapped `§T` row not `x`),
+   default to **expanding** it — append new phases and update `§T` — rather
+   than replacing. Replace only when the user explicitly asks for a fresh
+   start or every mapped `§T` row is already `x`.
 3. Load `caveman-encode`; both `PLAN.md` and `HANDOFF.md` use that encoding.
 4. Read just enough repo context to plan real work: existing tests, entrypoints,
    configs, public interfaces, and nearby conventions.
