@@ -15,7 +15,7 @@ license: MIT
 
 Use `prep` once at the start of a repository, or later to audit missing workflow
 sections. It prepares the cold-session files needed by `cook`, `review-plan`,
-`workonplan`, `garnish`, and `review-implementation`.
+`workonplan`, `garnish`, and `review-code`.
 
 ## Bootstrap command list
 
@@ -36,8 +36,8 @@ workflow; do not add them as extra command entries.
    handoff before continuing.
 5. `/garnish` — send final decisions through `spec`, then purge short-term plan
    files when the cycle is complete.
-6. `/review-implementation` — sweep implementation quality from the release
-   baseline and trigger the next `cook` cycle for accepted fixes.
+6. `/review-code` — sweep implementation quality from the release baseline and
+   trigger the next `cook` cycle for accepted fixes.
 
 ## Preflight
 
@@ -79,7 +79,7 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 3. `/review-plan` → research/refute plan → GO/NO-GO
 4. `/workonplan` → execute phase → verify → commit → handoff
 5. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
-6. `/review-implementation` → baseline code sweep → cook
+6. `/review-code` → baseline code sweep → cook
 
 support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman-commit` commit summary
 

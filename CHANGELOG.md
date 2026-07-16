@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed the `review-implementation` skill to `review-code`. Invoke it as
+  `/review-code`; the old command no longer resolves. Its behavior, baseline
+  rules, and `cook` handoff are unchanged. Released entries below keep the old
+  name, since that is what shipped.
+
 ### Fixed
 
 - Fixed the documented small-task shortcut, which sent readers from `/spec`

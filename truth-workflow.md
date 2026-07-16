@@ -49,9 +49,9 @@ clean spec-driven design behind.
 
 ## 6. Review the implementation
 
-`review-implementation` closes the cycle. It sweeps the completed
-implementation from its release baseline and can trigger a new `cook` to
-further refine and fix code with a fresh round of plan and handoff.
+`review-code` closes the cycle. It sweeps the completed implementation from its
+release baseline and can trigger a new `cook` to further refine and fix code
+with a fresh round of plan and handoff.
 
 This too is iterative.
 

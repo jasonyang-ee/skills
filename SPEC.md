@@ -85,7 +85,7 @@ R16|current shipped roster = 12 dirs under `skills/`; adding `dispatchplan` → 
 R17|`workonplan` requires root `HANDOFF.md` → `PLAN.md` → `SPEC.md`, baseline test, exact phase verification contract, phase commit, then `handoff`; `/spec` alone cannot satisfy execution precondition|`skills/workonplan/SKILL.md:24-62` @ review-plan 2026-07-16
 R18|existing repo hygiene tests use named `node:test` cases + `assert.match`; CLI discovery already derives roster through `loadSkills()`|`tests/repo-hygiene.test.mjs:43-267`, `tests/helpers.mjs` @ review-plan 2026-07-16
 R19|`garnish` preconditions ! ∀ mapped `§T` == `x` & ⊥ unrelated dirty files; procedure removes exactly root `PLAN.md`+`HANDOFF.md` ∴ per-sub-agent garnish mid-plan → stops @ precondition (completion ⊥ flagged) \| destroys main baton. ⊥ scoped-file concept|`skills/garnish/SKILL.md:22-31,48-49,69` @ review-plan 2026-07-16
-R20|`review-implementation` baseline = latest reachable tag; ! "confirm the plan is complete"; cook handoff mandatory ("Do not skip the `cook` handoff") ∴ per-sub-agent call → re-sweeps full baseline→HEAD ∀ run & `cook` rewrites executing `PLAN.md`|`skills/review-implementation/SKILL.md:21,29,42-43,105-107,118` @ review-plan 2026-07-16
+R20|`review-code` baseline = latest reachable tag; ! "confirm the plan is complete"; cook handoff mandatory ("Do not skip the `cook` handoff") ∴ per-sub-agent call → re-sweeps full baseline→HEAD ∀ run & `cook` rewrites executing `PLAN.md`|`skills/review-code/SKILL.md:21,29,42-43,105-107,118` (path @ T60 rename; sourced pre-rename as `review-implementation`) @ review-plan 2026-07-16
 R21|`AGENTS.md` ⊥ ∋ sub-agent roster; `sonnet-implementer`/`Explore` = harness-supplied ⊥ repo files; `skills add` installs ⊥ agents (§R.12) ∴ named-agent refs in skill body → silent no-op ∀ other harness|`AGENTS.md` full read + §R.12 @ review-plan 2026-07-16
 R22|`tests/attribution.test.mjs:12-20` asserts `NOTICE.md` rows ∀ VENDORED only; `NOTICE.md:92-96` "Original work" own-skill roster ⊥ test-anchored ∴ omission silent|`tests/attribution.test.mjs`, `NOTICE.md` @ review-plan 2026-07-16
 R23|`workonplan` self-review contract = read FULL `git diff`, check plan match, larger-picture coherence, ⊥ debug leftovers/dead code/drive-by, comments state constraints ∴ reusable as dispatcher acceptance review, phase-scoped, ⊥ cook handoff|`skills/workonplan/SKILL.md:84-92` @ review-plan 2026-07-16
@@ -223,7 +223,7 @@ T56|x|research — confirm exact text targets, test patterns for V51-V60|V51,V52
 T57|x|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
 T58|x|fix prep template support line + add V53/V54 tests|V53,V54
 T59|x|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
-T60|.|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ live refs (incl. README layout tree + NOTICE original-work); preserve historical `§T` labels|V61,V58
+T60|x|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ live refs (incl. README layout tree + NOTICE original-work); preserve historical `§T` labels|V61,V58
 T61|.|add `skills/dispatchplan/SKILL.md` + roster updates (README table+layout tree, AGENTS, NOTICE original-work, truth-workflow, tests)|V62,V63,V64,V65,V66,V67,V68,V39,V58
 T62|.|final verify: rename + dispatchplan contracts; §V61-V68 HOLD + V58/V50 regression|V61,V62,V63,V64,V65,V66,V67,V68,V58,V50
 

@@ -39,7 +39,7 @@ only mutator; everything else reads it or feeds it material.
 | [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
-| [`review-implementation`](skills/review-implementation/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `cook`. |
+| [`review-code`](skills/review-code/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `cook`. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
 
 ### Session continuity
@@ -123,13 +123,13 @@ matching one on its own.
 
 A typical multi-session run starts with `/prep`, then follows the six core
 steps: `/cook` → encode → `/review-plan` → `/workonplan` → `/garnish` →
-`/review-implementation`. For a small, already-clear spec task, record it with
-`/spec`, then still run `/cook` before `/workonplan` — `/workonplan` executes
-`PLAN.md` phases, and only `/cook` produces that file. `/review-plan` is the
-step worth skipping when the blast radius is small, not `/cook`.
+`/review-code`. For a small, already-clear spec task, record it with `/spec`,
+then still run `/cook` before `/workonplan` — `/workonplan` executes `PLAN.md`
+phases, and only `/cook` produces that file. `/review-plan` is the step worth
+skipping when the blast radius is small, not `/cook`.
 
-After a completed cycle: `/review-implementation` → `/cook` for fixes or
-improvements → `/garnish` after all workonplan phases finish.
+After a completed cycle: `/review-code` → `/cook` for fixes or improvements →
+`/garnish` after all workonplan phases finish.
 
 ### What they expect
 
@@ -152,8 +152,7 @@ rather than hardcoding one.
 skills/
 ├── caveman/          caveman-commit/   caveman-encode/   caveman-pr/
 ├── cook/             garnish/          handoff/          prep/
-├── review-implementation/              review-plan/      spec/
-└── workonplan/
+└── review-code/      review-plan/      spec/             workonplan/
 ```
 
 Each skill is a directory with a `SKILL.md`, per the
@@ -210,7 +209,7 @@ vendored under MIT and gratefully used:
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
   `caveman-commit`, `caveman-pr`.
 
-Only `handoff`, `workonplan`, `review-implementation`, `garnish`, and `prep` are fully original here. `cook` is a composite
+Only `handoff`, `workonplan`, `review-code`, `garnish`, and `prep` are fully original here. `cook` is a composite
 skill derived from cavekit's planning flow. Where skills were modified — the
 `caveman-encode` rename, the embedded format in `spec`, the `cook` composite —
 it's recorded per-skill in [NOTICE.md](NOTICE.md), along with the upstream

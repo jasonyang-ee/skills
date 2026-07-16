@@ -1,5 +1,5 @@
 ---
-name: review-implementation
+name: review-code
 description: |
   Principal-engineer sweep of implementation quality since the latest release
   tag or explicit release commit. Reviews full-picture code coherence,
@@ -10,7 +10,7 @@ description: |
 license: MIT
 ---
 
-# review-implementation — post-release code sweep → cook
+# review-code — post-release code sweep → cook
 
 This is a read-only implementation review. It finds risks and improvement
 opportunities across the whole change surface, then hands the result to

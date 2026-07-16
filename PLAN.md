@@ -130,7 +130,8 @@ inputs: SPEC.md §V61; skills/review-implementation/SKILL.md; AGENTS.md; README.
 files: skills/review-implementation/ → skills/review-code/, SPEC.md, skills/garnish/SKILL.md, skills/prep/SKILL.md, AGENTS.md, README.md, NOTICE.md, truth-workflow.md, tests/repo-hygiene.test.mjs, CHANGELOG.md
 steps:
 1. `git mv skills/review-implementation skills/review-code`
-2. edit `skills/review-code/SKILL.md` frontmatter `name:` → `review-code`; ⊥ change body
+2. edit `skills/review-code/SKILL.md` frontmatter `name:` → `review-code`; ⊥ change body procedure
+   — CORRECTED @ F5 exec: body H1 `# review-implementation — …` = live self-ref ∴ V61 binds → H1 → `# review-code — …`. Precedent `skills/review-plan/SKILL.md:16` (T42 rename) carries new name in H1. Prose/steps untouched
 3. update `skills/garnish/SKILL.md`: 2 occurrences `/review-implementation` → `/review-code`
 4. update `skills/prep/SKILL.md`: 3 occurrences `review-implementation` → `review-code`
 5. update `AGENTS.md`: 2 occurrences `review-implementation` → `review-code`
@@ -139,6 +140,7 @@ steps:
 8. update `truth-workflow.md`: `review-implementation` → `review-code`; ⊥ touch step name "Review the implementation"
 9. update `tests/repo-hygiene.test.mjs`: commandOrder[5] (`:70`) → `/review-code`; readFileSync path (`:215`) → `review-code`; garnish assertion (`:249`) → `/review-code`; add `review-implementation` to `RETIRED_SKILLS` (`:23`) — reuses existing absence pattern, precedent `review` → `review-plan` (T42); add named case for live-reference allowlist (historical `§T` labels permitted)
 10. amend `§V61`/`§T T60` via spec to define live-reference scope; preserve historical `§T` labels
+10b. ADDED @ F5 exec: `SPEC.md §R.20` claim + source path named `skills/review-implementation/SKILL.md` → dead path & ⊥ ∈ V61 historical-`§T` allowance ∴ F5 verify (`rg` → only CHANGELOG + `§T`) ⊥ satisfiable without it → repoint → `skills/review-code/SKILL.md`, retain pre-rename provenance note (⊥ contradict sourced fact, §R fidelity V34)
 11. update CHANGELOG.md `## [Unreleased]`
 12. run `npm test`; record result
 verify: `npm test` green; exact cases `review-code rename and live refs` + `does not ship skills/review-implementation/` pass; `skills/review-implementation/` ⊥ ∃; `rg 'review-implementation'` → only `CHANGELOG.md` + `SPEC.md §T` historical rows; V58 layout tree still lists each `skills/` child once

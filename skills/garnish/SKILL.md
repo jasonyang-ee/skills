@@ -48,8 +48,8 @@ Stop and report the blocker if any condition fails:
 6. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
    `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
 7. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
-   diff contains no unrelated deletion. Recommend `/review-implementation` as
-   the final post-cycle review.
+   diff contains no unrelated deletion. Recommend `/review-code` as the final
+   post-cycle review.
 
 ## Output
 
@@ -60,7 +60,7 @@ handoff: <removed | blocked: reason>
 tests: <command> → <green | exact failures>
 durable state: SPEC.md preserved
 spec: <updated | no durable changes>
-next: `/review-implementation`
+next: `/review-code`
 ```
 
 ## Boundaries

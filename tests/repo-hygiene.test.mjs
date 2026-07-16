@@ -20,7 +20,25 @@ const PRIVATE_REFS = [
   /\bV52\b/,
   /money math/i,
 ];
-const RETIRED_SKILLS = ['backprop', 'build', 'caveman-help', 'check', 'deepen', 'grill', 'research', 'review'];
+const RETIRED_SKILLS = [
+  'backprop',
+  'build',
+  'caveman-help',
+  'check',
+  'deepen',
+  'grill',
+  'research',
+  'review',
+  'review-implementation',
+];
+
+/**
+ * Files that must speak of the skill by its current name. CHANGELOG.md is
+ * excluded on purpose: released entries record what shipped under the old
+ * name, and rewriting history would make the log lie. SPEC.md §T rows are
+ * likewise a record of tasks as they were performed.
+ */
+const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', 'CONTRIBUTING.md', 'truth-workflow.md'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -67,7 +85,7 @@ describe('prep bootstraps the six-step workflow safely', () => {
     '/review-plan',
     '/workonplan',
     '/garnish',
-    '/review-implementation',
+    '/review-code',
   ];
 
   it('declares the six lifecycle commands in order', () => {
@@ -254,6 +272,38 @@ describe('skills stay markdown-only', () => {
   }
 });
 
+describe('the code reviewer ships as review-code', () => {
+  // V61 — a rename is only done when nothing live still points at the old
+  // name; a stale command in the docs is one a user types and never gets.
+  it('leaves no live reference to review-implementation', () => {
+    const offenders = [];
+    for (const file of LIVE_REF_FILES) {
+      if (readFileSync(join(REPO_ROOT, file), 'utf8').includes('review-implementation')) {
+        offenders.push(file);
+      }
+    }
+    for (const skill of loadSkills()) {
+      if (skill.raw.includes('review-implementation')) offenders.push(`skills/${skill.dirName}/SKILL.md`);
+    }
+    assert.deepEqual(offenders, [], `these files still name review-implementation: ${offenders.join(', ')}`);
+  });
+
+  it('names itself review-code in frontmatter and title', () => {
+    const skill = readFileSync(join(SKILLS_DIR, 'review-code', 'SKILL.md'), 'utf8');
+    assert.match(skill, /^name: review-code$/m);
+    assert.match(skill, /^# review-code /m);
+  });
+
+  // The history stays honest: released notes describe what actually shipped.
+  it('preserves the old name where it is a historical record', () => {
+    const changelog = readFileSync(join(REPO_ROOT, 'CHANGELOG.md'), 'utf8');
+    assert.ok(
+      changelog.includes('review-implementation'),
+      'CHANGELOG.md released entries must keep the name the skill shipped under',
+    );
+  });
+});
+
 describe('retired planning skills stay retired', () => {
   for (const name of RETIRED_SKILLS) {
     it(`does not ship skills/${name}/`, () => {
@@ -315,7 +365,7 @@ describe('cook stays the planning front door', () => {
 
 describe('review and garnish workflow stays coherent', () => {
   const reviewPlan = readFileSync(join(SKILLS_DIR, 'review-plan', 'SKILL.md'), 'utf8');
-  const implementation = readFileSync(join(SKILLS_DIR, 'review-implementation', 'SKILL.md'), 'utf8');
+  const implementation = readFileSync(join(SKILLS_DIR, 'review-code', 'SKILL.md'), 'utf8');
   const garnish = readFileSync(join(SKILLS_DIR, 'garnish', 'SKILL.md'), 'utf8');
   const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
 
@@ -349,7 +399,7 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(garnish, /Remove exactly `PLAN\.md` and `HANDOFF\.md`/);
     assert.match(garnish, /Never purge `SPEC\.md`/);
     assert.match(garnish, /Invoke `spec` to update/);
-    assert.match(garnish, /review-implementation/);
+    assert.match(garnish, /review-code/);
   });
 
   it('refreshes the baton after every completed phase', () => {
