@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Retired `build` from the shipped skill roster. Its patterns (§R fidelity,
+  failure classification, exact test naming, full-suite gate) are fully absorbed
+  into `workonplan`. All `/build` command references updated to `/workonplan`
+  across skill files, README, and tests. Skill count: 11 → 10.
+
 ### Added
 
 - `cook` — a composite planning skill that turns a user request into a

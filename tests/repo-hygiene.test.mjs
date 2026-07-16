@@ -20,7 +20,7 @@ const PRIVATE_REFS = [
   /\bV52\b/,
   /money math/i,
 ];
-const RETIRED_SKILLS = ['backprop', 'check', 'deepen', 'grill', 'research'];
+const RETIRED_SKILLS = ['backprop', 'build', 'check', 'deepen', 'grill', 'research'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -124,13 +124,7 @@ describe('cook stays the planning front door', () => {
 });
 
 describe('failure handling routes through spec bug mode', () => {
-  const build = readFileSync(join(SKILLS_DIR, 'build', 'SKILL.md'), 'utf8');
   const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
-
-  it('build no longer references backprop', () => {
-    assert.doesNotMatch(build, /backprop/i);
-    assert.match(build, /`bug:`/);
-  });
 
   it('workonplan no longer references backprop', () => {
     assert.doesNotMatch(workonplan, /backprop/i);

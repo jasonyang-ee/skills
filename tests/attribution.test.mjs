@@ -10,7 +10,6 @@ import { REPO_ROOT, loadSkills } from './helpers.mjs';
  * README credit alone is not enough — NOTICE.md must name every one of these.
  */
 const VENDORED = [
-  'build',
   'caveman',
   'caveman-commit',
   'caveman-encode',

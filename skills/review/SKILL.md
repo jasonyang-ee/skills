@@ -22,7 +22,7 @@ anchored to an *external oracle* — the code, §R, the test suite, the docs.
 
 ## WHEN TO REVIEW
 
-- Before `/build` on a high-blast-radius change (shared module, auth, data, money, public API).
+- Before `/workonplan` on a high-blast-radius change (shared module, auth, data, money, public API).
 - Spec touched §I or §V that other code depends on.
 - Right-sizing says the cost of a wrong build > the cost of one review pass.
 
@@ -69,10 +69,10 @@ No evidence? Down-rank to NOTE & tag `[unverified]`. ⊥ inflate a hunch to BLOC
 
 ```
 ## review verdict
-BLOCK: 1 — §I.api shape ≠ caller src/client.ts:40. fix §I before build.
+BLOCK: 1 — §I.api shape ≠ caller src/client.ts:40. fix §I before workonplan.
 HARDEN: 2 — drafted V8 (idempotent refund), V9 (tx around dual write).
-NOTE: 1 — §T4 vague, split before /build.
-gate: NO-GO until BLOCK cleared. then /build §T after spec writes V8,V9.
+NOTE: 1 — §T4 vague, split before /workonplan.
+gate: NO-GO until BLOCK cleared. then /workonplan after spec writes V8,V9.
 ```
 
 GO or NO-GO, never a shrug. Review is the checkpoint that stops a confident wrong build.

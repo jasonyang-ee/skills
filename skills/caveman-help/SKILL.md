@@ -2,7 +2,7 @@
 name: caveman-help
 description: >
   Quick-reference card for every skill in this collection: the caveman
-  compression modes, the caveman-encode/spec/build SDD loop, and the
+  compression modes, the caveman-encode/spec SDD loop, and the
   session skills. One-shot display, not a persistent mode. Trigger:
   /caveman-help, "caveman help", "what caveman commands", "what skills do I
   have", "how do I use these skills".
@@ -47,9 +47,8 @@ Mode stick until changed or session end. Off: "stop caveman" / "normal mode".
 | **cook** | `/cook` | Request → research-first `PLAN.md` + `HANDOFF.md` + spec handoff. Replaces grill/research/check planning loop. |
 | **spec** | `/spec` | Sole mutator of SPEC.md. new / amend / bug: / from-code. Bakes format header. |
 | **review** | `/review` | Adversarial senior review. Try refute spec. Ends go / no-go. |
-| **build** | `/build` | Plan→execute §T tasks. Failures that reveal spec drift route to `/spec bug:`. |
 
-Order: cook → spec → review ? → workonplan / build. Final verification lives in
+Order: cook → spec → review ? → workonplan. Final verification lives in
 the last cook phase; failures that reveal drift route to `/spec bug:`.
 
 ## Session skills

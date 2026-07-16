@@ -38,7 +38,6 @@ only mutator; everything else reads it or feeds it material.
 | [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
 | [`review`](skills/review/SKILL.md) | Adversarial senior review that tries to *refute* the spec before code exists. Ends in an explicit go/no-go. |
-| [`build`](skills/build/SKILL.md) | Plan-then-execute against the spec. If a failure reveals wrong or missing spec memory, it routes the issue through `/spec bug:` before retrying. |
 
 ### Session continuity
 
@@ -55,7 +54,7 @@ starts by reading it. The plan holds the intent; the handoff holds the state.
 | Skill | What it does |
 | --- | --- |
 | [`caveman`](skills/caveman/SKILL.md) | Ultra-compressed replies for ordinary chat. Intensity levels: lite, full, ultra, and wenyan (classical Chinese). |
-| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/build`, `/cook`, `/handoff`, and `/workonplan`. |
+| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/cook`, `/handoff`, and `/workonplan`. |
 | [`caveman-commit`](skills/caveman-commit/SKILL.md) | Terse Conventional Commits messages. Subject ≤50 chars. |
 | [`caveman-review`](skills/caveman-review/SKILL.md) | Terse PR review. One line per finding: location, problem, fix. |
 | [`caveman-help`](skills/caveman-help/SKILL.md) | Reference card for everything above. |
@@ -88,7 +87,6 @@ matching one on its own.
 ```
 /cook                # draft PLAN.md + HANDOFF.md, research first
 /spec                # write or amend SPEC.md
-/build --next        # implement the next open task
 /workonplan F1       # run a specific plan phase
 /handoff             # write the session baton now
 /caveman-help        # what am I working with again?
@@ -96,7 +94,7 @@ matching one on its own.
 
 A typical multi-session run: `/cook` → `/review` (if high blast radius) →
 `/workonplan` until the final verification phase closes the loop. For a small,
-already-clear spec task, go straight to `/spec` → `/build --next`.
+already-clear spec task, go straight to `/spec` → `/workonplan`.
 
 ### What they expect
 
@@ -117,10 +115,10 @@ rather than hardcoding one.
 
 ```
 skills/
-├── build/            caveman/          caveman-review/
-├── cook/             caveman-commit/   handoff/
-├── caveman-encode/   caveman-help/     review/
-├── spec/             workonplan/
+├── caveman/          caveman-commit/   caveman-encode/
+├── caveman-help/     caveman-review/   cook/
+├── handoff/          review/           spec/
+├── workonplan/
 ```
 
 Each skill is a directory with a `SKILL.md`, per the
@@ -170,7 +168,7 @@ instead of shipping empty notes.
 Most of this collection is the work of **[Julius Brussee](https://github.com/JuliusBrussee)**,
 vendored under MIT and gratefully used:
 
-- **[cavekit](https://github.com/JuliusBrussee/cavekit)** — `spec`, `build`,
+- **[cavekit](https://github.com/JuliusBrussee/cavekit)** — `spec`,
   `review`, and the encoding that ships here as `caveman-encode`, plus the
   upstream planning trio (`grill`, `research`, `check`) that was recomposed here
   into `cook`. The `SPEC.md` schema is his design.

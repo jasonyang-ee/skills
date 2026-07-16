@@ -37,10 +37,10 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 ## §I INTERFACES
 
 - cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 11 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 11
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 10
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `build`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`
+- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
@@ -96,10 +96,10 @@ V19: ∀ skill → ⊥ `scripts/` dir (∵ §C markdown-only, user ruling)
 V20: `skills/spec/SKILL.md` ! ∋ `## FORMAT` & `## BAKED HEADER` & header template
 V21: ∀ skill → ⊥ require `FORMAT.md`; root ⊥ ∃ `FORMAT.md`
 V22: `.github/dependabot.yml` → ∀ `updates[]` entry ! `open-pull-requests-limit: 0` (∵ §C; re-enable = unwanted public PR)
-V23: retired skill dirs `skills/{backprop,check,deepen,grill,research}/` ⊥ ∃
+V23: retired skill dirs `skills/{backprop,build,check,deepen,grill,research}/` ⊥ ∃
 V24: `skills/cook/SKILL.md` ! mention `PLAN.md`, `HANDOFF.md`, `spec`, `workonplan`
 V25: `skills/cook/SKILL.md` ! require research 1st phase & final verification last phase
-V26: `skills/build/SKILL.md` & `skills/workonplan/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
+V26: `skills/workonplan/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
 V27: `cook` PLAN phase ∀ → `task:` exactly one existing `§T` id; F1 research first, Fn final verify last
 V28: F1 research → unknowns resolved or marked `?`; sourced findings land in `§R`; later phases updated before handoff
 V29: Fn final verify → re-read relevant `§V`/`§I`/`§T`, run agreed commands, classify each as `HOLD`/`VIOLATE`/`UNVERIFIABLE`, record drift decision
@@ -152,6 +152,7 @@ T36|x|test cook plan contract + workonplan phase/task contract|V27,V28,V29,V30
 T37|x|refine `workonplan` verification gates → exact tests, §R fidelity, failure classification|V31,V32,V33,V34
 T38|x|refine `handoff` state capture → exact test status, stop point, next executable step|V35
 T39|x|test build-derived session gates and AGENTS symbol legend|V31,V32,V33,V34,V35
+T40|x|retire `build` skill; migrate all `/build` cmd refs to `/workonplan`; update roster to 10 skills|V23,V26
 
 ## §B BUGS
 

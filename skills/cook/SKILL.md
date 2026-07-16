@@ -14,7 +14,7 @@ license: MIT
 # cook — request → PLAN.md + HANDOFF.md + spec handoff
 
 `cook` is the planning front door for work that is too fuzzy, too large, or too
-session-spanning for `build` alone. It replaces the old split between idea
+session-spanning for `workonplan` or `spec` alone. It replaces the old split between idea
 grilling, research setup, and a final drift-check pass by packaging them into
 one short planning run.
 
@@ -30,7 +30,7 @@ Use `cook` when any of these are true:
   extra explanation.
 
 Skip it for a tiny, already-clear change with no need for `PLAN.md` or
-`HANDOFF.md`; that work can go straight to `spec` or `build`.
+`HANDOFF.md`; that work can go straight to `spec`.
 
 ## Hard outputs
 

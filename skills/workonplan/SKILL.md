@@ -6,7 +6,7 @@ description: |
   `/workonplan F1`), and executes phases end-to-end as the SINGLE main agent
   at principal-engineer quality: quality over speed, codebase consistency over
   easiness, lean low-complexity code. Every phase ends green, self-reviewed,
-  and committed. Composes with the build, spec, caveman-encode, and handoff
+  and committed. Composes with the spec, caveman-encode, and handoff
   skills, and expects `cook` to have created `PLAN.md` + `HANDOFF.md` first.
   Always ends the session by invoking the handoff skill. Triggers:
   "/workonplan", "work on the plan", "continue the plan", "next phase",

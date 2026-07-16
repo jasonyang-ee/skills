@@ -64,7 +64,7 @@ Steps:
 7. Break goal into ordered tasks. → §T pipe table, all status `.`, ids T1…
 8. §B section with header row only (`id|date|cause|fix`).
 
-Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review` if high-blast-radius, else `/build`."
+Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review` if high-blast-radius, else `/workonplan`."
 
 ## DISTILL — code → spec
 
@@ -216,7 +216,7 @@ If SPEC.md > 500 lines, compact §B (old bugs drop oldest) before splitting.
 | `/spec new` | creates | all |
 | `/spec amend` | edits | chosen |
 | `/spec bug` | appends | §B + §V |
-| `/build` | flips | §T status cell `.` → `~` → `x` |
+| `/workonplan` | flips | §T status cell `.` → `~` → `x` |
 
 ## BAKED HEADER
 
@@ -248,5 +248,5 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 - No sub-agents. Main thread writes.
 - No dashboards, no logs, no state files beyond SPEC.md itself.
-- No auto-build after spec. User invokes build explicitly.
+- No auto-execute after spec. User invokes `/workonplan` explicitly.
 - ⊥ write FORMAT.md. Format lives here + baked header.

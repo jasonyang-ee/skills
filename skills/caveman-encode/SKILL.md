@@ -2,7 +2,7 @@
 name: caveman-encode
 description: |
   Caveman encoding for SPEC.md and spec-adjacent writes. Loaded by /spec,
-  /build, /cook, /handoff, and /workonplan. Cuts tokens ~75% vs prose while
+  /cook, /handoff, and /workonplan. Cuts tokens ~75% vs prose while
   staying precise, using the symbol set (→ ∴ ∀ ⊥ !) that SPEC.md sections are
   written in. Triggers on any write to SPEC.md, PLAN.md, or HANDOFF.md, or
   when the user says "caveman encode", "encode the spec", or "compress this
