@@ -54,7 +54,7 @@ Vendored skills:
 | --- | --- | --- |
 | `skills/caveman/` | `caveman` | Yes — description clarified to point spec work at `caveman-encode`; no behavioral change. |
 | `skills/caveman-commit/` | `caveman-commit` | No |
-| `skills/caveman-review/` | `caveman-review` | No |
+| `skills/caveman-pr/` | `caveman-review` | Yes — renamed to `caveman-pr` to better reflect its scope (PR review comments). |
 | `skills/caveman-help/` | `caveman-help` | Rewritten for this collection's skill roster; structure and style follow the original. |
 
 Not vendored, and still available upstream:

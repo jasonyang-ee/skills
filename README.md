@@ -56,7 +56,7 @@ starts by reading it. The plan holds the intent; the handoff holds the state.
 | [`caveman`](skills/caveman/SKILL.md) | Ultra-compressed replies for ordinary chat. Intensity levels: lite, full, ultra, and wenyan (classical Chinese). |
 | [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/cook`, `/handoff`, and `/workonplan`. |
 | [`caveman-commit`](skills/caveman-commit/SKILL.md) | Terse Conventional Commits messages. Subject ≤50 chars. |
-| [`caveman-review`](skills/caveman-review/SKILL.md) | Terse PR review. One line per finding: location, problem, fix. |
+| [`caveman-pr`](skills/caveman-pr/SKILL.md) | Terse PR review. One line per finding: location, problem, fix. |
 | [`caveman-help`](skills/caveman-help/SKILL.md) | Reference card for everything above. |
 
 > **`caveman` vs `caveman-encode`** — these do opposite things and it matters.
@@ -116,7 +116,7 @@ rather than hardcoding one.
 ```
 skills/
 ├── caveman/          caveman-commit/   caveman-encode/
-├── caveman-help/     caveman-review/   cook/
+├── caveman-help/     caveman-pr/       cook/
 ├── handoff/          review/           spec/
 ├── workonplan/
 ```
@@ -173,7 +173,7 @@ vendored under MIT and gratefully used:
   upstream planning trio (`grill`, `research`, `check`) that was recomposed here
   into `cook`. The `SPEC.md` schema is his design.
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
-  `caveman-commit`, `caveman-review`, and the shape of `caveman-help`.
+  `caveman-commit`, `caveman-pr`, and the shape of `caveman-help`.
 
 Only `handoff` and `workonplan` are fully original here. `cook` is a composite
 skill derived from cavekit's planning flow. Where skills were modified — the

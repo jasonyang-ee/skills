@@ -40,7 +40,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 10
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`
+- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`, `caveman-help`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
@@ -153,6 +153,7 @@ T37|x|refine `workonplan` verification gates → exact tests, §R fidelity, fail
 T38|x|refine `handoff` state capture → exact test status, stop point, next executable step|V35
 T39|x|test build-derived session gates and AGENTS symbol legend|V31,V32,V33,V34,V35
 T40|x|retire `build` skill; migrate all `/build` cmd refs to `/workonplan`; update roster to 10 skills|V23,V26
+T41|x|rename `caveman-review` → `caveman-pr`; update roster, NOTICE.md, tests, all refs|V4,V17
 
 ## §B BUGS
 

@@ -14,7 +14,7 @@ const VENDORED = [
   'caveman-commit',
   'caveman-encode',
   'caveman-help',
-  'caveman-review',
+  'caveman-pr',
   'cook',
   'review',
   'spec',

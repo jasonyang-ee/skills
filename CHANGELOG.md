@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Renamed `caveman-review` to `caveman-pr` to better reflect its scope
+  (PR review comments rather than general code review). NOTICE.md updated
+  to record the upstream name and the rename modification.
+
 ### Removed
 
 - Retired `build` from the shipped skill roster. Its patterns (§R fidelity,
@@ -59,7 +65,7 @@ First release: a central collection of 15 skills.
   `spec`, `build`, `check`, `backprop`, `grill`, `research`, `review`, `deepen`.
 - Compression skills vendored from
   [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) (MIT):
-  `caveman`, `caveman-commit`, `caveman-review`, and `caveman-help` (rewritten
+  `caveman`, `caveman-commit`, `caveman-pr`, and `caveman-help` (rewritten
   for this collection's roster).
 - `NOTICE.md` reproducing the upstream MIT copyright and permission notices,
   with per-skill provenance and a record of every modification.
