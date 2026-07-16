@@ -42,8 +42,9 @@ for arg in "$@"; do
             echo "  --yes, -y                Skip confirmation prompts"
             echo "  --dry-run, -n            Show the plan without changing anything"
             echo ""
-            echo "Detection reads commits since the last tag: BREAKING CHANGE (or a"
-            echo "'!' after the type) means major, feat: means minor, otherwise patch."
+            echo "Detection reads commits since the last tag: a 'BREAKING CHANGE:'"
+            echo "footer (or a '!' after the type) means major, feat: means minor,"
+            echo "otherwise patch."
             echo ""
             echo "The tag push triggers release.yml, which publishes the GitHub"
             echo "Release. This script never publishes one itself."
@@ -93,8 +94,8 @@ elif [ -z "$LATEST_TAG" ]; then
     echo "${YELLOW}No tags found. Defaulting to patch.${NC}"
 else
     echo "${BLUE}Latest tag: ${BOLD}${LATEST_TAG}${NC}"
-    # Full bodies, not --oneline: BREAKING CHANGE lives in the commit body and
-    # a subject-only scan silently misses every major release.
+    # Full bodies, not --oneline: the breaking-change footer lives in the commit
+    # body and a subject-only scan silently misses every major release.
     RANGE_BODIES="$(git log "${LATEST_TAG}..HEAD" --format=%B)"
     RANGE_SUBJECTS="$(git log "${LATEST_TAG}..HEAD" --format=%s)"
 
@@ -103,7 +104,9 @@ else
         exit 0
     fi
 
-    if echo "$RANGE_BODIES" | grep -q "BREAKING CHANGE" \
+    # Anchored footer, per Conventional Commits: a commit that merely discusses
+    # breaking changes in prose is not itself one.
+    if echo "$RANGE_BODIES" | grep -qE '^BREAKING[ -]CHANGE: ' \
         || echo "$RANGE_SUBJECTS" | grep -qE '^[a-z]+(\([^)]*\))?!:'; then
         RELEASE_TYPE="major"
     elif echo "$RANGE_SUBJECTS" | grep -qE '^feat(\([^)]*\))?:'; then
