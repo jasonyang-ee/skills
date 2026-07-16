@@ -161,9 +161,14 @@ fi
 # -----------------------------------------------------------------------------
 
 # The workflow runs these too, but failing here costs nothing and a red tag is
-# painful to walk back.
+# painful to walk back. Show the run: a bare "tests are red" gives the reader
+# nothing to act on, and hiding the reason is what makes people reach for a
+# --skip-tests flag.
 step "Running tests..."
-npm test >/dev/null 2>&1 || die "tests are red — not releasing"
+if ! npm test; then
+    echo ""
+    die "tests are red (see above) — not releasing"
+fi
 
 step "Bumping package.json..."
 npm version "$NEW_VERSION" --no-git-tag-version >/dev/null

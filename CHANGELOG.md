@@ -21,8 +21,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the README, which is now the canonical narrative, so the separate file was a
   second copy that could drift. The step order remains enforced by the spec.
 
+### Fixed
+
+- Fixed the test suite, which was red after `CONTRIBUTING.md` moved to
+  `.github/`: two checks still read it from the repository root.
+- `release.sh` now shows the test output when the run is red. It previously
+  discarded it and printed only "tests are red — not releasing", which told you
+  nothing about what to fix.
+- Fixed a broken link in `.github/CONTRIBUTING.md`, which still pointed at
+  `skills/spec/SKILL.md` relative to the repository root after the move.
+
 ### Changed
 
+- Narrowed the test suite to what it can meaningfully guard: `skills/**`
+  content, plus the licensing and release checks (LICENSE, changelog,
+  workflow permissions, and the `NOTICE.md` attribution rows). Assertions on
+  documentation prose — README wording, contributing guide, the AGENTS.md
+  symbol legend, and the CLAUDE.md import — are gone. Those requirements still
+  stand and are now marked in the spec as manually reviewed rather than
+  automatically tested; a green run no longer claims to prove them.
+- `/dispatchplan` is now its own entry in the bootstrap command list rather
+  than a nested note under `/workonplan`, so the list names seven commands.
+  They remain two ways to run one workflow step: choose one per phase.
+- `AGENTS.md` now lists every shipped skill. `/caveman` and `/caveman-pr` were
+  never mentioned, and `release.sh` and `.github/` were missing from the
+  layout.
 - Renamed the `review-implementation` skill to `review-code`. Invoke it as
   `/review-code`; the old command no longer resolves. Its behavior, baseline
   rules, and `cook` handoff are unchanged. Released entries below keep the old

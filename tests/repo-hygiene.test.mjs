@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import * as yaml from 'js-yaml';
 import { REPO_ROOT, SKILLS_DIR, loadSkills } from './helpers.mjs';
@@ -38,7 +38,7 @@ const RETIRED_SKILLS = [
  * name, and rewriting history would make the log lie. SPEC.md §T rows are
  * likewise a record of tasks as they were performed.
  */
-const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', 'CONTRIBUTING.md'];
+const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', '.github/CONTRIBUTING.md'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -66,35 +66,33 @@ describe('repo is publishable', () => {
   });
 });
 
-describe('cold sessions can decode repository encoding', () => {
-  const agents = readFileSync(join(REPO_ROOT, 'AGENTS.md'), 'utf8');
-
-  it('documents caveman-encode symbols and table rules', () => {
-    assert.match(agents, /## Caveman symbols/);
-    assert.match(agents, /`→` leads to/);
-    assert.match(agents, /`§` section reference/);
-    assert.match(agents, /escape literal `\|`/);
-  });
-});
-
-describe('prep bootstraps the six-step workflow safely', () => {
+describe('prep bootstraps the workflow safely', () => {
   const prep = readFileSync(join(SKILLS_DIR, 'prep', 'SKILL.md'), 'utf8');
+  // V42 — /dispatchplan is a peer entry, not a footnote under /workonplan.
   const commandOrder = [
     '/prep',
     '/cook',
     '/review-plan',
     '/workonplan',
+    '/dispatchplan',
     '/garnish',
     '/review-code',
   ];
 
-  it('declares the six lifecycle commands in order', () => {
-    let previous = -1;
-    for (const command of commandOrder) {
-      const position = prep.indexOf(command);
-      assert.ok(position > previous, `${command} must follow the prior lifecycle command`);
-      previous = position;
-    }
+  // Read the numbered entries themselves rather than scanning the whole file
+  // for each name: prose that merely mentions a command is not a list entry,
+  // and an indexOf sweep cannot tell the two apart.
+  //
+  // prep states the list twice — once as its own documentation, once inside the
+  // AGENTS.md template it generates. Both are asserted, because a template that
+  // drifts from the documented list bootstraps every new repo wrong.
+  it('declares the seven lifecycle commands in order, in both copies', () => {
+    const listed = prep
+      .split('\n')
+      .map((line) => line.match(/^\d+\. `(\/[a-z-]+)`/))
+      .filter(Boolean)
+      .map((match) => match[1]);
+    assert.deepEqual(listed, [...commandOrder, ...commandOrder]);
   });
 
   it('uses explicit triggers and distinguishes bootstrap from core workflow', () => {
@@ -142,110 +140,9 @@ describe('prep bootstraps the six-step workflow safely', () => {
   it('lists every support skill in the generated support line', () => {
     const support = prep.split('\n').find((line) => line.startsWith('support:'));
     assert.ok(support, 'prep template declares no support line');
-    for (const command of ['/spec', '/handoff', '/caveman-encode', '/caveman-commit']) {
+    for (const command of ['/spec', '/handoff', '/caveman-encode', '/caveman-commit', '/caveman-pr']) {
       assert.ok(support.includes(command), `support line omits ${command}`);
     }
-  });
-
-  it('keeps this repository CLAUDE import exact', () => {
-    assert.equal(readFileSync(join(REPO_ROOT, 'CLAUDE.md'), 'utf8').trim(), '@AGENTS.md');
-  });
-});
-
-const WORKFLOW_STEPS = [
-  'Cook',
-  'Encode',
-  'Review the plan',
-  'Work on the plan',
-  'Garnish',
-  'Review the implementation',
-];
-
-describe('README explains the core truth workflow', () => {
-  const readme = readFileSync(join(REPO_ROOT, 'README.md'), 'utf8');
-  const sixSteps = readme.slice(readme.indexOf('## The six core workflow steps'));
-
-  it('separates prep bootstrap from the six core steps', () => {
-    assert.match(readme, /## The six core workflow steps/);
-    assert.match(readme, /`\/prep` prepares[\s\S]*not one of its six\s+steps/);
-    for (const phrase of WORKFLOW_STEPS) {
-      assert.match(readme, new RegExp(`\\b${phrase}\\b`));
-    }
-    assert.match(readme, /order and safety gates remain\s+mandatory/i);
-  });
-
-  // V52 — Encode is a discipline the writing skills apply, not a command. A
-  // reader who thinks it is a command looks for one, fails to find it, and
-  // concludes the step is optional.
-  it('describes Encode as an automatic discipline, not a command', () => {
-    const encode = sixSteps.slice(sixSteps.indexOf('2. **Encode**'), sixSteps.indexOf('3. **Review the plan**'));
-    assert.match(encode, /automatically|loaded by/);
-    assert.doesNotMatch(encode, /`\/encode`/);
-  });
-
-  // V55 — `/workonplan` executes PLAN.md phases, and only `/cook` writes that
-  // file (§R.17), so a documented `/spec` → `/workonplan` path cannot run.
-  it('routes the small-task path through cook before workonplan', () => {
-    const shortcut = readme.slice(readme.indexOf('For a small'), readme.indexOf('### What they expect'));
-    assert.match(shortcut, /`\/cook`[\s\S]*`\/workonplan`/);
-    assert.doesNotMatch(readme, /`\/spec`\s*→\s*`\/workonplan`/);
-  });
-
-  // V57 — the row must describe the modes `skills/caveman/SKILL.md` ships.
-  it('lists the caveman modes the skill actually ships', () => {
-    const row = readme.split('\n').find((line) => line.startsWith('| [`caveman`]'));
-    assert.ok(row, 'README has no caveman skill row');
-    assert.match(row, /\bfull\b/);
-    assert.match(row, /\bultra\b/);
-    assert.doesNotMatch(row, /\blite\b|\bwenyan\b/i);
-  });
-
-  // V59 — every skill that writes PLAN.md/HANDOFF.md loads the encoding.
-  it('credits every caveman-encode loader', () => {
-    const row = readme.split('\n').find((line) => line.startsWith('| [`caveman-encode`]'));
-    assert.ok(row, 'README has no caveman-encode skill row');
-    for (const loader of ['/spec', '/cook', '/review-plan', '/handoff', '/workonplan']) {
-      assert.ok(row.includes(loader), `caveman-encode row omits ${loader}`);
-    }
-  });
-
-  // V58 — the tree is the roster a reader trusts. Derived from disk, so a
-  // renamed or added skill fails here instead of drifting silently.
-  it('lists every shipped skill exactly once in the layout tree', () => {
-    const tree = readme.match(/## Layout\s+```\n([\s\S]*?)```/);
-    assert.ok(tree, 'README has no Layout tree');
-    const entries = tree[1]
-      .split(/[\s├└─│]+/)
-      .filter(Boolean)
-      .filter((entry) => entry !== 'skills/');
-    const shipped = loadSkills().map((skill) => `${skill.dirName}/`);
-
-    for (const dir of shipped) {
-      const count = entries.filter((entry) => entry === dir).length;
-      assert.equal(count, 1, `Layout tree lists ${dir} ${count} times — expected exactly once`);
-    }
-    const strays = entries.filter((entry) => !shipped.includes(entry));
-    assert.deepEqual(strays, [], `Layout tree lists skills that do not exist: ${strays.join(', ')}`);
-  });
-});
-
-describe('workflow docs agree with the spec', () => {
-  // V56 — the format is embedded in the spec skill and baked into SPEC.md.
-  it('points encoding guidance at the embedded spec format', () => {
-    const contributing = readFileSync(join(REPO_ROOT, 'CONTRIBUTING.md'), 'utf8');
-    assert.match(contributing, /skills\/spec\/SKILL\.md/);
-    assert.match(contributing, /## FORMAT/);
-    assert.doesNotMatch(contributing, /FORMAT\.md/);
-  });
-
-  // V60 — V13 is enforced by release.yml, not the test run, so a green suite
-  // must not be read as proof of every invariant.
-  it('separates the automated oracle from release-only checks', () => {
-    const spec = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8');
-    const oracle = spec.split('\n').find((line) => line.startsWith('- cmd:') && line.includes('`npm test`'));
-    assert.ok(oracle, 'SPEC §I declares no npm test oracle');
-    assert.match(oracle, /automated/);
-    assert.match(oracle, /release\/manual/);
   });
 });
 

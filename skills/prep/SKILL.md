@@ -21,11 +21,15 @@ sections. It prepares the cold-session files needed by `cook`, `review-plan`,
 
 The generated or completed `AGENTS.md` must list these commands in this order:
 
-This is the six-command bootstrap list, including `/prep`. It is separate from
+This is the seven-command bootstrap list, including `/prep`. It is separate from
 the six core workflow steps: those steps begin
 with `/cook`, and step 2 is the `caveman-encode` writing discipline. `spec`,
 `handoff`, and `caveman-encode` remain supporting skills invoked by the core
 workflow; do not add them as extra command entries.
+
+`/workonplan` and `/dispatchplan` are two ways to run the same execution step,
+so the core workflow counts them once. The bootstrap list gives each its own
+entry: a reader who never sees `/dispatchplan` named never reaches for it.
 
 1. `/prep` — bootstrap guidance and minimal durable files.
 2. `/cook` — turn an idea, bug, feature, or expected behavior into iterative
@@ -33,10 +37,13 @@ workflow; do not add them as extra command entries.
 3. `/review-plan` — research and refute the plan until GO; reduce research
    phases as unknowns resolve.
 4. `/workonplan` — execute one phase, verify it, commit it, and refresh the
-   handoff before continuing.
-5. `/garnish` — send final decisions through `spec`, then purge short-term plan
+   handoff before continuing. One main agent, start to finish.
+5. `/dispatchplan` — execute the same phases through sub-agents, in parallel
+   only where their file sets do not intersect. Choose this or `/workonplan`
+   for a given phase, never both.
+6. `/garnish` — send final decisions through `spec`, then purge short-term plan
    files when the cycle is complete.
-6. `/review-code` — sweep implementation quality from the release baseline and
+7. `/review-code` — sweep implementation quality from the release baseline and
    trigger the next `cook` cycle for accepted fixes.
 
 ## Preflight
@@ -77,11 +84,13 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 1. `/prep` → bootstrap guidance + minimal durable files
 2. `/cook` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff
 3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/workonplan` → execute phase → verify → commit → handoff
-5. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
-6. `/review-code` → baseline code sweep → cook
+4. `/workonplan` → execute phase → verify → commit → handoff. Single main agent.
+5. `/dispatchplan` → same phases via sub-agents, parallel when file sets ⊥ intersect.
+   4 | 5 exclusive per phase, ⊥ both.
+6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
+7. `/review-code` → baseline code sweep → cook
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman-commit` commit summary
+support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman` chat brevity | `/caveman-commit` commit summary | `/caveman-pr` PR review comments
 
 ## Caveman symbols
 
@@ -133,7 +142,7 @@ All notable changes to this project will be documented in this file.
 
 Report each action and preservation decision. Confirm:
 
-- `AGENTS.md` has all six bootstrap commands in order, Caveman symbols, and checklist;
+- `AGENTS.md` has all seven bootstrap commands in order, Caveman symbols, and checklist;
 - `CLAUDE.md` is exactly `@AGENTS.md` when prep created it;
 - `CHANGELOG.md` has `## [Unreleased]`;
 - `SPEC.md` exists with the baked header and fixed sections;
