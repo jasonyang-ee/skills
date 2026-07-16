@@ -14,7 +14,7 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## §G GOAL
 
-Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`) + derived `cook` + vendored cavekit/caveman suite. Core purpose = 6-step spec-driven workflow defined by `truth-workflow.md`: 1) `cook` turns idea/bug/feature/expected behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`; 2) `caveman-encode` governs every `PLAN.md`/`HANDOFF.md` write; 3) cold-session `review-plan` researches/refutes until plan ready; 4) cold-session `workonplan` executes phases with handoff closure; 5) `garnish` routes durable cleanup through `spec` then purges short-term files; 6) `review-implementation` closes cycle and may trigger next `cook`. Steps 3 and 6 iterate internally; order ! skipped.
+Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-code`, `garnish`, `prep`, `dispatchplan`) + derived `cook` + vendored cavekit/caveman suite. Core purpose = 6-step spec-driven workflow defined by `truth-workflow.md`: 1) `cook` turns idea/bug/feature/expected behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`; 2) `caveman-encode` governs every `PLAN.md`/`HANDOFF.md` write; 3) cold-session `review-plan` researches/refutes until plan ready; 4) cold-session `workonplan`|`dispatchplan` executes phases with handoff closure; 5) `garnish` routes durable cleanup through `spec` then purges short-term files; 6) `review-code` closes cycle and may trigger next `cook`. Steps 3 and 6 iterate internally; order ! skipped.
 
 ## §C CONSTRAINTS
 
@@ -23,7 +23,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - Skills = markdown only. ⊥ runtime deps for installing user. ⊥ Python. ⊥ `scripts/` (∵ user ruling 2026-07-15).
 - `cook` ! write caveman `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
 - `PLAN.md` + `HANDOFF.md` ! caveman-encoded ∀ writes (load `caveman-encode` ∵ session-efficiency).
-- core workflow order = `cook` → `caveman-encode` → `review-plan` → `workonplan` → `garnish` → `review-implementation` → (`cook` next cycle). `/prep` bootstraps repo guidance; ⊥ core step. `workonplan` ⊥ without prior `cook` output (`PLAN.md` ∃); `garnish` ⊥ without completed `workonplan`; `review-implementation` ! end by invoking `cook` or declaring ⊥ further work.
+- core workflow order = `cook` → `caveman-encode` → `review-plan` → `workonplan`|`dispatchplan` → `garnish` → `review-code` → (`cook` next cycle). `/prep` bootstraps repo guidance; ⊥ core step. `workonplan`|`dispatchplan` ⊥ without prior `cook` output (`PLAN.md` ∃); `garnish` ⊥ without completed `workonplan`|`dispatchplan`; `review-code` ! end by invoking `cook` or declaring ⊥ further work.
 - `workonplan` ! refresh & commit `HANDOFF.md` ∀ phase end (∵ session-cut safety; cold resume ! start from baton).
 - ⊥ vendor skills needing hooks | subagents (∵ `npx skills add` installs ⊥ either → silent no-op. §R.11, §R.12).
 - License MIT. `LICENSE` @ root. Vendored MIT work → `NOTICE.md` ! reproduce upstream copyright + permission notice (∵ MIT §; README credit alone ⊥ sufficient).
@@ -39,21 +39,22 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 
 ## §I INTERFACES
 
-- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 12 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 12
+- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 13 skills → detected agents
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 13
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
-- command graph: `/prep` (bootstrap) → `/cook` → [`/review-plan`]* → `/workonplan` (phases + `handoff` per phase) → `/garnish` → [`/review-implementation` → `/cook`]*
+- roster: own → `handoff`, `workonplan`, `review-code`, `garnish`, `prep`, `dispatchplan`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
+- command graph: `/prep` (bootstrap) → `/cook` → [`/review-plan`]* → `/workonplan`|`/dispatchplan` (phases + `handoff` per phase) → `/garnish` → [`/review-code` → `/cook`]*
+- cmd: `/dispatchplan` → parallel multi-phase execution via sub-agents; creates `HANDOFF-<phase-id>.md` per sub-agent; selects sub-agent by complexity; invokes `/review-code` after each sub-agent completes; updates main `HANDOFF.md` frequently
 - cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
-- workflow: `truth-workflow.md` → canonical six-step narrative; `cook` → `caveman-encode` → `review-plan` → `workonplan` → `garnish` → `review-implementation` → next `cook`
-- cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-implementation` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
-- phase close: `workonplan` → `handoff` refresh + commit after every phase; session end → final refresh
-- garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-implementation`
+- workflow: `truth-workflow.md` → canonical six-step narrative; `cook` → `caveman-encode` → `review-plan` → `workonplan`|`dispatchplan` → `garnish` → `review-code` → next `cook`
+- cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-code` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
+- phase close: `workonplan`|`dispatchplan` → `handoff` refresh + commit after every phase; session end → final refresh
+- garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-code`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
-- file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
+- file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`|`dispatchplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
-- file: `PLAN.md` phase → `task:` names exactly one `§T` id; `workonplan` uses id for phase status/verification
+- file: `PLAN.md` phase → `task:` names exactly one `§T` id; `workonplan`|`dispatchplan` uses id for phase status/verification
 - file: final verification phase → per-`§V`/`§I`/`§T` result table, drift decision, agreed commands
 - file: `HANDOFF.md` `## final verification` → `item|status|evidence|decision` table; status `HOLD` | `VIOLATE` | `UNVERIFIABLE`
 - file: phase verification contract → exact test file/case per touched `§V`; oracle command
@@ -119,17 +120,17 @@ V33: verification failure → classify code bug | spec bug | unspecified edge; s
 V34: `workonplan` execution → honors `§R`; no re-derive/contradict sourced facts
 V35: `HANDOFF.md` → records exact test status, uncommitted paths/reasons, stop point, next executable step
 V36: `skills/review-plan/SKILL.md` reads `PLAN.md` & `SPEC.md`; research gate resolves open `?` items & records findings in `§R` before refuting plan structure; updates `PLAN.md`/`HANDOFF.md`; ends explicit GO/NO-GO; old `skills/review/` ⊥ ∃
-V37: `review-implementation` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
+V37: `review-code` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
 V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final verification `HOLD`, no unrelated uncommitted files; preserve `SPEC.md`
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
 V40: `workonplan` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
-V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-implementation`
-V42: `/prep` → generated/completed `AGENTS.md` lists exactly six bootstrap commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/garnish`, `/review-implementation`; list ≠ core six truth-workflow steps
+V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-code`
+V42: `/prep` → generated/completed `AGENTS.md` lists exactly six bootstrap commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/garnish`, `/review-code`; list ≠ core six truth-workflow steps
 V43: `prep` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` preserved; only missing files/sections may be added without explicit overwrite direction
 V44: missing `CLAUDE.md` → created with exact content `@AGENTS.md`; existing non-import content → preserved and reported
 V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `prep` write
 V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six bootstrap commands; unknown project facts marked `?`
-V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3 `review-plan` → 4 `workonplan` → 5 `garnish` → 6 `review-implementation`; `workonplan` ! have `PLAN.md` ∃ (prior `cook`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-implementation` ! end by invoking `cook` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `caveman-encode`
+V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3 `review-plan` → 4 `workonplan`|`dispatchplan` → 5 `garnish` → 6 `review-code`; `workonplan`|`dispatchplan` ! have `PLAN.md` ∃ (prior `cook`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-code` ! end by invoking `cook` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `caveman-encode`
 V48: `skills/prep/SKILL.md` description ! include `/prep`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for cook`, `initialize agent guidance`
 V49: `prep` preflight step 1 ! load `caveman-encode` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard Caveman symbol legend, ⊥ user-filled symbol placeholder
 V50: `README.md` ! explain `/prep` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates
@@ -143,6 +144,12 @@ V57: `README.md` caveman row ! match `skills/caveman/SKILL.md` modes `full` + `u
 V58: `README.md` Layout tree ! list each current `skills/` child exactly once
 V59: `README.md` caveman-encode loader list ! include `review-plan` (writer of `PLAN.md`/`HANDOFF.md`)
 V60: `§I` test oracle ! distinguish automated `npm test` checks from release/manual invariants (e.g. V13); ⊥ claim exit 0 proves ∀ §V
+V61: `skills/review-code/SKILL.md` ∃ & `skills/review-implementation/` ⊥ ∃; ∀ non-CHANGELOG `review-implementation` refs → `review-code` (SPEC,README,AGENTS,NOTICE,tests,skills)
+V62: `skills/dispatchplan/SKILL.md` ∃; frontmatter `name: dispatchplan`; description ∋ "sub-agent" & "dispatch" & "parallel"
+V63: `dispatchplan` SKILL.md ! describe dedicated per-sub-agent handoff file (`HANDOFF-<phase-id>.md` or equiv pattern)
+V64: `dispatchplan` SKILL.md ! describe sub-agent selection by phase/task complexity
+V65: `dispatchplan` SKILL.md ! invoke `/review-code` after each sub-agent completes; describe sub-agent garnishing assigned handoff file on completion
+V66: `dispatchplan` SKILL.md ! describe frequent main `HANDOFF.md` refresh (∵ large context in parallel workflow)
 
 ## §T TASKS
 
@@ -206,6 +213,9 @@ T56|.|research — confirm exact text targets, test patterns for V51-V60|V51,V52
 T57|.|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
 T58|.|fix prep template support line + add V53/V54 tests|V53,V54
 T59|.|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
+T60|.|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ refs (SPEC,README,AGENTS,NOTICE,tests,skills)|V61
+T61|.|add `skills/dispatchplan/SKILL.md` + roster updates (README,AGENTS,tests)|V62,V63,V64,V65,V66,V39
+T62|.|final verify: rename + dispatchplan contracts; §V61-V66 HOLD|V61,V62,V63,V64,V65,V66
 
 ## §B BUGS
 
