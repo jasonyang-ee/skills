@@ -79,3 +79,25 @@ from elsewhere, read it line by line first.
 Open an [issue](https://github.com/jasonyang-ee/skills/issues). If a skill
 misbehaved, include the agent you used, the skill, and what you expected it to
 do instead — the fix is usually a wording change to `SKILL.md`.
+
+## Releasing
+
+Releases are cut from a tag, and there is no npm package — `npx skills add`
+installs straight from GitHub.
+
+```bash
+./release.sh              # detect the bump from the commits, then confirm
+./release.sh --minor      # or force one
+./release.sh --dry-run    # see the plan and the notes, change nothing
+```
+
+That bumps `package.json`, moves the `Unreleased` notes under a new version
+heading, fixes the changelog link definitions, commits, tags, and pushes. The
+bump is read from the commits since the last tag: `BREAKING CHANGE` or `feat!:`
+means major, `feat:` means minor, anything else patch.
+
+Pushing the tag is what publishes. The release workflow re-runs the tests,
+verifies the tag matches `package.json`, extracts that version's `CHANGELOG.md`
+section, and creates the GitHub Release with it — so the script deliberately
+does not create one itself. A tag without a matching changelog section fails
+instead of shipping empty notes.
