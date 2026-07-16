@@ -58,7 +58,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - file: `HANDOFF.md` `## final verification` → `item|status|evidence|decision` table; status `HOLD` | `VIOLATE` | `UNVERIFIABLE`
 - file: phase verification contract → exact test file/case per touched `§V`; oracle command
 - file: task failure record → code bug | spec bug | unspecified edge; latter 2 → `spec bug:` before retry
-- cmd: `npm test` → `node --test` → exit 0 ⟺ ∀ §V pass
+- cmd: `npm test` → `node --test` → exit 0 ⟺ automated §V tests pass; release/manual checks (e.g. V13) separate
 - ci: push | PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 - ci: tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
 
@@ -133,6 +133,16 @@ V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3
 V48: `skills/prep/SKILL.md` description ! include `/prep`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for cook`, `initialize agent guidance`
 V49: `prep` preflight step 1 ! load `caveman-encode` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard Caveman symbol legend, ⊥ user-filled symbol placeholder
 V50: `README.md` ! explain `/prep` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates
+V51: `truth-workflow.md` ! ∋ 6 named steps w/ step names matching README: Cook, Encode, Review the plan, Work on the plan, Garnish, Review the implementation; repo-hygiene test ! assert ∀ step name ∈ `truth-workflow.md`
+V52: README `## The six core workflow steps` step 2 ∋ caveman-encode described as automatic discipline (∋ "automatically" or "loaded by"); ⊥ imply user-triggered `/encode` command
+V53: `skills/prep/SKILL.md` AGENTS.md template support line ∋ `/caveman-commit`
+V54: `tests/repo-hygiene.test.mjs` ! ∋ assertion `skills/cook/SKILL.md` ∋ "incomplete phases" (anchors expand-vs-replace contract)
+V55: `README.md` small-task path ! route `/spec` → `/cook` before `/workonplan`; ⊥ direct `/spec` → `/workonplan`
+V56: `CONTRIBUTING.md` encoding guidance ! point at embedded `skills/spec/SKILL.md`/`§FORMAT`; ⊥ link/reference `FORMAT.md`
+V57: `README.md` caveman row ! match `skills/caveman/SKILL.md` modes `full` + `ultra`; ⊥ claim `lite` | `wenyan`
+V58: `README.md` Layout tree ! list each current `skills/` child exactly once
+V59: `README.md` caveman-encode loader list ! include `review-plan` (writer of `PLAN.md`/`HANDOFF.md`)
+V60: `§I` test oracle ! distinguish automated `npm test` checks from release/manual invariants (e.g. V13); ⊥ claim exit 0 proves ∀ §V
 
 ## §T TASKS
 
@@ -192,6 +202,10 @@ T52|x|test prep contract → ordered commands, safe-file rules, minimal outputs|
 T53|x|harden `prep` triggers, encode-first preflight, and generated symbol legend|V48,V49
 T54|x|document six core workflow steps and `/prep` separation in README|V50,§G,§I
 T55|x|release `v0.2.0` with matching package and changelog versions|V13
+T56|.|research — confirm exact text targets, test patterns for V51-V60|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
+T57|.|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
+T58|.|fix prep template support line + add V53/V54 tests|V53,V54
+T59|.|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
 
 ## §B BUGS
 

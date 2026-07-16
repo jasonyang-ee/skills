@@ -12,7 +12,6 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 - `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
 - `NOTICE.md` = upstream MIT notices + per-skill provenance. ! update ∀ new vendor.
 - `tests/` = `node:test`. Contract, hygiene, attribution, real-CLI discovery.
-- ⊥ `FORMAT.md`. Format → embedded `skills/spec/SKILL.md` §FORMAT + baked header.
 
 ## Commands
 
