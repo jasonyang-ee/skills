@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed `caveman-review` to `caveman-pr` to better reflect its scope
   (PR review comments rather than general code review). NOTICE.md updated
   to record the upstream name and the rename modification.
+- Trimmed `caveman` skill to full and ultra modes only. Removed wenyan
+  (classical Chinese) levels, lite mode, and language-matching behaviour.
+  English only.
+
+### Removed
+
+- Removed `caveman-help` skill. Small collection with no need for a help
+  menu; users can read the skill files directly.
 
 ### Removed
 

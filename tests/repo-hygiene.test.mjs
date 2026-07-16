@@ -20,7 +20,7 @@ const PRIVATE_REFS = [
   /\bV52\b/,
   /money math/i,
 ];
-const RETIRED_SKILLS = ['backprop', 'build', 'check', 'deepen', 'grill', 'research'];
+const RETIRED_SKILLS = ['backprop', 'build', 'caveman-help', 'check', 'deepen', 'grill', 'research'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {

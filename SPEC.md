@@ -37,10 +37,10 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 ## §I INTERFACES
 
 - cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 11 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 10
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 9
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`, `caveman-help`
+- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`

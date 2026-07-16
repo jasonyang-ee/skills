@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-10 skills: own (`handoff`, `workonplan`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+9 skills: own (`handoff`, `workonplan`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
