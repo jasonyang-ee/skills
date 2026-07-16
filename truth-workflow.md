@@ -1,1 +1,61 @@
-The overall work flow now should be the following: 1) user have an idea / bug / feature / expected behavior, they use cook to kick off with creating files of plan and handoff and document those as long term code base SPEC.md. The cook skill can be iterative and any new idea / bug / feature shall be expended to current plan and handoff and spec 2) the plan and handoff will be written with caveman-encode to ensure best efficiency. 3) user do review-plan in cold new session to ensure plan is good, if not, all plan, handoff, and spec file gets updated and refined. During review-plan session, it is allowed to do research per begining of plan phase. Once research is done, plan will decrease the amount of research phase. This can be iterative to eventually reduce needed research to none 4) Once ready, user will start another cold new session with workonplan. When working on each phase, it is required to finish the phase with proper updated handoff file. This is important because we may be cut off from session anytime, so up to date handoff is important to resume our implementation in a new cold session. 5) If all planned phase is done, it will trigger a garnish to clean up short term files (plan and handoff) with updating spec for clean long term spec driven design. 6) final will be closed by review-implementation which has the ability to trigger new cook to further refine and fix code with using a new round of plan and handoff. And this can be iterative.
+# The truth workflow
+
+The canonical sequence these skills implement. One `SPEC.md` holds the durable
+truth; `PLAN.md` and `HANDOFF.md` are short-lived working files that exist only
+while a cycle is running.
+
+`/prep` bootstraps a repository for this sequence. It is not one of the six
+steps.
+
+## 1. Cook
+
+An idea, bug, feature, or expected behavior goes in; `cook` creates `PLAN.md`
+and `HANDOFF.md`, and hands durable decisions to `SPEC.md` through `spec`.
+
+`cook` is iterative. A new idea, bug, or feature expands the current plan,
+handoff, and spec rather than starting a fresh set of files.
+
+## 2. Encode
+
+`PLAN.md` and `HANDOFF.md` are written in `caveman-encode` so a cold session
+reads a compact, standard symbol language. Every skill that writes either file
+loads the encoding automatically — this is a writing discipline the skills
+apply, not a command anyone invokes.
+
+## 3. Review the plan
+
+In a cold session, `review-plan` checks the plan is good. If it is not, the
+plan, handoff, and spec are updated and refined.
+
+Research is allowed here, driven by the research phase at the start of the
+plan. Each round of resolved research reduces the number of research phases the
+plan still needs, so repeating this step eventually drives the remaining
+research to none.
+
+## 4. Work on the plan
+
+In another cold session, `workonplan` executes one phase at a time, verifies
+it, and commits it.
+
+Every phase must end with an updated `HANDOFF.md`. This matters because a
+session can be cut off at any time, and an up-to-date handoff is what lets a
+new cold session resume the implementation.
+
+## 5. Garnish
+
+Once every planned phase is done, `garnish` routes durable cleanup through
+`spec`, then removes the short-lived `PLAN.md` and `HANDOFF.md`, leaving a
+clean spec-driven design behind.
+
+## 6. Review the implementation
+
+`review-implementation` closes the cycle. It sweeps the completed
+implementation from its release baseline and can trigger a new `cook` to
+further refine and fix code with a fresh round of plan and handoff.
+
+This too is iterative.
+
+## Order
+
+The order and its safety gates are mandatory. Steps 3 and 6 iterate
+internally; neither may be skipped to reach the next step faster.

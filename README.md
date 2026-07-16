@@ -61,9 +61,10 @@ steps:
 1. **Cook** — turn an idea, bug, feature, or expected behavior into an
    iterative `PLAN.md` and `HANDOFF.md`, while handing durable decisions to
    `SPEC.md` through `spec`.
-2. **Encode** — write every `PLAN.md` and `HANDOFF.md` update with
+2. **Encode** — every `PLAN.md` and `HANDOFF.md` update is written in
    `caveman-encode`, so a cold session can read the compact, standard symbol
-   language.
+   language. The skills that write those files load the encoding
+   automatically; this is a writing discipline, not a command you invoke.
 3. **Review the plan** — in a cold session, resolve research questions and
    refute the plan until it reaches an explicit GO gate. Repeat as needed.
 4. **Work on the plan** — in another cold session, execute one phase at a
@@ -82,8 +83,8 @@ mandatory.
 
 | Skill | What it does |
 | --- | --- |
-| [`caveman`](skills/caveman/SKILL.md) | Ultra-compressed replies for ordinary chat. Intensity levels: lite, full, ultra, and wenyan (classical Chinese). |
-| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/cook`, `/handoff`, and `/workonplan`. |
+| [`caveman`](skills/caveman/SKILL.md) | Ultra-compressed replies for ordinary chat. Two levels: full (default) and ultra. |
+| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/cook`, `/review-plan`, `/handoff`, and `/workonplan`. |
 | [`caveman-commit`](skills/caveman-commit/SKILL.md) | Terse Conventional Commits messages. Subject ≤50 chars. |
 | [`caveman-pr`](skills/caveman-pr/SKILL.md) | Terse PR review. One line per finding: location, problem, fix. |
 
@@ -122,8 +123,10 @@ matching one on its own.
 
 A typical multi-session run starts with `/prep`, then follows the six core
 steps: `/cook` → encode → `/review-plan` → `/workonplan` → `/garnish` →
-`/review-implementation`. For a small,
-already-clear spec task, go straight to `/spec` → `/workonplan`.
+`/review-implementation`. For a small, already-clear spec task, record it with
+`/spec`, then still run `/cook` before `/workonplan` — `/workonplan` executes
+`PLAN.md` phases, and only `/cook` produces that file. `/review-plan` is the
+step worth skipping when the blast radius is small, not `/cook`.
 
 After a completed cycle: `/review-implementation` → `/cook` for fixes or
 improvements → `/garnish` after all workonplan phases finish.
@@ -147,11 +150,10 @@ rather than hardcoding one.
 
 ```
 skills/
-├── caveman/          caveman-commit/   caveman-encode/
-├── caveman-encode/   caveman-pr/       cook/
-├── garnish/          handoff/          prep/             review-plan/
-├── review-implementation/             spec/
-├── workonplan/
+├── caveman/          caveman-commit/   caveman-encode/   caveman-pr/
+├── cook/             garnish/          handoff/          prep/
+├── review-implementation/              review-plan/      spec/
+└── workonplan/
 ```
 
 Each skill is a directory with a `SKILL.md`, per the

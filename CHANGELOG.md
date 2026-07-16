@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed the documented small-task shortcut, which sent readers from `/spec`
+  straight to `/workonplan`. That path cannot run: `/workonplan` executes
+  `PLAN.md` phases and only `/cook` writes that file.
+
+- Corrected `README.md` drift: the `caveman` row advertised `lite` and `wenyan`
+  modes the skill no longer ships, the `caveman-encode` row omitted
+  `/review-plan` from its loaders, and the layout tree listed `caveman-encode/`
+  twice.
+
+- Pointed `CONTRIBUTING.md` encoding guidance at the format embedded in the
+  `spec` skill, replacing a link to the deleted `FORMAT.md`.
+
+### Changed
+
+- Rewrote `truth-workflow.md` from a single prose paragraph into the six named
+  steps, matching the README.
+
+- Reworded the README `Encode` step so it reads as the writing discipline the
+  skills apply automatically, rather than a command to invoke.
+
 ## [0.2.0] - 2026-07-16
 
 ### Added
