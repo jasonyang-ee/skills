@@ -118,6 +118,17 @@ describe('prep bootstraps the six-step workflow safely', () => {
     assert.match(prep, /## End of Chat Checklist/);
   });
 
+  // V53 — the generated AGENTS.md lists support skills outside the six
+  // lifecycle commands (V46); a missing one is a skill the bootstrapped repo
+  // never learns exists.
+  it('lists every support skill in the generated support line', () => {
+    const support = prep.split('\n').find((line) => line.startsWith('support:'));
+    assert.ok(support, 'prep template declares no support line');
+    for (const command of ['/spec', '/handoff', '/caveman-encode', '/caveman-commit']) {
+      assert.ok(support.includes(command), `support line omits ${command}`);
+    }
+  });
+
   it('keeps this repository CLAUDE import exact', () => {
     assert.equal(readFileSync(join(REPO_ROOT, 'CLAUDE.md'), 'utf8').trim(), '@AGENTS.md');
   });
@@ -275,6 +286,12 @@ describe('cook stays the planning front door', () => {
     assert.match(cook, /one existing `§T` task id via `task: T<n>`/);
     assert.match(workonplan, /Read phase `task: T<n>`/);
     assert.match(workonplan, /absent from SPEC\.md/);
+  });
+
+  // V54 — cook expands an in-flight plan instead of replacing it, so a second
+  // idea mid-cycle cannot silently discard the phases already planned.
+  it('expands an in-flight plan rather than replacing it', () => {
+    assert.match(cook, /incomplete phases/);
   });
 
   it('requires sourced research and per-item final verification', () => {

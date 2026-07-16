@@ -21,6 +21,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pointed `CONTRIBUTING.md` encoding guidance at the format embedded in the
   `spec` skill, replacing a link to the deleted `FORMAT.md`.
 
+- Added `/caveman-commit` to the support line of the `AGENTS.md` template
+  `prep` generates, so bootstrapped repos learn the skill exists.
+
 ### Changed
 
 - Rewrote `truth-workflow.md` from a single prose paragraph into the six named

@@ -81,7 +81,7 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 5. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
 6. `/review-implementation` → baseline code sweep → cook
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding
+support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman-commit` commit summary
 
 ## Caveman symbols
 
