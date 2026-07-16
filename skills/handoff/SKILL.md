@@ -52,6 +52,10 @@ user decided: <anything the user ruled this session>
 
 ## watchouts
 <traps discovered: flaky test, env quirk, live-server state, half-truths in docs>
+
+## final verification
+item|status|evidence|decision
+<§V/§I/§T item>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | - >
 ```
 
 ## RULES
@@ -66,7 +70,9 @@ user decided: <anything the user ruled this session>
 4. **"NEXT STEP" must be executable verbatim** by a cold agent: file,
    function, what to do — not "continue the phase".
 5. Empty sections get `-`, never deleted (the shape is the checklist).
-6. Commit HANDOFF.md — either inside the session's final phase commit or as
+6. Final verification phase must fill `final verification` table; non-final
+   handoffs may use `-`.
+7. Commit HANDOFF.md — either inside the session's final phase commit or as
    its own `docs: handoff` commit, per the repo's commit conventions.
 
 ## NON-GOALS

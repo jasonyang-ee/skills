@@ -44,6 +44,9 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
+- file: `PLAN.md` phase → `task:` names exactly one `§T` id; `workonplan` uses id for phase status/verification
+- file: final verification phase → per-`§V`/`§I`/`§T` result table, drift decision, agreed commands
+- file: `HANDOFF.md` `## final verification` → `item|status|evidence|decision` table; status `HOLD` | `VIOLATE` | `UNVERIFIABLE`
 - cmd: `npm test` → `node --test` → exit 0 ⟺ ∀ §V pass
 - ci: push | PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 - ci: tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
@@ -95,6 +98,10 @@ V23: retired skill dirs `skills/{backprop,check,deepen,grill,research}/` ⊥ ∃
 V24: `skills/cook/SKILL.md` ! mention `PLAN.md`, `HANDOFF.md`, `spec`, `workonplan`
 V25: `skills/cook/SKILL.md` ! require research 1st phase & final verification last phase
 V26: `skills/build/SKILL.md` & `skills/workonplan/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
+V27: `cook` PLAN phase ∀ → `task:` exactly one existing `§T` id; F1 research first, Fn final verify last
+V28: F1 research → unknowns resolved or marked `?`; sourced findings land in `§R`; later phases updated before handoff
+V29: Fn final verify → re-read relevant `§V`/`§I`/`§T`, run agreed commands, classify each as `HOLD`/`VIOLATE`/`UNVERIFIABLE`, record drift decision
+V30: `workonplan` phase execution → uses PLAN `task:` id for `§T` status; no phase starts without matching SPEC task
 
 ## §T TASKS
 
@@ -133,6 +140,8 @@ T31|x|add composite `skills/cook/SKILL.md` — `PLAN.md` + `HANDOFF.md` + spec h
 T32|x|repoint `build`,`workonplan`,`spec`,`caveman-encode`,`caveman-help` → `cook` + `/spec bug:` flow|V24,V25,V26
 T33|x|update `README.md`,`NOTICE.md`,`AGENTS.md`,`package.json`,`CHANGELOG.md` for 11-skill roster + `cook` provenance|I.cmd,V17
 T34|x|extend tests → retired skills absent + `cook` contract + attribution update|V23,V24,V25,V26,V17
+T35|x|harden `cook`/`workonplan` → phase `task:` mapping, sourced F1, per-item final verification|V27,V28,V29,V30,I.file
+T36|x|test cook plan contract + workonplan phase/task contract|V27,V28,V29,V30
 
 ## §B BUGS
 

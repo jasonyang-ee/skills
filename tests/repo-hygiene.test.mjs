@@ -72,6 +72,7 @@ describe('retired planning skills stay retired', () => {
 
 describe('cook stays the planning front door', () => {
   const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
+  const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
 
   it('requires PLAN.md and HANDOFF.md outputs', () => {
     assert.match(cook, /PLAN\.md/);
@@ -86,6 +87,27 @@ describe('cook stays the planning front door', () => {
   it('hands durable updates to spec and resumes with workonplan', () => {
     assert.match(cook, /`spec` remains the sole mutator of `SPEC\.md`/);
     assert.match(cook, /\/workonplan/);
+  });
+
+  it('binds every generated phase to a SPEC task', () => {
+    assert.match(cook, /every PLAN phase gets one matching/);
+    assert.match(cook, /one existing `§T` task id via `task: T<n>`/);
+    assert.match(workonplan, /Read phase `task: T<n>`/);
+    assert.match(workonplan, /absent from SPEC\.md/);
+  });
+
+  it('requires sourced research and per-item final verification', () => {
+    assert.match(cook, /External findings require a source/);
+    assert.match(cook, /Write sourced findings into `§R`/);
+    assert.match(cook, /`HOLD`, `VIOLATE`, or\s+`UNVERIFIABLE`/);
+    assert.match(cook, /record the result table in `HANDOFF\.md`/);
+  });
+
+  it('gives handoff a final verification result shape', () => {
+    const handoff = readFileSync(join(SKILLS_DIR, 'handoff', 'SKILL.md'), 'utf8');
+    assert.match(handoff, /## final verification/);
+    assert.match(handoff, /item\|status\|evidence\|decision/);
+    assert.match(handoff, /HOLD \| VIOLATE \| UNVERIFIABLE/);
   });
 });
 

@@ -61,15 +61,17 @@ without asking questions — not code that was fast to write.
 
 - Arg given (`/workonplan F1`) → that phase.
 - Else the `HANDOFF.md` "next" pointer.
-- Else the first phase in PLAN.md's recommended sequence whose §T row is not
-  `x` and whose gate (if any) is satisfied. Gated phases with unmet gates —
+- Else the first phase in PLAN.md's recommended sequence whose `task:` §T row is
+  not `x` and whose gate (if any) is satisfied. Gated phases with unmet gates —
   anything waiting on elapsed time, external evidence, or a soak period — are
   skipped with a one-line note.
 
 ## EXECUTE (per phase)
 
-1. Flip the phase's §T row `.` → `~` in SPEC.md.
-2. **Verification contract first:** from the phase's SPEC section, name the
+1. Read phase `task: T<n>`; stop and invoke `spec` if it is missing, duplicated,
+   or absent from SPEC.md. Flip that exact §T row `.` → `~` in SPEC.md.
+2. **Verification contract first:** from the phase's `§T` cites and SPEC
+   section, name the
    exact tests that will prove each new or changed §V — which test file, which
    case. New invariant without a named test = lie. Write failing tests first
    where the phase logic is pure.

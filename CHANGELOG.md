@@ -20,6 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   through `/spec bug:` before retrying.
 - `spec`, `caveman-encode`, and `caveman-help` now treat `cook` as the planning
   front door and `PLAN.md` / `HANDOFF.md` as caveman-encoded short-term files.
+- `cook` phases now bind one-to-one to `§T` rows; research requires sourced
+  findings or explicit unknowns; final verification records per-item status and
+  evidence in `HANDOFF.md`.
+- `workonplan` now rejects phases missing a matching SPEC task.
 - Documentation now matches the current engine floor: Node 20+.
 
 ### Removed

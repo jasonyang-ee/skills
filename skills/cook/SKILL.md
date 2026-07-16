@@ -40,7 +40,8 @@ Every `cook` run must produce all of these:
 2. `HANDOFF.md` at repo root, in caveman encoding, written via the `handoff`
    skill after the plan exists.
 3. A handoff block for the `spec` skill so durable goal / constraint / research /
-   invariant / task changes land in `SPEC.md`.
+   invariant / task changes land in `SPEC.md`; every PLAN phase gets one matching
+   `§T` row.
 
 `PLAN.md` and `HANDOFF.md` are short-lived execution state. `SPEC.md` is the
 durable memory.
@@ -75,7 +76,9 @@ The first plan phase is always research, even if short. If there is no external
 question, use the phase to confirm local code patterns, APIs, and tests that the
 later phases must honor. Research is allowed to refine the rest of the plan;
 when it changes reality, update the later phases instead of pretending the first
-draft was right.
+draft was right. External findings require a source; unresolved items stay `?`.
+Write sourced findings into `§R` through `spec` before handing off to
+`workonplan`.
 
 ### 3. Hand durable facts to `spec`
 
@@ -88,6 +91,7 @@ invokes `spec` with the sections that need durable updates:
 - `§R` sourced research rows
 - `§V` proposed invariants
 - `§T` ordered implementation tasks
+- one `§T` row per PLAN phase, referenced by phase `task:` field
 
 Do not write `SPEC.md` directly from `cook`.
 
@@ -132,6 +136,7 @@ Each phase section must name:
 - verification contract;
 - exit criteria;
 - next phase pointer.
+- one existing `§T` task id via `task: T<n>`; no duplicate phase/task mapping.
 
 A cold agent should be able to start `F1` or resume later phases with
 `/workonplan` and no extra chat context.
@@ -164,6 +169,7 @@ F2|implement approved work|F1|target tests green
 F3|final verify code vs spec & plan|F2|full suite green, drift resolved
 
 ## F1 research
+task: T<n>
 goal: <one line>
 inputs: <paths, questions, sources>
 steps:
@@ -174,9 +180,11 @@ exit: <state>
 next: F2
 
 ## F2 implement
+task: T<n>
 ...
 
 ## F3 final verify
+task: T<n>
 ...
 ```
 
@@ -188,8 +196,10 @@ The last phase replaces the old `check` rhythm. It must, at minimum:
 
 - re-read the relevant `SPEC.md` sections and touched `PLAN.md` phases;
 - run the agreed verification commands;
-- confirm completed work still matches stated interfaces and invariants;
-- name any drift explicitly and decide whether code or spec changes.
+- classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or
+  `UNVERIFIABLE`, with file/test evidence;
+- name any drift explicitly and decide whether code or spec changes;
+- record the result table in `HANDOFF.md` before closing the phase.
 
 If the final phase cannot prove the work, the plan is not finished.
 
