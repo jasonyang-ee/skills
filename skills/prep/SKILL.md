@@ -2,11 +2,12 @@
 name: prep
 description: |
   Bootstrap repository guidance for the six-step workflow. Creates or safely
-  completes AGENTS.md with user-editable commands, caveman symbols, and an end
-  checklist; creates CLAUDE.md containing @AGENTS.md when absent; and asks spec
-  to create minimal CHANGELOG.md and SPEC.md files when absent. Never overwrites
-  existing user guidance or durable project state. Triggers for prep, bootstrap
-  agent instructions, or preparing a repository for cook.
+  completes AGENTS.md with lifecycle commands, pre-filled caveman symbols, and
+  an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
+  asks spec to create minimal CHANGELOG.md and SPEC.md files when absent.
+  Never overwrites existing user guidance or durable project state. Triggers
+  on /prep, "bootstrap this repo", "set up workflow files", "prepare a new
+  project for cook", or "initialize agent guidance".
 license: MIT
 ---
 
@@ -37,12 +38,13 @@ workflow; do not add them as extra lifecycle steps.
 
 ## Preflight
 
-1. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
+1. Load `caveman-encode` — `AGENTS.md` is caveman-encoded with the symbol set.
+2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
    full when present.
-2. If `AGENTS.md` is absent, create it from the template below. If present,
+3. If `AGENTS.md` is absent, create it from the template below. If present,
    preserve all user content and add only missing sections or clearly marked
    placeholders. Never replace project-specific instructions silently.
-3. If `CLAUDE.md` is absent, create it with exactly:
+4. If `CLAUDE.md` is absent, create it with exactly:
 
    ```md
    @AGENTS.md
@@ -50,8 +52,8 @@ workflow; do not add them as extra lifecycle steps.
 
    If it exists, preserve it; report if it does not import `@AGENTS.md` instead
    of overwriting it.
-4. If `CHANGELOG.md` is absent, create the minimal structure below.
-5. If `SPEC.md` is absent, invoke `spec` in NEW mode to create its baked-header
+5. If `CHANGELOG.md` is absent, create the minimal structure below.
+6. If `SPEC.md` is absent, invoke `spec` in NEW mode to create its baked-header
    minimal structure. `prep` never writes `SPEC.md` directly.
 
 ## AGENTS.md required sections
@@ -78,7 +80,24 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding
 
 ## Caveman symbols
-<user fills symbols or keeps repository legend>
+
+Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
+numbers, regex, errors verbatim.
+
+- `→` leads to | becomes | triggers
+- `∴` therefore | consequence
+- `∀` every | for all
+- `∃` some | exists
+- `!` must | required
+- `?` unknown | optional
+- `⊥` never | forbidden | absent
+- `≠` differs | `∈` member of | `∉` not member of
+- `≤` at most | `≥` at least | `&` and | `|` or
+- `§` section reference, e.g. `§V.3`
+
+Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
+`caveman` prose drops symbols; `caveman-encode` requires them for `SPEC.md`,
+`PLAN.md`, and `HANDOFF.md`.
 
 ## Rules
 <user fills project constraints and safety rules>
