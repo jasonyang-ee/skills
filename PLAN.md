@@ -14,6 +14,7 @@ goal: remediate README workflow BLOCK + expand 9 HARDEN items: truth-workflow.md
 - tree dirty by existing `AGENTS.md`, `SPEC.md`, `PLAN.md`, `HANDOFF.md`; preserve all
 - current oracle: `npm.cmd test` → 160/160 green; PowerShell `npm test` wrapper blocked by execution policy
 - review gate: NO-GO (README documents `/spec` → `/workonplan` without required `cook` output)
+- review-plan round 2026-07-16: local research resolved; F1 remains removal candidate after findings land in `§R`
 - 4 existing HARDEN items + 5 new HARDEN items accepted
 - truth-workflow.md: 1 line informal prose, no structure
 - README step 2: `write every PLAN.md and HANDOFF.md update with caveman-encode` → implies user action
@@ -33,8 +34,8 @@ F1|research — confirm all target lines, preconditions, and test patterns|-|all
 F2|remediate workflow/docs BLOCK + V51,V52,V55-V60 tests|F1|README/docs contracts + tests pass
 F3|skill/test fixes: prep template + V53/V54 tests|F1|V53 V54 tests pass
 F4|final verify: npm test green; §V51-V60 HOLD|F2,F3|160/160+ pass, drift resolved
-F5|rename review-implementation → review-code; update ∀ refs|F4|review-code ∃; refs updated; tests green
-F6|add dispatchplan skill + roster updates|F4|dispatchplan ∃; roster aligned; tests green
+F5|rename review-implementation → review-code; update ∀ live refs|F4|review-code ∃; live refs updated; historical `§T` labels preserved; tests green
+F6|add dispatchplan skill + roster updates|F4|dispatchplan ∃; roster aligned; five dispatch contracts + CLI discovery green
 F7|final verify F5/F6: §V61-V66 HOLD|F5,F6|tests green; drift resolved
 
 ## F1 research
@@ -51,9 +52,11 @@ steps:
 7. read `tests/repo-hygiene.test.mjs` existing README/cook suites — note pattern for new tests
 8. confirm `skills/cook/SKILL.md` ∋ "incomplete phases" text (assert target exists)
 9. draft V51-V60 test assertions; verify against existing describe/it patterns
-verify: all 10 invariant targets + 1 BLOCK confirmed; no ambiguity about fix direction
+verify: all 10 invariant targets + 1 BLOCK confirmed; no ambiguity about fix direction; findings recorded in `§R` R16-R18
 exit: file paths, preconditions, evidence, and test patterns documented
 next: F2
+
+review-plan note: F1 research resolved in this review; removal candidate on next `/cook` cycle. If retained for traceability, F1 only records R16-R18 and does not introduce new unknowns.
 
 ## F2 doc fixes
 task: T57
@@ -69,7 +72,7 @@ steps:
 6. preserve corrected §I oracle wording from cook/spec handoff → automated test result ≠ proof of release/manual invariants
 7. add V51,V52,V55,V56,V57,V58,V59,V60 assertions in repo-hygiene tests
 8. run `npm test` → confirm new tests pass w/ 0 regressions
-verify: `npm test` green; README/docs contracts + V51,V52,V55-V60 tests exist and pass
+verify: `npm test` green; exact cases `truth-workflow names`, `README Encode discipline`, `README small-task path`, `CONTRIBUTING embedded format`, `README caveman modes`, `README layout roster`, `README encoder loaders`, and `SPEC oracle wording` pass
 exit: workflow/docs BLOCK fixed; all F2 tests green
 next: F3
 
@@ -83,7 +86,7 @@ steps:
 2. add V53 test in "prep bootstraps the six-step workflow safely" suite: assert prep ∋ `/caveman-commit`
 3. add V54 test in "cook stays the planning front door" suite: assert cook ∋ "incomplete phases"
 4. run `npm test` → confirm new tests + no regressions
-verify: `npm test` green; V53 V54 tests exist and pass
+verify: `npm test` green; exact cases `prep support roster` and `cook incomplete-phase contract` pass
 exit: 1 skill edit + 2 tests committed
 next: F4
 
@@ -116,9 +119,9 @@ next: /garnish
 
 ## F5 rename
 task: T60
-goal: rename skill `review-implementation` → `review-code`; update ∀ refs
+goal: rename skill `review-implementation` → `review-code`; update ∀ live refs; preserve historical `§T` labels
 inputs: SPEC.md §V61; skills/review-implementation/SKILL.md; AGENTS.md; README.md; skills/garnish/SKILL.md; skills/prep/SKILL.md; NOTICE.md; truth-workflow.md; tests/repo-hygiene.test.mjs
-files: skills/review-implementation/ → skills/review-code/, skills/garnish/SKILL.md, skills/prep/SKILL.md, AGENTS.md, README.md, NOTICE.md, truth-workflow.md, tests/repo-hygiene.test.mjs, CHANGELOG.md
+files: skills/review-implementation/ → skills/review-code/, SPEC.md, skills/garnish/SKILL.md, skills/prep/SKILL.md, AGENTS.md, README.md, NOTICE.md, truth-workflow.md, tests/repo-hygiene.test.mjs, CHANGELOG.md
 steps:
 1. `git mv skills/review-implementation skills/review-code`
 2. edit `skills/review-code/SKILL.md` frontmatter `name:` → `review-code`; ⊥ change body
@@ -128,28 +131,28 @@ steps:
 6. update `README.md`: table link, table row, all cmd refs; ⊥ change step name "Review the implementation"
 7. update `NOTICE.md` original-work roster line: `review-implementation` → `review-code`
 8. update `truth-workflow.md`: `review-implementation` → `review-code`
-9. update `tests/repo-hygiene.test.mjs`: commandOrder[5] → `/review-code`; readFileSync path → `review-code`; garnish assertion → `/review-code`
-10. flip §T T60 `.` → `x` via spec
+9. update `tests/repo-hygiene.test.mjs`: commandOrder[5] → `/review-code`; readFileSync path → `review-code`; garnish assertion → `/review-code`; add named case for live-reference allowlist (historical `§T` labels permitted)
+10. amend `§V61`/`§T T60` via spec to define live-reference scope; preserve historical `§T` labels
 11. update CHANGELOG.md `## [Unreleased]`
 12. run `npm test`; record result
-verify: `npm test` green; `skills/review-implementation/` ⊥ ∃; ∀ non-CHANGELOG `review-implementation` refs eliminated
+verify: `npm test` green; exact case `review-code rename and live refs` passes; `skills/review-implementation/` ⊥ ∃; no live non-CHANGELOG refs remain; historical `§T` labels are explicitly allowed
 exit: rename committed
 next: F6
 
 ## F6 dispatchplan
 task: T61
-goal: create `skills/dispatchplan/SKILL.md`; update README/AGENTS roster 12→13
+goal: create `skills/dispatchplan/SKILL.md`; update README/AGENTS roster 12→13; define safe sub-agent handoff/review lifecycle
 inputs: SPEC.md §V62-V66; skills/workonplan/SKILL.md (structure pattern); AGENTS.md (sub-agents: sonnet-implementer, Explore); tests/repo-hygiene.test.mjs (test pattern)
-files: skills/dispatchplan/SKILL.md (new), README.md, AGENTS.md, tests/repo-hygiene.test.mjs, CHANGELOG.md
+files: skills/dispatchplan/SKILL.md (new), SPEC.md, README.md, AGENTS.md, tests/repo-hygiene.test.mjs, CHANGELOG.md
 steps:
-1. create `skills/dispatchplan/SKILL.md`: frontmatter name=dispatchplan, description ≤1024 chars (∋ "sub-agent", "dispatch", "parallel"), license: MIT; body ≤500 lines covering: dispatcher vs sole-agent role; load section; sub-agent selection by complexity; per-phase dispatch loop (create HANDOFF-<phase-id>.md → dispatch sub-agent → wait for garnish completion signal → run /review-code); main HANDOFF.md refresh protocol; stop conditions; end-of-session baton
+1. create `skills/dispatchplan/SKILL.md`: frontmatter name=dispatchplan, description ≤1024 chars (∋ "sub-agent", "dispatch", "parallel"), license: MIT; body ≤500 lines covering: dispatcher vs sole-agent role; load section; safe dispatch matrix by phase/task complexity; no concurrent shared-file edits; per-assignment loop (create unique `HANDOFF-<phase-id>-<agent-id>.md` → write scope/files/tests/stop conditions → dispatch selected sub-agent → require sub-agent to run `garnish` against assigned handoff and mark completion → main agent reads result → invoke `/review-code` before accepting result); refresh main `HANDOFF.md` before dispatch, after completion, after review, and before stop; stop conditions; end-of-session baton
 2. update `README.md`: add dispatchplan row to skill table; note as parallel alternative to workonplan
 3. update `AGENTS.md`: count 12→13; add `dispatchplan` to own-skills list; add to Commands section
-4. add test in `tests/repo-hygiene.test.mjs`: assert dispatchplan ∋ "sub-agent" & "HANDOFF-" & "review-code" & "garnish"
+4. add five named tests in `tests/repo-hygiene.test.mjs`: `dispatchplan front door`, `dispatchplan dedicated handoff`, `dispatchplan complexity selection`, `dispatchplan garnish then review`, and `dispatchplan main baton refresh`; retain real CLI discovery assertion for 13 skills
 5. flip §T T61 `.` → `x` via spec
 6. update CHANGELOG.md `## [Unreleased]`
 7. run `npm test`; confirm cli-discovery picks up dispatchplan
-verify: `npm test` green; §V62-V66 satisfied
+verify: `npm test` green; exact five dispatch cases + CLI discovery pass; §V62-V66 satisfied
 exit: dispatchplan committed; roster 13 skills
 next: F7
 
@@ -161,12 +164,12 @@ files: SPEC.md, PLAN.md, HANDOFF.md, CHANGELOG.md
 steps:
 1. load caveman-encode; re-read §V61-V66
 2. run `npm test` — record exact result
-3. verify V61: `skills/review-code/` ∃; `skills/review-implementation/` ⊥ ∃; ∀ non-CHANGELOG refs → `review-code`
-4. verify V62: dispatchplan ∃; frontmatter valid; description ∋ required phrases
-5. verify V63: dispatchplan ∋ dedicated per-sub-agent handoff file pattern
-6. verify V64: dispatchplan ∋ sub-agent selection by complexity
-7. verify V65: dispatchplan ∋ `/review-code` invocation + sub-agent garnish protocol
-8. verify V66: dispatchplan ∋ frequent main `HANDOFF.md` refresh
+3. verify V61: `skills/review-code/` ∃; `skills/review-implementation/` ⊥ ∃; live non-CHANGELOG refs → `review-code`; historical `§T` labels allowed by named test
+4. verify V62: case `dispatchplan front door` + skill contract + CLI discovery
+5. verify V63: case `dispatchplan dedicated handoff` → unique `HANDOFF-<phase-id>-<agent-id>.md`
+6. verify V64: case `dispatchplan complexity selection` → selection matrix + shared-file safety
+7. verify V65: case `dispatchplan garnish then review` → assigned handoff garnish completion before `/review-code`
+8. verify V66: case `dispatchplan main baton refresh` → refresh before/after assignment and before stop
 9. sweep F5/F6 for logic, complexity, reuse, coherence; cite findings
 10. classify each §V61-V66 HOLD/VIOLATE/UNVERIFIABLE with evidence
 11. record final verification table in HANDOFF.md
