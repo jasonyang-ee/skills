@@ -219,7 +219,7 @@ T52|x|test prep contract → ordered commands, safe-file rules, minimal outputs|
 T53|x|harden `prep` triggers, encode-first preflight, and generated symbol legend|V48,V49
 T54|x|document six core workflow steps and `/prep` separation in README|V50,§G,§I
 T55|x|release `v0.2.0` with matching package and changelog versions|V13
-T56|.|research — confirm exact text targets, test patterns for V51-V60|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
+T56|x|research — confirm exact text targets, test patterns for V51-V60|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
 T57|.|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
 T58|.|fix prep template support line + add V53/V54 tests|V53,V54
 T59|.|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
