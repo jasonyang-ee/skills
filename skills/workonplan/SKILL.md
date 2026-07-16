@@ -95,8 +95,11 @@ without asking questions — not code that was fast to write.
    `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Flip §T →
    `x` only after oracle + named tests pass. At session end, run full suite.
    Follow repo commit conventions. Never push unless repo policy says to.
-7. Report to the user in 3–6 sentences: what shipped, verification evidence,
-   any deviation. Then continue to the next phase.
+7. Invoke `handoff` immediately after every phase commit. It must refresh
+   `HANDOFF.md` with exact phase result, test/oracle state, stop point, and next
+   executable step, then commit the baton before any next phase or report.
+8. Report to the user in 3–6 sentences: what shipped, verification evidence,
+   baton commit, and any deviation. Then continue to the next phase.
 
 ## STOP CONDITIONS (stop the loop, don't push through)
 
@@ -110,8 +113,8 @@ without asking questions — not code that was fast to write.
 
 ## END OF SESSION (always, no exceptions)
 
-Invoke the **handoff** skill. A session that ends without a fresh HANDOFF.md is
-a failed session, even if every phase passed.
+Invoke the **handoff** skill again at session end. A session that ends without a
+fresh HANDOFF.md is a failed session, even if every phase passed.
 
 ## NON-GOALS
 

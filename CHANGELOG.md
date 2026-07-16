@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `workonplan` now refreshes and commits `HANDOFF.md` after every phase, not
+  only at session end.
+- `garnish` now routes durable cleanup decisions through `spec` before purging
+  short-term files and points the lifecycle to `review-implementation`.
+
 - `cook` now defaults to **expanding** an existing `PLAN.md` when incomplete
   phases remain, rather than always replacing it. A fresh start requires an
   explicit user request or a fully-complete prior plan.

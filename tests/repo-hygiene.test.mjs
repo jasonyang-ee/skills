@@ -130,6 +130,7 @@ describe('review and garnish workflow stays coherent', () => {
   const reviewPlan = readFileSync(join(SKILLS_DIR, 'review-plan', 'SKILL.md'), 'utf8');
   const implementation = readFileSync(join(SKILLS_DIR, 'review-implementation', 'SKILL.md'), 'utf8');
   const garnish = readFileSync(join(SKILLS_DIR, 'garnish', 'SKILL.md'), 'utf8');
+  const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
 
   it('renames the plan reviewer and preserves the explicit gate', () => {
     assert.match(reviewPlan, /^name: review-plan/m);
@@ -160,6 +161,14 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(garnish, /no unrelated changes/);
     assert.match(garnish, /Remove exactly `PLAN\.md` and `HANDOFF\.md`/);
     assert.match(garnish, /Never purge `SPEC\.md`/);
+    assert.match(garnish, /Invoke `spec` to update/);
+    assert.match(garnish, /review-implementation/);
+  });
+
+  it('refreshes the baton after every completed phase', () => {
+    assert.match(workonplan, /after every phase commit/);
+    assert.match(workonplan, /refresh\s+`HANDOFF\.md`/);
+    assert.match(workonplan, /commit the baton/);
   });
 });
 

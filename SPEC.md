@@ -42,6 +42,8 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
 - roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
 - cmd: `/review-plan` → research gate (resolve `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative — each run can reduce research phases to zero; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
+- phase close: `workonplan` → `handoff` refresh + commit after every phase; session end → final refresh
+- garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-implementation`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
 - file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
 - file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
@@ -114,6 +116,8 @@ V36: `skills/review-plan/SKILL.md` reads `PLAN.md` & `SPEC.md`; research gate re
 V37: `review-implementation` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
 V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final verification `HOLD`, no unrelated uncommitted files; preserve `SPEC.md`
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
+V40: `workonplan` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
+V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-implementation`
 
 ## §T TASKS
 
@@ -163,6 +167,9 @@ T42|x|rename `review` → `review-plan`; update triggers, docs, NOTICE, tests|V3
 T43|x|add `review-implementation` → baseline code sweep, evidence gate, `cook` handoff|V37,V39
 T44|x|add `garnish` → verify completed plan, purge short-term files, preserve durable state|V38,V39
 T45|x|test new roster, review contracts, garnish safety contract|V36,V37,V38,V39
+T46|x|refine `workonplan` → invoke/commit `handoff` after every phase|V35,V40
+T47|x|refine `garnish` → spec cleanup handoff, guarded purge, review-implementation next|V38,V41
+T48|x|test per-phase baton + garnish durable close contract|V40,V41
 
 ## §B BUGS
 

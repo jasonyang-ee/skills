@@ -26,9 +26,9 @@ Stop and report the blocker if any condition fails:
    `UNVERIFIABLE` result; all checked items are `HOLD` with evidence.
 4. The recorded oracle and full-suite command pass now. Record exact command
    and result before cleanup.
-5. `git status` contains no unrelated changes. Only `PLAN.md` and
-   `HANDOFF.md` may be candidates for removal; never delete or reset anything
-   else.
+5. Before the `spec` handoff, `git status` contains no unrelated changes. After
+   it, only the expected `SPEC.md` update plus `PLAN.md`/`HANDOFF.md` removal
+   may remain; never delete or reset anything else.
 
 ## Procedure
 
@@ -36,14 +36,20 @@ Stop and report the blocker if any condition fails:
    complete. If a task is not complete, return to `workonplan`.
 2. Read the entire final verification table and handoff next pointer. If it
    points to unfinished work, stop.
-3. Run the recorded oracle and full suite; if either fails, classify via
+3. Prepare a durable cleanup handoff for `spec`: accepted final decisions,
+   resolved research, new bugs/invariants, interface changes, and completed
+   task state. Invoke `spec` to update only durable `SPEC.md` sections; never
+   write `SPEC.md` directly from `garnish`. Review/accept the spec diff before
+   cleanup.
+4. Run the recorded oracle and full suite; if either fails, classify via
    `spec bug:` or return to `workonplan` before cleanup.
-4. Recheck `git status --short`; confirm only `PLAN.md` and `HANDOFF.md` are
-   removable.
-5. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
+5. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
+   `PLAN.md` and `HANDOFF.md` removal remain.
+6. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
    `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
-6. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
-   diff contains only their deletion.
+7. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
+   diff contains no unrelated deletion. Recommend `/review-implementation` as
+   the final post-cycle review.
 
 ## Output
 
@@ -53,13 +59,15 @@ plan: <removed | blocked: reason>
 handoff: <removed | blocked: reason>
 tests: <command> → <green | exact failures>
 durable state: SPEC.md preserved
-next: `/cook` for a new work cycle
+spec: <updated | no durable changes>
+next: `/review-implementation`
 ```
 
 ## Boundaries
 
 - Never purge `SPEC.md`.
 - Never delete files when unrelated changes are present.
-- Never mark a phase complete or alter `§T` status.
-- Never invoke `cook` automatically; the repository is clean and ready for the
-  user’s next request.
+- Never mark a phase complete or mutate `SPEC.md` directly; route durable
+  changes through `spec`.
+- Never invoke `cook` automatically; review implementation first, then let it
+  trigger the next cook cycle.
