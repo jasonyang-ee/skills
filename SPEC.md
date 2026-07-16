@@ -45,7 +45,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
 - roster: own → `handoff`, `workonplan`, `review-code`, `garnish`, `prep`, `dispatchplan`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
 - command graph: `/prep` (bootstrap) → `/cook` → [`/review-plan`]* → `/workonplan`|`/dispatchplan` (phases + `handoff` per phase) → `/garnish` → [`/review-code` → `/cook`]*
-- cmd: `/dispatchplan` → parallel multi-phase execution via sub-agents; creates `HANDOFF-<phase-id>.md` per sub-agent; selects sub-agent by complexity; invokes `/review-code` after each sub-agent completes; updates main `HANDOFF.md` frequently
+- cmd: `/dispatchplan` → parallel multi-phase execution via sub-agents; creates `HANDOFF-<phase-id>.md` per assignment; selects sub-agent by phase complexity (capability terms, ⊥ harness-specific names); sub-agent → `## completion` block → main agent phase-scoped acceptance review → purge assignment file; main `HANDOFF.md` refresh ∀ dispatch/completion/acceptance/stop; `/review-code` ⊥ mid-dispatch (stays step 6)
 - cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
 - workflow: `truth-workflow.md` → canonical six-step narrative; `cook` → `caveman-encode` → `review-plan` → `workonplan`|`dispatchplan` → `garnish` → `review-code` → next `cook`
 - cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-code` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
@@ -84,6 +84,11 @@ R15|MIT ! "above copyright notice and this permission notice shall be included i
 R16|current shipped roster = 12 dirs under `skills/`; adding `dispatchplan` → 13|`Get-ChildItem skills -Directory` @ review-plan 2026-07-16
 R17|`workonplan` requires root `HANDOFF.md` → `PLAN.md` → `SPEC.md`, baseline test, exact phase verification contract, phase commit, then `handoff`; `/spec` alone cannot satisfy execution precondition|`skills/workonplan/SKILL.md:24-62` @ review-plan 2026-07-16
 R18|existing repo hygiene tests use named `node:test` cases + `assert.match`; CLI discovery already derives roster through `loadSkills()`|`tests/repo-hygiene.test.mjs:43-267`, `tests/helpers.mjs` @ review-plan 2026-07-16
+R19|`garnish` preconditions ! ∀ mapped `§T` == `x` & ⊥ unrelated dirty files; procedure removes exactly root `PLAN.md`+`HANDOFF.md` ∴ per-sub-agent garnish mid-plan → stops @ precondition (completion ⊥ flagged) \| destroys main baton. ⊥ scoped-file concept|`skills/garnish/SKILL.md:22-31,48-49,69` @ review-plan 2026-07-16
+R20|`review-implementation` baseline = latest reachable tag; ! "confirm the plan is complete"; cook handoff mandatory ("Do not skip the `cook` handoff") ∴ per-sub-agent call → re-sweeps full baseline→HEAD ∀ run & `cook` rewrites executing `PLAN.md`|`skills/review-implementation/SKILL.md:21,29,42-43,105-107,118` @ review-plan 2026-07-16
+R21|`AGENTS.md` ⊥ ∋ sub-agent roster; `sonnet-implementer`/`Explore` = harness-supplied ⊥ repo files; `skills add` installs ⊥ agents (§R.12) ∴ named-agent refs in skill body → silent no-op ∀ other harness|`AGENTS.md` full read + §R.12 @ review-plan 2026-07-16
+R22|`tests/attribution.test.mjs:12-20` asserts `NOTICE.md` rows ∀ VENDORED only; `NOTICE.md:92-96` "Original work" own-skill roster ⊥ test-anchored ∴ omission silent|`tests/attribution.test.mjs`, `NOTICE.md` @ review-plan 2026-07-16
+R23|`workonplan` self-review contract = read FULL `git diff`, check plan match, larger-picture coherence, ⊥ debug leftovers/dead code/drive-by, comments state constraints ∴ reusable as dispatcher acceptance review, phase-scoped, ⊥ cook handoff|`skills/workonplan/SKILL.md:84-92` @ review-plan 2026-07-16
 
 ## §V INVARIANTS
 
@@ -149,10 +154,12 @@ V59: `README.md` caveman-encode loader list ! include `review-plan` (writer of `
 V60: `§I` test oracle ! distinguish automated `npm test` checks from release/manual invariants (e.g. V13); ⊥ claim exit 0 proves ∀ §V
 V61: `skills/review-code/SKILL.md` ∃ & `skills/review-implementation/` ⊥ ∃; ∀ live non-CHANGELOG refs → `review-code`; historical `§T` task labels may retain original name as record
 V62: `skills/dispatchplan/SKILL.md` ∃; frontmatter `name: dispatchplan`; description ∋ "sub-agent" & "dispatch" & "parallel"
-V63: `dispatchplan` SKILL.md ! describe dedicated per-sub-agent handoff file (`HANDOFF-<phase-id>.md` or equiv pattern)
-V64: `dispatchplan` SKILL.md ! describe sub-agent selection by phase/task complexity
-V65: `dispatchplan` SKILL.md ! invoke `/review-code` after each sub-agent completes; describe sub-agent garnishing assigned handoff file on completion
-V66: `dispatchplan` SKILL.md ! describe frequent main `HANDOFF.md` refresh (∵ large context in parallel workflow)
+V63: `dispatchplan` SKILL.md ! describe dedicated per-assignment handoff file, exact literal pattern `HANDOFF-<phase-id>.md` @ repo root (1 phase → 1 sub-agent ∴ phase-id sufficient; ⊥ agent-id suffix)
+V64: `dispatchplan` SKILL.md ! describe sub-agent selection by phase/task complexity & ⊥ dispatch concurrent assignments touching same file (shared-file safety)
+V65: `dispatchplan` sub-agent → on finish ! write `## completion` block (status\|evidence\|tests) into assigned `HANDOFF-<phase-id>.md`; main agent ! run phase-scoped acceptance review of sub-agent diff per `workonplan` self-review contract (§R.23) before accept. `garnish` ⊥ per-sub-agent (∵ §R.19); `/review-code` ⊥ mid-dispatch — stays step 6 (∵ §R.20, V47)
+V66: `dispatchplan` SKILL.md ! describe main `HANDOFF.md` refresh @ each of: before dispatch, after sub-agent completion, after acceptance review, before stop (∵ large context in parallel workflow)
+V67: `dispatchplan` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-implementer`, `Explore`); selection ! expressed in capability/complexity terms (∵ §R.21, §R.12 — `skills add` installs ⊥ agents → silent no-op; §C ⊥ project-specific refs in `skills/**`)
+V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
 
 ## §T TASKS
 
@@ -216,9 +223,9 @@ T56|.|research — confirm exact text targets, test patterns for V51-V60|V51,V52
 T57|.|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
 T58|.|fix prep template support line + add V53/V54 tests|V53,V54
 T59|.|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
-T60|.|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ live refs; preserve historical `§T` labels|V61
-T61|.|add `skills/dispatchplan/SKILL.md` + roster updates (README,AGENTS,tests)|V62,V63,V64,V65,V66,V39
-T62|.|final verify: rename + dispatchplan contracts; §V61-V66 HOLD|V61,V62,V63,V64,V65,V66
+T60|.|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ live refs (incl. README layout tree + NOTICE original-work); preserve historical `§T` labels|V61,V58
+T61|.|add `skills/dispatchplan/SKILL.md` + roster updates (README table+layout tree, AGENTS, NOTICE original-work, truth-workflow, tests)|V62,V63,V64,V65,V66,V67,V68,V39,V58
+T62|.|final verify: rename + dispatchplan contracts; §V61-V68 HOLD + V58/V50 regression|V61,V62,V63,V64,V65,V66,V67,V68,V58,V50
 
 ## §B BUGS
 
