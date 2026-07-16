@@ -20,6 +20,7 @@ const PRIVATE_REFS = [
   /\bV52\b/,
   /money math/i,
 ];
+const RETIRED_SKILLS = ['backprop', 'check', 'deepen', 'grill', 'research'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -59,6 +60,48 @@ describe('skills stay markdown-only', () => {
       );
     });
   }
+});
+
+describe('retired planning skills stay retired', () => {
+  for (const name of RETIRED_SKILLS) {
+    it(`does not ship skills/${name}/`, () => {
+      assert.equal(existsSync(join(SKILLS_DIR, name)), false, `skills/${name}/ should stay removed`);
+    });
+  }
+});
+
+describe('cook stays the planning front door', () => {
+  const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
+
+  it('requires PLAN.md and HANDOFF.md outputs', () => {
+    assert.match(cook, /PLAN\.md/);
+    assert.match(cook, /HANDOFF\.md/);
+  });
+
+  it('starts with research and ends with final verification', () => {
+    assert.match(cook, /first plan phase is always research/i);
+    assert.match(cook, /last phase must be final verification/i);
+  });
+
+  it('hands durable updates to spec and resumes with workonplan', () => {
+    assert.match(cook, /`spec` remains the sole mutator of `SPEC\.md`/);
+    assert.match(cook, /\/workonplan/);
+  });
+});
+
+describe('failure handling routes through spec bug mode', () => {
+  const build = readFileSync(join(SKILLS_DIR, 'build', 'SKILL.md'), 'utf8');
+  const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
+
+  it('build no longer references backprop', () => {
+    assert.doesNotMatch(build, /backprop/i);
+    assert.match(build, /`bug:`/);
+  });
+
+  it('workonplan no longer references backprop', () => {
+    assert.doesNotMatch(workonplan, /backprop/i);
+    assert.match(workonplan, /`bug:`/);
+  });
 });
 
 describe('the spec format needs no FORMAT.md', () => {

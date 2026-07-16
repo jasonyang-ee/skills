@@ -6,8 +6,9 @@ description: |
   `/workonplan F1`), and executes phases end-to-end as the SINGLE main agent
   at principal-engineer quality: quality over speed, codebase consistency over
   easiness, lean low-complexity code. Every phase ends green, self-reviewed,
-  and committed. Composes with the build, backprop, caveman-encode, and handoff
-  skills. Always ends the session by invoking the handoff skill. Triggers:
+  and committed. Composes with the build, spec, caveman-encode, and handoff
+  skills, and expects `cook` to have created `PLAN.md` + `HANDOFF.md` first.
+  Always ends the session by invoking the handoff skill. Triggers:
   "/workonplan", "work on the plan", "continue the plan", "next phase",
   "kick off".
 license: MIT
@@ -45,15 +46,16 @@ without asking questions — not code that was fast to write.
    defines the resume point and outstanding watchouts. If absent, this is a
    fresh start.
 2. `PLAN.md` — header, ground rules, process contract, existing-assets
-   inventory, phase order table, and the FULL section of the target phase.
+   inventory, phase order table, and the FULL section of the target phase. If
+   absent, invoke `cook` first. Stop.
 3. `SPEC.md` — §C, every §V the phase cites, and the phase's §T row. Its baked
    header carries the format; no `FORMAT.md` is needed.
 4. `git status`, current branch, and `git log -3 --oneline`.
 5. Run the project's test command once per session BEFORE the first edit, to
    establish a baseline. Find it in `package.json` scripts, `Makefile`,
    `justfile`, CI config, or CONTRIBUTING — do not invent one. If red at
-   baseline, fixing that (via the backprop skill) becomes the first task —
-   never build on a red base.
+   baseline, log it with `spec` using `bug:` before changing code — never build
+   on a red base.
 
 ## PICK PHASE
 
@@ -72,9 +74,9 @@ without asking questions — not code that was fast to write.
    case. New invariant without a named test = lie. Write failing tests first
    where the phase logic is pure.
 3. Implement per the plan section, honoring OPERATING PRINCIPLES.
-4. Run the tests — the external oracle. Fail → invoke the **backprop** skill
-   (trace → §B row → §V candidate → test → fix). Never retry blindly, never
-   silently patch around a root cause.
+4. Run the tests — the external oracle. Fail → inspect the cause. If it exposes
+   wrong or missing spec memory, invoke `spec` with `bug:` before retrying.
+   Never retry blindly, never silently patch around a root cause.
 5. **Self-review before committing (mandatory):** read the FULL `git diff` and
    check, line by line:
    - matches the plan section (every numbered item done, or explicitly deferred

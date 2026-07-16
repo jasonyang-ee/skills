@@ -5,22 +5,18 @@ import { join } from 'node:path';
 import { REPO_ROOT, loadSkills } from './helpers.mjs';
 
 /**
- * Skills vendored from JuliusBrussee/cavekit and JuliusBrussee/caveman. MIT
- * requires the copyright and permission notice travel with the copies, so a
+ * Skills vendored or derived from JuliusBrussee/cavekit and JuliusBrussee/caveman.
+ * MIT requires the copyright and permission notice travel with the copies, so a
  * README credit alone is not enough — NOTICE.md must name every one of these.
  */
 const VENDORED = [
-  'backprop',
   'build',
   'caveman',
   'caveman-commit',
   'caveman-encode',
   'caveman-help',
   'caveman-review',
-  'check',
-  'deepen',
-  'grill',
-  'research',
+  'cook',
   'review',
   'spec',
 ];

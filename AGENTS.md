@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-15 skills: own (`handoff`, `workonplan`) + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+11 skills: own (`handoff`, `workonplan`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
@@ -17,6 +17,7 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 ## Commands
 
 - `npm test` — full suite. ! green before commit.
+- `/cook` — draft `PLAN.md` + `HANDOFF.md` + spec handoff.
 - `/spec` — sole mutator of `SPEC.md`.
 - `/caveman-commit` — single commit summary.
 
@@ -27,6 +28,7 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
   Denylist enforced → `tests/repo-hygiene.test.mjs`.
 - ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents (→ silent no-op).
+- `cook` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
 - Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice. README credit alone ⊥ compliant. `tests/attribution.test.mjs` enforces.
 - `caveman` (chat) ≠ `caveman-encode` (SPEC.md). Contradict on symbols. ! keep descriptions cross-pointing (§V.18).
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.

@@ -12,15 +12,11 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated accordingly. |
-| `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency. |
-| `skills/build/` | `build` | Yes — reads the baked `SPEC.md` header instead of `FORMAT.md`. |
-| `skills/check/` | `check` | No |
-| `skills/backprop/` | `backprop` | No |
-| `skills/grill/` | `grill` | No |
-| `skills/research/` | `research` | No |
+| `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `cook` / `workonplan` plan files accordingly. |
+| `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency, and the skill now accepts `cook` planning handoff plus `/spec bug:` in place of a standalone backprop skill. |
+| `skills/build/` | `build` | Yes — reads the baked `SPEC.md` header instead of `FORMAT.md`, and routes spec-drift failures through `/spec bug:` rather than a separate backprop skill. |
+| `skills/cook/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
 | `skills/review/` | `review` | No |
-| `skills/deepen/` | `deepen` | No |
 
 The `FORMAT.md` schema embedded in `skills/spec/SKILL.md` is also derived from
 cavekit's `FORMAT.md`.

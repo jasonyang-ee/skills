@@ -2,12 +2,12 @@
 name: build
 description: |
   Plan-then-execute implementation against SPEC.md. Native single-thread
-  loop, no sub-agents. On test or build failure, auto-invokes the backprop
-  skill before retrying — a failed verification always considers whether
-  a new §V invariant would prevent recurrence. Triggers when the user asks
-  to build, implement, execute the spec, or tackle a specific §T task
-  (`build §T.3`, `build --next`, `implement next task`, `run the build`).
-  Expects SPEC.md to exist; if not, defers to the spec skill.
+  loop, no sub-agents. On test or build failure, routes the bug through
+  `spec` using `bug:` before retrying whenever the failure exposes a wrong
+  or missing invariant. Triggers when the user asks to build, implement,
+  execute the spec, or tackle a specific §T task (`build §T.3`,
+  `build --next`, `implement next task`, `run the build`). Expects SPEC.md
+  to exist; if not, defers to the spec skill.
 ---
 
 # build — implement spec
@@ -24,6 +24,9 @@ Single-thread native plan→execute. You are main Claude. No swarm.
    - `§T.n` → that task only
    - `--next` → lowest-numbered row with status `.` or `~`
    - `--all` or empty → every `.` row in §T order
+
+Fuzzy, multi-phase, or cross-session request? Invoke `cook` first so `PLAN.md`
+and `HANDOFF.md` exist. Build assumes the task is already clear in `SPEC.md`.
 
 High blast radius (shared module, auth, data, money, public §I)? Run `/review` first. Trivial & reversible? Skip planning ceremony, just do step EXECUTE.
 
@@ -49,9 +52,10 @@ Per task in order:
 2. Edit code per plan.
 3. Run verification command.
 4. **Pass** → flip `~` → `x`. Next task.
-5. **Fail** → invoke backprop skill. Do NOT retry blindly.
+5. **Fail** → invoke `spec` with `bug:` if the failure exposes spec drift or a
+   missing invariant. Do NOT retry blindly.
 
-## FAIL → BACKPROP
+## FAIL → SPEC BUG
 
 On test/build failure:
 
@@ -60,7 +64,8 @@ On test/build failure:
 3. If (a) → fix code, re-run. No spec change.
 4. If (b) or (c) → invoke spec skill with `bug: <cause>` first, let it update §V and §B, then resume build against updated spec.
 
-Rule: never silently fix root-cause without considering backprop. §B is the memory that stops recurrence.
+Rule: never silently fix root-cause without considering `bug:`. §B is the memory
+that stops recurrence.
 
 ## WRITE POLICY
 

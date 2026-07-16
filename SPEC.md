@@ -14,13 +14,14 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## §G GOAL
 
-Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`) + vendored cavekit/caveman suite.
+Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`) + derived `cook` + vendored cavekit/caveman suite.
 
 ## §C CONSTRAINTS
 
 - Layout `skills/<name>/SKILL.md`. Agent Skills spec + skills CLI flat discovery (§R.1, §R.4).
 - ∀ SKILL.md ! Agent Skills spec compliant. Spec ⊃ skills CLI reqs ∴ spec binds (§R.1, §R.2).
 - Skills = markdown only. ⊥ runtime deps for installing user. ⊥ Python. ⊥ `scripts/` (∵ user ruling 2026-07-15).
+- `cook` ! write caveman `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
 - ⊥ vendor skills needing hooks | subagents (∵ `npx skills add` installs ⊥ either → silent no-op. §R.11, §R.12).
 - License MIT. `LICENSE` @ root. Vendored MIT work → `NOTICE.md` ! reproduce upstream copyright + permission notice (∵ MIT §; README credit alone ⊥ sufficient).
 - Publish = GitHub Release only. npm publish ⊥ (∵ §R.3).
@@ -35,12 +36,14 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 
 ## §I INTERFACES
 
-- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 15 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 15
-- cmd: `npx skills add jasonyang-ee/skills -s spec -a claude-code -g -y` → 1 skill, 1 agent, global, non-interactive
+- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 11 skills → detected agents
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 11
+- cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`. cavekit → `spec`, `build`, `check`, `backprop`, `grill`, `research`, `review`, `deepen`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`
+- roster: own → `handoff`, `workonplan`. derived → `cook`. cavekit → `spec`, `build`, `review`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-review`, `caveman-help`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
+- file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`
+- file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
 - cmd: `npm test` → `node --test` → exit 0 ⟺ ∀ §V pass
 - ci: push | PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 - ci: tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
@@ -88,6 +91,10 @@ V19: ∀ skill → ⊥ `scripts/` dir (∵ §C markdown-only, user ruling)
 V20: `skills/spec/SKILL.md` ! ∋ `## FORMAT` & `## BAKED HEADER` & header template
 V21: ∀ skill → ⊥ require `FORMAT.md`; root ⊥ ∃ `FORMAT.md`
 V22: `.github/dependabot.yml` → ∀ `updates[]` entry ! `open-pull-requests-limit: 0` (∵ §C; re-enable = unwanted public PR)
+V23: retired skill dirs `skills/{backprop,check,deepen,grill,research}/` ⊥ ∃
+V24: `skills/cook/SKILL.md` ! mention `PLAN.md`, `HANDOFF.md`, `spec`, `workonplan`
+V25: `skills/cook/SKILL.md` ! require research 1st phase & final verification last phase
+V26: `skills/build/SKILL.md` & `skills/workonplan/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
 
 ## §T TASKS
 
@@ -121,6 +128,11 @@ T26|x|rm `FORMAT.md` + bake header into own `SPEC.md`|V21
 T27|x|README — full roster table + credits|I.cmd
 T28|x|`git push -u origin main` + tag `v0.1.0` (∵ v0.1.0 ⊥ released yet → fold collection into 1st release). push x @ `ae762ef`; tag `v0.1.0` x @ `892da32` (∵ user ask 2026-07-15). §T.29 dependabot + B4 js-yaml folded → `## [0.1.0]` ∵ ⊥ released ∴ ∀ main ∈ v0.1.0|V13
 T29|x|dependabot `open-pull-requests-limit: 0` ∀ ecosystem; security updates + alerts stay on|V22,C
+T30|x|rm `skills/backprop`, `check`, `deepen`, `grill`, `research` from shipped roster|V23
+T31|x|add composite `skills/cook/SKILL.md` — `PLAN.md` + `HANDOFF.md` + spec handoff|V24,V25,I.file
+T32|x|repoint `build`,`workonplan`,`spec`,`caveman-encode`,`caveman-help` → `cook` + `/spec bug:` flow|V24,V25,V26
+T33|x|update `README.md`,`NOTICE.md`,`AGENTS.md`,`package.json`,`CHANGELOG.md` for 11-skill roster + `cook` provenance|I.cmd,V17
+T34|x|extend tests → retired skills absent + `cook` contract + attribution update|V23,V24,V25,V26,V17
 
 ## §B BUGS
 

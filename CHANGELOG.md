@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `cook` — a composite planning skill that turns a user request into a
+  caveman-encoded `PLAN.md` and `HANDOFF.md`, hands durable facts to `spec`,
+  starts with research, and ends with final verification for `workonplan`.
+
+### Changed
+
+- `build` and `workonplan` no longer point at a standalone `backprop` skill.
+  When a failure exposes wrong or missing spec memory, they now route the issue
+  through `/spec bug:` before retrying.
+- `spec`, `caveman-encode`, and `caveman-help` now treat `cook` as the planning
+  front door and `PLAN.md` / `HANDOFF.md` as caveman-encoded short-term files.
+- Documentation now matches the current engine floor: Node 20+.
+
+### Removed
+
+- Retired `backprop`, `check`, `deepen`, `grill`, and `research` from the
+  shipped skill roster. `cook` now covers the planning and verification
+  surfaces they previously handled.
+
 ## [0.1.0] - 2026-07-15
 
 First release: a central collection of 15 skills.

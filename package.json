@@ -2,7 +2,7 @@
   "name": "@jasonyang-ee/skills",
   "version": "0.1.0",
   "private": true,
-  "description": "Agent skills for multi-phase plan execution: handoff and workonplan",
+  "description": "Agent skills for research-first planning, session handoffs, and spec-driven execution",
   "keywords": [
     "agent-skills",
     "claude-code",

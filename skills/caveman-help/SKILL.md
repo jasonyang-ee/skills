@@ -44,16 +44,13 @@ Mode stick until changed or session end. Off: "stop caveman" / "normal mode".
 
 | Skill | Trigger | What it do |
 |-------|---------|-----------|
-| **grill** | `/grill` | Interrogate fuzzy idea → §G + §C. Kill bad idea before §T exist. |
-| **research** | `/research` | Pull external fact once → §R row + source. ⊥ hallucinate lib behavior. |
+| **cook** | `/cook` | Request → research-first `PLAN.md` + `HANDOFF.md` + spec handoff. Replaces grill/research/check planning loop. |
 | **spec** | `/spec` | Sole mutator of SPEC.md. new / amend / bug: / from-code. Bakes format header. |
 | **review** | `/review` | Adversarial senior review. Try refute spec. Ends go / no-go. |
-| **build** | `/build` | Plan→execute §T tasks. Test fail → auto-backprop. |
-| **check** | `/check` | Read-only drift report. Code vs §V. Writes ⊥. |
-| **backprop** | `/backprop` | Bug → root cause → §B row + §V candidate. The loop that learns. |
-| **deepen** | `/deepen` | Spare-budget design pass. Shrink interfaces, hide decisions. |
+| **build** | `/build` | Plan→execute §T tasks. Failures that reveal spec drift route to `/spec bug:`. |
 
-Order: grill → research → spec → review → build → check. backprop fires on any failure.
+Order: cook → spec → review ? → workonplan / build. Final verification lives in
+the last cook phase; failures that reveal drift route to `/spec bug:`.
 
 ## Session skills
 
@@ -76,7 +73,7 @@ workonplan calls handoff at session end. Always.
 ```bash
 npx skills add jasonyang-ee/skills
 npx skills add jasonyang-ee/skills --list
-npx skills add jasonyang-ee/skills --skill spec --skill build -a claude-code
+npx skills add jasonyang-ee/skills --skill cook --skill workonplan -a claude-code
 ```
 
 ## Not here

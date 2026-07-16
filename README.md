@@ -13,14 +13,14 @@ between sessions.
 npx skills add jasonyang-ee/skills
 ```
 
-That detects your agents and installs all 15 skills. To be more specific:
+That detects your agents and installs all 11 skills. To be more specific:
 
 ```bash
 # Preview what's in here without installing
 npx skills add jasonyang-ee/skills --list
 
-# Just the spec loop
-npx skills add jasonyang-ee/skills --skill spec --skill build --agent claude-code
+# Just the plan-and-execute front door
+npx skills add jasonyang-ee/skills --skill cook --skill workonplan --skill spec --agent claude-code
 
 # Install globally (available in every project), no prompts
 npx skills add jasonyang-ee/skills --global --yes
@@ -35,14 +35,10 @@ only mutator; everything else reads it or feeds it material.
 
 | Skill | What it does |
 | --- | --- |
-| [`grill`](skills/grill/SKILL.md) | Interrogates a fuzzy idea one question at a time until it's a goal and constraints. The cheapest place to kill a bad idea is before tasks exist. |
-| [`research`](skills/research/SKILL.md) | Pulls external facts once and logs them with sources, so the build grounds in reality instead of hallucinated library behavior. |
+| [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
 | [`review`](skills/review/SKILL.md) | Adversarial senior review that tries to *refute* the spec before code exists. Ends in an explicit go/no-go. |
-| [`build`](skills/build/SKILL.md) | Plan-then-execute against the spec. On failure, auto-invokes `backprop`. |
-| [`check`](skills/check/SKILL.md) | Read-only drift report: does the code still match the invariants? |
-| [`backprop`](skills/backprop/SKILL.md) | Bug → root cause → a new invariant that catches recurrence. The loop that learns. |
-| [`deepen`](skills/deepen/SKILL.md) | Optional design pass — shrink interfaces, hide decisions, behavior held constant. |
+| [`build`](skills/build/SKILL.md) | Plan-then-execute against the spec. If a failure reveals wrong or missing spec memory, it routes the issue through `/spec bug:` before retrying. |
 
 ### Session continuity
 
@@ -59,7 +55,7 @@ starts by reading it. The plan holds the intent; the handoff holds the state.
 | Skill | What it does |
 | --- | --- |
 | [`caveman`](skills/caveman/SKILL.md) | Ultra-compressed replies for ordinary chat. Intensity levels: lite, full, ultra, and wenyan (classical Chinese). |
-| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md` is written in. Loaded by `/spec`, `/build`, `/check`, `/handoff`. |
+| [`caveman-encode`](skills/caveman-encode/SKILL.md) | The encoding `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/spec`, `/build`, `/cook`, `/handoff`, and `/workonplan`. |
 | [`caveman-commit`](skills/caveman-commit/SKILL.md) | Terse Conventional Commits messages. Subject ≤50 chars. |
 | [`caveman-review`](skills/caveman-review/SKILL.md) | Terse PR review. One line per finding: location, problem, fix. |
 | [`caveman-help`](skills/caveman-help/SKILL.md) | Reference card for everything above. |
@@ -82,7 +78,7 @@ carry per project.
 
 Works with [Claude Code](https://code.claude.com/docs/en/skills), Cursor,
 Codex, OpenCode, and [70+ other agents](https://github.com/fforres/skills#supported-agents).
-Requires Node 18 or newer.
+Requires Node 20 or newer.
 
 ## Use
 
@@ -90,26 +86,28 @@ Invoke any skill directly, or just describe the task and your agent loads the
 matching one on its own.
 
 ```
-/grill               # stress-test an idea before speccing it
+/cook                # draft PLAN.md + HANDOFF.md, research first
 /spec                # write or amend SPEC.md
 /build --next        # implement the next open task
-/check               # has the code drifted from the spec?
 /workonplan F1       # run a specific plan phase
 /handoff             # write the session baton now
 /caveman-help        # what am I working with again?
 ```
 
-A typical run: `/grill` → `/research` → `/spec` → `/review` → `/build` →
-`/check`, with `/backprop` firing whenever something fails.
+A typical multi-session run: `/cook` → `/review` (if high blast radius) →
+`/workonplan` until the final verification phase closes the loop. For a small,
+already-clear spec task, go straight to `/spec` → `/build --next`.
 
 ### What they expect
 
 These files at your repo root, if they exist. None are required, but the skills
 are most useful when they are:
 
-- `SPEC.md` — goal, constraints, invariants (§V), task table (§T). Written by `/spec`.
-- `PLAN.md` — phases, each with a verification contract. For `/workonplan`.
-- `HANDOFF.md` — written by `/handoff`; the resume pointer.
+- `SPEC.md` — goal, constraints, invariants (§V), task table (§T). Written by
+  `/spec`, typically fed by `/cook`.
+- `PLAN.md` — phases, each with a verification contract. Drafted by `/cook`,
+  executed by `/workonplan`.
+- `HANDOFF.md` — drafted by `/cook`, refreshed by `/handoff`; the resume pointer.
 
 No skill assumes a language, framework, or directory layout. `workonplan` finds
 your test command from `package.json`, `Makefile`, `justfile`, or CI config
@@ -119,11 +117,10 @@ rather than hardcoding one.
 
 ```
 skills/
-├── backprop/         grill/            research/
-├── build/            handoff/          review/
-├── caveman/          caveman-commit/   spec/
-├── caveman-encode/   caveman-help/     workonplan/
-├── caveman-review/   check/            deepen/
+├── build/            caveman/          caveman-review/
+├── cook/             caveman-commit/   handoff/
+├── caveman-encode/   caveman-help/     review/
+├── spec/             workonplan/
 ```
 
 Each skill is a directory with a `SKILL.md`, per the
@@ -139,7 +136,7 @@ npm test
 
 The suite checks three things:
 
-1. **Contract** — both skills satisfy the Agent Skills spec: name matches its
+1. **Contract** — every skill satisfies the Agent Skills spec: name matches its
    directory, name and description are present and within the 64/1024 character
    limits, bodies stay under 500 lines.
 2. **Hygiene** — an MIT `LICENSE` exists, `CHANGELOG.md` keeps an `Unreleased`
@@ -173,17 +170,18 @@ instead of shipping empty notes.
 Most of this collection is the work of **[Julius Brussee](https://github.com/JuliusBrussee)**,
 vendored under MIT and gratefully used:
 
-- **[cavekit](https://github.com/JuliusBrussee/cavekit)** — the spec-driven loop:
-  `spec`, `build`, `check`, `backprop`, `grill`, `research`, `review`, `deepen`,
-  and the encoding that ships here as `caveman-encode`. The `SPEC.md` schema is
-  his design.
+- **[cavekit](https://github.com/JuliusBrussee/cavekit)** — `spec`, `build`,
+  `review`, and the encoding that ships here as `caveman-encode`, plus the
+  upstream planning trio (`grill`, `research`, `check`) that was recomposed here
+  into `cook`. The `SPEC.md` schema is his design.
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
   `caveman-commit`, `caveman-review`, and the shape of `caveman-help`.
 
-Only `handoff` and `workonplan` are original here. Where skills were modified —
-the `caveman-encode` rename, the embedded format in `spec` — it's recorded
-per-skill in [NOTICE.md](NOTICE.md), along with the upstream copyright and
-permission notices that MIT requires travel with the copies.
+Only `handoff` and `workonplan` are fully original here. `cook` is a composite
+skill derived from cavekit's planning flow. Where skills were modified — the
+`caveman-encode` rename, the embedded format in `spec`, the `cook` composite —
+it's recorded per-skill in [NOTICE.md](NOTICE.md), along with the upstream
+copyright and permission notices that MIT requires travel with the copies.
 
 Three upstream skills are deliberately **not** vendored, because they can't work
 when installed this way. Get them from Julius's repos directly:

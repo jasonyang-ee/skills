@@ -1,14 +1,14 @@
 ---
 name: spec
 description: |
-  Create, amend, or backprop bugs into SPEC.md at repo root. Sole mutator of the
+  Create, amend, or log bugs into SPEC.md at repo root. Sole mutator of the
   project spec. Self-contained: the SPEC format is embedded in this skill, and
   every SPEC.md it writes opens with a baked format header — no per-project
   FORMAT.md file is needed. Triggers when the user asks to write a spec, start a
   new spec, distill a spec from existing code, add invariants, amend sections
-  (§G, §C, §I, §R, §V, §T, §B), or record a bug via backprop. Common phrasings:
-  "write the spec for...", "new spec", "bug: ...", "amend §V.3", "distill spec
-  from code", "spec this idea".
+  (§G, §C, §I, §R, §V, §T, §B), hand off durable planning material from cook, or
+  record a bug via `bug:`. Common phrasings: "write the spec for...", "new
+  spec", "bug: ...", "amend §V.3", "distill spec from code", "spec this idea".
 license: MIT
 ---
 
@@ -33,7 +33,7 @@ Inspect user request and project state:
 
 1. No `SPEC.md` at repo root AND args describe idea → **NEW**
 2. No `SPEC.md` AND `from-code` in args → **DISTILL**
-3. `SPEC.md` exists AND args start `bug:` → **BACKPROP**
+3. `SPEC.md` exists AND args start `bug:` → **BUG**
 4. `SPEC.md` exists AND args start `amend` → **AMEND**
 5. `SPEC.md` exists, no args → ask user which mode
 
@@ -45,23 +45,21 @@ it in the same write.
 The other verbs produce material; spec writes it. Ingest their handoff blocks
 into the right section, show a diff, write on OK:
 
-- **grill** → sharpened §G + §C
-- **research** → §R rows (add the §R section if absent)
+- **cook** → drafted §G/§C/§I, sourced §R rows, proposed §V/§T plan
 - **review** → drafted §V lines + the risk verdict
-- **deepen** → §I/§V/§T amendments
 
 ⊥ rewrite a section the handoff did not name. Sectioned ownership.
 
 ## NEW — idea → spec
 
-Input: user idea. If it arrived fuzzy, prefer running **grill** first.
+Input: user idea. If it arrived fuzzy, prefer running **cook** first.
 
 Steps:
 1. Emit baked header (§BAKED HEADER) verbatim as first bytes of file.
 2. Extract goal (1 line, caveman). → §G.
 3. List constraints user stated or implied. → §C.
 4. List external surfaces user named. → §I.
-5. §R only if **research** ran — else omit the section (right-size).
+5. §R only if **cook** research ran — else omit the section (right-size).
 6. Propose initial invariants. → §V (numbered V1…).
 7. Break goal into ordered tasks. → §T pipe table, all status `.`, ids T1…
 8. §B section with header row only (`id|date|cause|fix`).
@@ -74,7 +72,7 @@ Walk repo. Produce §G (infer from README/package.json/main entry), §C (infer f
 
 Caveman everywhere. Flag uncertain items with `?` in text so user can confirm.
 
-## BACKPROP — bug → §B + §V
+## BUG — bug → §B + §V
 
 Input: `bug: <description>`.
 
@@ -123,7 +121,7 @@ external surface. what world sees.
 - env: `FOO_KEY` required
 
 ## §R RESEARCH
-optional. only if /research ran. pipe table. each row ! cite source.
+optional. only if /cook research ran. pipe table. each row ! cite source.
 id|claim|source
 R1|lib X rate-limits @ 100 rps|https://docs.x/limits
 
@@ -141,7 +139,7 @@ T2|.|impl §I.api POST /x|V2
 T3|x|add §V.1 middleware|V1,I.api
 
 ## §B BUGS
-pipe table. backprop log. each row = bug + invariant that catches recurrence.
+pipe table. bug log. each row = bug + invariant that catches recurrence.
 id|date|cause|fix
 B1|2026-04-20|token `<` not `≤`|V2
 B2|2026-04-21|race on write|V3
@@ -219,7 +217,6 @@ If SPEC.md > 500 lines, compact §B (old bugs drop oldest) before splitting.
 | `/spec amend` | edits | chosen |
 | `/spec bug` | appends | §B + §V |
 | `/build` | flips | §T status cell `.` → `~` → `x` |
-| `/check` | — | read only |
 
 ## BAKED HEADER
 
