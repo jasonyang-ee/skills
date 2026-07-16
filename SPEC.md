@@ -222,7 +222,7 @@ T55|x|release `v0.2.0` with matching package and changelog versions|V13
 T56|x|research — confirm exact text targets, test patterns for V51-V60|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
 T57|x|fix workflow docs + README contracts + add V51,V52,V55-V60 tests|V51,V52,V55,V56,V57,V58,V59,V60,§I
 T58|x|fix prep template support line + add V53/V54 tests|V53,V54
-T59|.|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
+T59|x|final verify: `npm test` green; §V51-V60 hold|V51,V52,V53,V54,V55,V56,V57,V58,V59,V60
 T60|.|rename `skills/review-implementation/` → `skills/review-code/`; update ∀ live refs (incl. README layout tree + NOTICE original-work); preserve historical `§T` labels|V61,V58
 T61|.|add `skills/dispatchplan/SKILL.md` + roster updates (README table+layout tree, AGENTS, NOTICE original-work, truth-workflow, tests)|V62,V63,V64,V65,V66,V67,V68,V39,V58
 T62|.|final verify: rename + dispatchplan contracts; §V61-V68 HOLD + V58/V50 regression|V61,V62,V63,V64,V65,V66,V67,V68,V58,V50
