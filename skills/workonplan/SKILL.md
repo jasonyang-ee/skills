@@ -49,7 +49,8 @@ without asking questions — not code that was fast to write.
    inventory, phase order table, and the FULL section of the target phase. If
    absent, invoke `cook` first. Stop.
 3. `SPEC.md` — §C, every §V the phase cites, and the phase's §T row. Its baked
-   header carries the format; no `FORMAT.md` is needed.
+   header carries the format; no `FORMAT.md` is needed. Read §R when present;
+   do not re-derive or contradict sourced facts.
 4. `git status`, current branch, and `git log -3 --oneline`.
 5. Run the project's test command once per session BEFORE the first edit, to
    establish a baseline. Find it in `package.json` scripts, `Makefile`,
@@ -72,13 +73,14 @@ without asking questions — not code that was fast to write.
    or absent from SPEC.md. Flip that exact §T row `.` → `~` in SPEC.md.
 2. **Verification contract first:** from the phase's `§T` cites and SPEC
    section, name the
-   exact tests that will prove each new or changed §V — which test file, which
-   case. New invariant without a named test = lie. Write failing tests first
-   where the phase logic is pure.
+   exact test file + case that will prove each new or changed §V, plus oracle
+   command. New invariant without a named test = lie. Write failing tests first
+   where phase logic is pure.
 3. Implement per the plan section, honoring OPERATING PRINCIPLES.
-4. Run the tests — the external oracle. Fail → inspect the cause. If it exposes
-   wrong or missing spec memory, invoke `spec` with `bug:` before retrying.
-   Never retry blindly, never silently patch around a root cause.
+4. Run the oracle command and named tests. Fail → classify cause as code bug,
+   spec bug, or unspecified edge. Fix code bugs directly; invoke `spec` with
+   `bug:` for spec bugs/edges before retrying. Never retry blindly or silently
+   patch around root cause.
 5. **Self-review before committing (mandatory):** read the FULL `git diff` and
    check, line by line:
    - matches the plan section (every numbered item done, or explicitly deferred
@@ -90,8 +92,9 @@ without asking questions — not code that was fast to write.
    Fix everything found; re-run the tests if code changed.
 6. **Close out per the repo's process contract:** SPEC.md updates (new §V / §I
    lines exactly as the phase's SPEC block specifies; flip §T → `x`), a
-   `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Follow the
-   repo's commit conventions. Never push unless repo policy says to.
+   `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Flip §T →
+   `x` only after oracle + named tests pass. At session end, run full suite.
+   Follow repo commit conventions. Never push unless repo policy says to.
 7. Report to the user in 3–6 sentences: what shipped, verification evidence,
    any deviation. Then continue to the next phase.
 

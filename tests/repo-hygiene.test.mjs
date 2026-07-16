@@ -48,6 +48,17 @@ describe('repo is publishable', () => {
   });
 });
 
+describe('cold sessions can decode repository encoding', () => {
+  const agents = readFileSync(join(REPO_ROOT, 'AGENTS.md'), 'utf8');
+
+  it('documents caveman-encode symbols and table rules', () => {
+    assert.match(agents, /## Caveman symbols/);
+    assert.match(agents, /`→` leads to/);
+    assert.match(agents, /`§` section reference/);
+    assert.match(agents, /escape literal `\|`/);
+  });
+});
+
 describe('skills stay markdown-only', () => {
   for (const skill of loadSkills()) {
     // V19 — no Python/script-bearing skills. A skill needing a runtime turns
@@ -108,6 +119,7 @@ describe('cook stays the planning front door', () => {
     assert.match(handoff, /## final verification/);
     assert.match(handoff, /item\|status\|evidence\|decision/);
     assert.match(handoff, /HOLD \| VIOLATE \| UNVERIFIABLE/);
+    assert.match(handoff, /baseline .* oracle/);
   });
 });
 

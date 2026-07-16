@@ -41,6 +41,26 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 - `README.md`, `CONTRIBUTING.md`, `NOTICE.md`, SKILL.md bodies, commit messages → normal English.
 - Vendored SKILL.md → ⊥ restyle. Keep upstream voice. Diff = only what `NOTICE.md` records.
 
+## Caveman symbols
+
+Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
+numbers, regex, errors verbatim.
+
+- `→` leads to | becomes | triggers
+- `∴` therefore | consequence
+- `∀` every | for all
+- `∃` some | exists
+- `!` must | required
+- `?` unknown | optional
+- `⊥` never | forbidden | absent
+- `≠` differs | `∈` member of | `∉` not member of
+- `≤` at most | `≥` at least | `&` and | `|` or
+- `§` section reference, e.g. `§V.3`
+
+Tables use `|`; escape literal `|` as `\|`. `§T` status: `x` done, `~` wip,
+`.` todo. `caveman` prose drops symbols; `caveman-encode` requires them for
+`SPEC.md`, `PLAN.md`, and `HANDOFF.md`.
+
 ## End of Chat Checklist
 
 - Update `CHANGELOG.md` `## [Unreleased]` for every feature/fix.

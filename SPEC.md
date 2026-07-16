@@ -47,6 +47,8 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - file: `PLAN.md` phase → `task:` names exactly one `§T` id; `workonplan` uses id for phase status/verification
 - file: final verification phase → per-`§V`/`§I`/`§T` result table, drift decision, agreed commands
 - file: `HANDOFF.md` `## final verification` → `item|status|evidence|decision` table; status `HOLD` | `VIOLATE` | `UNVERIFIABLE`
+- file: phase verification contract → exact test file/case per touched `§V`; oracle command
+- file: task failure record → code bug | spec bug | unspecified edge; latter 2 → `spec bug:` before retry
 - cmd: `npm test` → `node --test` → exit 0 ⟺ ∀ §V pass
 - ci: push | PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 - ci: tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
@@ -102,6 +104,11 @@ V27: `cook` PLAN phase ∀ → `task:` exactly one existing `§T` id; F1 researc
 V28: F1 research → unknowns resolved or marked `?`; sourced findings land in `§R`; later phases updated before handoff
 V29: Fn final verify → re-read relevant `§V`/`§I`/`§T`, run agreed commands, classify each as `HOLD`/`VIOLATE`/`UNVERIFIABLE`, record drift decision
 V30: `workonplan` phase execution → uses PLAN `task:` id for `§T` status; no phase starts without matching SPEC task
+V31: phase start → verification contract names exact test file/case per touched `§V` before edit
+V32: phase close → oracle command & named tests green; session end → full suite green
+V33: verification failure → classify code bug | spec bug | unspecified edge; spec bug/edge → `spec bug:` before retry
+V34: `workonplan` execution → honors `§R`; no re-derive/contradict sourced facts
+V35: `HANDOFF.md` → records exact test status, uncommitted paths/reasons, stop point, next executable step
 
 ## §T TASKS
 
@@ -142,6 +149,9 @@ T33|x|update `README.md`,`NOTICE.md`,`AGENTS.md`,`package.json`,`CHANGELOG.md` f
 T34|x|extend tests → retired skills absent + `cook` contract + attribution update|V23,V24,V25,V26,V17
 T35|x|harden `cook`/`workonplan` → phase `task:` mapping, sourced F1, per-item final verification|V27,V28,V29,V30,I.file
 T36|x|test cook plan contract + workonplan phase/task contract|V27,V28,V29,V30
+T37|x|refine `workonplan` verification gates → exact tests, §R fidelity, failure classification|V31,V32,V33,V34
+T38|x|refine `handoff` state capture → exact test status, stop point, next executable step|V35
+T39|x|test build-derived session gates and AGENTS symbol legend|V31,V32,V33,V34,V35
 
 ## §B BUGS
 

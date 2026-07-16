@@ -34,6 +34,7 @@ lines; agent-facing, not prose. Template:
 # HANDOFF <YYYY-MM-DD>
 
 branch <name> | last commit <sha> <subject> | tests <green | RED: named failures>
+baseline <green | RED: file + test name> | oracle <command>
 uncommitted: <none | exact files + why>
 
 ## done this session
@@ -65,14 +66,16 @@ item|status|evidence|decision
    per the §T flip) over leaving a dirty tree.
 2. **Red tests must be named exactly** — file + test name — never "some
    tests failing".
-3. **Deviations must already live in PLAN.md/SPEC.md** when material; the
+3. **Test state must distinguish baseline from current oracle.** Record exact
+   command and named failures for each red state.
+4. **Deviations must already live in PLAN.md/SPEC.md** when material; the
    handoff RECORDS that they were reflected, it is not their only home.
-4. **"NEXT STEP" must be executable verbatim** by a cold agent: file,
+5. **"NEXT STEP" must be executable verbatim** by a cold agent: file,
    function, what to do — not "continue the phase".
-5. Empty sections get `-`, never deleted (the shape is the checklist).
-6. Final verification phase must fill `final verification` table; non-final
+6. Empty sections get `-`, never deleted (the shape is the checklist).
+7. Final verification phase must fill `final verification` table; non-final
    handoffs may use `-`.
-7. Commit HANDOFF.md — either inside the session's final phase commit or as
+8. Commit HANDOFF.md — either inside the session's final phase commit or as
    its own `docs: handoff` commit, per the repo's commit conventions.
 
 ## NON-GOALS

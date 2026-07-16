@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   findings or explicit unknowns; final verification records per-item status and
   evidence in `HANDOFF.md`.
 - `workonplan` now rejects phases missing a matching SPEC task.
+- `workonplan` now requires exact per-invariant tests, preserves sourced `§R`
+  facts, classifies failures before retry, and runs the full suite at session end.
+- `handoff` now records baseline/oracle test state and keeps the cold-resume
+  stop point and next executable step explicit.
+- `AGENTS.md` now includes the caveman-encode symbol legend for cold sessions.
 - Documentation now matches the current engine floor: Node 20+.
 
 ### Removed
