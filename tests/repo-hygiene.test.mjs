@@ -79,6 +79,32 @@ describe('prep bootstraps the six-step workflow safely', () => {
     }
   });
 
+  it('uses explicit triggers and distinguishes bootstrap from core workflow', () => {
+    for (const trigger of [
+      '/prep',
+      'bootstrap this repo',
+      'set up workflow files',
+      'prepare a new project for cook',
+      'initialize agent guidance',
+    ]) {
+      const escaped = trigger.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      assert.match(prep, new RegExp(escaped));
+    }
+    assert.match(prep, /Bootstrap command list/);
+    assert.match(prep, /separate from\s+the six core truth-workflow steps/i);
+  });
+
+  it('loads encoding before AGENTS.md work and ships the symbol legend', () => {
+    const preflight = prep.indexOf('## Preflight');
+    const load = prep.indexOf('Load `caveman-encode`', preflight);
+    const read = prep.indexOf('Read existing `AGENTS.md`', preflight);
+    assert.ok(preflight >= 0 && load > preflight && load < read);
+    for (const phrase of ['leads to', 'therefore', 'every', 'must', 'unknown', 'never', 'section reference']) {
+      assert.match(prep, new RegExp(phrase));
+    }
+    assert.doesNotMatch(prep, /<user fills symbols|keeps repository legend>/i);
+  });
+
   it('defines safe bootstrap outputs and ownership boundaries', () => {
     assert.match(prep, /AGENTS\.md/);
     assert.match(prep, /CLAUDE\.md/);
@@ -94,6 +120,26 @@ describe('prep bootstraps the six-step workflow safely', () => {
 
   it('keeps this repository CLAUDE import exact', () => {
     assert.equal(readFileSync(join(REPO_ROOT, 'CLAUDE.md'), 'utf8').trim(), '@AGENTS.md');
+  });
+});
+
+describe('README explains the core truth workflow', () => {
+  const readme = readFileSync(join(REPO_ROOT, 'README.md'), 'utf8');
+
+  it('separates prep bootstrap from the six core steps', () => {
+    assert.match(readme, /## The six core workflow steps/);
+    assert.match(readme, /`\/prep` prepares[\s\S]*not one of its six\s+steps/);
+    for (const phrase of [
+      'Cook',
+      'Encode',
+      'Review the plan',
+      'Work on the plan',
+      'Garnish',
+      'Review the implementation',
+    ]) {
+      assert.match(readme, new RegExp(`\\b${phrase}\\b`));
+    }
+    assert.match(readme, /order and safety gates remain\s+mandatory/i);
   });
 });
 

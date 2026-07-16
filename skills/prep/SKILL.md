@@ -1,13 +1,13 @@
 ---
 name: prep
 description: |
-  Bootstrap repository guidance for the six-step workflow. Creates or safely
+  Bootstrap repository guidance for the spec-driven workflow. Creates or safely
   completes AGENTS.md with lifecycle commands, pre-filled caveman symbols, and
   an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
   asks spec to create minimal CHANGELOG.md and SPEC.md files when absent.
   Never overwrites existing user guidance or durable project state. Triggers
-  on /prep, "bootstrap this repo", "set up workflow files", "prepare a new
-  project for cook", or "initialize agent guidance".
+  on /prep, "bootstrap this repo", "set up workflow files", "prepare a new project for cook",
+  or "initialize agent guidance".
 license: MIT
 ---
 
@@ -17,9 +17,15 @@ Use `prep` once at the start of a repository, or later to audit missing workflow
 sections. It prepares the cold-session files needed by `cook`, `review-plan`,
 `workonplan`, `garnish`, and `review-implementation`.
 
-## Six workflow commands
+## Bootstrap command list
 
 The generated or completed `AGENTS.md` must list these commands in this order:
+
+This is the six-command bootstrap list, including `/prep`. It is separate from
+the six core truth-workflow steps in `truth-workflow.md`: those steps begin
+with `/cook`, and step 2 is the `caveman-encode` writing discipline. `spec`,
+`handoff`, and `caveman-encode` remain supporting skills invoked by the core
+workflow; do not add them as extra command entries.
 
 1. `/prep` — bootstrap guidance and minimal durable files.
 2. `/cook` — turn an idea, bug, feature, or expected behavior into iterative
@@ -33,12 +39,10 @@ The generated or completed `AGENTS.md` must list these commands in this order:
 6. `/review-implementation` — sweep implementation quality from the release
    baseline and trigger the next `cook` cycle for accepted fixes.
 
-`spec`, `handoff`, and `caveman-encode` remain supporting skills invoked by the
-workflow; do not add them as extra lifecycle steps.
-
 ## Preflight
 
-1. Load `caveman-encode` — `AGENTS.md` is caveman-encoded with the symbol set.
+1. Load `caveman-encode` before reading or writing `AGENTS.md` — `AGENTS.md`
+   is caveman-encoded with the symbol set.
 2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
    full when present.
 3. If `AGENTS.md` is absent, create it from the template below. If present,
@@ -129,7 +133,7 @@ All notable changes to this project will be documented in this file.
 
 Report each action and preservation decision. Confirm:
 
-- `AGENTS.md` has all six commands in order, Caveman symbols, and checklist;
+- `AGENTS.md` has all six bootstrap commands in order, Caveman symbols, and checklist;
 - `CLAUDE.md` is exactly `@AGENTS.md` when prep created it;
 - `CHANGELOG.md` has `## [Unreleased]`;
 - `SPEC.md` exists with the baked header and fixed sections;

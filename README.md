@@ -5,7 +5,7 @@
 
 A personal central collection of agent skills for spec-driven development: hold
 the truth in one `SPEC.md`, execute it phase by phase, and never lose the thread
-between sessions.
+between sessions. `/prep` is one-time bootstrap; the core loop has six steps.
 
 ## Install
 
@@ -35,7 +35,7 @@ only mutator; everything else reads it or feeds it material.
 
 | Skill | What it does |
 | --- | --- |
-| [`prep`](skills/prep/SKILL.md) | Bootstraps `AGENTS.md`, the `CLAUDE.md` import, and minimal missing `CHANGELOG.md`/`SPEC.md` files for the workflow. |
+| [`prep`](skills/prep/SKILL.md) | Bootstraps `AGENTS.md`, the `CLAUDE.md` import, and minimal missing `CHANGELOG.md`/`SPEC.md` files before the core workflow. |
 | [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
@@ -51,6 +51,32 @@ only mutator; everything else reads it or feeds it material.
 
 `workonplan` invokes `handoff` at the end of every session, so the next session
 starts by reading it. The plan holds the intent; the handoff holds the state.
+
+## The six core workflow steps
+
+The canonical sequence is documented in [`truth-workflow.md`](truth-workflow.md).
+`/prep` prepares a repository for this sequence but is not one of its six
+steps:
+
+1. **Cook** — turn an idea, bug, feature, or expected behavior into an
+   iterative `PLAN.md` and `HANDOFF.md`, while handing durable decisions to
+   `SPEC.md` through `spec`.
+2. **Encode** — write every `PLAN.md` and `HANDOFF.md` update with
+   `caveman-encode`, so a cold session can read the compact, standard symbol
+   language.
+3. **Review the plan** — in a cold session, resolve research questions and
+   refute the plan until it reaches an explicit GO gate. Repeat as needed.
+4. **Work on the plan** — in another cold session, execute one phase at a
+   time, verify it, commit it, and refresh `HANDOFF.md` before continuing.
+5. **Garnish** — after all phases pass, route durable cleanup through `spec`,
+   then remove short-lived `PLAN.md` and `HANDOFF.md`.
+6. **Review the implementation** — sweep the completed implementation from its
+   release baseline, then send accepted fixes or improvements into the next
+   `cook` cycle.
+
+The loop is intentionally iterative: step 3 can refine research and the plan,
+and step 6 can start another cook cycle. The order and safety gates remain
+mandatory.
 
 ### Compression
 
@@ -87,15 +113,16 @@ Invoke any skill directly, or just describe the task and your agent loads the
 matching one on its own.
 
 ```
-/prep                 # bootstrap the six-step workflow
+/prep                 # bootstrap guidance before the core workflow
 /cook                # draft PLAN.md + HANDOFF.md, research first
 /spec                # write or amend SPEC.md
 /workonplan F1       # run a specific plan phase
 /handoff             # write the session baton now
 ```
 
-A typical multi-session run: `/prep` → `/cook` → `/review-plan` →
-`/workonplan` until the final verification phase closes the loop. For a small,
+A typical multi-session run starts with `/prep`, then follows the six core
+steps: `/cook` → encode → `/review-plan` → `/workonplan` → `/garnish` →
+`/review-implementation`. For a small,
 already-clear spec task, go straight to `/spec` → `/workonplan`.
 
 After a completed cycle: `/review-implementation` → `/cook` for fixes or

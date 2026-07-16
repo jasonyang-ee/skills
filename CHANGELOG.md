@@ -7,16 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-07-16
+
 ### Added
 
 - Added `prep`, which safely bootstraps the six-step workflow guidance,
   `CLAUDE.md` import, and minimal missing project files.
+
+- Hardened `prep` with explicit trigger phrases, encode-first preflight, and a
+  complete Caveman symbol legend in its generated `AGENTS.md` template.
 
 ### Changed
 
 - Clarified `SPEC.md` as the authoritative six-step workflow: `cook`,
   `caveman-encode`, `review-plan`, `workonplan`, `garnish`, and
   `review-implementation`, with iterative research and follow-up cycles.
+
+- Expanded `README.md` with the six core workflow responsibilities and the
+  distinction between `/prep` bootstrap commands and the truth-workflow steps.
 
 - Refined `AGENTS.md` to make the six lifecycle commands explicit and keep
   supporting commands separate.
@@ -142,5 +150,6 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: https://github.com/jasonyang-ee/skills/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/jasonyang-ee/skills/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/jasonyang-ee/skills/releases/tag/v0.2.0
 [0.1.0]: https://github.com/jasonyang-ee/skills/releases/tag/v0.1.0

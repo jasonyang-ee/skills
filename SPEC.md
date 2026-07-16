@@ -44,7 +44,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
 - roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
-- lifecycle: `cook` → [`review-plan`]* → `workonplan` (phases + `handoff` per phase) → `garnish` → [`review-implementation` → `cook`]*
+- command graph: `/prep` (bootstrap) → `/cook` → [`/review-plan`]* → `/workonplan` (phases + `handoff` per phase) → `/garnish` → [`/review-implementation` → `/cook`]*
 - cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
 - workflow: `truth-workflow.md` → canonical six-step narrative; `cook` → `caveman-encode` → `review-plan` → `workonplan` → `garnish` → `review-implementation` → next `cook`
 - cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-implementation` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
@@ -124,12 +124,15 @@ V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final ve
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
 V40: `workonplan` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
 V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-implementation`
-V42: `/prep` → generated/completed `AGENTS.md` lists exactly six lifecycle commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/garnish`, `/review-implementation`
+V42: `/prep` → generated/completed `AGENTS.md` lists exactly six bootstrap commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/garnish`, `/review-implementation`; list ≠ core six truth-workflow steps
 V43: `prep` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` preserved; only missing files/sections may be added without explicit overwrite direction
 V44: missing `CLAUDE.md` → created with exact content `@AGENTS.md`; existing non-import content → preserved and reported
 V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `prep` write
-V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six lifecycle steps; unknown project facts marked `?`
+V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six bootstrap commands; unknown project facts marked `?`
 V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3 `review-plan` → 4 `workonplan` → 5 `garnish` → 6 `review-implementation`; `workonplan` ! have `PLAN.md` ∃ (prior `cook`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-implementation` ! end by invoking `cook` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `caveman-encode`
+V48: `skills/prep/SKILL.md` description ! include `/prep`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for cook`, `initialize agent guidance`
+V49: `prep` preflight step 1 ! load `caveman-encode` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard Caveman symbol legend, ⊥ user-filled symbol placeholder
+V50: `README.md` ! explain `/prep` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates
 
 ## §T TASKS
 
@@ -186,6 +189,9 @@ T49|x|add `prep` → safe six-step repository bootstrap skill|V42,V43,V44,V45,V4
 T50|x|update AGENTS/README/NOTICE/SPEC roster → 12 skills + prep lifecycle|V39,V42
 T51|x|document 6-step lifecycle as §G core purpose + §C order constraint + §I flow line + V47 integrity invariant|V47,§G,§C,§I
 T52|x|test prep contract → ordered commands, safe-file rules, minimal outputs|V42,V43,V44,V45,V46
+T53|x|harden `prep` triggers, encode-first preflight, and generated symbol legend|V48,V49
+T54|x|document six core workflow steps and `/prep` separation in README|V50,§G,§I
+T55|x|release `v0.2.0` with matching package and changelog versions|V13
 
 ## §B BUGS
 
