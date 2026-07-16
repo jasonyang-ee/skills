@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   reviews every returned diff before accepting it. `workonplan` remains the
   single-agent default.
 
+### Removed
+
+- Removed `truth-workflow.md`. The six core workflow steps are documented in
+  the README, which is now the canonical narrative, so the separate file was a
+  second copy that could drift. The step order remains enforced by the spec.
+
 ### Changed
 
 - Renamed the `review-implementation` skill to `review-code`. Invoke it as

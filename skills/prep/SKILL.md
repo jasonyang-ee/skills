@@ -22,7 +22,7 @@ sections. It prepares the cold-session files needed by `cook`, `review-plan`,
 The generated or completed `AGENTS.md` must list these commands in this order:
 
 This is the six-command bootstrap list, including `/prep`. It is separate from
-the six core truth-workflow steps in `truth-workflow.md`: those steps begin
+the six core workflow steps: those steps begin
 with `/cook`, and step 2 is the `caveman-encode` writing discipline. `spec`,
 `handoff`, and `caveman-encode` remain supporting skills invoked by the core
 workflow; do not add them as extra command entries.

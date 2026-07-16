@@ -56,9 +56,8 @@ the handoff holds the state.
 
 ## The six core workflow steps
 
-The canonical sequence is documented in [`truth-workflow.md`](truth-workflow.md).
-`/prep` prepares a repository for this sequence but is not one of its six
-steps:
+This section is the canonical sequence. `/prep` prepares a repository for this
+sequence but is not one of its six steps:
 
 1. **Cook** — turn an idea, bug, feature, or expected behavior into an
    iterative `PLAN.md` and `HANDOFF.md`, while handing durable decisions to

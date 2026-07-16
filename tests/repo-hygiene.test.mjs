@@ -38,7 +38,7 @@ const RETIRED_SKILLS = [
  * name, and rewriting history would make the log lie. SPEC.md §T rows are
  * likewise a record of tasks as they were performed.
  */
-const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', 'CONTRIBUTING.md', 'truth-workflow.md'];
+const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', 'CONTRIBUTING.md'];
 
 describe('published skills carry no private-codebase references', () => {
   for (const skill of loadSkills()) {
@@ -109,7 +109,7 @@ describe('prep bootstraps the six-step workflow safely', () => {
       assert.match(prep, new RegExp(escaped));
     }
     assert.match(prep, /Bootstrap command list/);
-    assert.match(prep, /separate from\s+the six core truth-workflow steps/i);
+    assert.match(prep, /separate from\s+the six core workflow steps/i);
   });
 
   it('loads encoding before AGENTS.md work and ships the symbol legend', () => {
@@ -230,15 +230,6 @@ describe('README explains the core truth workflow', () => {
 });
 
 describe('workflow docs agree with the spec', () => {
-  // V51 — truth-workflow.md is the canonical narrative (§I); its step names
-  // must be the same six the README teaches.
-  it('names all six workflow steps in truth-workflow.md', () => {
-    const workflow = readFileSync(join(REPO_ROOT, 'truth-workflow.md'), 'utf8');
-    for (const step of WORKFLOW_STEPS) {
-      assert.ok(workflow.includes(step), `truth-workflow.md omits the "${step}" step`);
-    }
-  });
-
   // V56 — the format is embedded in the spec skill and baked into SPEC.md.
   it('points encoding guidance at the embedded spec format', () => {
     const contributing = readFileSync(join(REPO_ROOT, 'CONTRIBUTING.md'), 'utf8');
