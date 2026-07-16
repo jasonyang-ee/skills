@@ -91,6 +91,6 @@ SOFTWARE.
 
 ## Original work
 
-`skills/handoff/`, `skills/workonplan/`, `skills/review-implementation/`, and
-`skills/garnish/` are original to this repository and are covered by the root
+`skills/handoff/`, `skills/workonplan/`, `skills/review-implementation/`,
+`skills/garnish/`, and `skills/prep/` are original to this repository and are covered by the root
 [LICENSE](LICENSE).

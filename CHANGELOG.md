@@ -7,7 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added `prep`, which safely bootstraps the six-step workflow guidance,
+  `CLAUDE.md` import, and minimal missing project files.
+
 ### Changed
+
+- Refined `AGENTS.md` to make the six lifecycle commands explicit and keep
+  supporting commands separate.
 
 - `workonplan` now refreshes and commits `HANDOFF.md` after every phase, not
   only at session end.

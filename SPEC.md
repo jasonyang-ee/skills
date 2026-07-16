@@ -14,7 +14,7 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## §G GOAL
 
-Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`) + derived `cook` + vendored cavekit/caveman suite.
+Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`) + derived `cook` + vendored cavekit/caveman suite.
 
 ## §C CONSTRAINTS
 
@@ -36,11 +36,12 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 
 ## §I INTERFACES
 
-- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 11 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 11
+- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 12 skills → detected agents
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 12
 - cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
+- roster: own → `handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
+- cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; six lifecycle commands listed in order
 - cmd: `/review-plan` → research gate (resolve `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative — each run can reduce research phases to zero; `/review-implementation` → post-baseline code sweep → `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
 - phase close: `workonplan` → `handoff` refresh + commit after every phase; session end → final refresh
 - garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-implementation`
@@ -118,6 +119,11 @@ V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final ve
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
 V40: `workonplan` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
 V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-implementation`
+V42: `/prep` → generated/completed `AGENTS.md` lists exactly six lifecycle commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/garnish`, `/review-implementation`
+V43: `prep` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` preserved; only missing files/sections may be added without explicit overwrite direction
+V44: missing `CLAUDE.md` → created with exact content `@AGENTS.md`; existing non-import content → preserved and reported
+V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `prep` write
+V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six lifecycle steps; unknown project facts marked `?`
 
 ## §T TASKS
 
@@ -170,6 +176,9 @@ T45|x|test new roster, review contracts, garnish safety contract|V36,V37,V38,V39
 T46|x|refine `workonplan` → invoke/commit `handoff` after every phase|V35,V40
 T47|x|refine `garnish` → spec cleanup handoff, guarded purge, review-implementation next|V38,V41
 T48|x|test per-phase baton + garnish durable close contract|V40,V41
+T49|x|add `prep` → safe six-step repository bootstrap skill|V42,V43,V44,V45,V46
+T50|x|update AGENTS/README/NOTICE/SPEC roster → 12 skills + prep lifecycle|V39,V42
+T51|x|test prep contract → ordered commands, safe-file rules, minimal outputs|V42,V43,V44,V45,V46
 
 ## §B BUGS
 

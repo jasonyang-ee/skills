@@ -3,36 +3,37 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-11 skills: own (`handoff`, `workonplan`, `review-implementation`, `garnish`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+12 skills: own (`handoff`, `workonplan`, `review-implementation`, `garnish`, `prep`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
 
-- `skills/<name>/SKILL.md` = the products. Scanned by skills CLI.
+- `skills/<name>/SKILL.md` = products. Scanned by skills CLI.
 - `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
 - `NOTICE.md` = upstream MIT notices + per-skill provenance. ! update ∀ new vendor.
-- `tests/` = `node:test`. Contract (spec compliance) + hygiene + attribution + real-CLI discovery.
+- `tests/` = `node:test`. Contract, hygiene, attribution, real-CLI discovery.
 - ⊥ `FORMAT.md`. Format → embedded `skills/spec/SKILL.md` §FORMAT + baked header.
 
 ## Commands
 
-- `npm test` — full suite. ! green before commit.
-- `/cook` — draft `PLAN.md` + `HANDOFF.md` + spec handoff.
-- `/review-plan` — adversarial review of spec/plan before implementation.
-- `/review-implementation` — post-release code sweep → `cook` fix plan.
-- `/garnish` — verify completed plan, purge `PLAN.md` + `HANDOFF.md`.
-- `/spec` — sole mutator of `SPEC.md`.
-- `/caveman-commit` — single commit summary.
+1. `/prep` → bootstrap guidance + minimal durable files.
+2. `/cook` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
+3. `/review-plan` → research/refute plan → GO/NO-GO.
+4. `/workonplan` → execute phase → verify → commit → handoff.
+5. `/garnish` → spec cleanup → purge `PLAN.md` + `HANDOFF.md`.
+6. `/review-implementation` → baseline code sweep → `cook`.
+
+Support: `/spec` sole `SPEC.md` mutator | `/handoff` baton |
+`/caveman-encode` file encoding | `/caveman-commit` commit summary.
 
 ## Rules
 
-- ∀ SKILL.md ! Agent Skills spec compliant → https://agentskills.io/specification.md
+- ∀ `SKILL.md` ! Agent Skills spec compliant → https://agentskills.io/specification.md
   `name` == parent dir name, ≤64 chars, `[a-z0-9-]`. `description` ≤1024 chars. Body ≤500 lines.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
-  Denylist enforced → `tests/repo-hygiene.test.mjs`.
-- ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents (→ silent no-op).
+- ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents.
 - `cook` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
-- Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice. README credit alone ⊥ compliant. `tests/attribution.test.mjs` enforces.
+- Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice.
 - `caveman` (chat) ≠ `caveman-encode` (SPEC.md). Contradict on symbols. ! keep descriptions cross-pointing (§V.18).
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.
 - ∀ `.github/workflows/*.yml` ! top-level `permissions:`.
@@ -46,8 +47,8 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Caveman symbols
 
-Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
-numbers, regex, errors verbatim.
+Use symbols as short, exact operators. Preserve paths, code, IDs, URLs, numbers,
+regex, errors verbatim.
 
 - `→` leads to | becomes | triggers
 - `∴` therefore | consequence
@@ -69,4 +70,5 @@ Tables use `|`; escape literal `|` as `\|`. `§T` status: `x` done, `~` wip,
 - Update `CHANGELOG.md` `## [Unreleased]` for every feature/fix.
 - Update `SPEC.md` for any behavior change (flip §T, add §V).
 - `npm test` green.
+- Refresh `HANDOFF.md` when phase/session ends; use `garnish` after all phases.
 - Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.

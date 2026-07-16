@@ -59,6 +59,44 @@ describe('cold sessions can decode repository encoding', () => {
   });
 });
 
+describe('prep bootstraps the six-step workflow safely', () => {
+  const prep = readFileSync(join(SKILLS_DIR, 'prep', 'SKILL.md'), 'utf8');
+  const commandOrder = [
+    '/prep',
+    '/cook',
+    '/review-plan',
+    '/workonplan',
+    '/garnish',
+    '/review-implementation',
+  ];
+
+  it('declares the six lifecycle commands in order', () => {
+    let previous = -1;
+    for (const command of commandOrder) {
+      const position = prep.indexOf(command);
+      assert.ok(position > previous, `${command} must follow the prior lifecycle command`);
+      previous = position;
+    }
+  });
+
+  it('defines safe bootstrap outputs and ownership boundaries', () => {
+    assert.match(prep, /AGENTS\.md/);
+    assert.match(prep, /CLAUDE\.md/);
+    assert.match(prep, /@AGENTS\.md/);
+    assert.match(prep, /CHANGELOG\.md/);
+    assert.match(prep, /SPEC\.md/);
+    assert.match(prep, /invoke `spec`/i);
+    assert.match(prep, /Never overwrite existing/i);
+    assert.match(prep, /preserve it/i);
+    assert.match(prep, /## Caveman symbols/);
+    assert.match(prep, /## End of Chat Checklist/);
+  });
+
+  it('keeps this repository CLAUDE import exact', () => {
+    assert.equal(readFileSync(join(REPO_ROOT, 'CLAUDE.md'), 'utf8').trim(), '@AGENTS.md');
+  });
+});
+
 describe('skills stay markdown-only', () => {
   for (const skill of loadSkills()) {
     // V19 — no Python/script-bearing skills. A skill needing a runtime turns

@@ -13,7 +13,7 @@ between sessions.
 npx skills add jasonyang-ee/skills
 ```
 
-That detects your agents and installs all 11 skills. To be more specific:
+That detects your agents and installs all 12 skills. To be more specific:
 
 ```bash
 # Preview what's in here without installing
@@ -35,6 +35,7 @@ only mutator; everything else reads it or feeds it material.
 
 | Skill | What it does |
 | --- | --- |
+| [`prep`](skills/prep/SKILL.md) | Bootstraps `AGENTS.md`, the `CLAUDE.md` import, and minimal missing `CHANGELOG.md`/`SPEC.md` files for the workflow. |
 | [`cook`](skills/cook/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `spec`, and reserves the last phase for final verification. |
 | [`spec`](skills/spec/SKILL.md) | Creates and amends `SPEC.md`. Sole mutator. |
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
@@ -86,13 +87,14 @@ Invoke any skill directly, or just describe the task and your agent loads the
 matching one on its own.
 
 ```
+/prep                 # bootstrap the six-step workflow
 /cook                # draft PLAN.md + HANDOFF.md, research first
 /spec                # write or amend SPEC.md
 /workonplan F1       # run a specific plan phase
 /handoff             # write the session baton now
 ```
 
-A typical multi-session run: `/cook` → `/review-plan` (if high blast radius) →
+A typical multi-session run: `/prep` → `/cook` → `/review-plan` →
 `/workonplan` until the final verification phase closes the loop. For a small,
 already-clear spec task, go straight to `/spec` → `/workonplan`.
 
@@ -120,7 +122,7 @@ rather than hardcoding one.
 skills/
 ├── caveman/          caveman-commit/   caveman-encode/
 ├── caveman-encode/   caveman-pr/       cook/
-├── garnish/          handoff/          review-plan/
+├── garnish/          handoff/          prep/             review-plan/
 ├── review-implementation/             spec/
 ├── workonplan/
 ```
@@ -179,7 +181,7 @@ vendored under MIT and gratefully used:
 - **[caveman](https://github.com/JuliusBrussee/caveman)** — `caveman`,
   `caveman-commit`, `caveman-pr`.
 
-Only `handoff`, `workonplan`, `review-implementation`, and `garnish` are fully original here. `cook` is a composite
+Only `handoff`, `workonplan`, `review-implementation`, `garnish`, and `prep` are fully original here. `cook` is a composite
 skill derived from cavekit's planning flow. Where skills were modified — the
 `caveman-encode` rename, the embedded format in `spec`, the `cook` composite —
 it's recorded per-skill in [NOTICE.md](NOTICE.md), along with the upstream
