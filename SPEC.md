@@ -253,7 +253,7 @@ T72|x|research canonical focus-keyword set ∀ 6 steps + description-trigger bes
 T73|x|fix `workonplan` description fragment + weave step-4 keywords|V72
 T74|x|add Security dimension → `review-code`; security cues → `review-plan` blast radius + `workonplan` self-review|V73
 T75|x|align ∀ 6 step descriptions w/ canonical keywords; dedupe `cook` description; update tests|V71,V74,V75
-T76|.|final verify: full suite + manual doc §V oracle sweep|V72,V73,V74,V75
+T76|x|final verify: full suite + manual doc §V oracle sweep|V72,V73,V74,V75
 
 ## §B BUGS
 
