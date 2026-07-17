@@ -1,16 +1,16 @@
 # HANDOFF 2026-07-16
 
-branch <current> | last commit <unchanged> | tests green (`npm.cmd test`) | oracle `npm.cmd test`
-uncommitted: `PLAN.md`, `HANDOFF.md`, `SPEC.md`, `CHANGELOG.md`, `skills/prep/SKILL.md`, `tests/repo-hygiene.test.mjs`
+branch <current> | last commit `1e93f5c` `feat(prep): template complete agent guidance` | tests green (`npm.cmd test`) | oracle `npm.cmd test`
+uncommitted: `AGENTS.md` (pre-existing user change, unrelated)
 
 ## done this session
-F1 x: local prep/template/test research complete → -
-F2 x: template + contract test + changelog complete → -
-F3 x: full verification complete → -
+F1 x: local prep/template/test research complete → `1e93f5c`
+F2 x: template + contract test + changelog complete → `1e93f5c`
+F3 x: full verification complete → `1e93f5c`
 
 ## in progress (exact stop point)
-F3 x: steps done 1,2,3 | NEXT STEP: review diff and commit change
-mid-edit files: `PLAN.md`, `HANDOFF.md`, `SPEC.md`, `CHANGELOG.md`, `skills/prep/SKILL.md`, `tests/repo-hygiene.test.mjs`
+done: steps 1,2,3 | NEXT STEP: none; resume with `/garnish` when cycle cleanup is requested
+mid-edit files: none
 
 ## next
 done | preconditions: `npm.cmd test` green
