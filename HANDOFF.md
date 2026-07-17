@@ -8,13 +8,14 @@ uncommitted: none after this session's summary commit (SPEC.md + PLAN.md + HANDO
 planning: review-code re-sweep (baseline v0.4.0) → ∀ findings re-confirmed, gate NO-GO (B5); dup §B id `B2` renumbered → B5 in SPEC.md; PLAN.md refs B2→B5; HANDOFF.md pair created (was missing — cook pair rule).
 F1: research done → R25-R27 landed (spec description-keyword rules, Claude Code trigger mechanics, frozen keyword table ∀ 6 steps); T72 x; F4 tightened (key use case first, R26). → ef47956
 F2: B5 closed — workonplan description rewritten (fragment gone, step-4 keywords in), dispatchplan mirrored, V72 test added. T73 x. Tests 184/184. → 74603aa
-F3: Security dimension ∈ review-code (+ description "security check"/"infosec"), security cues ∈ review-plan blast radius + workonplan self-review; V73 test. T74 x. Tests 185/185.
+F3: Security dimension ∈ review-code (+ description "security check"/"infosec"), security cues ∈ review-plan blast radius + workonplan self-review; V73 test. T74 x. Tests 185/185. → 5334db5
+F4: ∀ 6 descriptions aligned w/ R27 keywords; cook description deduped + quality contract cross-point; review-plan research gate → current dated primary sources ⊥ model memory; caveman-encode "lossless compression" (+NOTICE.md row); garnish "evidence-gated closure"; V74+V75 tests; quote-glyph assert relaxed. T75 x. Tests 187/187.
 
 ## in progress (exact stop point)
-- F1-F3 done. F4,F5 todo.
+- F1-F4 done. F5 todo.
 
 ## next
-F4 (T75) | preconditions: none. NEXT STEP: per PLAN F4 — dedupe skills/cook/SKILL.md description (state triad once, rm dangling `says "cook this",` break); review-plan description + "plan gap finding"/"latest web data" + research-gate body current-primary-sources/date-stamp/⊥-model-memory wording; caveman-encode + garnish descriptions + canonical keywords (R27); V74+V75 tests; relax quote-glyph assert @ tests/repo-hygiene.test.mjs (search `Do not use`).
+F5 (T76) | preconditions: none. NEXT STEP: per PLAN F5 — re-read V71-V75, npm test full suite, classify V71-V75 HOLD/VIOLATE/UNVERIFIABLE w/ evidence, manual doc-§V sweep (V50,V52,V55-V60), diff sweep + CHANGELOG + §T flips, result table → HANDOFF.md.
 
 ## deviations & decisions
 - prior session (2026-07-16) emitted PLAN.md w/o HANDOFF.md & dup B2 row → both fixed this session (PLAN.md updated: y).

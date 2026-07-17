@@ -12,7 +12,7 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `cook` / `workonplan` plan files accordingly. |
+| `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `cook` / `workonplan` plan files accordingly, and the description now names its focus keyword ("lossless compression"). |
 | `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency, and the skill now accepts `cook` planning handoff plus `/spec bug:` in place of a standalone backprop skill. |
 | `skills/cook/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
 | `skills/review-plan/` | `review` | Yes — renamed to `review-plan` to distinguish spec/plan review from post-implementation review. |

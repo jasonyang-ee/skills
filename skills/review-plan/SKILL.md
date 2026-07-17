@@ -1,15 +1,17 @@
 ---
 name: review-plan
 description: |
-  Review PLAN.md phases before any implementation starts. Opens with a
-  research gate — if open unknowns remain, runs targeted research, records
-  sourced findings in §R via spec, and tightens later phases. Then refutes
-  phase ordering, verification contracts, §T mappings, and phase
-  dependencies. Updates PLAN.md and HANDOFF.md with findings, hands §V
-  changes to spec, and ends with an explicit GO / NO-GO gate. Iterative:
-  each round can reduce the number of needed research phases until none
-  remain. Triggers when the user says "review the plan", "check the plan",
-  "is the plan ready", or invokes /review-plan.
+  Find gaps in PLAN.md phases before any implementation starts — plan gap
+  finding backed by research with latest web data. Opens with a research
+  gate — if open unknowns remain, runs targeted research against current
+  primary sources, records sourced findings in §R via spec, and tightens
+  later phases. Then refutes phase ordering, verification contracts, §T
+  mappings, and phase dependencies. Updates PLAN.md and HANDOFF.md with
+  findings, hands §V changes to spec, and ends with an explicit GO / NO-GO
+  gate. Iterative: each round can reduce the number of needed research
+  phases until none remain. Triggers when the user says "review the plan",
+  "check the plan", "find gaps in the plan", "is the plan ready", or
+  invokes /review-plan.
 license: MIT
 ---
 
@@ -45,9 +47,12 @@ Before reviewing plan structure, resolve open unknowns.
 For each open research phase in order:
 
 1. List every `?` item in the phase.
-2. Research them: read codebase modules, existing tests, public docs, or
-   live sources. Every finding must cite a source (file:line or URL).
-   Items that cannot be resolved stay `?` with a note on why.
+2. Research them: read codebase modules, existing tests, and current
+   primary web sources (official docs, changelogs, release notes) —
+   never trust model memory for versions, APIs, or external behavior.
+   Every finding must cite a source (file:line or URL) and carry the
+   date it was checked. Items that cannot be resolved stay `?` with a
+   note on why.
 3. Record sourced findings in `§R` by invoking `spec`.
 4. Rewrite the affected phase steps with confirmed facts; remove guesses.
 5. If all `?` items in this phase are resolved with no new unknowns, mark

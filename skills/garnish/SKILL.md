@@ -1,11 +1,12 @@
 ---
 name: garnish
 description: |
-  Close a completed workonplan cycle. Verifies every PLAN task is done, final
-  verification is complete, tests are green, and no unrelated work is dirty,
-  then removes short-lived PLAN.md and HANDOFF.md while preserving SPEC.md and
-  repository history. Triggers when the user says garnish, clean up the plan,
-  close the plan cycle, or all workonplan phases are complete.
+  Close a completed workonplan cycle with evidence-gated closure: verifies
+  every PLAN task is done, final verification is complete, tests are green,
+  and no unrelated work is dirty, then removes short-lived PLAN.md and
+  HANDOFF.md while preserving SPEC.md and repository history. Triggers when
+  the user says garnish, clean up the plan, close the plan cycle, or all
+  workonplan phases are complete.
 license: MIT
 ---
 

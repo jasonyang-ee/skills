@@ -2,11 +2,11 @@
 name: caveman-encode
 description: |
   Caveman encoding for SPEC.md and spec-adjacent writes. Loaded by /spec,
-  /cook, /handoff, and /workonplan. Cuts tokens ~75% vs prose while
-  staying precise, using the symbol set (→ ∴ ∀ ⊥ !) that SPEC.md sections are
-  written in. Triggers on any write to SPEC.md, PLAN.md, or HANDOFF.md, or
-  when the user says "caveman encode", "encode the spec", or "compress this
-  spec". For compressing ordinary chat replies rather than spec files, use the
+  /cook, /handoff, and /workonplan. Lossless compression: cuts tokens ~75%
+  vs prose while staying precise, using the symbol set (→ ∴ ∀ ⊥ !) that
+  SPEC.md sections are written in. Triggers on any write to SPEC.md,
+  PLAN.md, or HANDOFF.md, or when the user says "caveman encode", "encode
+  the spec", or "compress this spec". For compressing ordinary chat replies rather than spec files, use the
   caveman skill instead.
 license: MIT
 ---

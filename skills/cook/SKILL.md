@@ -1,17 +1,16 @@
 ---
 name: cook
 description: |
-  Turn a user request into a caveman-encoded execution package: refine the goal
-  just enough, research the unknowns first, hand durable requirements to the
-  spec skill, draft a phased PLAN.md, and trigger handoff so a cold session can
-  resume with workonplan. The generated plan always starts with research and
-  ends with final verification. Quality contract: production-quality,
-  verification-driven, evidence-based implementation. Triggers when the user
-  says "cook this",
-  "draft PLAN.md", "prepare a handoff", "turn this into a multi-session plan",
-  or asks for production-quality, verification-driven, evidence-based
-  implementation planning, principal-engineer planning, or
-  grill/research/check-style planning in one pass.
+  Turn a user request into a caveman-encoded execution package: refine the
+  goal just enough, research the unknowns first, hand durable requirements to
+  the spec skill, draft a phased PLAN.md, and trigger handoff so a cold
+  session can resume with workonplan. The generated plan always starts with
+  research, ends with final verification, and holds a production-quality,
+  verification-driven, evidence-based implementation contract across all six
+  workflow steps. Triggers when the user says "cook this", "draft PLAN.md",
+  "prepare a handoff", "turn this into a multi-session plan", or asks for
+  production-quality planning, evidence-based planning, principal-engineer
+  planning, or grill/research/check-style planning in one pass.
 license: MIT
 ---
 
@@ -26,6 +25,8 @@ one short planning run.
 
 Use these operational cues in the generated plan and handoff. “Principal
 engineer” is a quality signal, not a substitute for an observable contract.
+Each cue also lives in the description of the skill that owns its step; this
+contract mirrors them, it is not their sole carrier.
 
 1. **Plan:** make the goal, constraints, interfaces, risks, unknowns, and
    acceptance evidence explicit; preserve the smallest coherent scope.

@@ -316,7 +316,34 @@ describe('cook stays the planning front door', () => {
     ]) {
       assert.match(cook, new RegExp(`\\b${cue.replace(':', '\\:')}`));
     }
-    assert.match(cook, /Do not use “best effort”, “looks good”, or “principal engineer”\s+as completion\s+criteria/);
+    const completionRule = cook.match(/Do not use[\s\S]{0,160}?as completion\s+criteria/);
+    assert.ok(completionRule, 'cook lacks the completion-criteria ban');
+    for (const banned of ['best effort', 'looks good', 'principal engineer']) {
+      assert.ok(completionRule[0].includes(banned), `completion-criteria ban omits "${banned}"`);
+    }
+  });
+
+  // V75 — each workflow step's canonical focus keywords live in the skill
+  // that owns the step (§R.27); cook's quality contract mirrors them and is
+  // not their sole carrier.
+  it('keeps each step\'s focus keywords in the owning description', () => {
+    assert.match(cook, /this\s+contract mirrors them, it is not their sole carrier/i);
+    const expectations = {
+      cook: ['production-quality', 'evidence-based'],
+      'caveman-encode': ['lossless compression'],
+      'review-plan': ['gap', 'latest web data'],
+      workonplan: ['production-quality', 'verification-driven', 'evidence-based'],
+      dispatchplan: ['production-quality', 'verification-driven', 'evidence-based'],
+      garnish: ['evidence-gated closure'],
+      'review-code': ['security check', 'infosec', 'evidence-based'],
+    };
+    for (const [name, terms] of Object.entries(expectations)) {
+      const skill = readFileSync(join(SKILLS_DIR, name, 'SKILL.md'), 'utf8');
+      const description = skill.slice(skill.indexOf('description:'), skill.indexOf('license:')).toLowerCase();
+      for (const term of terms) {
+        assert.ok(description.includes(term), `${name} description omits "${term}"`);
+      }
+    }
   });
 
   it('hands durable updates to spec and resumes with workonplan', () => {
@@ -408,6 +435,15 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(implementation, /correctness/);
     assert.match(implementation, /file:line/);
     assert.match(implementation, /invoke `cook`/);
+  });
+
+  // V74 — the research gate grounds findings in current primary sources with
+  // a checked date, never model memory.
+  it('review-plan grounds research in current, dated primary sources', () => {
+    assert.match(reviewPlan, /primary web sources/);
+    assert.match(reviewPlan, /official docs, changelogs, release notes/);
+    assert.match(reviewPlan, /never trust model memory/);
+    assert.match(reviewPlan, /date it was checked/);
   });
 
   // V73 — step 6 owns the security check; the description is the trigger

@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Align all six workflow-step skill descriptions with canonical focus
+  keywords: plan gap finding and latest-web-data research in `/review-plan`,
+  lossless compression in `/caveman-encode`, evidence-gated closure in
+  `/garnish`, and a deduplicated `/cook` description; the `/review-plan`
+  research gate now requires current, dated primary sources over model
+  memory.
 - Add a Security review dimension to `/review-code` (secrets, injection,
   untrusted input, authn/authz, supply-chain) with security check and infosec
   triggers, plus security cues in the `/review-plan` blast-radius axis and the
