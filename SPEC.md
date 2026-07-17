@@ -163,6 +163,7 @@ V65: `dispatchplan` sub-agent → on finish ! write `## completion` block (statu
 V66: `dispatchplan` SKILL.md ! describe main `HANDOFF.md` refresh @ each of: before dispatch, after sub-agent completion, after acceptance review, before stop (∵ large context in parallel workflow)
 V67: `dispatchplan` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-implementer`, `Explore`); selection ! expressed in capability/complexity terms (∵ §R.21, §R.12 — `skills add` installs ⊥ agents → silent no-op; §C ⊥ project-specific refs in `skills/**`)
 V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
+V69: `/prep` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Caveman symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
 
 ## §T TASKS
 
@@ -231,6 +232,9 @@ T61|x|add `skills/dispatchplan/SKILL.md` + roster updates (README table+layout t
 T62|x|final verify: rename + dispatchplan contracts; §V61-V68 HOLD + V58/V50 regression|V61,V62,V63,V64,V65,V66,V67,V68,V58,V50
 T63|x|retire `truth-workflow.md` (user ruling 2026-07-16: ⊥ separate narrative file) → V51 retired; §G/§I narrative → `README.md`; purge dead refs @ `README.md:59`, `skills/prep/SKILL.md:25`, tests (`LIVE_REF_FILES`, V51 case). `workonplan` stays strict ⊥ sub-agent ∴ ⊥ cross-point → `dispatchplan`|V47,V50,§G,§I
 T64|x|narrow test scope → `skills/**` + license/release guards (user ruling 2026-07-16); drop doc-prose asserts (README V50/V52/V55/V57/V58/V59, `.github/CONTRIBUTING.md` V56, AGENTS legend, CLAUDE import, V60) → those §V now MANUAL ⊥ retired; fix stale root `CONTRIBUTING.md` paths @ `LIVE_REF_FILES` + V56 case (red @ `ccec8bc`); `release.sh` test gate ! show output on red; AGENTS.md → 7-cmd list w/ `/dispatchplan` peer + full support roster + `release.sh`/`.github/` layout|V42,V50,V52,V55,V56,V57,V58,V59,V60,§C,§I
+T65|x|research prep golden template requirements|V69
+T66|x|update prep template + contract test + changelog|V69
+T67|x|final verify prep template change|V69
 
 ## §B BUGS
 

@@ -74,13 +74,18 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 ```md
 # AGENTS.md
 
+## AI File Purpose
+- `AGENTS.md` = repo work rules.
+- `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan. `HANDOFF.md` = phase handoff summary. ∀ change → update `SPEC.md` + `PLAN.md` + `HANDOFF.md`.
+
 ## Codebase Summary
 <user fills project purpose, stack, and repository boundary>
 
 ## Layout
 <user fills important paths>
 
-## Commands
+## Skills
 1. `/prep` → bootstrap guidance + minimal durable files
 2. `/cook` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff
 3. `/review-plan` → research/refute plan → GO/NO-GO
@@ -91,6 +96,12 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 7. `/review-code` → baseline code sweep → cook
 
 support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman` chat brevity | `/caveman-commit` commit summary | `/caveman-pr` PR review comments
+
+## Project Scripts
+- `<user fills setup command>` — set up development environment.
+- `<user fills start command>` — start application or service.
+- `<user fills test command>` — run tests and linters. ! run before ending chat.
+- `<user fills release command>` — release new version.
 
 ## Caveman symbols
 
@@ -116,11 +127,11 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 <user fills project constraints and safety rules>
 
 ## End of Chat Checklist
-- update CHANGELOG.md
-- update SPEC.md for behavior changes
-- run verification command
-- refresh HANDOFF.md when phase/session ends
-- commit; ⊥ push/tag without explicit ask
+- Ensure ∀ lint + tests pass.
+- Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
+- Update `SPEC.md` ∀ code change / new feature (`§U` ∀ UI change, flip `§T`, add `§V`).
+- Refresh `HANDOFF.md` when phase/session ends.
+- Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
 ```
 
 Do not invent project commands, paths, or constraints. Mark unknowns `?` until
@@ -143,6 +154,7 @@ All notable changes to this project will be documented in this file.
 Report each action and preservation decision. Confirm:
 
 - `AGENTS.md` has all seven bootstrap commands in order, Caveman symbols, and checklist;
+- a new `AGENTS.md` template includes AI-file purpose, workflow skills, project-script placeholders, and the full end-of-chat checklist;
 - `CLAUDE.md` is exactly `@AGENTS.md` when prep created it;
 - `CHANGELOG.md` has `## [Unreleased]`;
 - `SPEC.md` exists with the baked header and fixed sections;

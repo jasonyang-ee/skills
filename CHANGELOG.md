@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Improve `/prep` new-user `AGENTS.md` template with AI-file purpose, project
+  script placeholders, workflow context, and complete end-of-chat checks.
+
 ## [0.3.0] - 2026-07-16
 
 ### Added

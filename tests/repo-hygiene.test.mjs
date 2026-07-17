@@ -134,6 +134,24 @@ describe('prep bootstraps the workflow safely', () => {
     assert.match(prep, /## End of Chat Checklist/);
   });
 
+  it('templates the durable AI-file guidance for new users', () => {
+    for (const section of [
+      '## AI File Purpose',
+      '## Skills',
+      '## Project Scripts',
+      '## Caveman symbols',
+      '## End of Chat Checklist',
+    ]) {
+      assert.match(prep, new RegExp(section.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    }
+    assert.match(prep, /`PLAN\.md` \+ `HANDOFF\.md` = short-lived cycle files/);
+    assert.match(prep, /<user fills test command>/);
+    assert.match(prep, /Ensure ∀ lint \+ tests pass/);
+    assert.match(prep, /Update `CHANGELOG\.md` `## \[Unreleased\]`/);
+    assert.match(prep, /Update `SPEC\.md` ∀ code change/);
+    assert.match(prep, /Commit directly .*⊥ push \| tag without explicit ask/);
+  });
+
   // V53 — the generated AGENTS.md lists support skills outside the six
   // lifecycle commands (V46); a missing one is a skill the bootstrapped repo
   // never learns exists.
