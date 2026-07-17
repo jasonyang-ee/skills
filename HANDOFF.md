@@ -1,30 +1,32 @@
 # HANDOFF 2026-07-16
 
-branch <current> | last commit `1e93f5c` `feat(prep): template complete agent guidance` | tests green (`npm.cmd test`) | oracle `npm.cmd test`
-uncommitted: `AGENTS.md` (pre-existing user change, unrelated)
+branch `main` | last commit `c3aabac` `feat(workonplan): run all phases by default` | tests green (`npm.cmd test`) | oracle `npm.cmd test`
+baseline green (`npm.cmd test`) | uncommitted: `HANDOFF.md` pending baton commit
 
 ## done this session
-F1 x: local prep/template/test research complete → `1e93f5c`
-F2 x: template + contract test + changelog complete → `1e93f5c`
-F3 x: full verification complete → `1e93f5c`
+F1 x: mapped default-vs-explicit execution semantics; recorded R24/V70
+F2 x: updated skill, guidance, regression test, changelog → `c3aabac`
+F3 x: full diff sweep + full suite green → `c3aabac`
 
 ## in progress (exact stop point)
-done: steps 1,2,3 | NEXT STEP: none; resume with `/garnish` when cycle cleanup is requested
+done: steps 1,2,3 | NEXT STEP: run `/garnish` when cycle cleanup requested
 mid-edit files: none
 
 ## next
-done | preconditions: `npm.cmd test` green
+garnish | preconditions: T68,T69,T70 = x; final verification HOLD
 
 ## deviations & decisions
-plan said generic placeholders → target golden new-user sections because user supplied exact content (PLAN.md updated: y)
-user decided: prep must construct golden `AGENTS.md` content for new users
+plan said `/workonplan` default ran one phase → no arg now runs all remaining phases in PLAN.md order
+user decided: explicit `/workonplan F<n>` remains targeted one-phase override
+PLAN.md + SPEC.md updated: y
 
 ## watchouts
-- preserve existing guidance; project scripts remain user-filled placeholders
+- Historical changelog wording preserves prior behavior as release record.
+- No push or tag performed.
 
 ## final verification
 item|status|evidence|decision
-V69|HOLD|`skills/prep/SKILL.md`; prep contract test|code
-T65|HOLD|`SPEC.md` research/task record|SPEC
-T66|HOLD|`tests/repo-hygiene.test.mjs`; `npm.cmd test`|code
-T67|HOLD|181 tests passed|-
+V70|HOLD|`skills/workonplan/SKILL.md`; `tests/repo-hygiene.test.mjs`|code
+T68|HOLD|`SPEC.md` R24; local guidance sweep|SPEC
+T69|HOLD|targeted test 14/14; commit `c3aabac`|code
+T70|HOLD|`npm.cmd test`: 182/182; `git diff --check`|-
