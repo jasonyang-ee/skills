@@ -7,13 +7,14 @@ uncommitted: none after this session's summary commit (SPEC.md + PLAN.md + HANDO
 ## done this session
 planning: review-code re-sweep (baseline v0.4.0) → ∀ findings re-confirmed, gate NO-GO (B5); dup §B id `B2` renumbered → B5 in SPEC.md; PLAN.md refs B2→B5; HANDOFF.md pair created (was missing — cook pair rule).
 F1: research done → R25-R27 landed (spec description-keyword rules, Claude Code trigger mechanics, frozen keyword table ∀ 6 steps); T72 x; F4 tightened (key use case first, R26). → ef47956
-F2: B5 closed — workonplan description rewritten (fragment gone, step-4 keywords in), dispatchplan mirrored, V72 test added. T73 x. Tests 184/184.
+F2: B5 closed — workonplan description rewritten (fragment gone, step-4 keywords in), dispatchplan mirrored, V72 test added. T73 x. Tests 184/184. → 74603aa
+F3: Security dimension ∈ review-code (+ description "security check"/"infosec"), security cues ∈ review-plan blast radius + workonplan self-review; V73 test. T74 x. Tests 185/185.
 
 ## in progress (exact stop point)
-- F1,F2 done. F3-F5 todo.
+- F1-F3 done. F4,F5 todo.
 
 ## next
-F3 (T74) | preconditions: none. NEXT STEP: add **Security** dimension bullet → skills/review-code/SKILL.md review dimensions (secrets in diff, injection, authn/authz, untrusted input, dependency/supply-chain) + description ∋ "security check" & "infosec"; security cues → skills/review-plan/SKILL.md blast radius + skills/workonplan/SKILL.md self-review; V73 test.
+F4 (T75) | preconditions: none. NEXT STEP: per PLAN F4 — dedupe skills/cook/SKILL.md description (state triad once, rm dangling `says "cook this",` break); review-plan description + "plan gap finding"/"latest web data" + research-gate body current-primary-sources/date-stamp/⊥-model-memory wording; caveman-encode + garnish descriptions + canonical keywords (R27); V74+V75 tests; relax quote-glyph assert @ tests/repo-hygiene.test.mjs (search `Do not use`).
 
 ## deviations & decisions
 - prior session (2026-07-16) emitted PLAN.md w/o HANDOFF.md & dup B2 row → both fixed this session (PLAN.md updated: y).

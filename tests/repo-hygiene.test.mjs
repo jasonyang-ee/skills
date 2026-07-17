@@ -410,6 +410,18 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(implementation, /invoke `cook`/);
   });
 
+  // V73 — step 6 owns the security check; the description is the trigger
+  // surface for "security check" / "infosec" asks (§R.27).
+  it('review-code carries the security dimension and its triggers', () => {
+    const description = implementation.slice(implementation.indexOf('description:'), implementation.indexOf('license:'));
+    assert.ok(description.includes('security check'), 'description omits "security check"');
+    assert.ok(description.includes('infosec'), 'description omits "infosec"');
+    assert.match(implementation, /\*\*Security\*\*/);
+    for (const term of ['secrets', 'injection', 'authn/authz', 'untrusted input', 'supply-chain']) {
+      assert.ok(implementation.includes(term), `review-code security dimension omits "${term}"`);
+    }
+  });
+
   it('garnish protects durable state and gates deletion', () => {
     assert.match(garnish, /every PLAN phase/i);
     assert.match(garnish, /final verification/);

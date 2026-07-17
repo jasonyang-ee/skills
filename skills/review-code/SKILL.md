@@ -2,11 +2,12 @@
 name: review-code
 description: |
   Principal-engineer sweep of implementation quality since the latest release
-  tag or explicit release commit. Reviews full-picture code coherence,
-  complexity, reuse, and logic correctness with evidence, then invokes cook to
-  turn accepted fixes and improvements into a research-first PLAN.md and
-  HANDOFF.md. Triggers after workonplan completes a plan or when the user asks
-  for an implementation review, code-quality sweep, or post-release audit.
+  tag or explicit release commit: a security check plus evidence-based audit
+  of full-picture code coherence, complexity, reuse, and logic correctness.
+  Invokes cook to turn accepted fixes and improvements into a research-first
+  PLAN.md and HANDOFF.md. Triggers after workonplan completes a plan or when
+  the user asks for an implementation review, code-quality sweep, security
+  check, infosec sweep, or post-release audit.
 license: MIT
 ---
 
@@ -61,6 +62,9 @@ Flag `[unverified]` when evidence is unavailable.
   and module boundaries remain consistent across the codebase.
 - **Verification** — changed behavior has focused tests, regression coverage,
   and a full-suite result appropriate to its blast radius.
+- **Security** — secrets or credentials in the diff, injection risks,
+  untrusted input paths, authn/authz changes, and dependency or
+  supply-chain deltas since baseline.
 
 ## Review procedure
 

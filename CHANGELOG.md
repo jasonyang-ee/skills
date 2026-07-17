@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Add a Security review dimension to `/review-code` (secrets, injection,
+  untrusted input, authn/authz, supply-chain) with security check and infosec
+  triggers, plus security cues in the `/review-plan` blast-radius axis and the
+  `/workonplan` self-review checklist.
 - Fix `/workonplan` description sentence fragment shipped in v0.4.0 and add
   production-quality, verification-driven, evidence-based implementation
   keywords to the `/workonplan` and `/dispatchplan` descriptions (B5).

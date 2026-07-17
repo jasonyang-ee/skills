@@ -97,6 +97,8 @@ without asking questions — not code that was fast to write.
    - coherent in the larger picture — fits the modules it touches, no logic now
      duplicated somewhere else, no house pattern broken;
    - no debug leftovers, no dead code, no drive-by changes outside phase scope;
+   - no secret material in the diff, no new untrusted-input path left
+     unvalidated;
    - comments state constraints, not narration.
    Fix everything found; re-run the tests if code changed.
 6. **Close out per the repo's process contract:** SPEC.md updates (new §V / §I

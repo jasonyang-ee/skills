@@ -71,8 +71,9 @@ Attack the plan on these axes. Every finding cites evidence or is tagged
 - **Phase gates** — are all preconditions achievable? Does any gate depend
   on elapsed time, external approval, or a soak period?
 - **Blast radius** — does any phase touch shared modules, auth, data
-  migrations, or public `§I` surfaces? Flag for an extra safety step in
-  that phase's verification contract.
+  migrations, or public `§I` surfaces? Does any step handle secrets,
+  untrusted input, or injection-prone surfaces? Flag for an extra safety
+  step in that phase's verification contract.
 - **Altitude** — are steps concrete enough to finish in one session?
   Unverifiable steps are a BLOCK.
 
