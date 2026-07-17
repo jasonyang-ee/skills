@@ -6,12 +6,13 @@ uncommitted: none after this session's summary commit (SPEC.md + PLAN.md + HANDO
 
 ## done this session
 planning: review-code re-sweep (baseline v0.4.0) → ∀ findings re-confirmed, gate NO-GO (B5); dup §B id `B2` renumbered → B5 in SPEC.md; PLAN.md refs B2→B5; HANDOFF.md pair created (was missing — cook pair rule).
+F1: research done → R25-R27 landed (spec description-keyword rules, Claude Code trigger mechanics, frozen keyword table ∀ 6 steps); T72 x; F4 tightened (key use case first, R26).
 
 ## in progress (exact stop point)
-- ⊥ implementation started. F1-F5 all todo.
+- F1 done. F2-F5 todo.
 
 ## next
-F1 (research, T72) | preconditions: none. NEXT STEP: fetch https://agentskills.io/specification.md + https://code.claude.com/docs/en/skills → confirm description-trigger mechanics; build keyword gap table per PLAN.md F1 steps; land §R rows via spec.
+F2 (T73) | preconditions: none. NEXT STEP: rewrite skills/workonplan/SKILL.md description (fix B5 fragment, weave "production-quality"/"verification-driven"/"evidence-based"), mirror step-4 keywords → skills/dispatchplan/SKILL.md description, add V72 test ∈ tests/repo-hygiene.test.mjs.
 
 ## deviations & decisions
 - prior session (2026-07-16) emitted PLAN.md w/o HANDOFF.md & dup B2 row → both fixed this session (PLAN.md updated: y).

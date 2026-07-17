@@ -93,6 +93,9 @@ R21|`AGENTS.md` ⊥ ∋ sub-agent roster; `sonnet-implementer`/`Explore` = harne
 R22|`tests/attribution.test.mjs:12-20` asserts `NOTICE.md` rows ∀ VENDORED only; `NOTICE.md:92-96` "Original work" own-skill roster ⊥ test-anchored ∴ omission silent|`tests/attribution.test.mjs`, `NOTICE.md` @ review-plan 2026-07-16
 R23|`workonplan` self-review contract = read FULL `git diff`, check plan match, larger-picture coherence, ⊥ debug leftovers/dead code/drive-by, comments state constraints ∴ reusable as dispatcher acceptance review, phase-scoped, ⊥ cook handoff|`skills/workonplan/SKILL.md:84-92` @ review-plan 2026-07-16
 R24|`workonplan` default has no phase arg → run every remaining PLAN.md phase sequentially; explicit phase arg remains targeted override|user request 2026-07-16 + `skills/workonplan/SKILL.md`, `README.md`, `skills/prep/SKILL.md`
+R25|Agent Skills spec: description 1-1024 chars, ! state what + when-to-use, ! ∋ specific keywords for task matching; name+description = sole startup-loaded metadata (~100 tokens), body loads on activation, ≤500 lines|https://agentskills.io/specification.md @ 2026-07-17
+R26|Claude Code: ∀ skill descriptions always in context & drive auto-invocation; description+when_to_use listing truncated @ 1536 chars ∴ key use case first; weak-trigger fix = strengthen description; tuning oracle = should-trigger vs should-not-trigger hit rate|https://code.claude.com/docs/en/skills @ 2026-07-17
+R27|canonical focus keywords frozen ∀ 6 steps: 1 cook="production-quality planning, evidence-based"; 2 caveman-encode="lossless compression"; 3 review-plan="plan gap finding, research with latest web data"; 4 workonplan+dispatchplan="production-quality, verification-driven, evidence-based implementation"; 5 garnish="evidence-gated closure"; 6 review-code="security check, infosec sweep, evidence-based audit"|gap grep 2026-07-17 (zero security vocab ∀ 6 core skills) + R25/R26 + user target vocab 2026-07-16
 
 ## §V INVARIANTS
 
@@ -246,7 +249,7 @@ T68|x|research `/workonplan` default-vs-explicit phase semantics + stale guidanc
 T69|x|update `workonplan` + README + prep + AGENTS + tests → default executes all phases|V70,R24
 T70|x|final verify default execution contract + full suite|V70
 T71|x|strengthen `cook` quality contract → observable cues across 6 workflow steps|V24,V25,V71
-T72|.|research canonical focus-keyword set ∀ 6 steps + description-trigger best practice (latest web sources) → §R|V75
+T72|x|research canonical focus-keyword set ∀ 6 steps + description-trigger best practice (latest web sources) → §R|V75
 T73|.|fix `workonplan` description fragment + weave step-4 keywords|V72
 T74|.|add Security dimension → `review-code`; security cues → `review-plan` blast radius + `workonplan` self-review|V73
 T75|.|align ∀ 6 step descriptions w/ canonical keywords; dedupe `cook` description; update tests|V71,V74,V75

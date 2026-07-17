@@ -72,6 +72,7 @@ goal: canonical keywords ∈ ∀ 6 owning descriptions; cook description deduped
 inputs: F1 keyword table; ∀ 6 SKILL.md.
 files: skills/cook/SKILL.md, skills/caveman-encode/SKILL.md, skills/review-plan/SKILL.md, skills/garnish/SKILL.md, tests/repo-hygiene.test.mjs.
 steps:
+0. ∀ description: key use case first (R26 — 1536-char listing truncation).
 1. cook description: state keyword set once; rm dup + dangling `says "cook this",` line break. Body quality contract stays (V71) w/ cross-point "each cue lives in owning skill".
 2. review-plan description: + "plan gap finding" | "find gaps in the plan" & "research with latest web data"; research gate body → current-primary-sources + date-stamp + ⊥ model-memory wording (V74).
 3. caveman-encode + garnish descriptions: + canonical keywords (lossless compression / evidence-gated closure) — light touch, vendored voice preserved for caveman-encode.
