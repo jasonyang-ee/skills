@@ -5,9 +5,13 @@ description: |
   just enough, research the unknowns first, hand durable requirements to the
   spec skill, draft a phased PLAN.md, and trigger handoff so a cold session can
   resume with workonplan. The generated plan always starts with research and
-  ends with final verification. Triggers when the user says "cook this",
+  ends with final verification. Quality contract: production-quality,
+  verification-driven, evidence-based implementation. Triggers when the user
+  says "cook this",
   "draft PLAN.md", "prepare a handoff", "turn this into a multi-session plan",
-  or asks for grill/research/check-style planning in one pass.
+  or asks for production-quality, verification-driven, evidence-based
+  implementation planning, principal-engineer planning, or
+  grill/research/check-style planning in one pass.
 license: MIT
 ---
 
@@ -17,6 +21,30 @@ license: MIT
 session-spanning for `workonplan` or `spec` alone. It replaces the old split between idea
 grilling, research setup, and a final drift-check pass by packaging them into
 one short planning run.
+
+## Quality contract
+
+Use these operational cues in the generated plan and handoff. “Principal
+engineer” is a quality signal, not a substitute for an observable contract.
+
+1. **Plan:** make the goal, constraints, interfaces, risks, unknowns, and
+   acceptance evidence explicit; preserve the smallest coherent scope.
+2. **Encode:** keep `PLAN.md` and `HANDOFF.md` compact, lossless, and
+   caveman-encoded so a cold agent can resume without hidden context.
+3. **Review the plan:** research unknowns, challenge assumptions and phase
+   dependencies, and require an explicit GO/NO-GO before high-blast-radius work.
+4. **Implement:** make the smallest codebase-consistent change, verify-first;
+   name exact tests and oracles, then self-review the complete diff.
+5. **Close:** leave evidence in `SPEC.md`, `CHANGELOG.md`, and `HANDOFF.md`;
+   never claim completion from a green command alone when manual invariants
+   remain unverified.
+6. **Review the implementation:** inspect correctness, complexity, reuse,
+   coherence, and drift from the release baseline; turn accepted findings into
+   the next `cook` cycle.
+
+The quality contract is complete only when each applicable cue has evidence.
+Do not use “best effort”, “looks good”, or “principal engineer” as completion
+criteria.
 
 ## When to use
 
@@ -108,7 +136,8 @@ Write or replace `PLAN.md` at repo root. Keep it short, agent-facing, and
 caveman-encoded. It must contain, in this order:
 
 1. a one-line goal;
-2. ground rules / process contract for the run;
+2. ground rules / process contract for the run, including the applicable
+   quality-contract cues and evidence required for each phase;
 3. existing assets or evidence already present;
 4. a phase-order table;
 5. the full section for each phase.

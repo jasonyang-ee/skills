@@ -166,6 +166,7 @@ V67: `dispatchplan` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-
 V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
 V69: `/prep` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Caveman symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
 V70: `/workonplan` without phase arg → execute ∀ remaining PLAN.md phases sequentially; `/workonplan F<n>` → execute targeted phase only
+V71: `cook` quality contract → production-quality, verification-driven, evidence-based implementation cues mapped across all 6 workflow steps; completion ! role label alone
 
 ## §T TASKS
 
@@ -240,6 +241,7 @@ T67|x|final verify prep template change|V69
 T68|x|research `/workonplan` default-vs-explicit phase semantics + stale guidance|V70,R24
 T69|x|update `workonplan` + README + prep + AGENTS + tests → default executes all phases|V70,R24
 T70|x|final verify default execution contract + full suite|V70
+T71|x|strengthen `cook` quality contract → observable cues across 6 workflow steps|V24,V25,V71
 
 ## §B BUGS
 

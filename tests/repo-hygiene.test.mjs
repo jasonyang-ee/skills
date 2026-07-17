@@ -304,6 +304,21 @@ describe('cook stays the planning front door', () => {
     assert.match(cook, /last phase must be final verification/i);
   });
 
+  it('uses observable quality cues instead of role language alone', () => {
+    assert.match(cook, /production-quality,\s+verification-driven,\s+evidence-based\s+implementation/i);
+    for (const cue of [
+      'Plan:',
+      'Encode:',
+      'Review the plan:',
+      'Implement:',
+      'Close:',
+      'Review the implementation:',
+    ]) {
+      assert.match(cook, new RegExp(`\\b${cue.replace(':', '\\:')}`));
+    }
+    assert.match(cook, /Do not use “best effort”, “looks good”, or “principal engineer”\s+as completion\s+criteria/);
+  });
+
   it('hands durable updates to spec and resumes with workonplan', () => {
     assert.match(cook, /`spec` remains the sole mutator of `SPEC\.md`/);
     assert.match(cook, /\/workonplan/);

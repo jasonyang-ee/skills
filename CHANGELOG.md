@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Strengthen `/cook` quality cues with production-quality,
+  verification-driven, evidence-based implementation language and explicit
+  focus across all six workflow steps.
+
 ## [0.4.0] - 2026-07-16
 
 - Change `/workonplan` so no argument executes all remaining plan phases in
