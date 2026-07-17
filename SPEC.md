@@ -167,6 +167,10 @@ V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; roo
 V69: `/prep` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Caveman symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
 V70: `/workonplan` without phase arg → execute ∀ remaining PLAN.md phases sequentially; `/workonplan F<n>` → execute targeted phase only
 V71: `cook` quality contract → production-quality, verification-driven, evidence-based implementation cues mapped across all 6 workflow steps; completion ! role label alone
+V72: `skills/workonplan/SKILL.md` description → well-formed sentences (⊥ fragment `targets one phase. at principal-engineer quality`) & ∋ step-4 focus keywords "production-quality" & "verification-driven" & "evidence-based"
+V73: `skills/review-code/SKILL.md` ! ∋ Security review dimension (secrets in diff, injection, authn/authz change, untrusted input, dependency/supply-chain delta) & description ∋ "security check" & "infosec"
+V74: `skills/review-plan/SKILL.md` research gate ! prefer current primary web sources (official docs/changelogs/release notes), date-stamp ∀ finding, ⊥ trust model memory for versions/APIs; description ∋ gap-finding trigger ("gap") & "latest web data"
+V75: ∀ 6 workflow steps → canonical focus keywords ∈ owning skill description (1 `cook`, 2 `caveman-encode`, 3 `review-plan`, 4 `workonplan`+`dispatchplan`, 5 `garnish`, 6 `review-code`); keyword set → §R row from research; `cook` quality contract mirrors, ⊥ sole carrier
 
 ## §T TASKS
 
@@ -242,6 +246,11 @@ T68|x|research `/workonplan` default-vs-explicit phase semantics + stale guidanc
 T69|x|update `workonplan` + README + prep + AGENTS + tests → default executes all phases|V70,R24
 T70|x|final verify default execution contract + full suite|V70
 T71|x|strengthen `cook` quality contract → observable cues across 6 workflow steps|V24,V25,V71
+T72|.|research canonical focus-keyword set ∀ 6 steps + description-trigger best practice (latest web sources) → §R|V75
+T73|.|fix `workonplan` description fragment + weave step-4 keywords|V72
+T74|.|add Security dimension → `review-code`; security cues → `review-plan` blast radius + `workonplan` self-review|V73
+T75|.|align ∀ 6 step descriptions w/ canonical keywords; dedupe `cook` description; update tests|V71,V74,V75
+T76|.|final verify: full suite + manual doc §V oracle sweep|V72,V73,V74,V75
 
 ## §B BUGS
 
@@ -250,3 +259,4 @@ B1|2026-07-15|release.yml awk: dynamic regex `"^## \\[" ver "\\]"` → shell/awk
 B2|2026-07-15|release.yml awk: last CHANGELOG section → ⊥ next `## [` ∴ ran to EOF ∴ trailing `[x]: url` link defs leaked into release notes|awk `found && /^\[/ { exit }`
 B3|2026-07-15|copy-over commit `7bb0bc0` renamed `LICENSE` → `LICENSE.md` (git R100, pure rename, ⊥ intent) ∴ V10 red ∴ CI ⊥ on main + ∀ 3 dependabot PRs. README badge + README link + `NOTICE.md` link → `LICENSE` ∴ broke silently too|`git mv LICENSE.md LICENSE`. V10 caught @ CI ∴ ⊥ new invariant (V10 worked as designed).
 B4|2026-07-15|`js-yaml` 5.x = ESM, ⊥ `default` export ∴ `import yaml from 'js-yaml'` → `SyntaxError: does not provide an export named 'default'` ∴ ∀ 4 test files ⊥ load, pass 0/fail 4. Rode in via PR #3 (`js-yaml` 4.3.0→5.2.1) merged while CI already red from B3 ∴ breakage masked ∵ red ⊥ distinguishable from red|`import * as yaml from 'js-yaml'` @ `tests/helpers.mjs` + `tests/repo-hygiene.test.mjs`. `load` still named export ∴ `yaml.load` call sites unchanged. CI `npm ci` caught ∴ ⊥ new invariant. ⚠ process gap: ⊥ branch protection ∴ red PR mergeable — user call.
+B5|2026-07-16|`workonplan` description sentence fragment `targets one phase. at principal-engineer quality` — v0.4.0 all-phases edit (`c3aabac`) left stale clause; shipped in tag|V72
