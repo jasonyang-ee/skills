@@ -341,6 +341,17 @@ describe('cook stays the planning front door', () => {
   });
 });
 
+describe('workonplan executes the planned phase set', () => {
+  const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
+
+  it('runs all remaining phases by default and preserves targeted execution', () => {
+    assert.match(workonplan, /No arg → start at the `HANDOFF\.md` "next" pointer/);
+    assert.match(workonplan, /No arg → after each completed phase and committed handoff, continue with the\s+next eligible phase/);
+    assert.match(workonplan, /Explicit phase arg → execute only that phase, then invoke `handoff` and stop/);
+    assert.match(workonplan, /A `next` pointer identifies the starting phase, not a default one-phase limit/);
+  });
+});
+
 describe('review and garnish workflow stays coherent', () => {
   const reviewPlan = readFileSync(join(SKILLS_DIR, 'review-plan', 'SKILL.md'), 'utf8');
   const implementation = readFileSync(join(SKILLS_DIR, 'review-code', 'SKILL.md'), 'utf8');

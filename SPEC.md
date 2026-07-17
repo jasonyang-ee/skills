@@ -92,6 +92,7 @@ R20|`review-code` baseline = latest reachable tag; ! "confirm the plan is comple
 R21|`AGENTS.md` ⊥ ∋ sub-agent roster; `sonnet-implementer`/`Explore` = harness-supplied ⊥ repo files; `skills add` installs ⊥ agents (§R.12) ∴ named-agent refs in skill body → silent no-op ∀ other harness|`AGENTS.md` full read + §R.12 @ review-plan 2026-07-16
 R22|`tests/attribution.test.mjs:12-20` asserts `NOTICE.md` rows ∀ VENDORED only; `NOTICE.md:92-96` "Original work" own-skill roster ⊥ test-anchored ∴ omission silent|`tests/attribution.test.mjs`, `NOTICE.md` @ review-plan 2026-07-16
 R23|`workonplan` self-review contract = read FULL `git diff`, check plan match, larger-picture coherence, ⊥ debug leftovers/dead code/drive-by, comments state constraints ∴ reusable as dispatcher acceptance review, phase-scoped, ⊥ cook handoff|`skills/workonplan/SKILL.md:84-92` @ review-plan 2026-07-16
+R24|`workonplan` default has no phase arg → run every remaining PLAN.md phase sequentially; explicit phase arg remains targeted override|user request 2026-07-16 + `skills/workonplan/SKILL.md`, `README.md`, `skills/prep/SKILL.md`
 
 ## §V INVARIANTS
 
@@ -164,6 +165,7 @@ V66: `dispatchplan` SKILL.md ! describe main `HANDOFF.md` refresh @ each of: bef
 V67: `dispatchplan` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-implementer`, `Explore`); selection ! expressed in capability/complexity terms (∵ §R.21, §R.12 — `skills add` installs ⊥ agents → silent no-op; §C ⊥ project-specific refs in `skills/**`)
 V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
 V69: `/prep` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Caveman symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
+V70: `/workonplan` without phase arg → execute ∀ remaining PLAN.md phases sequentially; `/workonplan F<n>` → execute targeted phase only
 
 ## §T TASKS
 
@@ -235,6 +237,9 @@ T64|x|narrow test scope → `skills/**` + license/release guards (user ruling 20
 T65|x|research prep golden template requirements|V69
 T66|x|update prep template + contract test + changelog|V69
 T67|x|final verify prep template change|V69
+T68|x|research `/workonplan` default-vs-explicit phase semantics + stale guidance|V70,R24
+T69|x|update `workonplan` + README + prep + AGENTS + tests → default executes all phases|V70,R24
+T70|x|final verify default execution contract + full suite|V70
 
 ## §B BUGS
 

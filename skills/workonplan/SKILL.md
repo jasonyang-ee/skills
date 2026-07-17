@@ -2,8 +2,8 @@
 name: workonplan
 description: |
   Session kick-off for multi-phase PLAN.md execution. Loads HANDOFF.md +
-  PLAN.md + SPEC.md, picks the next phase (or the one passed as an arg, e.g.
-  `/workonplan F1`), and executes phases end-to-end as the SINGLE main agent
+  PLAN.md + SPEC.md, then executes all remaining phases in order as the SINGLE
+  main agent. An optional phase arg (e.g. `/workonplan F1`) targets one phase.
   at principal-engineer quality: quality over speed, codebase consistency over
   easiness, lean low-complexity code. Every phase ends green, self-reviewed,
   and committed. Composes with the spec, caveman-encode, and handoff
@@ -14,7 +14,7 @@ description: |
 license: MIT
 ---
 
-# workonplan — execute PLAN.md phases, one at a time, at full quality
+# workonplan — execute all remaining PLAN.md phases at full quality
 
 You are the single main agent. No sub-agents, no swarm, no parallel workers.
 You work like a principal engineer: the goal is code the NEXT reader maintains
@@ -60,12 +60,20 @@ without asking questions — not code that was fast to write.
 
 ## PICK PHASE
 
-- Arg given (`/workonplan F1`) → that phase.
-- Else the `HANDOFF.md` "next" pointer.
-- Else the first phase in PLAN.md's recommended sequence whose `task:` §T row is
-  not `x` and whose gate (if any) is satisfied. Gated phases with unmet gates —
-  anything waiting on elapsed time, external evidence, or a soak period — are
-  skipped with a one-line note.
+- Arg given (`/workonplan F1`) → that phase only; stop after its handoff.
+- No arg → start at the `HANDOFF.md` "next" pointer.
+- If no pointer exists → start at the first phase in PLAN.md's recommended
+  sequence whose `task:` §T row is not `x` and whose gate (if any) is satisfied.
+  Gated phases with unmet gates — anything waiting on elapsed time, external
+  evidence, or a soak period — are skipped with a one-line note.
+
+## RUN LOOP
+
+- No arg → after each completed phase and committed handoff, continue with the
+  next eligible phase in PLAN.md order until every remaining phase is complete,
+  a gate blocks progress, or a genuine ambiguity requires the user.
+- Explicit phase arg → execute only that phase, then invoke `handoff` and stop.
+- A `next` pointer identifies the starting phase, not a default one-phase limit.
 
 ## EXECUTE (per phase)
 
@@ -99,7 +107,8 @@ without asking questions — not code that was fast to write.
    `HANDOFF.md` with exact phase result, test/oracle state, stop point, and next
    executable step, then commit the baton before any next phase or report.
 8. Report to the user in 3–6 sentences: what shipped, verification evidence,
-   baton commit, and any deviation. Then continue to the next phase.
+   baton commit, and any deviation. With no arg, continue to the next phase;
+   with an explicit phase arg, stop after that phase.
 
 ## STOP CONDITIONS (stop the loop, don't push through)
 
@@ -109,7 +118,7 @@ without asking questions — not code that was fast to write.
   data safety, or security semantics.
 - Context budget low (roughly <15% remaining) — stop BEFORE starting another
   phase, while there is room to hand off cleanly.
-- The user asked for a single phase.
+- The user explicitly passed one phase argument.
 
 ## END OF SESSION (always, no exceptions)
 

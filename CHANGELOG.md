@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Change `/workonplan` so no argument executes all remaining plan phases in
+  order, while an explicit phase argument still targets one phase.
 - Improve `/prep` new-user `AGENTS.md` template with AI-file purpose, project
   script placeholders, workflow context, and complete end-of-chat checks.
 

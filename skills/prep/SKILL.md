@@ -36,8 +36,9 @@ entry: a reader who never sees `/dispatchplan` named never reaches for it.
    `PLAN.md` + `HANDOFF.md` and durable `SPEC.md` material.
 3. `/review-plan` — research and refute the plan until GO; reduce research
    phases as unknowns resolve.
-4. `/workonplan` — execute one phase, verify it, commit it, and refresh the
-   handoff before continuing. One main agent, start to finish.
+4. `/workonplan` — execute all remaining phases in order, verifying, committing,
+   and refreshing the handoff after each phase. One main agent, start to finish.
+   An optional phase argument targets one phase only.
 5. `/dispatchplan` — execute the same phases through sub-agents, in parallel
    only where their file sets do not intersect. Choose this or `/workonplan`
    for a given phase, never both.
@@ -89,7 +90,9 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 1. `/prep` → bootstrap guidance + minimal durable files
 2. `/cook` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff
 3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/workonplan` → execute phase → verify → commit → handoff. Single main agent.
+4. `/workonplan` → execute all remaining phases in order → verify → commit →
+   handoff after each phase. Optional phase arg → target one phase. Single main
+   agent.
 5. `/dispatchplan` → same phases via sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
 6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md

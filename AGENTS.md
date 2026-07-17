@@ -22,7 +22,7 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 1. `/prep` → bootstrap guidance + minimal durable files
 2. `/cook` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
 3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/workonplan [phase]` → execute phase → verify → commit → handoff. Single main agent.
+4. `/workonplan [phase]` → execute all remaining phases in order → verify → commit → handoff. Optional phase arg targets one phase. Single main agent.
 5. `/dispatchplan` → execute phase → verify → commit → handoff. Multi sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
 6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md

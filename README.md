@@ -46,7 +46,7 @@ only mutator; everything else reads it or feeds it material.
 
 | Skill | What it does |
 | --- | --- |
-| [`workonplan`](skills/workonplan/SKILL.md) | Executes `PLAN.md` phases one at a time as a single main agent — verification contract first, self-review before every commit, no sub-agents. |
+| [`workonplan`](skills/workonplan/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
 | [`dispatchplan`](skills/dispatchplan/SKILL.md) | The parallel alternative: assigns phases to sub-agents through per-phase handoff files, never overlapping their file sets, and reviews each diff before accepting it. |
 | [`handoff`](skills/handoff/SKILL.md) | Writes `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for. |
 
@@ -68,10 +68,11 @@ sequence but is not one of its six steps:
    automatically; this is a writing discipline, not a command you invoke.
 3. **Review the plan** — in a cold session, resolve research questions and
    refute the plan until it reaches an explicit GO gate. Repeat as needed.
-4. **Work on the plan** — in another cold session, execute one phase at a
-   time with `workonplan`, verify it, commit it, and refresh `HANDOFF.md`
-   before continuing. Or use `dispatchplan` to run phases whose file sets do
-   not overlap in parallel, across sub-agents.
+4. **Work on the plan** — in another cold session, execute all remaining
+   phases in order with `workonplan`, verifying, committing, and refreshing
+   `HANDOFF.md` after each phase. Pass a phase to target one phase only. Or use
+   `dispatchplan` to run phases whose file sets do not overlap in parallel,
+   across sub-agents.
 5. **Garnish** — after all phases pass, route durable cleanup through `spec`,
    then remove short-lived `PLAN.md` and `HANDOFF.md`.
 6. **Review the implementation** — sweep the completed implementation from its
@@ -120,6 +121,7 @@ matching one on its own.
 /prep                 # bootstrap guidance before the core workflow
 /cook                # draft PLAN.md + HANDOFF.md, research first
 /spec                # write or amend SPEC.md
+/workonplan          # run all remaining plan phases in order
 /workonplan F1       # run a specific plan phase
 /handoff             # write the session baton now
 ```
