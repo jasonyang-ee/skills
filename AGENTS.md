@@ -19,18 +19,20 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Commands
 
-1. `/prep` → bootstrap guidance + minimal durable files.
+1. `/prep` → bootstrap guidance + minimal durable files
 2. `/cook` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
-3. `/review-plan` → research/refute plan → GO/NO-GO.
-4. `/workonplan` → execute phase → verify → commit → handoff. Single main agent.
-5. `/dispatchplan` → same phases via sub-agents, parallel when file sets ⊥ intersect.
+3. `/review-plan` → research/refute plan → GO/NO-GO
+4. `/workonplan [phase]` → execute phase → verify → commit → handoff. Single main agent.
+5. `/dispatchplan` → execute phase → verify → commit → handoff. Multi sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → spec cleanup → purge `PLAN.md` + `HANDOFF.md`.
-7. `/review-code` → baseline code sweep → `cook`.
+6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
+7. `/review-code` → baseline code sweep → cook
 
-Support: `/spec` sole `SPEC.md` mutator | `/handoff` baton |
-`/caveman-encode` file encoding | `/caveman` chat brevity |
-`/caveman-commit` commit summary | `/caveman-pr` PR review comments.
+support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman` chat brevity | `/caveman-commit` commit summary | `/caveman-pr` PR review comments
+
+## Project Scripts:
+
+- `./release.sh` → release new Docker image + tag + push to GitLab registry
 
 ## Rules
 
@@ -78,5 +80,5 @@ Tables use `|`; escape literal `|` as `\|`. `§T` status: `x` done, `~` wip,
 - Update `SPEC.md` for any behavior change (flip §T, add §V).
 - `npm test` green. ⊥ read exit 0 as ∀ §V proven — doc §V (V50,V52,V55-V60) = manual oracle.
 - Touch `README.md` | `.github/CONTRIBUTING.md` → ! re-read those §V by hand (⊥ test catches drift).
-- Refresh `HANDOFF.md` when phase/session ends; use `garnish` after all phases.
+- Refresh `HANDOFF.md` when phase/session ends.
 - Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
