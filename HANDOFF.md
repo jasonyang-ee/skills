@@ -6,13 +6,14 @@ uncommitted: none after this session's summary commit (SPEC.md + PLAN.md + HANDO
 
 ## done this session
 planning: review-code re-sweep (baseline v0.4.0) → ∀ findings re-confirmed, gate NO-GO (B5); dup §B id `B2` renumbered → B5 in SPEC.md; PLAN.md refs B2→B5; HANDOFF.md pair created (was missing — cook pair rule).
-F1: research done → R25-R27 landed (spec description-keyword rules, Claude Code trigger mechanics, frozen keyword table ∀ 6 steps); T72 x; F4 tightened (key use case first, R26).
+F1: research done → R25-R27 landed (spec description-keyword rules, Claude Code trigger mechanics, frozen keyword table ∀ 6 steps); T72 x; F4 tightened (key use case first, R26). → ef47956
+F2: B5 closed — workonplan description rewritten (fragment gone, step-4 keywords in), dispatchplan mirrored, V72 test added. T73 x. Tests 184/184.
 
 ## in progress (exact stop point)
-- F1 done. F2-F5 todo.
+- F1,F2 done. F3-F5 todo.
 
 ## next
-F2 (T73) | preconditions: none. NEXT STEP: rewrite skills/workonplan/SKILL.md description (fix B5 fragment, weave "production-quality"/"verification-driven"/"evidence-based"), mirror step-4 keywords → skills/dispatchplan/SKILL.md description, add V72 test ∈ tests/repo-hygiene.test.mjs.
+F3 (T74) | preconditions: none. NEXT STEP: add **Security** dimension bullet → skills/review-code/SKILL.md review dimensions (secrets in diff, injection, authn/authz, untrusted input, dependency/supply-chain) + description ∋ "security check" & "infosec"; security cues → skills/review-plan/SKILL.md blast radius + skills/workonplan/SKILL.md self-review; V73 test.
 
 ## deviations & decisions
 - prior session (2026-07-16) emitted PLAN.md w/o HANDOFF.md & dup B2 row → both fixed this session (PLAN.md updated: y).

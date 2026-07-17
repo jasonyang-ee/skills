@@ -1,9 +1,11 @@
 ---
 name: dispatchplan
 description: |
-  Parallel alternative to workonplan for multi-phase PLAN.md execution. You act
-  as dispatcher, not author: each phase is assigned to a sub-agent through its
-  own HANDOFF-<phase-id>.md file at repo root, sized to the phase's complexity,
+  Parallel alternative to workonplan for multi-phase PLAN.md execution, holding
+  the same production-quality, verification-driven, evidence-based
+  implementation bar per phase. You act as dispatcher, not author: each phase
+  is assigned to a sub-agent through its own HANDOFF-<phase-id>.md file at
+  repo root, sized to the phase's complexity,
   and never dispatched alongside another assignment touching the same files.
   Each sub-agent reports back with a completion block; the dispatcher runs a
   phase-scoped acceptance review of its diff before accepting, then purges the

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- Fix `/workonplan` description sentence fragment shipped in v0.4.0 and add
+  production-quality, verification-driven, evidence-based implementation
+  keywords to the `/workonplan` and `/dispatchplan` descriptions (B5).
 - Strengthen `/cook` quality cues with production-quality,
   verification-driven, evidence-based implementation language and explicit
   focus across all six workflow steps.

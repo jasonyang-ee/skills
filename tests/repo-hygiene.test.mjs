@@ -359,6 +359,20 @@ describe('cook stays the planning front door', () => {
 describe('workonplan executes the planned phase set', () => {
   const workonplan = readFileSync(join(SKILLS_DIR, 'workonplan', 'SKILL.md'), 'utf8');
 
+  // V72 — the description is the trigger surface (§R.25/§R.26); B5 shipped a
+  // sentence fragment that weakened it. Both step-4 skills carry the same
+  // implementation-quality keywords.
+  it('describes implementation with well-formed, keyword-bearing sentences', () => {
+    const dispatch = readFileSync(join(SKILLS_DIR, 'dispatchplan', 'SKILL.md'), 'utf8');
+    for (const [name, skill] of [['workonplan', workonplan], ['dispatchplan', dispatch]]) {
+      const description = skill.slice(skill.indexOf('description:'), skill.indexOf('license:'));
+      assert.doesNotMatch(description, /one phase\.\s+at /);
+      for (const term of ['production-quality', 'verification-driven', 'evidence-based']) {
+        assert.ok(description.includes(term), `${name} description omits "${term}"`);
+      }
+    }
+  });
+
   it('runs all remaining phases by default and preserves targeted execution', () => {
     assert.match(workonplan, /No arg → start at the `HANDOFF\.md` "next" pointer/);
     assert.match(workonplan, /No arg → after each completed phase and committed handoff, continue with the\s+next eligible phase/);

@@ -1,16 +1,17 @@
 ---
 name: workonplan
 description: |
-  Session kick-off for multi-phase PLAN.md execution. Loads HANDOFF.md +
-  PLAN.md + SPEC.md, then executes all remaining phases in order as the SINGLE
-  main agent. An optional phase arg (e.g. `/workonplan F1`) targets one phase.
-  at principal-engineer quality: quality over speed, codebase consistency over
-  easiness, lean low-complexity code. Every phase ends green, self-reviewed,
-  and committed. Composes with the spec, caveman-encode, and handoff
-  skills, and expects `cook` to have created `PLAN.md` + `HANDOFF.md` first.
-  Always ends the session by invoking the handoff skill. Triggers:
-  "/workonplan", "work on the plan", "continue the plan", "next phase",
-  "kick off".
+  Execute all remaining PLAN.md phases in order as the SINGLE main agent, with
+  production-quality, verification-driven, evidence-based implementation.
+  Session kick-off for multi-phase PLAN.md execution: loads HANDOFF.md +
+  PLAN.md + SPEC.md, then works each phase at principal-engineer quality —
+  quality over speed, codebase consistency over easiness, lean low-complexity
+  code. An optional phase arg (e.g. `/workonplan F1`) targets one phase. Every
+  phase ends green, self-reviewed, and committed with named evidence. Composes
+  with the spec, caveman-encode, and handoff skills, and expects `cook` to
+  have created `PLAN.md` + `HANDOFF.md` first. Always ends the session by
+  invoking the handoff skill. Triggers: "/workonplan", "work on the plan",
+  "continue the plan", "next phase", "kick off".
 license: MIT
 ---
 
