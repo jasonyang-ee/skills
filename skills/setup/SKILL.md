@@ -4,7 +4,7 @@ description: |
   Bootstrap repository guidance for the spec-driven workflow. Creates or safely
   completes AGENTS.md with lifecycle commands, pre-filled encoding symbols, and
   an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
-  asks spec to create minimal CHANGELOG.md and SPEC.md files when absent.
+  asks encode-docs to create minimal CHANGELOG.md and SPEC.md files when absent.
   Never overwrites existing user guidance or durable project state. Triggers
   on /setup, "bootstrap this repo", "set up workflow files", "prepare a new project for prep",
   or "initialize agent guidance".
@@ -23,9 +23,9 @@ The generated or completed `AGENTS.md` must list these commands in this order:
 
 This is the seven-command bootstrap list, including `/setup`. It is separate from
 the six core workflow steps: those steps begin
-with `/prep`, and step 2 is the `encode-docs` writing discipline. `spec`,
-`handoff`, and `encode-docs` remain supporting skills invoked by the core
-workflow; do not add them as extra command entries.
+with `/prep`, and step 2 is the `encode-docs` writing discipline. `encode-docs`
+and `handoff` remain supporting skills invoked by the core workflow; do not add
+them as extra command entries.
 
 `/cook` and `/cater` are two ways to run the same execution step,
 so the core workflow counts them once. The bootstrap list gives each its own
@@ -42,7 +42,7 @@ entry: a reader who never sees `/cater` named never reaches for it.
 5. `/cater` — execute the same phases through sub-agents, in parallel
    only where their file sets do not intersect. Choose this or `/cook`
    for a given phase, never both.
-6. `/garnish` — send final decisions through `spec`, then purge short-term plan
+6. `/garnish` — send final decisions through `encode-docs`, then purge short-term plan
    files when the cycle is complete.
 7. `/review-code` — sweep implementation quality from the release baseline and
    trigger the next `prep` cycle for accepted fixes.
@@ -65,7 +65,7 @@ entry: a reader who never sees `/cater` named never reaches for it.
    If it exists, preserve it; report if it does not import `@AGENTS.md` instead
    of overwriting it.
 5. If `CHANGELOG.md` is absent, create the minimal structure below.
-6. If `SPEC.md` is absent, invoke `spec` in NEW mode to create its baked-header
+6. If `SPEC.md` is absent, invoke `encode-docs` in NEW mode to create its baked-header
    minimal structure. `setup` never writes `SPEC.md` directly.
 
 ## AGENTS.md required sections
@@ -95,10 +95,10 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
    agent.
 5. `/cater` → same phases via sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
+6. `/garnish` → SPEC.md cleanup → purge PLAN.md + HANDOFF.md
 7. `/review-code` → baseline code sweep → prep
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file encoding | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/encode-docs` sole SPEC.md mutator + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Project Scripts
 - `<user fills setup command>` — set up development environment.
@@ -167,6 +167,6 @@ Report each action and preservation decision. Confirm:
 
 - Never overwrite existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, or
   `SPEC.md` without explicit user direction.
-- Never write `SPEC.md` directly; invoke `spec`.
+- Never write `SPEC.md` directly; invoke `encode-docs`.
 - Never add project-specific facts as guesses.
 - Never write code or create runtime dependencies.

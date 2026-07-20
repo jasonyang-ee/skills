@@ -8,7 +8,7 @@ description: |
   quality over speed, codebase consistency over easiness, lean low-complexity
   code. An optional phase arg (e.g. `/cook F1`) targets one phase. Every
   phase ends green, self-reviewed, and committed with named evidence. Composes
-  with the spec, encode-docs, and handoff skills, and expects `prep` to
+  with the encode-docs and handoff skills, and expects `prep` to
   have created `PLAN.md` + `HANDOFF.md` first. Always ends the session by
   invoking the handoff skill. Triggers: "/cook", "work on the plan",
   "continue the plan", "next phase", "kick off".
@@ -56,7 +56,7 @@ without asking questions — not code that was fast to write.
 5. Run the project's test command once per session BEFORE the first edit, to
    establish a baseline. Find it in `package.json` scripts, `Makefile`,
    `justfile`, CI config, or CONTRIBUTING — do not invent one. If red at
-   baseline, log it with `spec` using `bug:` before changing code — never build
+   baseline, log it with `encode-docs` using `bug:` before changing code — never build
    on a red base.
 
 ## PICK PHASE
@@ -78,7 +78,7 @@ without asking questions — not code that was fast to write.
 
 ## EXECUTE (per phase)
 
-1. Read phase `task: T<n>`; stop and invoke `spec` if it is missing, duplicated,
+1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing, duplicated,
    or absent from SPEC.md. Flip that exact §T row `.` → `~` in SPEC.md.
 2. **Verification contract first:** from the phase's `§T` cites and SPEC
    section, name the
@@ -87,7 +87,7 @@ without asking questions — not code that was fast to write.
    where phase logic is pure.
 3. Implement per the plan section, honoring OPERATING PRINCIPLES.
 4. Run the oracle command and named tests. Fail → classify cause as code bug,
-   spec bug, or unspecified edge. Fix code bugs directly; invoke `spec` with
+   spec bug, or unspecified edge. Fix code bugs directly; invoke `encode-docs` with
    `bug:` for spec bugs/edges before retrying. Never retry blindly or silently
    patch around root cause.
 5. **Self-review before committing (mandatory):** read the FULL `git diff` and

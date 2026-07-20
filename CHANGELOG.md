@@ -32,7 +32,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   different jobs: the spec is durable and addressed from outside, the plan
   is a one-cycle contract replaced wholesale, and the handoff is a baton
   overwritten every session. `/spec` no longer resolves; use
-  `/encode-docs`, whose triggers cover both former skills.
+  `/encode-docs`, whose triggers cover both former skills. The collection is
+  now eleven skills.
 - `PLAN.md` and `HANDOFF.md` now carry their own baked format header, as
   `SPEC.md` already did. A cold agent opening either one learns its
   structure from the file itself instead of guessing. The `SPEC.md` header

@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-12 skills: own (`handoff`, `cook`, `cater`, `review-code`, `garnish`, `setup`), derived `prep`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+11 skills: own (`handoff`, `cook`, `cater`, `review-code`, `garnish`, `setup`), derived `prep`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
@@ -25,10 +25,10 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 4. `/cook [phase]` → execute all remaining phases in order → verify → commit → handoff. Optional phase arg targets one phase. Single main agent.
 5. `/cater` → execute phase → verify → commit → handoff. Multi sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
+6. `/garnish` → SPEC.md cleanup → purge PLAN.md + HANDOFF.md
 7. `/review-code` → baseline code sweep → prep
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file encoding | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/encode-docs` sole SPEC.md mutator + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Project Scripts:
 
@@ -40,7 +40,7 @@ support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file e
   `name` == parent dir name, ≤64 chars, `[a-z0-9-]`. `description` ≤1024 chars. Body ≤500 lines.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
 - ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents.
-- `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
+- `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `encode-docs`.
 - Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice.
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.
 - ∀ `.github/workflows/*.yml` ! top-level `permissions:`.

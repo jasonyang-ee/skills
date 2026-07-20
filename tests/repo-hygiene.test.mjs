@@ -129,7 +129,7 @@ describe('setup bootstraps the workflow safely', () => {
     assert.match(setup, /@AGENTS\.md/);
     assert.match(setup, /CHANGELOG\.md/);
     assert.match(setup, /SPEC\.md/);
-    assert.match(setup, /invoke `spec`/i);
+    assert.match(setup, /invoke `encode-docs`/i);
     assert.match(setup, /Never overwrite existing/i);
     assert.match(setup, /preserve it/i);
     assert.match(setup, /## Encoding symbols/);
@@ -160,7 +160,7 @@ describe('setup bootstraps the workflow safely', () => {
   it('lists every support skill in the generated support line', () => {
     const support = setup.split('\n').find((line) => line.startsWith('support:'));
     assert.ok(support, 'setup template declares no support line');
-    for (const command of ['/spec', '/handoff', '/encode-docs', '/encode-commit', '/encode-pr']) {
+    for (const command of ['/handoff', '/encode-docs', '/encode-commit', '/encode-pr']) {
       assert.ok(support.includes(command), `support line omits ${command}`);
     }
   });
@@ -223,17 +223,22 @@ describe('the renamed roster is the only one referenced', () => {
   const RETIRED = [
     'workonplan', 'dispatchplan', 'caveman-encode', 'caveman-commit', 'caveman-pr',
   ];
+  // The merged `spec` skill needs a narrower rule than the rest: the bare word
+  // is still ordinary English here ("spec-driven", "the Agent Skills spec"),
+  // and `SPEC.md` is a live filename. Only the skill path and the command are
+  // retired, so only those two are matched.
+  const RETIRED_SPEC_FORMS = [/skills\/spec\//, /`\/spec`/];
 
   // V81
-  it('ships exactly the twelve renamed skills', () => {
+  it('ships exactly the eleven skills on the roster', () => {
     assert.deepEqual(loadSkills().map((skill) => skill.dirName).sort(), ROSTER);
   });
 
   it('claims the right skill count where the count is stated', () => {
     for (const file of ['README.md', 'AGENTS.md']) {
       const text = readFileSync(join(REPO_ROOT, file), 'utf8');
-      assert.ok(!/\b13 skills\b/.test(text), `${file} still claims 13 skills`);
-      assert.match(text, /\b12 skills\b/, `${file} does not state the current skill count`);
+      assert.ok(!/\b1[23] skills\b/.test(text), `${file} still claims a stale skill count`);
+      assert.match(text, /\b11 skills\b/, `${file} does not state the current skill count`);
     }
   });
 
@@ -258,6 +263,16 @@ describe('the renamed roster is the only one referenced', () => {
         if (new RegExp(`\\b${name}\\b`).test(skill.raw)) {
           offenders.push(`skills/${skill.dirName}/SKILL.md: ${name}`);
         }
+      }
+    }
+    for (const pattern of RETIRED_SPEC_FORMS) {
+      for (const file of LIVE_REF_FILES) {
+        if (pattern.test(readFileSync(join(REPO_ROOT, file), 'utf8'))) {
+          offenders.push(`${file}: ${pattern.source}`);
+        }
+      }
+      for (const skill of loadSkills()) {
+        if (pattern.test(skill.raw)) offenders.push(`skills/${skill.dirName}/SKILL.md: ${pattern.source}`);
       }
     }
     assert.deepEqual(offenders, [], `retired skill names still referenced: ${offenders.join(', ')}`);
@@ -654,7 +669,7 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(garnish, /no unrelated changes/);
     assert.match(garnish, /Remove exactly `PLAN\.md` and `HANDOFF\.md`/);
     assert.match(garnish, /Never purge `SPEC\.md`/);
-    assert.match(garnish, /Invoke `spec` to update/);
+    assert.match(garnish, /Invoke `encode-docs` to update/);
     assert.match(garnish, /review-code/);
   });
 

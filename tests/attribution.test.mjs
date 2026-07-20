@@ -15,7 +15,6 @@ const VENDORED = [
   'encode-pr',
   'prep',
   'review-plan',
-  'spec',
 ];
 
 const notice = existsSync(join(REPO_ROOT, 'NOTICE.md'))

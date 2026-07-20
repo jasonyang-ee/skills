@@ -3,7 +3,7 @@ name: prep
 description: |
   Turn a user request into an encoded execution package: refine the
   goal just enough, research the unknowns first, hand durable requirements to
-  the spec skill, draft a phased PLAN.md, and trigger handoff so a cold
+  the encode-docs skill, draft a phased PLAN.md, and trigger handoff so a cold
   session can resume with cook. The generated plan always starts with
   research, ends with final verification, and holds a production-quality,
   verification-driven, evidence-based implementation contract across all six
@@ -14,10 +14,10 @@ description: |
 license: MIT
 ---
 
-# prep — request → PLAN.md + HANDOFF.md + spec handoff
+# prep — request → PLAN.md + HANDOFF.md + encode-docs handoff
 
 `prep` is the planning front door for work that is too fuzzy, too large, or too
-session-spanning for `cook` or `spec` alone. It replaces the old split between idea
+session-spanning for `cook` or `encode-docs` alone. It replaces the old split between idea
 grilling, research setup, and a final drift-check pass by packaging them into
 one short planning run.
 
@@ -59,7 +59,7 @@ Use `prep` when any of these are true:
   extra explanation.
 
 Skip it for a tiny, already-clear change with no need for `PLAN.md` or
-`HANDOFF.md`; that work can go straight to `spec`.
+`HANDOFF.md`; that work can go straight to `encode-docs`.
 
 ## Hard outputs
 
@@ -68,7 +68,7 @@ Every `prep` run must produce all of these:
 1. `PLAN.md` at repo root, in the spec encoding.
 2. `HANDOFF.md` at repo root, in the spec encoding, written via the `handoff`
    skill after the plan exists.
-3. A handoff block for the `spec` skill so durable goal / constraint / research /
+3. A handoff block for the `encode-docs` skill so durable goal / constraint / research /
    invariant / task changes land in `SPEC.md`; every PLAN phase gets one matching
    `§T` row.
 
@@ -110,13 +110,13 @@ question, use the phase to confirm local code patterns, APIs, and tests that the
 later phases must honor. Research is allowed to refine the rest of the plan;
 when it changes reality, update the later phases instead of pretending the first
 draft was right. External findings require a source; unresolved items stay `?`.
-Write sourced findings into `§R` through `spec` before handing off to
+Write sourced findings into `§R` through `encode-docs` before handing off to
 `cook`.
 
-### 3. Hand durable facts to `spec`
+### 3. Hand durable facts to `encode-docs`
 
 `encode-docs` remains the sole mutator of `SPEC.md`. `prep` prepares the material and
-invokes `spec` with the sections that need durable updates:
+invokes `encode-docs` with the sections that need durable updates:
 
 - `§G` goal
 - `§C` constraints

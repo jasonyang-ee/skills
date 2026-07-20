@@ -10,7 +10,7 @@ description: |
   Each sub-agent reports back with a completion block; the dispatcher runs a
   phase-scoped acceptance review of its diff before accepting, then purges the
   assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first,
-  and composes with the spec, encode-docs, and handoff skills. Triggers:
+  and composes with the encode-docs and handoff skills. Triggers:
   "/cater", "dispatch the plan", "run phases in parallel", "parallelize
   the plan", "assign phases to sub-agents", "fan out the plan".
 license: MIT
@@ -59,7 +59,7 @@ corrupting the plan, the baton, or each other's files.
 5. Run the project's test command once BEFORE the first dispatch, to establish
    a baseline. Find it in `package.json` scripts, `Makefile`, `justfile`, CI
    config, or contributor docs — do not invent one. If red at baseline, log it
-   with `spec` using `bug:` before dispatching anything. Never dispatch onto a
+   with `encode-docs` using `bug:` before dispatching anything. Never dispatch onto a
    red base: every sub-agent will inherit the failure and report it as yours.
 
 ## SELECT PHASES TO DISPATCH

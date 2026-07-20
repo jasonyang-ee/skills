@@ -27,7 +27,7 @@ Stop and report the blocker if any condition fails:
    `UNVERIFIABLE` result; all checked items are `HOLD` with evidence.
 4. The recorded oracle and full-suite command pass now. Record exact command
    and result before cleanup.
-5. Before the `spec` handoff, `git status` contains no unrelated changes. After
+5. Before the `encode-docs` handoff, `git status` contains no unrelated changes. After
    it, only the expected `SPEC.md` update plus `PLAN.md`/`HANDOFF.md` removal
    may remain; never delete or reset anything else.
 
@@ -37,13 +37,13 @@ Stop and report the blocker if any condition fails:
    complete. If a task is not complete, return to `cook`.
 2. Read the entire final verification table and handoff next pointer. If it
    points to unfinished work, stop.
-3. Prepare a durable cleanup handoff for `spec`: accepted final decisions,
+3. Prepare a durable cleanup handoff for `encode-docs`: accepted final decisions,
    resolved research, new bugs/invariants, interface changes, and completed
-   task state. Invoke `spec` to update only durable `SPEC.md` sections; never
+   task state. Invoke `encode-docs` to update only durable `SPEC.md` sections; never
    write `SPEC.md` directly from `garnish`. Review/accept the spec diff before
    cleanup.
 4. Run the recorded oracle and full suite; if either fails, classify via
-   `spec bug:` or return to `cook` before cleanup.
+   `encode-docs bug:` or return to `cook` before cleanup.
 5. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
    `PLAN.md` and `HANDOFF.md` removal remain.
 6. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
@@ -60,7 +60,7 @@ plan: <removed | blocked: reason>
 handoff: <removed | blocked: reason>
 tests: <command> → <green | exact failures>
 durable state: SPEC.md preserved
-spec: <updated | no durable changes>
+SPEC.md: <updated | no durable changes>
 next: `/review-code`
 ```
 
@@ -69,6 +69,6 @@ next: `/review-code`
 - Never purge `SPEC.md`.
 - Never delete files when unrelated changes are present.
 - Never mark a phase complete or mutate `SPEC.md` directly; route durable
-  changes through `spec`.
+  changes through `encode-docs`.
 - Never invoke `prep` automatically; review implementation first, then let it
   trigger the next prep cycle.

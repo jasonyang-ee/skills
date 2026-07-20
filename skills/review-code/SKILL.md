@@ -108,7 +108,7 @@ gate: <GO | NO-GO>
 
 After the report, invoke `prep` with the accepted `BLOCK` and `HARDEN`
 findings, evidence, baseline, and gate. `prep` must create the next
-research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `spec`.
+research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `encode-docs`.
 If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it
 starts with the selected simplification or improvement work, or records that
 no implementation work is needed.

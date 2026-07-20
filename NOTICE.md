@@ -12,13 +12,12 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/encode-docs/` | `caveman` | Yes — renamed to `encode-docs` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `prep` / `cook` plan files accordingly, and the description now names its focus keyword ("lossless compression"). |
-| `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency, and the skill now accepts `cook` planning handoff plus `/spec bug:` in place of a standalone backprop skill. |
-| `skills/prep/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
+| `skills/encode-docs/` | `caveman` + `spec` | Yes — these two upstream skills are merged into one here. Renamed to `encode-docs` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. The SPEC format is embedded in the skill and baked as a header into generated files, removing the per-project `FORMAT.md` dependency; the skill accepts `prep` planning handoff plus `encode-docs bug:` in place of a standalone backprop skill; and it now carries a tailored section set and its own baked header for `PLAN.md` and `HANDOFF.md` as well as `SPEC.md`. |
+| `skills/prep/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `encode-docs`. |
 | `skills/review-plan/` | `review` | Yes — renamed to `review-plan` to distinguish spec/plan review from post-implementation review. |
 
-The `FORMAT.md` schema embedded in `skills/spec/SKILL.md` is also derived from
-cavekit's `FORMAT.md`.
+The `FORMAT.md` schema embedded in `skills/encode-docs/SKILL.md` is also derived
+from cavekit's `FORMAT.md`.
 
 ```
 MIT License
