@@ -11,62 +11,65 @@ const NAME_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 const skills = loadSkills();
 
-describe('skills/ contains discoverable skills', () => {
-  it('finds at least one skill', () => {
+/**
+ * One case per rule, looping over every skill inside and reporting all
+ * offenders at once, rather than one case per skill per rule. A per-skill
+ * describe multiplies the suite by the roster and stops on the first failing
+ * skill; this shape names every violation in a single run and keeps the
+ * count flat as skills are added.
+ */
+describe('every skill satisfies the Agent Skills contract', () => {
+  const offenders = (predicate) => skills.filter(predicate).map((s) => s.dirName);
+
+  it('ships at least one skill with parseable frontmatter', () => {
     assert.ok(skills.length > 0, 'no skills found under skills/');
+    // V1
+    const unparseable = offenders((s) => s.parsed === null || typeof s.parsed.data !== 'object');
+    assert.deepEqual(unparseable, [], `frontmatter missing or malformed: ${unparseable.join(', ')}`);
   });
 
-  // V7
-  it('gives every skill a unique name', () => {
-    const names = skills.map((s) => s.parsed?.data?.name);
+  // V2, V3 — the skills CLI silently drops a skill whose name or description
+  // is absent or not a string, so these two failures are invisible without it.
+  it('declares name and description as non-empty strings', () => {
+    const bad = offenders(({ parsed }) => {
+      const { name, description } = parsed.data;
+      return typeof name !== 'string' || collapse(name).length === 0
+        || typeof description !== 'string' || collapse(description).length === 0;
+    });
+    assert.deepEqual(bad, [], `name or description missing/empty: ${bad.join(', ')}`);
+  });
+
+  // V4, V5, V7
+  it('names every skill legally, uniquely, and after its directory', () => {
+    const mismatched = offenders((s) => s.parsed.data.name !== s.dirName);
+    assert.deepEqual(mismatched, [], `name does not match directory: ${mismatched.join(', ')}`);
+
+    const illegal = offenders((s) => {
+      const { name } = s.parsed.data;
+      return name.length > NAME_MAX || !NAME_PATTERN.test(name);
+    });
+    assert.deepEqual(illegal, [], `name is over ${NAME_MAX} chars or not spec-legal: ${illegal.join(', ')}`);
+
+    const names = skills.map((s) => s.parsed.data.name);
     assert.equal(new Set(names).size, names.length, `duplicate skill names: ${names.join(', ')}`);
   });
-});
 
-for (const skill of skills) {
-  describe(`skills/${skill.dirName}/SKILL.md`, () => {
-    // V1
-    it('has parseable YAML frontmatter', () => {
-      assert.notEqual(skill.parsed, null, 'missing or malformed --- frontmatter block');
-      assert.equal(typeof skill.parsed.data, 'object', 'frontmatter did not parse to a mapping');
-    });
-
-    // V2 — the skills CLI drops any skill whose name is absent or non-string.
-    it('declares name as a non-empty string', () => {
-      const { name } = skill.parsed.data;
-      assert.equal(typeof name, 'string', 'name must be a string');
-      assert.ok(collapse(name).length > 0, 'name must not be empty');
-    });
-
-    // V3 — same contract as name; without it the skill is invisible to the CLI.
-    it('declares description as a non-empty string', () => {
-      const { description } = skill.parsed.data;
-      assert.equal(typeof description, 'string', 'description must be a string');
-      assert.ok(collapse(description).length > 0, 'description must not be empty');
-    });
-
-    // V4
-    it('matches name to its parent directory', () => {
-      assert.equal(skill.parsed.data.name, skill.dirName);
-    });
-
-    // V5
-    it('uses a spec-legal name', () => {
-      const name = skill.parsed.data.name;
-      assert.ok(name.length <= NAME_MAX, `name is ${name.length} chars, max ${NAME_MAX}`);
-      assert.match(name, NAME_PATTERN);
-    });
-
-    // V6
-    it('keeps description within the spec limit', () => {
-      const length = collapse(skill.parsed.data.description).length;
-      assert.ok(length <= DESCRIPTION_MAX, `description is ${length} chars, max ${DESCRIPTION_MAX}`);
-    });
-
-    // V14 — progressive disclosure: the body loads in full on activation.
-    it('keeps the body under the recommended length', () => {
-      const lines = skill.parsed.body.split('\n').length;
-      assert.ok(lines <= BODY_MAX_LINES, `body is ${lines} lines, recommended max ${BODY_MAX_LINES}`);
-    });
+  // V6 — name and description are the only metadata loaded at startup, so
+  // this limit is what keeps the roster affordable to have in context.
+  it('keeps every description within the spec limit', () => {
+    const over = skills
+      .map((s) => [s.dirName, collapse(s.parsed.data.description).length])
+      .filter(([, length]) => length > DESCRIPTION_MAX)
+      .map(([name, length]) => `${name} (${length})`);
+    assert.deepEqual(over, [], `description over ${DESCRIPTION_MAX} chars: ${over.join(', ')}`);
   });
-}
+
+  // V14 — progressive disclosure: the body loads in full on activation.
+  it('keeps every body under the recommended length', () => {
+    const over = skills
+      .map((s) => [s.dirName, s.parsed.body.split('\n').length])
+      .filter(([, lines]) => lines > BODY_MAX_LINES)
+      .map(([name, lines]) => `${name} (${lines})`);
+    assert.deepEqual(over, [], `body over ${BODY_MAX_LINES} lines: ${over.join(', ')}`);
+  });
+});

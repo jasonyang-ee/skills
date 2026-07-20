@@ -63,6 +63,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   left as retired markers, and their identifiers are never reused, so an
   old commit citing one never resolves to something newer.
 
+- The test suite is 49 cases rather than 189. The count came almost
+  entirely from loops that ran the same handful of rules once per skill;
+  those are now single cases that check every skill and report all
+  offenders at once. No assertion was dropped, and the invariants each
+  case covers are named in its comment, so the suite says what it proves.
+
 ### Fixed
 
 - Point the encoding vocabulary and every cross-reference at what

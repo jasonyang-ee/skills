@@ -308,5 +308,5 @@ T85|x|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n
 T86|x|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
 T87|x|lean skill bodies: purge emoji ∀ `skills/**` + `tests/**` (❌/✅ → `bad`/`good` words, severity emoji → text labels) + strip vendor attribution block @ `encode-docs` (§R36-gated); `NOTICE.md` Modified rows record vendored edits|V91,V92,V94,V17
 T88|x|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
-T89|~|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
-T90|.|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
+T89|x|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
+T90|~|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93

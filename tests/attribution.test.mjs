@@ -33,38 +33,28 @@ describe('vendored skills are attributed', () => {
     assert.match(notice, /The above copyright notice and this permission notice shall be included/);
   });
 
-  // V17 — a new vendored skill with no NOTICE row is a license violation.
-  for (const name of VENDORED) {
-    it(`NOTICE.md accounts for ${name}`, () => {
-      assert.match(notice, new RegExp(`skills/${name}/`), `add a NOTICE.md row for skills/${name}/`);
-    });
-  }
-});
+  // V17, V39 — every shipped skill is either vendored or original, and both
+  // sides are enforced. A vendored skill with no row is a license violation;
+  // an own skill missing from the Original work roster used to fail silently.
+  it('accounts for every shipped skill, vendored or original', () => {
+    const missingVendored = VENDORED.filter((name) => !notice.includes(`skills/${name}/`));
+    assert.deepEqual(missingVendored, [], `NOTICE.md needs rows for: ${missingVendored.join(', ')}`);
 
-describe('original skills are accounted for', () => {
-  // V39 — the vendored rows above are enforced, but the Original work roster
-  // was not, so an own skill could be left out with nothing failing. Derived
-  // from disk: every shipped skill is either vendored or original.
-  it('NOTICE.md names every non-vendored skill as original work', () => {
     const original = notice.slice(notice.indexOf('## Original work'));
     assert.ok(original.length > 0, 'NOTICE.md has no Original work section');
-    const missing = loadSkills()
+    const missingOriginal = loadSkills()
       .map((skill) => skill.dirName)
       .filter((name) => !VENDORED.includes(name))
       .filter((name) => !original.includes(`skills/${name}/`));
-    assert.deepEqual(missing, [], `NOTICE.md Original work omits: ${missing.join(', ')}`);
+    assert.deepEqual(missingOriginal, [], `NOTICE.md Original work omits: ${missingOriginal.join(', ')}`);
   });
-});
 
-describe('encode-docs carries the SPEC encoding', () => {
-  const byName = new Map(loadSkills().map((s) => [s.dirName, s]));
-
-  // V18 retired at T82: the conversational `caveman` skill is deleted and the
-  // cavekit one is now `encode-docs`, so the name collision that invariant
-  // policed cannot recur. The symbol set it guards still matters.
-  it('encode-docs keeps the SPEC symbol set', () => {
-    for (const symbol of ['→', '∴', '∀', '⊥']) {
-      assert.ok(byName.get('encode-docs').raw.includes(symbol), `missing symbol ${symbol}`);
-    }
+  // The symbol set the encoder exists to apply. V18 was retired once the
+  // conversational skill was deleted, but this half still matters.
+  it('keeps the SPEC symbol set in the encoder', () => {
+    const encoder = loadSkills().find((s) => s.dirName === 'encode-docs');
+    assert.ok(encoder, 'encode-docs skill is missing');
+    const missing = ['→', '∴', '∀', '⊥'].filter((symbol) => !encoder.raw.includes(symbol));
+    assert.deepEqual(missing, [], `encode-docs dropped symbols: ${missing.join(' ')}`);
   });
 });

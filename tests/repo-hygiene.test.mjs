@@ -43,28 +43,29 @@ const RETIRED_SKILLS = [
 const LIVE_REF_FILES = ['README.md', 'AGENTS.md', 'NOTICE.md', '.github/CONTRIBUTING.md'];
 
 describe('published skills carry no private-codebase references', () => {
-  for (const skill of loadSkills()) {
-    // V9
-    it(`skills/${skill.dirName}/SKILL.md is free of internal references`, () => {
-      const hits = PRIVATE_REFS.filter((pattern) => pattern.test(skill.raw)).map(String);
-      assert.deepEqual(hits, [], `leaked internal reference(s): ${hits.join(', ')}`);
-    });
-  }
+  // V9
+  it('leaks no internal reference from the private codebase', () => {
+    const offenders = [];
+    for (const skill of loadSkills()) {
+      for (const pattern of PRIVATE_REFS) {
+        if (pattern.test(skill.raw)) offenders.push(`skills/${skill.dirName}/SKILL.md: ${pattern}`);
+      }
+    }
+    assert.deepEqual(offenders, [], `leaked internal reference(s): ${offenders.join(', ')}`);
+  });
 });
 
 describe('repo is publishable', () => {
-  // V10
-  it('ships an MIT LICENSE', () => {
-    const path = join(REPO_ROOT, 'LICENSE');
-    assert.ok(existsSync(path), 'LICENSE missing — nobody may legally use these skills');
-    assert.match(readFileSync(path, 'utf8'), /MIT License/);
-  });
+  // V10, V11 — without the licence nobody may legally use these skills, and
+  // the release workflow reads its notes out of the changelog section.
+  it('ships an MIT LICENSE and an Unreleased changelog section', () => {
+    const license = join(REPO_ROOT, 'LICENSE');
+    assert.ok(existsSync(license), 'LICENSE missing — nobody may legally use these skills');
+    assert.match(readFileSync(license, 'utf8'), /MIT License/);
 
-  // V11 — the release workflow reads sections out of this file.
-  it('keeps an Unreleased section in CHANGELOG.md', () => {
-    const path = join(REPO_ROOT, 'CHANGELOG.md');
-    assert.ok(existsSync(path), 'CHANGELOG.md missing');
-    assert.match(readFileSync(path, 'utf8'), /^## \[Unreleased\]/m);
+    const changelog = join(REPO_ROOT, 'CHANGELOG.md');
+    assert.ok(existsSync(changelog), 'CHANGELOG.md missing');
+    assert.match(readFileSync(changelog, 'utf8'), /^## \[Unreleased\]/m);
   });
 });
 
@@ -112,7 +113,11 @@ describe('setup bootstraps the workflow safely', () => {
     assert.match(setup, /separate from\s+the six core workflow steps/i);
   });
 
-  it('loads encoding before AGENTS.md work and ships the symbol legend', () => {
+  // V43, V44, V45, V49 — safety and ordering. The encoding loads before any
+  // AGENTS.md read or write, existing files are preserved rather than
+  // overwritten, and the symbol legend ships filled in rather than as a
+  // placeholder the user is expected to complete.
+  it('loads encoding first and never overwrites existing guidance', () => {
     const preflight = setup.indexOf('## Preflight');
     const load = setup.indexOf('Load `encode-docs`', preflight);
     const read = setup.indexOf('Read existing `AGENTS.md`', preflight);
@@ -121,22 +126,18 @@ describe('setup bootstraps the workflow safely', () => {
       assert.match(setup, new RegExp(phrase));
     }
     assert.doesNotMatch(setup, /<user fills symbols|keeps repository legend>/i);
-  });
-
-  it('defines safe bootstrap outputs and ownership boundaries', () => {
-    assert.match(setup, /AGENTS\.md/);
-    assert.match(setup, /CLAUDE\.md/);
-    assert.match(setup, /@AGENTS\.md/);
-    assert.match(setup, /CHANGELOG\.md/);
-    assert.match(setup, /SPEC\.md/);
+    for (const file of [/AGENTS\.md/, /CLAUDE\.md/, /@AGENTS\.md/, /CHANGELOG\.md/, /SPEC\.md/]) {
+      assert.match(setup, file);
+    }
     assert.match(setup, /invoke `encode-docs`/i);
     assert.match(setup, /Never overwrite existing/i);
     assert.match(setup, /preserve it/i);
-    assert.match(setup, /## Encoding symbols/);
-    assert.match(setup, /## End of Chat Checklist/);
   });
 
-  it('templates the durable AI-file guidance for new users', () => {
+  // V46, V53, V69 — the generated template's own contents. A section missing
+  // here bootstraps every new repository wrong, and a missing support command
+  // is a skill that repo never learns exists.
+  it('templates every required AGENTS.md section and support command', () => {
     for (const section of [
       '## AI File Purpose',
       '## Skills',
@@ -152,12 +153,7 @@ describe('setup bootstraps the workflow safely', () => {
     assert.match(setup, /Update `CHANGELOG\.md` `## \[Unreleased\]`/);
     assert.match(setup, /Update `SPEC\.md` ∀ code change/);
     assert.match(setup, /Commit directly .*⊥ push \| tag without explicit ask/);
-  });
 
-  // V53 — the generated AGENTS.md lists support skills outside the six
-  // lifecycle commands (V46); a missing one is a skill the bootstrapped repo
-  // never learns exists.
-  it('lists every support skill in the generated support line', () => {
     const support = setup.split('\n').find((line) => line.startsWith('support:'));
     assert.ok(support, 'setup template declares no support line');
     for (const command of ['/handoff', '/encode-docs', '/encode-commit', '/encode-pr']) {
@@ -167,17 +163,14 @@ describe('setup bootstraps the workflow safely', () => {
 });
 
 describe('skills stay markdown-only', () => {
-  for (const skill of loadSkills()) {
-    // V19 — no Python/script-bearing skills. A skill needing a runtime turns
-    // `npx skills add` into an install that fails later, on someone else's box.
-    it(`skills/${skill.dirName}/ ships no scripts`, () => {
-      assert.equal(
-        existsSync(join(SKILLS_DIR, skill.dirName, 'scripts')),
-        false,
-        `skills/${skill.dirName}/scripts/ exists — this repo is markdown-only`,
-      );
-    });
-  }
+  // V19 — no Python/script-bearing skills. A skill needing a runtime turns
+  // `npx skills add` into an install that fails later, on someone else's box.
+  it('ships no scripts directory in any skill', () => {
+    const offenders = loadSkills()
+      .map((skill) => skill.dirName)
+      .filter((name) => existsSync(join(SKILLS_DIR, name, 'scripts')));
+    assert.deepEqual(offenders, [], `these skills ship scripts/: ${offenders.join(', ')}`);
+  });
 });
 
 describe('the code reviewer ships as review-code', () => {
@@ -194,16 +187,13 @@ describe('the code reviewer ships as review-code', () => {
       if (skill.raw.includes('review-implementation')) offenders.push(`skills/${skill.dirName}/SKILL.md`);
     }
     assert.deepEqual(offenders, [], `these files still name review-implementation: ${offenders.join(', ')}`);
-  });
 
-  it('names itself review-code in frontmatter and title', () => {
     const skill = readFileSync(join(SKILLS_DIR, 'review-code', 'SKILL.md'), 'utf8');
     assert.match(skill, /^name: review-code$/m);
     assert.match(skill, /^# review-code /m);
-  });
 
-  // The history stays honest: released notes describe what actually shipped.
-  it('preserves the old name where it is a historical record', () => {
+    // The history stays honest: released notes describe what actually shipped,
+    // so the old name must survive there and only there.
     const changelog = readFileSync(join(REPO_ROOT, 'CHANGELOG.md'), 'utf8');
     assert.ok(
       changelog.includes('review-implementation'),
@@ -229,12 +219,10 @@ describe('the renamed roster is the only one referenced', () => {
   // retired, so only those two are matched.
   const RETIRED_SPEC_FORMS = [/skills\/spec\//, /`\/spec`/];
 
-  // V81
-  it('ships exactly the eleven skills on the roster', () => {
+  // V81 — the roster on disk and the count the docs advertise are the same
+  // fact stated twice, so they are checked together.
+  it('ships exactly the eleven skills the docs advertise', () => {
     assert.deepEqual(loadSkills().map((skill) => skill.dirName).sort(), ROSTER);
-  });
-
-  it('claims the right skill count where the count is stated', () => {
     for (const file of ['README.md', 'AGENTS.md']) {
       const text = readFileSync(join(REPO_ROOT, file), 'utf8');
       assert.ok(!/\b1[23] skills\b/.test(text), `${file} still claims a stale skill count`);
@@ -275,6 +263,15 @@ describe('the renamed roster is the only one referenced', () => {
         if (pattern.test(skill.raw)) offenders.push(`skills/${skill.dirName}/SKILL.md: ${pattern.source}`);
       }
     }
+    // The deleted skill was named `caveman`, which is also the upstream repo
+    // the encoders came from. Pointing a reader at "the caveman skill" now
+    // sends them to nothing, so it may appear as provenance but never as
+    // something to load.
+    const dangling = loadSkills()
+      .filter((skill) => /`caveman`\s+skill|the\s+caveman\s+skill/i.test(skill.raw))
+      .map((skill) => skill.dirName);
+    assert.deepEqual(dangling, [], `these skills point at the deleted caveman skill: ${dangling.join(', ')}`);
+
     assert.deepEqual(offenders, [], `retired skill names still referenced: ${offenders.join(', ')}`);
   });
 
@@ -282,12 +279,6 @@ describe('the renamed roster is the only one referenced', () => {
   // upstream repo the encoders came from. Pointing a user at "the caveman
   // skill" now sends them to nothing, so skills may only mention the word as
   // upstream provenance — never as something to load.
-  it('never tells a reader to use the deleted caveman skill', () => {
-    const offenders = loadSkills()
-      .filter((skill) => /`caveman`\s+skill|the\s+caveman\s+skill/i.test(skill.raw))
-      .map((skill) => skill.dirName);
-    assert.deepEqual(offenders, [], `these skills point at the deleted caveman skill: ${offenders.join(', ')}`);
-  });
 
   // V88 — each header is copied verbatim into every consumer repo, so the
   // templates and this repo's own three documents must not drift apart. This
@@ -307,11 +298,10 @@ describe('the renamed roster is the only one referenced', () => {
         assert.ok(encoder.includes(line), `${doc} header line absent from encode-docs template: ${line}`);
       }
     }
-  });
 
-  // V89 — pruning deletes rows, so the highest surviving id is no longer the
-  // newest. The counter is the only safe source for the next one.
-  it('carries a next-id counter ahead of every id in use', () => {
+    // V89 — pruning deletes rows, so the highest surviving id is no longer the
+    // newest. The counter is the only safe source for the next one, and it is
+    // only useful if it stays ahead of everything in use.
     const spec = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8');
     const counter = spec.split('\n').find((line) => line.startsWith('next:'));
     assert.ok(counter, 'SPEC.md baked header has no next: counter');
@@ -346,15 +336,14 @@ describe('skill files and tests stay free of emoji', () => {
       }
     }
     assert.deepEqual(offenders, [], `emoji found: ${offenders.join(', ')}`);
-  });
 
-  // V94 — attribution belongs in NOTICE.md. A skill body is loaded every
-  // session; NOTICE.md is not, so provenance prose here is a recurring cost.
-  it('keeps vendor attribution out of the skill bodies', () => {
-    const offenders = loadSkills()
+    // V94 — attribution belongs in NOTICE.md for the same reason: a skill body
+    // is loaded every session, and NOTICE.md is not, so provenance prose here
+    // is a cost paid over and over.
+    const attributed = loadSkills()
       .filter((skill) => /^>\s*(Vendored from|.*Copyright \(c\))/m.test(skill.raw))
       .map((skill) => skill.dirName);
-    assert.deepEqual(offenders, [], `these skills carry an attribution block: ${offenders.join(', ')}`);
+    assert.deepEqual(attributed, [], `these skills carry an attribution block: ${attributed.join(', ')}`);
   });
 });
 
@@ -364,14 +353,11 @@ describe('the terse report discipline lives in the review skills only', () => {
   // V84 — the conversational `caveman` skill was retired into these two. It
   // earns its keep where output is a report a human reads; the planning and
   // execution skills write files, so terseness there buys nothing.
-  it('retires the caveman skill', () => {
+  it('lives in both reviewers and nowhere else', () => {
     assert.ok(
       !existsSync(join(SKILLS_DIR, 'caveman')),
       'skills/caveman/ must not exist — its rules were baked into the review skills',
     );
-  });
-
-  it('bakes the discipline into both review skills', () => {
     for (const name of REVIEWERS) {
       const skill = readFileSync(join(SKILLS_DIR, name, 'SKILL.md'), 'utf8');
       assert.match(skill, /^## Report output$|^## REPORT OUTPUT$/m, `${name} has no report-output section`);
@@ -380,9 +366,6 @@ describe('the terse report discipline lives in the review skills only', () => {
         assert.ok(skill.includes(rule), `${name} omits the "${rule}" rule`);
       }
     }
-  });
-
-  it('gives the discipline to no other skill', () => {
     const offenders = loadSkills()
       .filter((skill) => !REVIEWERS.includes(skill.dirName))
       .filter((skill) => /^#+ Report output$/im.test(skill.raw))
@@ -414,39 +397,36 @@ describe('cater runs phases in parallel without racing', () => {
     }
   });
 
-  // V63 — one phase goes to one sub-agent, so the phase id names the
-  // assignment. A drifting filename breaks the purge step and the baton.
-  it('gives every assignment its own dedicated handoff file', () => {
+  // V63, V64, V67 — the isolation rules. One phase to one sub-agent, named by
+  // phase id; overlapping file sets are a lost update where the loser's work
+  // disappears with no error; and the agent roster belongs to the harness, so
+  // naming one makes this skill a silent no-op on every other host.
+  it('isolates assignments by file set and names no harness-specific agent', () => {
     assert.match(dispatch, /HANDOFF-<phase-id>\.md/);
     assert.match(dispatch, /repo root/i);
-  });
-
-  // V64 — concurrent writes to one file are a lost update, and the loser's
-  // work disappears with no error.
-  it('selects sub-agents by complexity and never overlaps file sets', () => {
     assert.match(dispatch, /complexity/i);
     assert.match(dispatch, /capability/i);
     assert.match(dispatch, /[Ss]hared-file safety/);
     assert.match(dispatch, /disjoint/i);
     assert.match(dispatch, /lost update/i);
+    assert.doesNotMatch(dispatch, /sonnet-implementer/);
+    assert.doesNotMatch(dispatch, /\bExplore\b/);
   });
 
-  // V65 — the completion block is the finish signal, and the dispatcher's own
-  // review of the diff is what makes it true.
-  it('takes a completion block, then runs its own acceptance review', () => {
+  // V65, V66, V68 — the accounting rules. A completion block is the finish
+  // signal and the dispatcher's own diff review is what makes it true; the
+  // baton is refreshed at all four points because parallel work outruns one
+  // context; and assignment files are purged, since garnish refuses to close
+  // a cycle with unrelated files dirty (§R.19, §R.20).
+  it('accepts work only after review, refreshes the baton, and purges', () => {
     assert.match(dispatch, /## completion/);
     assert.match(dispatch, /status: <done \| blocked: reason>/);
     assert.match(dispatch, /evidence:/);
     assert.match(dispatch, /tests:/);
     assert.match(dispatch, /[Aa]cceptance review/);
     assert.match(dispatch, /read the FULL diff/i);
-    // §R.19 / §R.20 — the two skills a sub-agent must never reach for.
     assert.match(dispatch, /sub-agent must never run `garnish`/);
     assert.match(dispatch, /Never invoke `\/review-code` mid-dispatch/);
-  });
-
-  // V66 — parallel work outruns one context; an unwritten baton loses it.
-  it('refreshes the main baton at all four points', () => {
     for (const point of [
       'before dispatch',
       'after sub-agent completion',
@@ -455,19 +435,6 @@ describe('cater runs phases in parallel without racing', () => {
     ]) {
       assert.ok(dispatch.includes(point), `cater omits the "${point}" refresh point`);
     }
-  });
-
-  // V67 — the agent roster is the harness's, not this repo's (§R.21). `skills
-  // add` installs no agents (§R.12), so a named agent is a silent no-op on
-  // every other host.
-  it('names no harness-specific agent', () => {
-    assert.doesNotMatch(dispatch, /sonnet-implementer/);
-    assert.doesNotMatch(dispatch, /\bExplore\b/);
-  });
-
-  // V68 — garnish removes only PLAN.md and HANDOFF.md, and refuses to run with
-  // unrelated files dirty, so leftovers block the cycle close (§R.19).
-  it('purges each assignment file once accepted', () => {
     assert.match(dispatch, /[Pp]urge the assignment file/);
     assert.match(dispatch, /delete\s+`HANDOFF-<phase-id>\.md`/);
     assert.match(dispatch, /no `HANDOFF-<phase-id>\.md` may remain/);
@@ -475,11 +442,10 @@ describe('cater runs phases in parallel without racing', () => {
 });
 
 describe('retired planning skills stay retired', () => {
-  for (const name of RETIRED_SKILLS) {
-    it(`does not ship skills/${name}/`, () => {
-      assert.equal(existsSync(join(SKILLS_DIR, name)), false, `skills/${name}/ should stay removed`);
-    });
-  }
+  it('ships none of the removed skill directories', () => {
+    const resurrected = RETIRED_SKILLS.filter((name) => existsSync(join(SKILLS_DIR, name)));
+    assert.deepEqual(resurrected, [], `these retired skills came back: ${resurrected.join(', ')}`);
+  });
 });
 
 describe('generated commit messages stay readable without the plan files', () => {
@@ -488,7 +454,7 @@ describe('generated commit messages stay readable without the plan files', () =>
   // V79 — asserts the RULE is present, not that the file lacks symbols. The
   // skill legitimately contains "≤50 chars" in its own prose; the ban is on
   // what it generates, not on how it is written.
-  it('bars encoding symbols and plan identifiers from generated messages', () => {
+  it('bars encoding symbols and plan identifiers, and says how to expand them', () => {
     const never = encodeCommit.slice(
       encodeCommit.indexOf('**What NEVER goes in:**'),
       encodeCommit.indexOf('## Expanding plan references'),
@@ -496,9 +462,7 @@ describe('generated commit messages stay readable without the plan files', () =>
     assert.ok(never.length > 0, 'encode-commit has no "What NEVER goes in" section');
     assert.match(never, /[Ee]ncoding symbols/, 'no rule barring encoding symbols');
     assert.match(never, /identifiers/, 'no rule barring plan or spec identifiers');
-  });
 
-  it('explains how to expand an identifier, with a worked example', () => {
     assert.match(encodeCommit, /^## Expanding plan references$/m);
     const section = encodeCommit.slice(encodeCommit.indexOf('## Expanding plan references'));
     assert.ok(section.includes('bad:') && section.includes('good:'), 'no before/after example');
@@ -532,14 +496,39 @@ describe('prep stays the planning front door', () => {
   const prep = readFileSync(join(SKILLS_DIR, 'prep', 'SKILL.md'), 'utf8');
   const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
 
-  it('requires PLAN.md and HANDOFF.md outputs', () => {
+  // V24, V25, V27, V54 — the shape of what prep emits: both files, research
+  // first, verification last, one SPEC task per phase, and expansion rather
+  // than replacement when a plan is already in flight.
+  it('emits both files, research first, verify last, one task per phase', () => {
     assert.match(prep, /PLAN\.md/);
     assert.match(prep, /HANDOFF\.md/);
-  });
-
-  it('starts with research and ends with final verification', () => {
     assert.match(prep, /first plan phase is always research/i);
     assert.match(prep, /last phase must be final verification/i);
+    assert.match(prep, /every PLAN phase gets one matching/);
+    assert.match(prep, /one existing `§T` task id via `task: T<n>`/);
+    assert.match(cook, /Read phase `task: T<n>`/);
+    assert.match(cook, /absent from SPEC\.md/);
+    assert.match(prep, /incomplete phases/);
+    assert.match(prep, /`encode-docs` remains the sole mutator of `SPEC\.md`/);
+    assert.match(prep, /\/cook/);
+  });
+
+  // V28, V29 — research is sourced and the final phase classifies per item;
+  // the handoff carries the shape that result lands in.
+  it('requires sourced research and a per-item final verification table', () => {
+    assert.match(prep, /External findings require a source/);
+    assert.match(prep, /Write sourced findings into `§R`/);
+    assert.match(prep, /`HOLD`, `VIOLATE`, or\s+`UNVERIFIABLE`/);
+    assert.match(prep, /record the result table in `HANDOFF\.md`/);
+    assert.match(prep, /logic correctness/);
+    assert.match(prep, /unnecessary complexity/);
+    assert.match(prep, /missed reuse/);
+
+    const handoff = readFileSync(join(SKILLS_DIR, 'handoff', 'SKILL.md'), 'utf8');
+    assert.match(handoff, /## final verification/);
+    assert.match(handoff, /item\|status\|evidence\|decision/);
+    assert.match(handoff, /HOLD \| VIOLATE \| UNVERIFIABLE/);
+    assert.match(handoff, /baseline .* oracle/);
   });
 
   it('uses observable quality cues instead of role language alone', () => {
@@ -584,41 +573,6 @@ describe('prep stays the planning front door', () => {
     }
   });
 
-  it('hands durable updates to the encoder and resumes with cook', () => {
-    assert.match(prep, /`encode-docs` remains the sole mutator of `SPEC\.md`/);
-    assert.match(prep, /\/cook/);
-  });
-
-  it('binds every generated phase to a SPEC task', () => {
-    assert.match(prep, /every PLAN phase gets one matching/);
-    assert.match(prep, /one existing `§T` task id via `task: T<n>`/);
-    assert.match(cook, /Read phase `task: T<n>`/);
-    assert.match(cook, /absent from SPEC\.md/);
-  });
-
-  // V54 — prep expands an in-flight plan instead of replacing it, so a second
-  // idea mid-cycle cannot silently discard the phases already planned.
-  it('expands an in-flight plan rather than replacing it', () => {
-    assert.match(prep, /incomplete phases/);
-  });
-
-  it('requires sourced research and per-item final verification', () => {
-    assert.match(prep, /External findings require a source/);
-    assert.match(prep, /Write sourced findings into `§R`/);
-    assert.match(prep, /`HOLD`, `VIOLATE`, or\s+`UNVERIFIABLE`/);
-    assert.match(prep, /record the result table in `HANDOFF\.md`/);
-    assert.match(prep, /logic correctness/);
-    assert.match(prep, /unnecessary complexity/);
-    assert.match(prep, /missed reuse/);
-  });
-
-  it('gives handoff a final verification result shape', () => {
-    const handoff = readFileSync(join(SKILLS_DIR, 'handoff', 'SKILL.md'), 'utf8');
-    assert.match(handoff, /## final verification/);
-    assert.match(handoff, /item\|status\|evidence\|decision/);
-    assert.match(handoff, /HOLD \| VIOLATE \| UNVERIFIABLE/);
-    assert.match(handoff, /baseline .* oracle/);
-  });
 });
 
 describe('cook executes the planned phase set', () => {
@@ -627,7 +581,9 @@ describe('cook executes the planned phase set', () => {
   // V72 — the description is the trigger surface (§R.25/§R.26); B5 shipped a
   // sentence fragment that weakened it. Both step-4 skills carry the same
   // implementation-quality keywords.
-  it('describes implementation with well-formed, keyword-bearing sentences', () => {
+  // V70 — no argument runs every remaining phase; an explicit one targets a
+  // single phase. The default is what makes a cold session finish the plan.
+  it('describes itself well and runs all remaining phases by default', () => {
     const dispatch = readFileSync(join(SKILLS_DIR, 'cater', 'SKILL.md'), 'utf8');
     for (const [name, skill] of [['cook', cook], ['cater', dispatch]]) {
       const description = skill.slice(skill.indexOf('description:'), skill.indexOf('license:'));
@@ -636,9 +592,6 @@ describe('cook executes the planned phase set', () => {
         assert.ok(description.includes(term), `${name} description omits "${term}"`);
       }
     }
-  });
-
-  it('runs all remaining phases by default and preserves targeted execution', () => {
     assert.match(cook, /No arg → start at the `HANDOFF\.md` "next" pointer/);
     assert.match(cook, /No arg → after each completed phase and committed handoff, continue with the\s+next eligible phase/);
     assert.match(cook, /Explicit phase arg → execute only that phase, then invoke `handoff` and stop/);
@@ -652,20 +605,27 @@ describe('review and garnish workflow stays coherent', () => {
   const garnish = readFileSync(join(SKILLS_DIR, 'garnish', 'SKILL.md'), 'utf8');
   const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
 
-  it('renames the plan reviewer and preserves the explicit gate', () => {
+  // V36, V74 — the plan reviewer reads both plan files, opens with a research
+  // gate grounded in dated primary sources rather than model memory, and ends
+  // in an explicit gate rather than a shrug.
+  it('review-plan gates on dated primary sources and an explicit verdict', () => {
     assert.match(reviewPlan, /^name: review-plan/m);
     assert.match(reviewPlan, /GO or NO-GO/);
     assert.match(reviewPlan, /\/(?:review-plan)/);
-  });
-
-  it('reads PLAN.md, runs research gate, and updates plan files', () => { // V36
     assert.match(reviewPlan, /PLAN\.md/);
     assert.match(reviewPlan, /research gate/i);
     assert.match(reviewPlan, /HANDOFF\.md/);
     assert.match(reviewPlan, /research phases remaining/);
+    assert.match(reviewPlan, /primary web sources/);
+    assert.match(reviewPlan, /official docs, changelogs, release notes/);
+    assert.match(reviewPlan, /never trust model memory/);
+    assert.match(reviewPlan, /date it was checked/);
   });
 
-  it('requires implementation baseline, evidence, and prep handoff', () => {
+  // V37, V73 — the code reviewer works from a real baseline, cites evidence,
+  // owns the security dimension, and ends by handing findings to prep. The
+  // description is the trigger surface for security asks (§R.27).
+  it('review-code sweeps from a baseline, cites evidence, checks security', () => {
     assert.match(implementation, /latest reachable tag/);
     assert.match(implementation, /explicit release commit/);
     assert.match(implementation, /complexity/);
@@ -673,20 +633,6 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(implementation, /correctness/);
     assert.match(implementation, /file:line/);
     assert.match(implementation, /invoke `prep`/);
-  });
-
-  // V74 — the research gate grounds findings in current primary sources with
-  // a checked date, never model memory.
-  it('review-plan grounds research in current, dated primary sources', () => {
-    assert.match(reviewPlan, /primary web sources/);
-    assert.match(reviewPlan, /official docs, changelogs, release notes/);
-    assert.match(reviewPlan, /never trust model memory/);
-    assert.match(reviewPlan, /date it was checked/);
-  });
-
-  // V73 — step 6 owns the security check; the description is the trigger
-  // surface for "security check" / "infosec" asks (§R.27).
-  it('review-code carries the security dimension and its triggers', () => {
     const description = implementation.slice(implementation.indexOf('description:'), implementation.indexOf('license:'));
     assert.ok(description.includes('security check'), 'description omits "security check"');
     assert.ok(description.includes('infosec'), 'description omits "infosec"');
@@ -721,17 +667,13 @@ describe('review and garnish workflow stays coherent', () => {
     }
   });
 
-  it('refreshes the baton after every completed phase', () => {
+  // V40, V26 — the baton is refreshed and committed after every phase, and
+  // spec-memory failures route through the bug mode rather than the retired
+  // backprop skill.
+  it('refreshes the baton every phase and routes failures through bug mode', () => {
     assert.match(cook, /after every phase commit/);
     assert.match(cook, /refresh\s+`HANDOFF\.md`/);
     assert.match(cook, /commit the baton/);
-  });
-});
-
-describe('failure handling routes through spec bug mode', () => {
-  const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
-
-  it('cook no longer references backprop', () => {
     assert.doesNotMatch(cook, /backprop/i);
     assert.match(cook, /`bug:`/);
   });
@@ -775,15 +717,14 @@ describe('the spec format needs no FORMAT.md', () => {
     assert.deepEqual(offenders, [], `mutator role misattributed: ${offenders.join(' | ')}`);
   });
 
-  // V21 — …so no skill may still demand the file, and the repo must not carry one.
-  it('no skill requires a FORMAT.md file', () => {
+  // V21 — …so no skill may still demand the file, and the repo must not carry
+  // one. Both halves matter: a skill asking for a file the repo does not ship
+  // fails at read time, and a file nobody reads drifts silently.
+  it('needs no FORMAT.md, and the repo carries none', () => {
     const offenders = loadSkills()
       .filter((s) => /(read|load)[^.\n]{0,40}`?FORMAT\.md/i.test(s.raw))
       .map((s) => s.dirName);
     assert.deepEqual(offenders, [], `these skills still require FORMAT.md: ${offenders.join(', ')}`);
-  });
-
-  it('repo root carries no FORMAT.md', () => {
     assert.equal(
       existsSync(join(REPO_ROOT, 'FORMAT.md')),
       false,
