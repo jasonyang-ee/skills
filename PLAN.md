@@ -111,7 +111,7 @@ next: F5
 ## F5 lean skill bodies
 task: T87
 goal: ⊥ emoji ∈ `skills/**` | `tests/**`; examples read `good`/`bad`; ⊥ vendor attribution block ∈ any skill body
-inputs: F1 emoji inventory + §R36 license gate; V91, V92, V94
+inputs: F1 emoji inventory (§R33-R36); V91, V92, V94
 files: `skills/encode-commit/SKILL.md` (CRLF), `skills/encode-pr/SKILL.md` (CRLF), `tests/repo-hygiene.test.mjs`, `skills/encode-docs/SKILL.md`
 steps:
 1. flip T86 → `x`; T87 → `~`
@@ -119,8 +119,8 @@ steps:
 3. `encode-pr` severity 🔴🟡🔵 = FUNCTIONAL ∴ → text labels (`bug` / `risk` / `nit`), ⊥ silent deletion — the severity signal ! survive
 4. Edit tool ONLY on the 2 CRLF files (§B.6); verify CR count unchanged after
 5. `NOTICE.md` Modified rows ∀ both vendored files record the emoji removal
-6. strip vendor attribution block @ `skills/encode-docs/SKILL.md` (the `> Vendored from...` blockquote, 3 lines) — ONLY if §R36 cleared the gate @ F1. Gate ⊥ cleared → STOP, report, ⊥ strip
-7. frontmatter `license: MIT` STAYS (1 line, spec-native field, ⊥ prose)
+6. strip vendor attribution block @ `skills/encode-docs/SKILL.md` (the `> Vendored from...` blockquote, 3 lines). GATE §R36 ⊥ cleared BUT user accepted w/ evidence 2026-07-19 ∴ PROCEED
+7. frontmatter `license: MIT` STAYS (1 line, spec-native, ⊥ prose) & ! ADDED to `encode-commit` + `encode-pr` (both lack it) — the only license signal that travels w/ `npx skills add` (§R36), costs ~4 tokens, ⊥ prose ∴ ⊥ conflict w/ V94
 8. add guard: ⊥ emoji ∈ `skills/**` + `tests/**` (codepoint-range match, ⊥ enumerated list — else next emoji slips through) + ⊥ attribution blockquote ∈ any skill body
 verify: `npm test` exit 0; both guards proven red when violated; CR counts byte-identical vs pre-edit; §R36 gate recorded
 exit: skill bodies lean
