@@ -76,7 +76,10 @@ item|status|evidence|decision
 7. Final verification phase must fill `final verification` table; non-final
    handoffs may use `-`.
 8. Commit HANDOFF.md — either inside the session's final phase commit or as
-   its own `docs: handoff` commit, per the repo's commit conventions.
+   its own commit, per the repo's commit conventions. Write a standalone baton
+   commit through `encode-commit`: say which phase closed, what the next step
+   is, and the test state, in plain English. No phase ids, no encoding symbols,
+   and never a bare `docs: handoff` — that tells a later reader nothing.
 
 ## NON-GOALS
 

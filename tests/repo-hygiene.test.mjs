@@ -387,6 +387,52 @@ describe('retired planning skills stay retired', () => {
   }
 });
 
+describe('generated commit messages stay readable without the plan files', () => {
+  const encodeCommit = readFileSync(join(SKILLS_DIR, 'encode-commit', 'SKILL.md'), 'utf8');
+
+  // V79 — asserts the RULE is present, not that the file lacks symbols. The
+  // skill legitimately contains "≤50 chars" in its own prose; the ban is on
+  // what it generates, not on how it is written.
+  it('bars encoding symbols and plan identifiers from generated messages', () => {
+    const never = encodeCommit.slice(
+      encodeCommit.indexOf('**What NEVER goes in:**'),
+      encodeCommit.indexOf('## Expanding plan references'),
+    );
+    assert.ok(never.length > 0, 'encode-commit has no "What NEVER goes in" section');
+    assert.match(never, /[Ee]ncoding symbols/, 'no rule barring encoding symbols');
+    assert.match(never, /identifiers/, 'no rule barring plan or spec identifiers');
+  });
+
+  it('explains how to expand an identifier, with a worked example', () => {
+    assert.match(encodeCommit, /^## Expanding plan references$/m);
+    const section = encodeCommit.slice(encodeCommit.indexOf('## Expanding plan references'));
+    assert.ok(section.includes('❌') && section.includes('✅'), 'no before/after example');
+    assert.match(section, /purged|deleted|outlives/, 'does not say why the identifiers go stale');
+  });
+
+  // V77, V78 — the two skills that generate commits must delegate here rather
+  // than carry their own drifting copy of the rules.
+  it('has the executing and handoff skills delegate to it', () => {
+    const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');
+    assert.match(cook, /`encode-commit`/, 'cook does not route its commit through encode-commit');
+    assert.match(cook, /never the phase id/i, 'cook does not bar the phase id from the scope');
+
+    const handoff = readFileSync(join(SKILLS_DIR, 'handoff', 'SKILL.md'), 'utf8');
+    assert.match(handoff, /`encode-commit`/, 'handoff does not route its commit through encode-commit');
+    assert.match(handoff, /bare `docs: handoff`/, 'handoff still permits a bare docs: handoff subject');
+  });
+
+  // V80 — editing a vendored skill forks it, and NOTICE.md is where that is
+  // recorded. A stale "No" here misrepresents what was taken and what changed.
+  it('records the fork in NOTICE.md', () => {
+    const notice = readFileSync(join(REPO_ROOT, 'NOTICE.md'), 'utf8');
+    const row = notice.split('\n').find((line) => line.includes('`skills/encode-commit/`'));
+    assert.ok(row, 'NOTICE.md has no row for skills/encode-commit/');
+    assert.ok(!/\|\s*No\s*\|/.test(row), 'NOTICE.md still calls encode-commit unmodified');
+    assert.match(row, /commit messages|identifiers/, 'NOTICE.md does not say what changed');
+  });
+});
+
 describe('prep stays the planning front door', () => {
   const prep = readFileSync(join(SKILLS_DIR, 'prep', 'SKILL.md'), 'utf8');
   const cook = readFileSync(join(SKILLS_DIR, 'cook', 'SKILL.md'), 'utf8');

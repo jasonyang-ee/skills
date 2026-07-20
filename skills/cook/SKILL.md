@@ -105,7 +105,10 @@ without asking questions — not code that was fast to write.
    lines exactly as the phase's SPEC block specifies; flip §T → `x`), a
    `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Flip §T →
    `x` only after oracle + named tests pass. At session end, run full suite.
-   Follow repo commit conventions. Never push unless repo policy says to.
+   Write the message through `encode-commit`: scope is the component the diff
+   touched, never the phase id, and the body names the changed paths and what
+   was verified, in plain English a reader without `PLAN.md` can follow. Never
+   push unless repo policy says to.
 7. Invoke `handoff` immediately after every phase commit. It must refresh
    `HANDOFF.md` with exact phase result, test/oracle state, stop point, and next
    executable step, then commit the baton before any next phase or report.

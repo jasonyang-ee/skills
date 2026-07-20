@@ -24,6 +24,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `SPEC.md` files keep their old header until the next `/spec` run
   rewrites it; nothing reads that line, so the drift is cosmetic.
 
+### Added
+
+- `/encode-commit` now bars encoding symbols and plan or spec identifiers
+  from the commit messages it generates, and explains how to expand an
+  identifier into plain English. Plan files get purged when a cycle
+  closes but the git log outlives them, so a message built out of phase
+  and invariant numbers becomes unreadable the moment those files go.
+  `/cook` and `/handoff` route their commits through it rather than
+  keeping their own copies of the rules.
+
 ### Removed
 
 - Remove the conversational `caveman` skill. Its terse-output rules now

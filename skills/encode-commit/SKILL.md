@@ -32,6 +32,9 @@ Write commit messages terse and exact. Conventional Commits format. No fluff. Wh
 - "Generated with Claude Code" or any AI attribution — unless the user's own rule requires an `Assisted-by`/AI-attribution trailer, then add it as a trailer
 - Emoji (unless project convention requires)
 - Restating the file name when scope already says it
+- Encoding symbols (`→ ∴ ∀ ⊥ ∃ §`) — write the English word instead
+- Plan or spec identifiers (`F1`, `T77`, `V77`, `R28`, `B5`) carrying the
+  meaning — see below
 
 ## Examples
 
@@ -55,6 +58,38 @@ Diff: breaking API change
   BREAKING CHANGE: clients on /v1/orders must migrate to /v1/checkout
   before 2026-06-01. Old route returns 410 after that date.
   ```
+
+## Expanding plan references
+
+`SPEC.md` and `PLAN.md` are working files. They get purged when a cycle
+closes; the git log outlives them. A reader running `git log` a year from now
+has the diff and the message, nothing else. An identifier that pointed into a
+deleted file is a dead reference, and it was never readable to anyone outside
+that session anyway.
+
+So expand every identifier into what it stood for. Say the phase did, not
+which phase it was. Name the invariant's rule, not its number. Cite an
+identifier only as a bare cross-reference alongside the meaning, never as the
+carrier of it.
+
+❌
+```
+feat(F2): implement T80 per §R30
+
+Satisfies V81 → V83. See §T.
+```
+
+✅
+```
+refactor(skills): rename seven skills to the new vocabulary
+
+Renames the skill directories and every cross-reference between them. The
+first three names are reused across different skills, so the sweep runs in
+a fixed order and each reference was re-pointed by what it meant rather
+than by matching the string.
+```
+
+The scope is the component the diff touched, not the phase that touched it.
 
 ## Auto-Clarity
 
