@@ -11,7 +11,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-19
 
-branch main | last commit e085120 test: cut the suite from 189 cases to 49 | tests green
+branch main | last commit a946cd3 docs: verify the merge cycle and close the plan | tests green
 green (49 pass, 0 fail) | oracle `npm test` | was 189 at cycle start | CLI lists 11
 uncommitted: none
 
@@ -26,13 +26,14 @@ F4 (T86 `x`) ∀ refs re-pointed by SENSE: skill+cmd → `encode-docs`; `SPEC.md
 F5 (T87 `x`) emoji purged ∀ `skills/**` + `tests/**`: ❌/✅ → words `bad`/`good`; `encode-pr` severity 🔴🟡🔵❓ → `bug:`/`risk:`/`nit:`/`q:` (labels already carried signal ∴ ⊥ loss); attribution block dropped (V94 satisfied); `license: MIT` added to both vendored files; `NOTICE.md` Modified rows record it; CR counts 100→101 & 54→55 = the added license line, ⊥ damage; 2 guards proven red-when-broken
 F6 (T88 `x`) `garnish` step 4 = evidence-gated prune (steps renumbered 4-8); `pruned:`+`kept:` output fields; 3 new BOUNDARIES; V90 guard asserts ∀ 4 properties, each proven red independently
 F7 (T89 `x`) suite 185 → 49 (V93 < 50 holds). Per-skill loops → aggregate cases reporting ∀ offender at once. ⊥ assertion deleted — §R35 predicted 28 §V at risk, ACTUAL 0 lost oracle ∵ collapsing sufficed ∴ ⊥ §V marked MANUAL, ⊥ §V pruned. §V annotation coverage 42 → 56 distinct. 5 merged cases probed red-when-broken
+F8 (T90 `x`) final verify: ∀ V86-V94 HOLD + regression sweep + manual doc oracle + NOTICE hand-read + cold-read. ⊥ drift
 
 ## in progress (exact stop point)
 F3 (T85 `~`) partially pre-done @ F2: ∀ 3 baked-header TEMPLATES already written into `encode-docs`. REMAINS: apply them to THIS repo 3 files + real `next:` values. mid-edit files: none
 
 ## next
-F8 per PLAN.md | preconditions: none
-NEXT STEP: classify V86-V94 each HOLD/VIOLATE/UNVERIFIABLE w/ test+file evidence; regression sweep V4,V5,V7,V8,V14,V17,V19,V21,V47,V81,V82,V84,V85; manual doc §V oracle V50,V52,V55,V56,V58,V59,V60; re-read `NOTICE.md` by hand (dual-credit + emoji rows); COLD-READ `encode-docs` as a new session — can it build all 3 docs from the file alone?
+PLAN complete — ∀ §T T83-T90 == `x`, ∀ §V86-V94 HOLD, suite green @ 49
+NEXT STEP: `/garnish` to close the cycle. NOTE: garnish now prunes stale §V/§T (V90) ∴ this close is the FIRST dogfood of that step — V18+V57 tombstones + any §V made stale by the merge = prune candidates, evidence-gated
 
 ## deviations & decisions
 user ruled 2026-07-19 (c): merged skill KEEPS name `encode-docs`. `/spec` ⊥ resolves after merge. ∴ `encode-docs` description ! carry BOTH skills' trigger keywords else `/spec` muscle-memory lands nowhere
