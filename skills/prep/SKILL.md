@@ -17,8 +17,8 @@ license: MIT
 # prep — request → PLAN.md + HANDOFF.md + encode-docs handoff
 
 `prep` is the planning front door for work that is too fuzzy, too large, or too
-session-spanning for `cook` or `encode-docs` alone. It replaces the old split between idea
-grilling, research setup, and a final drift-check pass by packaging them into
+session-spanning for `cook` or `encode-docs` alone. It analysis and summarize between
+new idea, research setup, and a final drift-check pass by packaging them into
 one short planning run.
 
 ## Quality contract
