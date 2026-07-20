@@ -23,6 +23,7 @@ const PRIVATE_REFS = [
 const RETIRED_SKILLS = [
   'backprop',
   'build',
+  'caveman',
   'caveman-help',
   'check',
   'deepen',
@@ -130,7 +131,7 @@ describe('setup bootstraps the workflow safely', () => {
     assert.match(setup, /invoke `spec`/i);
     assert.match(setup, /Never overwrite existing/i);
     assert.match(setup, /preserve it/i);
-    assert.match(setup, /## Caveman symbols/);
+    assert.match(setup, /## Encoding symbols/);
     assert.match(setup, /## End of Chat Checklist/);
   });
 
@@ -139,7 +140,7 @@ describe('setup bootstraps the workflow safely', () => {
       '## AI File Purpose',
       '## Skills',
       '## Project Scripts',
-      '## Caveman symbols',
+      '## Encoding symbols',
       '## End of Chat Checklist',
     ]) {
       assert.match(setup, new RegExp(section.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
@@ -207,6 +208,58 @@ describe('the code reviewer ships as review-code', () => {
       changelog.includes('review-implementation'),
       'CHANGELOG.md released entries must keep the name the skill shipped under',
     );
+  });
+});
+
+describe('the renamed roster is the only one referenced', () => {
+  const ROSTER = [
+    'cater', 'cook', 'encode-commit', 'encode-docs', 'encode-pr', 'garnish',
+    'handoff', 'prep', 'review-code', 'review-plan', 'setup', 'spec',
+  ];
+  // Names reused across different skills during the rename: `cook` used to mean
+  // planning and now means execution. A stale reference is not a dead link, it
+  // points at a real skill that does the wrong thing.
+  const RETIRED = [
+    'workonplan', 'dispatchplan', 'caveman-encode', 'caveman-commit', 'caveman-pr',
+  ];
+
+  // V81
+  it('ships exactly the twelve renamed skills', () => {
+    assert.deepEqual(loadSkills().map((skill) => skill.dirName).sort(), ROSTER);
+  });
+
+  it('claims the right skill count where the count is stated', () => {
+    for (const file of ['README.md', 'AGENTS.md']) {
+      const text = readFileSync(join(REPO_ROOT, file), 'utf8');
+      assert.ok(!/\b13 skills\b/.test(text), `${file} still claims 13 skills`);
+      assert.match(text, /\b12 skills\b/, `${file} does not state the current skill count`);
+    }
+  });
+
+  // V82 — CHANGELOG.md and the SPEC §T/§R/§B rows are excluded on purpose:
+  // released notes and task records must keep the names things shipped under.
+  // NOTICE.md is checked only for local paths: its "Upstream name" column names
+  // the skills as they exist in JuliusBrussee's repos, and that must stay exact
+  // or the attribution stops being true.
+  it('leaves no live reference to a retired skill name', () => {
+    const offenders = [];
+    for (const file of LIVE_REF_FILES) {
+      const text = readFileSync(join(REPO_ROOT, file), 'utf8');
+      for (const name of RETIRED) {
+        const pattern = file === 'NOTICE.md'
+          ? new RegExp(`skills/${name}/`)
+          : new RegExp(`\\b${name}\\b`);
+        if (pattern.test(text)) offenders.push(`${file}: ${name}`);
+      }
+    }
+    for (const skill of loadSkills()) {
+      for (const name of RETIRED) {
+        if (new RegExp(`\\b${name}\\b`).test(skill.raw)) {
+          offenders.push(`skills/${skill.dirName}/SKILL.md: ${name}`);
+        }
+      }
+    }
+    assert.deepEqual(offenders, [], `retired skill names still referenced: ${offenders.join(', ')}`);
   });
 });
 

@@ -60,7 +60,7 @@ from elsewhere, read it line by line first.
   specific about what is forbidden.
 - Prefer a rule that can be checked ("body ≤ 500 lines") over one that cannot
   ("keep it short").
-- `SPEC.md` and `AGENTS.md` use caveman encoding; `README.md`, this file, and
+- `SPEC.md` and `AGENTS.md` use the compressed encoding; `README.md`, this file, and
   commit messages use normal English. The encoding and section schema live in
   the [`spec` skill](../skills/spec/SKILL.md) under `## FORMAT`, and every
   `SPEC.md` repeats them in its own baked header.

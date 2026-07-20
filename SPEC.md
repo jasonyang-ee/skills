@@ -1,7 +1,7 @@
 <!-- SPEC FORMAT (baked by /spec — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants | §T tasks | §B bugs
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
-Encoding caveman: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
+Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R,§T,§B): pipe-delimited. ids monotonic, never reused. Escape literal \| . Empty cell = -
@@ -14,17 +14,17 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## §G GOAL
 
-Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `workonplan`, `review-code`, `garnish`, `prep`, `dispatchplan`) + derived `cook` + vendored cavekit/caveman suite. Core purpose = 6-step spec-driven workflow, narrative → `README.md` `## The six core workflow steps` (⊥ separate doc file; order contract → V47): 1) `cook` turns idea/bug/feature/expected behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`; 2) `caveman-encode` governs every `PLAN.md`/`HANDOFF.md` write; 3) cold-session `review-plan` researches/refutes until plan ready; 4) cold-session `workonplan`|`dispatchplan` executes phases with handoff closure; 5) `garnish` routes durable cleanup through `spec` then purges short-term files; 6) `review-code` closes cycle and may trigger next `cook`. Steps 3 and 6 iterate internally; order ! skipped.
+Public repo `jasonyang-ee/skills` → personal central skill collection, installable via `npx skills add jasonyang-ee/skills`. Own skills (`handoff`, `cook`, `review-code`, `garnish`, `setup`, `cater`) + derived `prep` + vendored cavekit/caveman suite. Core purpose = 6-step spec-driven workflow, narrative → `README.md` `## The six core workflow steps` (⊥ separate doc file; order contract → V47): 1) `prep` turns idea/bug/feature/expected behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`; 2) `encode-docs` governs every `PLAN.md`/`HANDOFF.md` write; 3) cold-session `review-plan` researches/refutes until plan ready; 4) cold-session `cook`|`cater` executes phases with handoff closure; 5) `garnish` routes durable cleanup through `spec` then purges short-term files; 6) `review-code` closes cycle and may trigger next `prep`. Steps 3 and 6 iterate internally; order ! skipped.
 
 ## §C CONSTRAINTS
 
 - Layout `skills/<name>/SKILL.md`. Agent Skills spec + skills CLI flat discovery (§R.1, §R.4).
 - ∀ SKILL.md ! Agent Skills spec compliant. Spec ⊃ skills CLI reqs ∴ spec binds (§R.1, §R.2).
 - Skills = markdown only. ⊥ runtime deps for installing user. ⊥ Python. ⊥ `scripts/` (∵ user ruling 2026-07-15).
-- `cook` ! write caveman `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
-- `PLAN.md` + `HANDOFF.md` ! caveman-encoded ∀ writes (load `caveman-encode` ∵ session-efficiency).
-- core workflow order = `cook` → `caveman-encode` → `review-plan` → `workonplan`|`dispatchplan` → `garnish` → `review-code` → (`cook` next cycle). `/prep` bootstraps repo guidance; ⊥ core step. `workonplan`|`dispatchplan` ⊥ without prior `cook` output (`PLAN.md` ∃); `garnish` ⊥ without completed `workonplan`|`dispatchplan`; `review-code` ! end by invoking `cook` or declaring ⊥ further work.
-- `workonplan` ! refresh & commit `HANDOFF.md` ∀ phase end (∵ session-cut safety; cold resume ! start from baton).
+- `prep` ! write encoded `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
+- `PLAN.md` + `HANDOFF.md` ! encoded ∀ writes (load `encode-docs` ∵ session-efficiency).
+- core workflow order = `prep` → `encode-docs` → `review-plan` → `cook`|`cater` → `garnish` → `review-code` → (`prep` next cycle). `/setup` bootstraps repo guidance; ⊥ core step. `cook`|`cater` ⊥ without prior `prep` output (`PLAN.md` ∃); `garnish` ⊥ without completed `cook`|`cater`; `review-code` ! end by invoking `prep` or declaring ⊥ further work.
+- `cook` ! refresh & commit `HANDOFF.md` ∀ phase end (∵ session-cut safety; cold resume ! start from baton).
 - ⊥ vendor skills needing hooks | subagents (∵ `npx skills add` installs ⊥ either → silent no-op. §R.11, §R.12).
 - License MIT. `LICENSE` @ root. Vendored MIT work → `NOTICE.md` ! reproduce upstream copyright + permission notice (∵ MIT §; README credit alone ⊥ sufficient).
 - Publish = GitHub Release only. npm publish ⊥ (∵ §R.3).
@@ -35,28 +35,28 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 - dependabot version updates ⊥ open PRs → `open-pull-requests-limit: 0` ∀ ecosystem (∵ user ruling 2026-07-15, PR noise). Repo setting `dependabot_security_updates` ! stay enabled & alerts ! stay on (∵ `package-lock.json` public ∴ vuln scannable regardless; security PR closes exposure window ⊥ opens it. Alerts private on public repo ∴ ⊥ disclosure). ⊥ CI-testable (repo API) ∴ manual.
 - ⊥ push | tag without explicit user ask (house policy, `CLAUDE.md`).
 - ⊥ `FORMAT.md`. Format → embedded in `spec` skill + baked header @ top of SPEC.md (§R.13).
-- `SPEC.md` + `AGENTS.md` caveman. `README.md`/`.github/CONTRIBUTING.md`/`NOTICE.md` normal English (∵ human-facing).
+- `SPEC.md` + `AGENTS.md` encoded. `README.md`/`.github/CONTRIBUTING.md`/`NOTICE.md` normal English (∵ human-facing).
 - `CONTRIBUTING.md` @ `.github/` ⊥ root (mv @ `ccec8bc`).
 - Test scope = `skills/**` content + license/release guards (V10,V11,V12,V15,V16,V17) only. ⊥ assert doc prose (`README.md`, `.github/CONTRIBUTING.md`, `AGENTS.md`, `CLAUDE.md`) (∵ user ruling 2026-07-16: "test for things in skills folder only"; prose asserts → brittle, red @ file mv, ⊥ caught real defect). ∴ doc §V → manual oracle, ⊥ retired: requirement stands, automation ⊥.
 
 ## §I INTERFACES
 
-- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 13 skills → detected agents
-- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 13
-- cmd: `npx skills add jasonyang-ee/skills -s cook -s workonplan -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
+- cmd: `npx skills add jasonyang-ee/skills` → installs ∀ 12 skills → detected agents
+- cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ 12
+- cmd: `npx skills add jasonyang-ee/skills -s prep -s cook -s spec -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description, license: MIT}`
-- roster: own → `handoff`, `workonplan`, `review-code`, `garnish`, `prep`, `dispatchplan`. derived → `cook`. cavekit → `spec`, `review-plan`, `caveman-encode`. caveman → `caveman`, `caveman-commit`, `caveman-pr`
-- command graph: `/prep` (bootstrap) → `/cook` → [`/review-plan`]* → `/workonplan`|`/dispatchplan` (phases + `handoff` per phase) → `/garnish` → [`/review-code` → `/cook`]*
-- cmd: `/dispatchplan` → parallel multi-phase execution via sub-agents; creates `HANDOFF-<phase-id>.md` per assignment; selects sub-agent by phase complexity (capability terms, ⊥ harness-specific names); sub-agent → `## completion` block → main agent phase-scoped acceptance review → purge assignment file; main `HANDOFF.md` refresh ∀ dispatch/completion/acceptance/stop; `/review-code` ⊥ mid-dispatch (stays step 6)
-- cmd: `/prep` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
-- workflow: `README.md` `## The six core workflow steps` → canonical six-step narrative (⊥ separate doc file); `cook` → `caveman-encode` → `review-plan` → `workonplan`|`dispatchplan` → `garnish` → `review-code` → next `cook`
-- cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-code` → post-baseline code sweep → next `cook`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
-- phase close: `workonplan`|`dispatchplan` → `handoff` refresh + commit after every phase; session end → final refresh
+- roster: own → `handoff`, `cook`, `review-code`, `garnish`, `setup`, `cater`. derived → `prep`. cavekit → `spec`, `review-plan`, `encode-docs`. caveman → `encode-commit`, `encode-pr`
+- command graph: `/setup` (bootstrap) → `/prep` → [`/review-plan`]* → `/cook`|`/cater` (phases + `handoff` per phase) → `/garnish` → [`/review-code` → `/prep`]*
+- cmd: `/cater` → parallel multi-phase execution via sub-agents; creates `HANDOFF-<phase-id>.md` per assignment; selects sub-agent by phase complexity (capability terms, ⊥ harness-specific names); sub-agent → `## completion` block → main agent phase-scoped acceptance review → purge assignment file; main `HANDOFF.md` refresh ∀ dispatch/completion/acceptance/stop; `/review-code` ⊥ mid-dispatch (stays step 6)
+- cmd: `/setup` → safely bootstrap `AGENTS.md`, exact `CLAUDE.md` import when absent, minimal `CHANGELOG.md`, and `SPEC.md` via `spec`; bootstrap support, ⊥ core workflow step
+- workflow: `README.md` `## The six core workflow steps` → canonical six-step narrative (⊥ separate doc file); `prep` → `encode-docs` → `review-plan` → `cook`|`cater` → `garnish` → `review-code` → next `prep`
+- cmd: `/review-plan` → research gate (resolve required `?` items) + plan refutation → update `PLAN.md`/`HANDOFF.md` → GO/NO-GO; iterative until no research phase needed; `/review-code` → post-baseline code sweep → next `prep`; `/garnish` → close completed PLAN cycle & purge `PLAN.md`/`HANDOFF.md`
+- phase close: `cook`|`cater` → `handoff` refresh + commit after every phase; session end → final refresh
 - garnish close: `garnish` → `spec` durable cleanup handoff → purge short-term files → `/review-code`
 - file: `SPEC.md` @ consumer repo root → baked format header (HTML comment) first bytes, written by `spec` skill
-- file: `PLAN.md` @ consumer repo root → caveman phase plan, drafted by `cook`, executed by `workonplan`|`dispatchplan`
-- file: `HANDOFF.md` @ consumer repo root → caveman baton, drafted by `cook`, refreshed by `handoff`
-- file: `PLAN.md` phase → `task:` names exactly one `§T` id; `workonplan`|`dispatchplan` uses id for phase status/verification
+- file: `PLAN.md` @ consumer repo root → encoded phase plan, drafted by `prep`, executed by `cook`|`cater`
+- file: `HANDOFF.md` @ consumer repo root → encoded baton, drafted by `prep`, refreshed by `handoff`
+- file: `PLAN.md` phase → `task:` names exactly one `§T` id; `cook`|`cater` uses id for phase status/verification
 - file: final verification phase → per-`§V`/`§I`/`§T` result table, drift decision, agreed commands
 - file: `HANDOFF.md` `## final verification` → `item|status|evidence|decision` table; status `HOLD` | `VIOLATE` | `UNVERIFIABLE`
 - file: phase verification contract → exact test file/case per touched `§V`; oracle command
@@ -128,58 +128,58 @@ V20: `skills/spec/SKILL.md` ! ∋ `## FORMAT` & `## BAKED HEADER` & header templ
 V21: ∀ skill → ⊥ require `FORMAT.md`; root ⊥ ∃ `FORMAT.md`
 V22: `.github/dependabot.yml` → ∀ `updates[]` entry ! `open-pull-requests-limit: 0` (∵ §C; re-enable = unwanted public PR)
 V23: retired skill dirs `skills/{backprop,build,check,deepen,grill,research}/` ⊥ ∃
-V24: `skills/cook/SKILL.md` ! mention `PLAN.md`, `HANDOFF.md`, `spec`, `workonplan`
-V25: `skills/cook/SKILL.md` ! require research 1st phase & final verification last phase
-V26: `skills/workonplan/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
-V27: `cook` PLAN phase ∀ → `task:` exactly one existing `§T` id; F1 research first, Fn final verify last
+V24: `skills/prep/SKILL.md` ! mention `PLAN.md`, `HANDOFF.md`, `spec`, `cook`
+V25: `skills/prep/SKILL.md` ! require research 1st phase & final verification last phase
+V26: `skills/cook/SKILL.md` ! route spec-memory failures via `/spec bug:` & ⊥ mention `backprop`
+V27: `prep` PLAN phase ∀ → `task:` exactly one existing `§T` id; F1 research first, Fn final verify last
 V28: F1 research → unknowns resolved or marked `?`; sourced findings land in `§R`; later phases updated before handoff
 V29: Fn final verify → re-read relevant `§V`/`§I`/`§T`, run agreed commands, classify each as `HOLD`/`VIOLATE`/`UNVERIFIABLE`, record drift decision
-V30: `workonplan` phase execution → uses PLAN `task:` id for `§T` status; no phase starts without matching SPEC task
+V30: `cook` phase execution → uses PLAN `task:` id for `§T` status; no phase starts without matching SPEC task
 V31: phase start → verification contract names exact test file/case per touched `§V` before edit
 V32: phase close → oracle command & named tests green; session end → full suite green
 V33: verification failure → classify code bug | spec bug | unspecified edge; spec bug/edge → `spec bug:` before retry
-V34: `workonplan` execution → honors `§R`; no re-derive/contradict sourced facts
+V34: `cook` execution → honors `§R`; no re-derive/contradict sourced facts
 V35: `HANDOFF.md` → records exact test status, uncommitted paths/reasons, stop point, next executable step
 V36: `skills/review-plan/SKILL.md` reads `PLAN.md` & `SPEC.md`; research gate resolves open `?` items & records findings in `§R` before refuting plan structure; updates `PLAN.md`/`HANDOFF.md`; ends explicit GO/NO-GO; old `skills/review/` ⊥ ∃
-V37: `review-code` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `cook`
+V37: `review-code` → baseline = latest reachable release tag, else explicit release commit; sweep covers complexity, reuse, correctness, coherence; findings cite evidence & end by invoking `prep`
 V38: `garnish` → purge `PLAN.md`/`HANDOFF.md` only after ∀ §T `x`, final verification `HOLD`, no unrelated uncommitted files; preserve `SPEC.md`
 V39: new skills → Agent Skills contract, README/NOTICE/tests roster aligned
-V40: `workonplan` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
+V40: `cook` phase close → `HANDOFF.md` refreshed & committed before next phase or report; baton names exact next step
 V41: `garnish` → `spec` receives durable cleanup handoff before deletion; only then purge `PLAN.md`/`HANDOFF.md`; next `/review-code`
-V42: `/prep` → generated/completed `AGENTS.md` lists exactly seven bootstrap commands in order: `/prep`, `/cook`, `/review-plan`, `/workonplan`, `/dispatchplan`, `/garnish`, `/review-code`; `/dispatchplan` = peer entry ⊥ nested `alt` line (∵ user ruling 2026-07-16 — nested alt read as afterthought ∴ skill undiscovered); `/workonplan` \| `/dispatchplan` exclusive per phase, ⊥ both; list ≠ core six workflow steps (V47 — `workonplan`\|`dispatchplan` = 1 step there)
-V43: `prep` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` preserved; only missing files/sections may be added without explicit overwrite direction
+V42: `/setup` → generated/completed `AGENTS.md` lists exactly seven bootstrap commands in order: `/setup`, `/prep`, `/review-plan`, `/cook`, `/cater`, `/garnish`, `/review-code`; `/cater` = peer entry ⊥ nested `alt` line (∵ user ruling 2026-07-16 — nested alt read as afterthought ∴ skill undiscovered); `/cook` \| `/cater` exclusive per phase, ⊥ both; list ≠ core six workflow steps (V47 — `cook`\|`cater` = 1 step there)
+V43: `setup` → existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, `SPEC.md` preserved; only missing files/sections may be added without explicit overwrite direction
 V44: missing `CLAUDE.md` → created with exact content `@AGENTS.md`; existing non-import content → preserved and reported
-V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `prep` write
-V46: generated/completed `AGENTS.md` → sections `Commands`, `Caveman symbols`, `End of Chat Checklist`; support skills documented outside six bootstrap commands; unknown project facts marked `?`
-V47: core workflow ! preserve exact order: 1 `cook` → 2 `caveman-encode` → 3 `review-plan` → 4 `workonplan`|`dispatchplan` → 5 `garnish` → 6 `review-code`; `workonplan`|`dispatchplan` ! have `PLAN.md` ∃ (prior `cook`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-code` ! end by invoking `cook` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `caveman-encode`
-V48: `skills/prep/SKILL.md` description ! include `/prep`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for cook`, `initialize agent guidance`
-V49: `prep` preflight step 1 ! load `caveman-encode` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard Caveman symbol legend, ⊥ user-filled symbol placeholder
-V50: `README.md` ! explain `/prep` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
+V45: missing `CHANGELOG.md` → minimal `# Changelog` + `## [Unreleased]`; missing `SPEC.md` → `spec` NEW mode, never direct `setup` write
+V46: generated/completed `AGENTS.md` → sections `Commands`, `Encoding symbols`, `End of Chat Checklist`; support skills documented outside six bootstrap commands; unknown project facts marked `?`
+V47: core workflow ! preserve exact order: 1 `prep` → 2 `encode-docs` → 3 `review-plan` → 4 `cook`|`cater` → 5 `garnish` → 6 `review-code`; `cook`|`cater` ! have `PLAN.md` ∃ (prior `prep`); `garnish` ! have ∀ §T `x` & final verification `HOLD`; `review-code` ! end by invoking `prep` or declaring ⊥ further work; ∀ `PLAN.md`/`HANDOFF.md` write ! load `encode-docs`
+V48: `skills/setup/SKILL.md` description ! include `/setup`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for prep`, `initialize agent guidance`
+V49: `setup` preflight step 1 ! load `encode-docs` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard encoding symbol legend, ⊥ user-filled symbol placeholder
+V50: `README.md` ! explain `/setup` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V51: RETIRED @ T63 (2026-07-16, user ruling) — `truth-workflow.md` deleted; ⊥ separate narrative file. Six-step order contract → V47; README narrative → V50. id ⊥ reused
-V52: README `## The six core workflow steps` step 2 ∋ caveman-encode described as automatic discipline (∋ "automatically" or "loaded by"); ⊥ imply user-triggered `/encode` command [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
-V53: `skills/prep/SKILL.md` AGENTS.md template support line ∋ `/caveman-commit`
-V54: `tests/repo-hygiene.test.mjs` ! ∋ assertion `skills/cook/SKILL.md` ∋ "incomplete phases" (anchors expand-vs-replace contract)
-V55: `README.md` small-task path ! route `/spec` → `/cook` before `/workonplan`; ⊥ direct `/spec` → `/workonplan` [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
+V52: README `## The six core workflow steps` step 2 ∋ encode-docs described as automatic discipline (∋ "automatically" or "loaded by"); ⊥ imply user-triggered `/encode` command [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
+V53: `skills/setup/SKILL.md` AGENTS.md template support line ∋ `/encode-commit`
+V54: `tests/repo-hygiene.test.mjs` ! ∋ assertion `skills/prep/SKILL.md` ∋ "incomplete phases" (anchors expand-vs-replace contract)
+V55: `README.md` small-task path ! route `/spec` → `/prep` before `/cook`; ⊥ direct `/spec` → `/cook` [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V56: `.github/CONTRIBUTING.md` encoding guidance ! point at embedded `skills/spec/SKILL.md`/`§FORMAT`; ⊥ link/reference `FORMAT.md` [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V57: RETIRED @ T82 (2026-07-19) — `skills/caveman/` deleted ∴ ⊥ README row to match. id ⊥ reused
 V58: `README.md` Layout tree ! list each current `skills/` child exactly once [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
-V59: `README.md` caveman-encode loader list ! include `review-plan` (writer of `PLAN.md`/`HANDOFF.md`) [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
+V59: `README.md` encode-docs loader list ! include `review-plan` (writer of `PLAN.md`/`HANDOFF.md`) [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V60: `§I` test oracle ! distinguish automated `npm test` checks from release/manual invariants (e.g. V13); ⊥ claim exit 0 proves ∀ §V [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V61: `skills/review-code/SKILL.md` ∃ & `skills/review-implementation/` ⊥ ∃; ∀ live non-CHANGELOG refs → `review-code`; historical `§T` task labels may retain original name as record
-V62: `skills/dispatchplan/SKILL.md` ∃; frontmatter `name: dispatchplan`; description ∋ "sub-agent" & "dispatch" & "parallel"
-V63: `dispatchplan` SKILL.md ! describe dedicated per-assignment handoff file, exact literal pattern `HANDOFF-<phase-id>.md` @ repo root (1 phase → 1 sub-agent ∴ phase-id sufficient; ⊥ agent-id suffix)
-V64: `dispatchplan` SKILL.md ! describe sub-agent selection by phase/task complexity & ⊥ dispatch concurrent assignments touching same file (shared-file safety)
-V65: `dispatchplan` sub-agent → on finish ! write `## completion` block (status\|evidence\|tests) into assigned `HANDOFF-<phase-id>.md`; main agent ! run phase-scoped acceptance review of sub-agent diff per `workonplan` self-review contract (§R.23) before accept. `garnish` ⊥ per-sub-agent (∵ §R.19); `/review-code` ⊥ mid-dispatch — stays step 6 (∵ §R.20, V47)
-V66: `dispatchplan` SKILL.md ! describe main `HANDOFF.md` refresh @ each of: before dispatch, after sub-agent completion, after acceptance review, before stop (∵ large context in parallel workflow)
-V67: `dispatchplan` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-implementer`, `Explore`); selection ! expressed in capability/complexity terms (∵ §R.21, §R.12 — `skills add` installs ⊥ agents → silent no-op; §C ⊥ project-specific refs in `skills/**`)
-V68: `dispatchplan` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
-V69: `/prep` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Caveman symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
-V70: `/workonplan` without phase arg → execute ∀ remaining PLAN.md phases sequentially; `/workonplan F<n>` → execute targeted phase only
-V71: `cook` quality contract → production-quality, verification-driven, evidence-based implementation cues mapped across all 6 workflow steps; completion ! role label alone
-V72: `skills/workonplan/SKILL.md` description → well-formed sentences (⊥ fragment `targets one phase. at principal-engineer quality`) & ∋ step-4 focus keywords "production-quality" & "verification-driven" & "evidence-based"
+V62: `skills/cater/SKILL.md` ∃; frontmatter `name: cater`; description ∋ "sub-agent" & "dispatch" & "parallel"
+V63: `cater` SKILL.md ! describe dedicated per-assignment handoff file, exact literal pattern `HANDOFF-<phase-id>.md` @ repo root (1 phase → 1 sub-agent ∴ phase-id sufficient; ⊥ agent-id suffix)
+V64: `cater` SKILL.md ! describe sub-agent selection by phase/task complexity & ⊥ dispatch concurrent assignments touching same file (shared-file safety)
+V65: `cater` sub-agent → on finish ! write `## completion` block (status\|evidence\|tests) into assigned `HANDOFF-<phase-id>.md`; main agent ! run phase-scoped acceptance review of sub-agent diff per `cook` self-review contract (§R.23) before accept. `garnish` ⊥ per-sub-agent (∵ §R.19); `/review-code` ⊥ mid-dispatch — stays step 6 (∵ §R.20, V47)
+V66: `cater` SKILL.md ! describe main `HANDOFF.md` refresh @ each of: before dispatch, after sub-agent completion, after acceptance review, before stop (∵ large context in parallel workflow)
+V67: `cater` SKILL.md ⊥ ∋ harness-specific agent names (e.g. `sonnet-implementer`, `Explore`); selection ! expressed in capability/complexity terms (∵ §R.21, §R.12 — `skills add` installs ⊥ agents → silent no-op; §C ⊥ project-specific refs in `skills/**`)
+V68: `cater` → ∀ `HANDOFF-<phase-id>.md` purged after acceptance; root ⊥ ∃ `HANDOFF-*.md` @ cycle close (∵ §R.19 — garnish removes only `PLAN.md`/`HANDOFF.md` & blocks on unrelated dirty files ∴ leftovers litter | block close)
+V69: `/setup` new `AGENTS.md` template → ∃ `## AI File Purpose`, `## Skills`, `## Project Scripts`, `## Encoding symbols`, `## End of Chat Checklist`; checklist ! includes lint/tests, CHANGELOG, SPEC, HANDOFF, commit, ⊥ push/tag; project-specific commands remain `?` placeholders
+V70: `/cook` without phase arg → execute ∀ remaining PLAN.md phases sequentially; `/cook F<n>` → execute targeted phase only
+V71: `prep` quality contract → production-quality, verification-driven, evidence-based implementation cues mapped across all 6 workflow steps; completion ! role label alone
+V72: `skills/cook/SKILL.md` description → well-formed sentences (⊥ fragment `targets one phase. at principal-engineer quality`) & ∋ step-4 focus keywords "production-quality" & "verification-driven" & "evidence-based"
 V73: `skills/review-code/SKILL.md` ! ∋ Security review dimension (secrets in diff, injection, authn/authz change, untrusted input, dependency/supply-chain delta) & description ∋ "security check" & "infosec"
 V74: `skills/review-plan/SKILL.md` research gate ! prefer current primary web sources (official docs/changelogs/release notes), date-stamp ∀ finding, ⊥ trust model memory for versions/APIs; description ∋ gap-finding trigger ("gap") & "latest web data"
-V75: ∀ 6 workflow steps → canonical focus keywords ∈ owning skill description (1 `cook`, 2 `caveman-encode`, 3 `review-plan`, 4 `workonplan`+`dispatchplan`, 5 `garnish`, 6 `review-code`); keyword set → §R row from research; `cook` quality contract mirrors, ⊥ sole carrier
+V75: ∀ 6 workflow steps → canonical focus keywords ∈ owning skill description (1 `prep`, 2 `encode-docs`, 3 `review-plan`, 4 `cook`+`cater`, 5 `garnish`, 6 `review-code`); keyword set → §R row from research; `prep` quality contract mirrors, ⊥ sole carrier
 V77: `cook` (execution skill) EXECUTE step 6 ! invoke `encode-commit` ∀ commit message; scope = touched component, ⊥ phase id (`F2`); body ! name changed paths & what was verified, plain English; ⊥ bare "summary commit" [AMENDED 2026-07-19 ×2: per user ruling + §R29 (prior text mandated `feat(F2):` phase scope & `§V` body), then renamed `workonplan`→`cook`, `caveman-commit`→`encode-commit` per §R30]
 V78: `handoff` rule 8 ! invoke `encode-commit` ∀ standalone baton commit; body = phase closed + next step + test state, plain English; ⊥ phase ids, ⊥ symbols, ⊥ bare `docs: handoff` [AMENDED 2026-07-19 ×2 per §R29 + §R30]
 V79: `skills/encode-commit/SKILL.md` ! ∋ rule banning encoding symbols (`→ ∴ ∀ ⊥ ∃ §`) in GENERATED commit output & rule banning plan/spec ids (`F1`, `T77`, `V77`, `R28`, `B5`) as carrier of meaning; ! ∋ expansion guidance (∀ id → self-contained plain-English detail) & ≥1 before/after example. Scope = generated OUTPUT ⊥ skill's own prose (∵ its description ∋ `≤50 chars`)
@@ -270,11 +270,11 @@ T74|x|add Security dimension → `review-code`; security cues → `review-plan` 
 T75|x|align ∀ 6 step descriptions w/ canonical keywords; dedupe `cook` description; update tests|V71,V74,V75
 T76|x|final verify: full suite + manual doc §V oracle sweep|V72,V73,V74,V75
 T77|x|research: vendored-fork constraint + commit-message boundary → §R29 (done); rename chain safety, substring hazards, semantic re-point map, caveman bake targets → §R30,R31,R32|V79,V80,V81,V83,V84,R29,R30,R31,R32
-T78|.|add human-facing expansion rules to `encode-commit` (⊥ symbols, ⊥ plan ids, ∀ id → prose detail, before/after examples); repoint `cook` step 6 + `handoff` rule 8 → delegate to it; flip `NOTICE.md` Modified row; add tests. RUNS AFTER rename (T80-T82)|V77,V78,V79,V80
+T78|~|add human-facing expansion rules to `encode-commit` (⊥ symbols, ⊥ plan ids, ∀ id → prose detail, before/after examples); repoint `cook` step 6 + `handoff` rule 8 → delegate to it; flip `NOTICE.md` Modified row; add tests. RUNS AFTER rename (T80-T82)|V77,V78,V79,V80
 T79|.|final verify: §V77-V85 HOLD, `npm test` green, CHANGELOG + full diff coherent, ⊥ stale skill name in live refs|V77,V78,V79,V80,V81,V82,V83,V84,V85
 T80|x|rename 7 skill dirs + frontmatter `name:` + intra-skill cross-refs, safe order per §R30: `prep`→`setup`, `cook`→`prep`, `workonplan`→`cook`, `dispatchplan`→`cater`, `caveman-encode`→`encode-docs`, `caveman-commit`→`encode-commit`, `caveman-pr`→`encode-pr`|V81,V82,V83,V4
 T81|x|delete `skills/caveman/`; bake §Rules + §Persistence → always-on report-output discipline in `review-plan` + `review-code` only; preserve Auto-Clarity carve-out ∀ security/irreversible/BLOCK items|V84,V85,R32
-T82|~|sweep repo surface: SPEC §G/§C/§I/§V paths + encoding-style vocabulary, `README.md`, `AGENTS.md`, `NOTICE.md` (by hand ∵ license), `.github/CONTRIBUTING.md`, tests (VENDORED list + stale-name guard), `CHANGELOG.md`; retire V18+V57; roster 13→12|V81,V82,V83,V18,V57
+T82|x|sweep repo surface: SPEC §G/§C/§I/§V paths + encoding-style vocabulary, `README.md`, `AGENTS.md`, `NOTICE.md` (by hand ∵ license), `.github/CONTRIBUTING.md`, tests (VENDORED list + stale-name guard), `CHANGELOG.md`; retire V18+V57; roster 13→12|V81,V82,V83,V18,V57
 
 ## §B BUGS
 

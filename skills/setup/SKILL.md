@@ -2,7 +2,7 @@
 name: setup
 description: |
   Bootstrap repository guidance for the spec-driven workflow. Creates or safely
-  completes AGENTS.md with lifecycle commands, pre-filled caveman symbols, and
+  completes AGENTS.md with lifecycle commands, pre-filled encoding symbols, and
   an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
   asks spec to create minimal CHANGELOG.md and SPEC.md files when absent.
   Never overwrites existing user guidance or durable project state. Triggers
@@ -50,7 +50,7 @@ entry: a reader who never sees `/cater` named never reaches for it.
 ## Preflight
 
 1. Load `encode-docs` before reading or writing `AGENTS.md` — `AGENTS.md`
-   is caveman-encoded with the symbol set.
+   is encoded with the symbol set.
 2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
    full when present.
 3. If `AGENTS.md` is absent, create it from the template below. If present,
@@ -70,7 +70,7 @@ entry: a reader who never sees `/cater` named never reaches for it.
 
 ## AGENTS.md required sections
 
-When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
+When creating or completing `AGENTS.md`, keep it encoded and include:
 
 ```md
 # AGENTS.md
@@ -98,7 +98,7 @@ When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
 6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
 7. `/review-code` → baseline code sweep → prep
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file encoding | `/caveman` chat brevity | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file encoding | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Project Scripts
 - `<user fills setup command>` — set up development environment.
@@ -106,7 +106,7 @@ support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file e
 - `<user fills test command>` — run tests and linters. ! run before ending chat.
 - `<user fills release command>` — release new version.
 
-## Caveman symbols
+## Encoding symbols
 
 Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
 numbers, regex, errors verbatim.
@@ -123,7 +123,7 @@ numbers, regex, errors verbatim.
 - `§` section reference, e.g. `§V.3`
 
 Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
-`caveman` prose drops symbols; `encode-docs` requires them for `SPEC.md`,
+`encode-docs` requires the symbols for `SPEC.md`,
 `PLAN.md`, and `HANDOFF.md`.
 
 ## Rules
@@ -156,7 +156,7 @@ All notable changes to this project will be documented in this file.
 
 Report each action and preservation decision. Confirm:
 
-- `AGENTS.md` has all seven bootstrap commands in order, Caveman symbols, and checklist;
+- `AGENTS.md` has all seven bootstrap commands in order, Encoding symbols, and checklist;
 - a new `AGENTS.md` template includes AI-file purpose, workflow skills, project-script placeholders, and the full end-of-chat checklist;
 - `CLAUDE.md` is exactly `@AGENTS.md` when setup created it;
 - `CHANGELOG.md` has `## [Unreleased]`;

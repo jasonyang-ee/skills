@@ -3,7 +3,7 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
-13 skills: own (`handoff`, `workonplan`, `dispatchplan`, `review-code`, `garnish`, `prep`), derived `cook`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
+12 skills: own (`handoff`, `cook`, `cater`, `review-code`, `garnish`, `setup`), derived `prep`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Layout
@@ -19,16 +19,16 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## Commands
 
-1. `/prep` → bootstrap guidance + minimal durable files
-2. `/cook` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
+1. `/setup` → bootstrap guidance + minimal durable files
+2. `/prep` → iterative `PLAN.md` + `HANDOFF.md` + `SPEC.md` handoff.
 3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/workonplan [phase]` → execute all remaining phases in order → verify → commit → handoff. Optional phase arg targets one phase. Single main agent.
-5. `/dispatchplan` → execute phase → verify → commit → handoff. Multi sub-agents, parallel when file sets ⊥ intersect.
+4. `/cook [phase]` → execute all remaining phases in order → verify → commit → handoff. Optional phase arg targets one phase. Single main agent.
+5. `/cater` → execute phase → verify → commit → handoff. Multi sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
 6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
-7. `/review-code` → baseline code sweep → cook
+7. `/review-code` → baseline code sweep → prep
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman` chat brevity | `/caveman-commit` commit summary | `/caveman-pr` PR review comments
+support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/encode-docs` file encoding | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Project Scripts:
 
@@ -40,9 +40,8 @@ support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` fil
   `name` == parent dir name, ≤64 chars, `[a-z0-9-]`. `description` ≤1024 chars. Body ≤500 lines.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
 - ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents.
-- `cook` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
+- `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `spec`.
 - Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice.
-- `caveman` (chat) ≠ `caveman-encode` (SPEC.md). Contradict on symbols. ! keep descriptions cross-pointing (§V.18).
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.
 - ∀ `.github/workflows/*.yml` ! top-level `permissions:`.
 - Release = `./release.sh` (⊥ hand-bump). Tag `v<x.y.z>` → ! matching `## [x.y.z]` in `CHANGELOG.md` & `package.json` version match, else CI blocks.
@@ -50,11 +49,11 @@ support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` fil
 
 ## Encoding
 
-- `SPEC.md`, this file → caveman.
+- `SPEC.md`, this file → encoded.
 - `README.md`, `.github/CONTRIBUTING.md`, `NOTICE.md`, SKILL.md bodies, commit messages → normal English.
 - Vendored SKILL.md → ⊥ restyle. Keep upstream voice. Diff = only what `NOTICE.md` records.
 
-## Caveman symbols
+## Encoding symbols
 
 Use symbols as short, exact operators. Preserve paths, code, IDs, URLs, numbers,
 regex, errors verbatim.
@@ -71,7 +70,7 @@ regex, errors verbatim.
 - `§` section reference, e.g. `§V.3`
 
 Tables use `|`; escape literal `|` as `\|`. `§T` status: `x` done, `~` wip,
-`.` todo. `caveman` prose drops symbols; `caveman-encode` requires them for
+`.` todo. `encode-docs` requires the symbols for
 `SPEC.md`, `PLAN.md`, and `HANDOFF.md`.
 
 ## End of Chat Checklist

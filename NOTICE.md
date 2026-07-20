@@ -52,9 +52,15 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/caveman/` | `caveman` | Yes — description clarified to point spec work at `encode-docs`; no behavioral change. |
 | `skills/encode-commit/` | `caveman-commit` | No |
 | `skills/encode-pr/` | `caveman-review` | Yes — renamed to `encode-pr` to better reflect its scope (PR review comments). |
+
+The upstream `caveman` skill was vendored here until it was retired. Its
+terse-output rules and always-on persistence, along with the auto-clarity
+carve-out that exempts security warnings and irreversible actions, were
+rewritten into the report-output sections of `skills/review-plan/` and
+`skills/review-code/`. Those two files are otherwise original work; the
+discipline they carry is derived from JuliusBrussee/caveman.
 
 Not vendored, and still available upstream:
 

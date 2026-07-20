@@ -17,6 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `caveman-pr` becomes `encode-pr`. Slash commands change with the skill
   names, so `/cook` now runs phases instead of planning them and `/prep`
   now plans instead of bootstrapping.
+- Rename the encoding vocabulary to match. The `AGENTS.md` section that
+  `/setup` generates is now `## Encoding symbols` rather than
+  `## Caveman symbols`, and the format header baked into each `SPEC.md`
+  opens with `Encoding:` rather than `Encoding caveman:`. Existing
+  `SPEC.md` files keep their old header until the next `/spec` run
+  rewrites it; nothing reads that line, so the drift is cosmetic.
 
 ### Removed
 
