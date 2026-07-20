@@ -18,6 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   names, so `/cook` now runs phases instead of planning them and `/prep`
   now plans instead of bootstrapping.
 
+### Removed
+
+- Remove the conversational `caveman` skill. Its terse-output rules now
+  apply automatically to the reports written by `/review-plan` and
+  `/review-code`, which is where they earned their keep; the planning and
+  execution skills write files rather than chat replies, so brevity bought
+  them nothing. Security findings, warnings about irreversible actions,
+  every BLOCK item, and all `file:line` evidence are explicitly exempt and
+  stay in full prose.
+
 ## [0.4.1] - 2026-07-17
 
 - Align all six workflow-step skill descriptions with canonical focus

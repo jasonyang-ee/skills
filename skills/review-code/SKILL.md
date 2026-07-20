@@ -113,6 +113,32 @@ If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it
 starts with the selected simplification or improvement work, or records that
 no implementation work is needed.
 
+## Report output
+
+Always on, for every report this skill produces. It does not drift back to
+prose after a long session, and it is not something the user has to ask for.
+
+Drop articles, filler (just/really/basically/simply), pleasantries, and
+hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a
+solution for". Do not narrate tool calls. No decorative tables or emoji. Use
+standard well-known acronyms (API, DB, HTTP), but never invent new ones
+(cfg/impl/req): the tokenizer splits an invented abbreviation into the same
+pieces as the full word, so it saves nothing and costs the reader a decode.
+No causal arrows in report prose for the same reason — spell out the word.
+Do not restate evidence the gate block already carries.
+
+**Carve-out — these stay explicit, uncompressed prose:**
+
+- Security findings. A compressed vulnerability report is a missed
+  vulnerability.
+- Warnings about irreversible or destructive actions.
+- Every `BLOCK` item.
+- `file:line` evidence, quoted error strings, and code. Never reword these.
+
+Compression that eats a finding has destroyed the thing the report exists to
+deliver. When terseness would make an order-sensitive sequence or a risk
+ambiguous, write the full sentence.
+
 ## Boundaries
 
 - Do not edit implementation, tests, `SPEC.md`, `PLAN.md`, or `HANDOFF.md`.

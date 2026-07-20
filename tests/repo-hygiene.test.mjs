@@ -210,6 +210,50 @@ describe('the code reviewer ships as review-code', () => {
   });
 });
 
+describe('the terse report discipline lives in the review skills only', () => {
+  const REVIEWERS = ['review-plan', 'review-code'];
+
+  // V84 — the conversational `caveman` skill was retired into these two. It
+  // earns its keep where output is a report a human reads; the planning and
+  // execution skills write files, so terseness there buys nothing.
+  it('retires the caveman skill', () => {
+    assert.ok(
+      !existsSync(join(SKILLS_DIR, 'caveman')),
+      'skills/caveman/ must not exist — its rules were baked into the review skills',
+    );
+  });
+
+  it('bakes the discipline into both review skills', () => {
+    for (const name of REVIEWERS) {
+      const skill = readFileSync(join(SKILLS_DIR, name, 'SKILL.md'), 'utf8');
+      assert.match(skill, /^## Report output$|^## REPORT OUTPUT$/m, `${name} has no report-output section`);
+      assert.match(skill, /[Aa]lways on/, `${name} does not make the discipline always-on`);
+      for (const rule of ['articles', 'hedging', 'narrate tool calls', 'emoji', 'invent new ones']) {
+        assert.ok(skill.includes(rule), `${name} omits the "${rule}" rule`);
+      }
+    }
+  });
+
+  it('gives the discipline to no other skill', () => {
+    const offenders = loadSkills()
+      .filter((skill) => !REVIEWERS.includes(skill.dirName))
+      .filter((skill) => /^#+ Report output$/im.test(skill.raw))
+      .map((skill) => skill.dirName);
+    assert.deepEqual(offenders, [], `these skills must not carry the report discipline: ${offenders.join(', ')}`);
+  });
+
+  // V85 — the carve-out is the point of the bake, not decoration. Terse output
+  // that swallows a security finding or a BLOCK has destroyed the report.
+  it('exempts security, irreversible actions, and BLOCK items from compression', () => {
+    for (const name of REVIEWERS) {
+      const skill = readFileSync(join(SKILLS_DIR, name, 'SKILL.md'), 'utf8');
+      for (const exempt of ['Security findings', 'irreversible', '`BLOCK` item', 'file:line']) {
+        assert.ok(skill.includes(exempt), `${name} does not exempt ${exempt} from compression`);
+      }
+    }
+  });
+});
+
 describe('cater runs phases in parallel without racing', () => {
   const dispatch = readFileSync(join(SKILLS_DIR, 'cater', 'SKILL.md'), 'utf8');
 

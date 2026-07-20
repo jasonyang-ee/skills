@@ -10,7 +10,6 @@ import { REPO_ROOT, loadSkills } from './helpers.mjs';
  * README credit alone is not enough — NOTICE.md must name every one of these.
  */
 const VENDORED = [
-  'caveman',
   'encode-commit',
   'encode-docs',
   'encode-pr',
@@ -58,20 +57,12 @@ describe('original skills are accounted for', () => {
   });
 });
 
-describe('caveman and encode-docs stay distinct', () => {
+describe('encode-docs carries the SPEC encoding', () => {
   const byName = new Map(loadSkills().map((s) => [s.dirName, s]));
 
-  // V18 — these two contradict each other on the symbol set. If either stops
-  // pointing at the other, an agent will load the wrong one for SPEC.md writes
-  // and silently drop the symbols FORMAT requires.
-  it('caveman points spec work at encode-docs', () => {
-    assert.match(byName.get('caveman').raw, /encode-docs/);
-  });
-
-  it('encode-docs distinguishes itself from caveman', () => {
-    assert.match(byName.get('encode-docs').raw, /\bcaveman\b/);
-  });
-
+  // V18 retired at T82: the conversational `caveman` skill is deleted and the
+  // cavekit one is now `encode-docs`, so the name collision that invariant
+  // policed cannot recur. The symbol set it guards still matters.
   it('encode-docs keeps the SPEC symbol set', () => {
     for (const symbol of ['→', '∴', '∀', '⊥']) {
       assert.ok(byName.get('encode-docs').raw.includes(symbol), `missing symbol ${symbol}`);
