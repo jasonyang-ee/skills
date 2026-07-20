@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Rename `encode-docs`'s three tailored sections from `## SPEC SECTIONS` /
+  `## PLAN SECTIONS` / `## HANDOFF SECTIONS` to `## SPEC.md FILE` /
+  `## PLAN.md FILE` / `## HANDOFF.md FILE`. Each one gates a whole file, not
+  a subsection of one, so `SECTIONS` was the wrong word; `SPEC.md` invariants
+  V20 and V87 named the old strings and are corrected to match.
+
 ## [0.5.0] - 2026-07-19
 
 ### Fixed

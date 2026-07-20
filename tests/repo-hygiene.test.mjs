@@ -689,7 +689,7 @@ describe('the spec format needs no FORMAT.md', () => {
   // V20, V87 — the format is embedded in the skill, one tailored section per
   // document, so no project needs a FORMAT.md of its own…
   it('encode-docs embeds a section set and a baked header per document', () => {
-    for (const section of ['## SPEC SECTIONS', '## PLAN SECTIONS', '## HANDOFF SECTIONS']) {
+    for (const section of ['## SPEC.md FILE', '## PLAN.md FILE', '## HANDOFF.md FILE']) {
       assert.ok(encoder.includes(section), `encode-docs must embed ${section}`);
     }
     assert.match(encoder, /^## BAKED HEADERS$/m, 'encode-docs must define the baked headers');
