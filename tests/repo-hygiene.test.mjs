@@ -261,6 +261,28 @@ describe('the renamed roster is the only one referenced', () => {
     }
     assert.deepEqual(offenders, [], `retired skill names still referenced: ${offenders.join(', ')}`);
   });
+
+  // The deleted skill was named `caveman`, which is also the name of the
+  // upstream repo the encoders came from. Pointing a user at "the caveman
+  // skill" now sends them to nothing, so skills may only mention the word as
+  // upstream provenance — never as something to load.
+  it('never tells a reader to use the deleted caveman skill', () => {
+    const offenders = loadSkills()
+      .filter((skill) => /`caveman`\s+skill|the\s+caveman\s+skill/i.test(skill.raw))
+      .map((skill) => skill.dirName);
+    assert.deepEqual(offenders, [], `these skills point at the deleted caveman skill: ${offenders.join(', ')}`);
+  });
+
+  // The header is copied verbatim into every consumer repo's SPEC.md, so the
+  // template and this repo's own SPEC.md must not drift apart.
+  it('keeps the baked header template in step with this repo SPEC.md', () => {
+    const spec = readFileSync(join(SKILLS_DIR, 'spec', 'SKILL.md'), 'utf8');
+    const ours = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8')
+      .split('\n')
+      .find((line) => line.startsWith('Encoding'));
+    assert.ok(ours, 'SPEC.md baked header has no Encoding line');
+    assert.ok(spec.includes(ours), `spec skill template does not emit: ${ours}`);
+  });
 });
 
 describe('the terse report discipline lives in the review skills only', () => {

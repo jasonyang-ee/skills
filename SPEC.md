@@ -271,7 +271,7 @@ T75|x|align ∀ 6 step descriptions w/ canonical keywords; dedupe `cook` descrip
 T76|x|final verify: full suite + manual doc §V oracle sweep|V72,V73,V74,V75
 T77|x|research: vendored-fork constraint + commit-message boundary → §R29 (done); rename chain safety, substring hazards, semantic re-point map, caveman bake targets → §R30,R31,R32|V79,V80,V81,V83,V84,R29,R30,R31,R32
 T78|x|add human-facing expansion rules to `encode-commit` (⊥ symbols, ⊥ plan ids, ∀ id → prose detail, before/after examples); repoint `cook` step 6 + `handoff` rule 8 → delegate to it; flip `NOTICE.md` Modified row; add tests. RUNS AFTER rename (T80-T82)|V77,V78,V79,V80
-T79|~|final verify: §V77-V85 HOLD, `npm test` green, CHANGELOG + full diff coherent, ⊥ stale skill name in live refs|V77,V78,V79,V80,V81,V82,V83,V84,V85
+T79|x|final verify: §V77-V85 HOLD, `npm test` green, CHANGELOG + full diff coherent, ⊥ stale skill name in live refs|V77,V78,V79,V80,V81,V82,V83,V84,V85
 T80|x|rename 7 skill dirs + frontmatter `name:` + intra-skill cross-refs, safe order per §R30: `prep`→`setup`, `cook`→`prep`, `workonplan`→`cook`, `dispatchplan`→`cater`, `caveman-encode`→`encode-docs`, `caveman-commit`→`encode-commit`, `caveman-pr`→`encode-pr`|V81,V82,V83,V4
 T81|x|delete `skills/caveman/`; bake §Rules + §Persistence → always-on report-output discipline in `review-plan` + `review-code` only; preserve Auto-Clarity carve-out ∀ security/irreversible/BLOCK items|V84,V85,R32
 T82|x|sweep repo surface: SPEC §G/§C/§I/§V paths + encoding-style vocabulary, `README.md`, `AGENTS.md`, `NOTICE.md` (by hand ∵ license), `.github/CONTRIBUTING.md`, tests (VENDORED list + stale-name guard), `CHANGELOG.md`; retire V18+V57; roster 13→12|V81,V82,V83,V18,V57

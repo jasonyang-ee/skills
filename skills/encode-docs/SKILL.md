@@ -1,21 +1,21 @@
 ---
 name: encode-docs
 description: |
-  Caveman encoding for SPEC.md and spec-adjacent writes. Loaded by /spec,
+  The encoding for SPEC.md and spec-adjacent writes. Loaded by /spec,
   /prep, /handoff, and /cook. Lossless compression: cuts tokens ~75%
   vs prose while staying precise, using the symbol set (→ ∴ ∀ ⊥ !) that
   SPEC.md sections are written in. Triggers on any write to SPEC.md,
-  PLAN.md, or HANDOFF.md, or when the user says "caveman encode", "encode
-  the spec", or "compress this spec". For compressing ordinary chat replies rather than spec files, use the
-  caveman skill instead.
+  PLAN.md, or HANDOFF.md, or when the user says "encode docs", "encode
+  the spec", or "compress this spec". Applies to spec files only, never to
+  chat replies or commit messages.
 license: MIT
 ---
 
 # encode-docs — spec encoding
 
 > Vendored from [JuliusBrussee/cavekit](https://github.com/JuliusBrussee/cavekit)
-> (MIT, Copyright (c) 2026 Julius Brussee), renamed from `caveman` to avoid
-> colliding with the conversational `caveman` skill. See NOTICE.md.
+> (MIT, Copyright (c) 2026 Julius Brussee), where it is named `caveman`.
+> See NOTICE.md.
 
 Applies to SPEC.md writes, `PLAN.md`, `HANDOFF.md`, spec-referencing prose, and
 bug rows.
@@ -125,4 +125,4 @@ env: FOO_KEY ! set
 
 ## WHEN UNSURE
 
-If cutting a word loses a fact, keep it. Caveman is compression, not amputation.
+If cutting a word loses a fact, keep it. This is compression, not amputation.

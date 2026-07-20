@@ -34,6 +34,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `/cook` and `/handoff` route their commits through it rather than
   keeping their own copies of the rules.
 
+### Fixed
+
+- Point the encoding vocabulary and every cross-reference at what
+  actually ships. Several skills still told the reader to load a
+  `caveman` skill that no longer exists, and the format header baked into
+  generated `SPEC.md` files had drifted from the one this repository
+  uses. Guards now cover both.
+
 ### Removed
 
 - Remove the conversational `caveman` skill. Its terse-output rules now

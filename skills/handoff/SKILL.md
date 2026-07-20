@@ -4,7 +4,7 @@ description: |
   Write/refresh HANDOFF.md at repo root — the session-to-session baton for
   multi-phase PLAN.md execution. Captures branch/test/commit state, exact
   stopping point, deviations and decisions, the next phase pointer, and
-  watchouts, in caveman encoding. The cook skill invokes this at the
+  watchouts, in the spec encoding. The cook skill invokes this at the
   end of every session; also triggers on "/handoff", "write the handoff",
   "wrap up the session", "prepare for the next session", or when context
   is running low mid-work.
@@ -26,8 +26,7 @@ what those files say — point at them.
 
 ## WRITE `HANDOFF.md` (repo root, overwrite the whole file — git keeps history)
 
-Caveman encoding (load the `encode-docs` skill if not loaded — not the
-`caveman` skill, which is conversational and drops the symbol set). Target ≤60
+Encoded (load the `encode-docs` skill if not loaded). Target ≤60
 lines; agent-facing, not prose. Template:
 
 ```

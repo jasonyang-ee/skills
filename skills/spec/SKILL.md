@@ -19,10 +19,8 @@ needed — this skill carries the rules, and every SPEC.md written gets the bake
 header (§BAKED HEADER) so a cold agent reads & amends the file without loading
 this skill.
 
-Encoding = caveman. Full rules → `encode-docs` skill; §FORMAT below carries
-the subset needed to write SPEC.md correctly. ⊥ load the `caveman` skill for
-this — that one is conversational compression & bans the symbol set §FORMAT
-requires.
+Encoding → `encode-docs` skill; §FORMAT below carries the subset needed to
+write SPEC.md correctly.
 
 Legacy repo ∃ `FORMAT.md` → this skill still wins. Offer once to delete it after
 the baked header lands; ⊥ delete without user OK.
@@ -56,7 +54,7 @@ Input: user idea. If it arrived fuzzy, prefer running **prep** first.
 
 Steps:
 1. Emit baked header (§BAKED HEADER) verbatim as first bytes of file.
-2. Extract goal (1 line, caveman). → §G.
+2. Extract goal (1 line, encoded). → §G.
 3. List constraints user stated or implied. → §C.
 4. List external surfaces user named. → §I.
 5. §R only if **prep** research ran — else omit the section (right-size).
@@ -70,7 +68,7 @@ Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review-plan` if high-b
 
 Walk repo. Produce §G (infer from README/package.json/main entry), §C (infer from stack), §I (enumerate public APIs/CLIs/configs), §V (derive from tests and assertions), §T (one task per known TODO or missing test), §B (empty). Baked header first.
 
-Caveman everywhere. Flag uncertain items with `?` in text so user can confirm.
+Encoded everywhere. Flag uncertain items with `?` in text so user can confirm.
 
 ## BUG — bug → §B + §V
 
@@ -152,7 +150,7 @@ B2|2026-04-21|race on write|V3
 `§<S>.<n>` = section.item. `§V.2` = invariants section, item 2.
 Commands, commits, PRs all reference by §. Zero ambiguity.
 
-### CAVEMAN ENCODING
+### ENCODING
 
 Default for every section. Rules:
 
@@ -187,7 +185,7 @@ Default for every section. Rules:
 
 > The authentication middleware must verify the token expiry on every request before allowing the handler to execute.
 
-**Good** (caveman):
+**Good** (encoded):
 
 > V1: ∀ req → auth check before handler
 
@@ -195,11 +193,11 @@ Default for every section. Rules:
 
 > Fixed a bug where token expiry comparison used strict less-than instead of less-than-or-equal, causing tokens to be rejected exactly at their expiry timestamp.
 
-**Good** (caveman):
+**Good** (encoded):
 
 > B1: token `<` not `≤` ∴ tokens rejected @ expiry. §V.2 now ! `≤`.
 
-### WHY CAVEMAN FOR SPECS
+### WHY ENCODE SPECS
 
 Spec loaded every invocation. 75% fewer tokens = 75% fewer dollars & faster reads.
 Human skims fast too. Symbols unambiguous.
@@ -227,7 +225,7 @@ GitHub, but agents read raw ∴ file self-describes. ⊥ reword per project.
 <!-- SPEC FORMAT (baked by /spec — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants | §T tasks | §B bugs
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
-Encoding caveman: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
+Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R,§T,§B): pipe-delimited. ids monotonic, never reused. Escape literal \| . Empty cell = -
@@ -239,7 +237,7 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 ## OUTPUT RULES
 
-- Caveman per §FORMAT. Baked header ! present.
+- Encoded per §FORMAT. Baked header ! present.
 - Preserve identifiers, paths, code verbatim.
 - Numbering monotonic — never reuse §V.N or §B.N.
 - §T row `cites` column ! list §V/§I deps: `T5|.|impl auth mw|V2,I.api`.

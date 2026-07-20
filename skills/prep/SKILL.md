@@ -1,7 +1,7 @@
 ---
 name: prep
 description: |
-  Turn a user request into a caveman-encoded execution package: refine the
+  Turn a user request into an encoded execution package: refine the
   goal just enough, research the unknowns first, hand durable requirements to
   the spec skill, draft a phased PLAN.md, and trigger handoff so a cold
   session can resume with cook. The generated plan always starts with
@@ -31,7 +31,7 @@ contract mirrors them, it is not their sole carrier.
 1. **Plan:** make the goal, constraints, interfaces, risks, unknowns, and
    acceptance evidence explicit; preserve the smallest coherent scope.
 2. **Encode:** keep `PLAN.md` and `HANDOFF.md` compact, lossless, and
-   caveman-encoded so a cold agent can resume without hidden context.
+   encoded so a cold agent can resume without hidden context.
 3. **Review the plan:** research unknowns, challenge assumptions and phase
    dependencies, and require an explicit GO/NO-GO before high-blast-radius work.
 4. **Implement:** make the smallest codebase-consistent change, verify-first;
@@ -65,8 +65,8 @@ Skip it for a tiny, already-clear change with no need for `PLAN.md` or
 
 Every `prep` run must produce all of these:
 
-1. `PLAN.md` at repo root, in caveman encoding.
-2. `HANDOFF.md` at repo root, in caveman encoding, written via the `handoff`
+1. `PLAN.md` at repo root, in the spec encoding.
+2. `HANDOFF.md` at repo root, in the spec encoding, written via the `handoff`
    skill after the plan exists.
 3. A handoff block for the `spec` skill so durable goal / constraint / research /
    invariant / task changes land in `SPEC.md`; every PLAN phase gets one matching
@@ -134,7 +134,7 @@ implementation phase starts.
 ### 4. Write `PLAN.md`
 
 Write or replace `PLAN.md` at repo root. Keep it short, agent-facing, and
-caveman-encoded. It must contain, in this order:
+encoded. It must contain, in this order:
 
 1. a one-line goal;
 2. ground rules / process contract for the run, including the applicable
@@ -191,7 +191,7 @@ Use this shape and adapt the details to the repo:
 goal: <one line>
 
 ## ground rules
-- <caveman bullets>
+- <encoded bullets>
 
 ## existing assets
 - <repo facts, tests, docs, constraints>
