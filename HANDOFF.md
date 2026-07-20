@@ -1,7 +1,7 @@
 # HANDOFF 2026-07-19
 
-branch main | last commit 3e8c486 research: confirm the merge is safe and test what installing copies | tests green
-green (189 pass, 0 fail) | oracle `npm test`
+branch main | last commit 8bd2d68 feat(encode-docs): fold the spec skill into the document encoder | tests green
+green (182 pass, 0 fail) | oracle `npm test` | was 189 pre-merge
 uncommitted: none
 
 ## done this session
@@ -9,13 +9,14 @@ prev cycle closed via `/garnish` (T77-T82 `x`, PLAN+HANDOFF purged, §C line-end
 prep/cook: distilled 8-phase PLAN.md for merge + lean bodies + garnish prune + test cut; 3 user rulings captured; ⊥ implementation started
 plan EXPANDED (⊥ replaced) w/ user ruling (e): V94 + F1 license gate + F5 attribution strip folded into existing phases
 F1 (T83 `x`) research: §R33 merge OVERLAP/UNIQUE map, §R34 line budget ~351 < 500, §R35 oracle-loss map (28 §V @ risk), §R36 install-payload proof
+F2 (T84 `x`) merge landed: `skills/spec/` deleted → 11 dirs; `encode-docs` = 426 lines w/ §SPEC SECTIONS + §PLAN SECTIONS + §HANDOFF SECTIONS + §BAKED HEADERS ×3; ∀ 21 §R33 UNIQUE items verified present; V86+V87 guards proven red-when-broken
 
 ## in progress (exact stop point)
-F2 (T84 `~`) ⊥ started. mid-edit files: none
+F3 (T85 `~`) partially pre-done @ F2: ∀ 3 baked-header TEMPLATES already written into `encode-docs`. REMAINS: apply them to THIS repo 3 files + real `next:` values. mid-edit files: none
 
 ## next
-F2 per PLAN.md | preconditions: none
-NEXT STEP: rewrite `skills/encode-docs/SKILL.md` — shared §GRAMMAR+§SYMBOLS+§PRESERVE VERBATIM once, then `## SPEC SECTIONS` (absorbs §R33 UNIQUE-to-spec list), `## PLAN SECTIONS`, `## HANDOFF SECTIONS`; then `git rm -r skills/spec/`; re-read merged file vs §R33 UNIQUE map before committing
+F3 per PLAN.md | preconditions: none
+NEXT STEP: prepend PLAN + HANDOFF baked headers to this repo `PLAN.md` + `HANDOFF.md`; swap `SPEC.md` header → new template (`baked by /encode-docs`, `ids:` line, `next:` line); compute real `next:` = V95 T91 B7; add parity guard ∀ 3 headers (∃ 1 ∀ SPEC only)
 
 ## deviations & decisions
 user ruled 2026-07-19 (c): merged skill KEEPS name `encode-docs`. `/spec` ⊥ resolves after merge. ∴ `encode-docs` description ! carry BOTH skills' trigger keywords else `/spec` muscle-memory lands nowhere
@@ -24,6 +25,10 @@ V90 prune is EVIDENCE-GATED by design: user goal = context cut, ⊥ spec cull. U
 emoji ban is retroactive & self-inflicted: ❌/✅ ∈ `encode-commit` were added by T78 LAST cycle ∴ F5 undoes own work
 user ruled 2026-07-19 (e): skill BODY ⊥ carry attribution/provenance prose → `NOTICE.md` only (V94). Measured scope = 3 lines, 1 file (`encode-docs`) ∴ consistency fix ⊥ systemic: `encode-commit`, `encode-pr`, `spec`, `review-plan`, `prep` ALREADY lean. F1 step 8 GATES it on §R36 (does `npx skills add` copy `NOTICE.md`?) ∵ if ⊥, installed copy carries ⊥ notice at all — MIT §R.15. Exposure PRE-EXISTS this change (5 of 6 already bare) ∴ gate = discover the real state, ⊥ block the user ask
 user ruled 2026-07-19 (f) w/ EVIDENCE: §R36 gate ⊥ cleared — `npx skills add` proven to copy `SKILL.md`+lockfile ONLY, ⊥ `NOTICE.md`, ⊥ `LICENSE`. User shown 3 options (1-line credit | strip entirely | keep blockquote) & chose STRIP ENTIRELY, accepting MIT §R.15 exposure. Decision informed, ⊥ silent. `NOTICE.md` stays complete in-repo (V15-V17 unchanged). Mitigation kept: frontmatter `license: MIT` DOES travel ∴ F5 adds it to `encode-commit`+`encode-pr` (both lack it) — spec-native field, ⊥ prose ∴ ⊥ conflict w/ V94
+DEVIATION (F2): 3 test sites + 2 skill refs re-pointed off deleted `spec` path @ F2, ⊥ F4 — deleting the skill ⊥ leave suite green otherwise. F4 RETAINS: `NOTICE.md` dual-credit + `skills/spec/` row removal, README/AGENTS roster 12→11, `SPEC.md` §G/§C/§I + V45/V54 sweep, `attribution.test.mjs` VENDORED entry, `setup` support line `/spec`
+DEVIATION (F2): all 3 baked-header templates written @ F2 ⊥ F3 ∵ F2 rewrote the file wholesale; writing 1 then adding 2 later = churn. F3 scope now = apply to this repo 3 docs + real `next:` values + parity guard
+DEVIATION (F2): V94 attribution blockquote never re-added during the wholesale rewrite ∴ `encode-docs` already satisfies V94. F5 retains emoji purge + `license:` frontmatter ∀ `encode-commit`/`encode-pr` + the ⊥-attribution guard
+NOTE: §R34 estimated merged file ~351 lines; ACTUAL 426 (cap 500). Per-doc rationale cost more than modelled. Headroom 74 ∴ ⊥ blocking, but F3 header work adds ⊥ lines to this file (templates already in)
 
 ## watchouts
 - ⚠ MSYS `sed`/`grep` STRIP CR ON READ (§B.6). `skills/encode-commit/` + `skills/encode-pr/` = CRLF, ∀ other = LF. ⊥ `sed -i` on those 2 — Edit tool only. Detect w/ `tr -dc '\r' | wc -c`, ⊥ `grep -q $'\r'` (CR-blind here)
