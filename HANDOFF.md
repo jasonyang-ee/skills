@@ -65,3 +65,24 @@ NOTE (F3): `next:` counter covers V/T/B only, ⊥ R. Deliberate: V90 prunes §V+
 ## final verification
 item|status|evidence|decision
 -|-|-|-
+V86|HOLD|`skills/spec/` absent; roster 11; `encode-docs` claims sole mutator; guard `is the only skill claiming the SPEC.md mutator role` proven red|-
+V87|HOLD|3/3 sections present; guard `encode-docs embeds a section set and a baked header per document` proven red on renamed section|-
+V88|HOLD|3/3 templates ∈ skill; 3/3 docs open w/ their header; parity guard proven red on drifted line|-
+V89|HOLD|`next: V95 T91 B7` ahead of max V94/T90/B6; guard proven red @ `next: V90`|-
+V90|HOLD|`garnish` carries evidence-gate + keep-when-unsure + hard-delete + ⊥-reuse + routes via `encode-docs`; each proven red independently|-
+V91|HOLD|0 emoji files ∈ `skills/**`; codepoint-RANGE guard proven red on injected ✅|-
+V92|HOLD|0 emoji files ∈ `tests/**`, same guard|-
+V93|HOLD|`npm test` = 49 < 50; ⊥ assertion deleted (§R35 predicted 28 §V at risk, ACTUAL 0 lost oracle)|-
+V94|HOLD|0 attribution blocks ∈ skill bodies; guard proven red on injected block. GATE §R36 ⊥ cleared, user accepted w/ evidence|-
+V4,V5,V7|HOLD|∀ 11 `name` == parent dir, legal, unique|-
+V8|HOLD|`npx skills add . --list` → exactly 11, ⊥ `spec`|-
+V14|HOLD|max body 426 lines (`encode-docs`) < 500|-
+V17|HOLD|∀ 5 vendored skills have `NOTICE.md` row|-
+V19,V21|HOLD|⊥ `scripts/` ∀ skill; ⊥ `FORMAT.md` @ root & ⊥ skill demands it|-
+V47|HOLD|README six-step order intact: prep → encode → review-plan → cook → garnish → review-code|-
+V50,V52,V55,V56,V58,V59,V60|HOLD|MANUAL oracle (§C): README explains /setup separation + 6 steps; step 2 reads "automatically/⊥ a command you invoke"; small-task path routes /encode-docs → /prep → /cook; CONTRIBUTING → `skills/encode-docs/SKILL.md`; layout tree == disk exactly once ×11; loader list ∋ review-plan; §I npm-test row distinguishes automated vs manual|-
+V81,V82|HOLD|roster 11 == docs claim; ⊥ live ref to `skills/spec/` | `/spec`|-
+V84,V85|HOLD|`skills/caveman/` absent; discipline + carve-out ∈ both reviewers only|-
+NOTICE|HOLD|hand-read: cavekit = encode-docs/prep/review-plan; caveman = encode-commit/encode-pr; original = handoff/cook/cater/review-code/garnish/setup. 11 accounted, ⊥ provenance swap. review-plan+review-code listed twice BY DESIGN (own row + caveman-derivation note)|-
+cold-read|HOLD|`encode-docs` read as a new session: ∀ 3 sections state purpose + structure + rules + template + header, ⊥ depending on each other|-
+DRIFT|NONE|⊥ contradiction found between code, `SPEC.md`, `PLAN.md`|-

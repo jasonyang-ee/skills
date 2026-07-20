@@ -309,4 +309,4 @@ T86|x|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/*
 T87|x|lean skill bodies: purge emoji ∀ `skills/**` + `tests/**` (❌/✅ → `bad`/`good` words, severity emoji → text labels) + strip vendor attribution block @ `encode-docs` (§R36-gated); `NOTICE.md` Modified rows record vendored edits|V91,V92,V94,V17
 T88|x|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
 T89|x|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
-T90|~|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
+T90|x|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
