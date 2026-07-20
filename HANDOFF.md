@@ -11,8 +11,8 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-19
 
-branch main | last commit 9eece1a refactor(skills): replace emoji with words in skills and tests | tests green
-green (184 pass, 0 fail) | oracle `npm test` | was 189 pre-merge | CLI lists 11
+branch main | last commit 8a7344f feat(garnish): prune spec rows that no longer describe live code | tests green
+green (185 pass, 0 fail) | oracle `npm test` | was 189 pre-merge | CLI lists 11
 uncommitted: none
 
 ## done this session
@@ -24,13 +24,14 @@ F2 (T84 `x`) merge landed: `skills/spec/` deleted → 11 dirs; `encode-docs` = 4
 F3 (T85 `x`) 3 baked headers live on this repo 3 docs; `SPEC.md` header → `next: V95 T91 B7` (§R excluded ∵ ⊥ rule prunes it ∴ max-scan still valid); 2 guards proven red-when-broken; fixed lost `${ours}` interpolation @ parity assert
 F4 (T86 `x`) ∀ refs re-pointed by SENSE: skill+cmd → `encode-docs`; `SPEC.md` filename + "spec-driven"/"spec bug"/"Agent Skills spec" prose UNCHANGED. roster 12→11 (README, AGENTS, §I ×2, V81). `NOTICE.md` by hand: `encode-docs` row credits `caveman`+`spec` both, `skills/spec/` row dropped. Stale-name guard gains NARROW `spec` rule (`skills/spec/` + `` `/spec` `` only) — proven fires on cmd, quiet on filename+prose
 F5 (T87 `x`) emoji purged ∀ `skills/**` + `tests/**`: ❌/✅ → words `bad`/`good`; `encode-pr` severity 🔴🟡🔵❓ → `bug:`/`risk:`/`nit:`/`q:` (labels already carried signal ∴ ⊥ loss); attribution block dropped (V94 satisfied); `license: MIT` added to both vendored files; `NOTICE.md` Modified rows record it; CR counts 100→101 & 54→55 = the added license line, ⊥ damage; 2 guards proven red-when-broken
+F6 (T88 `x`) `garnish` step 4 = evidence-gated prune (steps renumbered 4-8); `pruned:`+`kept:` output fields; 3 new BOUNDARIES; V90 guard asserts ∀ 4 properties, each proven red independently
 
 ## in progress (exact stop point)
 F3 (T85 `~`) partially pre-done @ F2: ∀ 3 baked-header TEMPLATES already written into `encode-docs`. REMAINS: apply them to THIS repo 3 files + real `next:` values. mid-edit files: none
 
 ## next
-F6 per PLAN.md | preconditions: none
-NEXT STEP: `skills/garnish/SKILL.md` — add prune step BEFORE the purge: identify §V+§T rows ⊥ describing live code, EVIDENCE-GATED (prune only when the code/test the row described is provably gone; uncertain → keep & report), HARD-DELETE row ⊥ tombstone, ids ⊥ reused, route through `encode-docs` (garnish ⊥ write SPEC.md directly). Add contract test asserting all 4 properties
+F7 per PLAN.md | preconditions: none
+NEXT STEP: cut suite 185 → < 50. BIGGEST BLOCK = `tests/skill-contract.test.mjs` 7-it × 11-skill describe loop = 77 → collapse to ~5 aggregate cases looping internally, reporting ∀ offender in ONE assert. THEN `attribution` VENDORED loop (5+) → 1 aggregate. THEN `repo-hygiene` per-skill loops (V9 ×11, V19 ×11, RETIRED ×11) → 3 aggregates. THEN drop brittle single-skill prose asserts per §R35 oracle-loss map — ∀ §V losing its ONLY oracle ! be marked MANUAL ∈ SPEC.md | hard-deleted per V90, ⊥ silently unguarded
 
 ## deviations & decisions
 user ruled 2026-07-19 (c): merged skill KEEPS name `encode-docs`. `/spec` ⊥ resolves after merge. ∴ `encode-docs` description ! carry BOTH skills' trigger keywords else `/spec` muscle-memory lands nowhere
@@ -56,6 +57,7 @@ NOTE (F3): `next:` counter covers V/T/B only, ⊥ R. Deliberate: V90 prunes §V+
 - SPEC §G/§C/§I + V20/V45/V54 still name `spec` skill until F4 — expected mid-plan, ⊥ a bug
 - test count 189: `skill-contract` 86 is the single biggest block (7 it × 12 skills). Collapsing that loop alone gets most of the way to < 50
 - §R35: 28 §V ride on a single prose case each. F7 ! decide per row (aggregate case | MANUAL | hard-delete per V90) — ⊥ bulk-delete, ⊥ bulk-keep
+- F7 is the phase where honesty is easiest to lose: deleting a case is invisible in a green run. Work FROM §R35 list, decide EACH row explicitly, record the decision. A §V left claiming automation it lost = the exact drift this workflow exists to prevent
 - §R34 headroom = ~150 lines. If SPEC SECTIONS overruns @ F2, cut from §EXAMPLES (dupe-heavy) ⊥ from procedures
 - blast radius large (∀ skill + ∀ root doc + ∀ test file) → `/review-plan` before F2 = reasonable
 
