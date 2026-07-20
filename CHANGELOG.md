@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Include better line breaks for windows CI test.
+
 ## [0.5.1] - 2026-07-19
 
 ### Fixed
