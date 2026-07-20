@@ -129,7 +129,6 @@ V14: ∀ skill → SKILL.md body ≤ 500 lines (∵ §R.9)
 V15: `NOTICE.md` ! ∃ @ root (∵ §R.15)
 V16: `NOTICE.md` ! ∋ `Copyright (c) 2026 Julius Brussee` & full permission notice
 V17: ∀ vendored skill → `NOTICE.md` ! ∋ row `skills/<name>/` (new vendor ⊥ row = license violation)
-V18: RETIRED @ T82 (2026-07-19) — conversational `caveman` deleted & `caveman-encode` → `encode-docs` ∴ name collision (§R.13) gone permanently; ⊥ cross-point to maintain. id ⊥ reused
 V19: ∀ skill → ⊥ `scripts/` dir (∵ §C markdown-only, user ruling)
 V20: `skills/encode-docs/SKILL.md` ! ∋ `## SPEC SECTIONS` & `## PLAN SECTIONS` & `## HANDOFF SECTIONS` & `## BAKED HEADERS` & 3 header templates [AMENDED @ T86 — `spec` merged in, 1 header → 3]
 V21: ∀ skill → ⊥ require `FORMAT.md`; root ⊥ ∃ `FORMAT.md`
@@ -162,13 +161,11 @@ V47: core workflow ! preserve exact order: 1 `prep` → 2 `encode-docs` → 3 `r
 V48: `skills/setup/SKILL.md` description ! include `/setup`, `bootstrap this repo`, `set up workflow files`, `prepare a new project for prep`, `initialize agent guidance`
 V49: `setup` preflight step 1 ! load `encode-docs` before reading/writing `AGENTS.md`; generated `AGENTS.md` template ! include full standard encoding symbol legend, ⊥ user-filled symbol placeholder
 V50: `README.md` ! explain `/setup` bootstrap separation & exact six core workflow steps, responsibilities, iteration, and mandatory order/gates [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
-V51: RETIRED @ T63 (2026-07-16, user ruling) — `truth-workflow.md` deleted; ⊥ separate narrative file. Six-step order contract → V47; README narrative → V50. id ⊥ reused
 V52: README `## The six core workflow steps` step 2 ∋ encode-docs described as automatic discipline (∋ "automatically" or "loaded by"); ⊥ imply user-triggered `/encode` command [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V53: `skills/setup/SKILL.md` AGENTS.md template support line ∋ `/encode-commit`
 V54: `tests/repo-hygiene.test.mjs` ! ∋ assertion `skills/prep/SKILL.md` ∋ "incomplete phases" (anchors expand-vs-replace contract)
 V55: `README.md` small-task path ! route `/encode-docs` → `/prep` before `/cook`; ⊥ direct `/encode-docs` → `/cook` [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V56: `.github/CONTRIBUTING.md` encoding guidance ! point at embedded `skills/encode-docs/SKILL.md`; ⊥ link/reference `FORMAT.md` [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
-V57: RETIRED @ T82 (2026-07-19) — `skills/caveman/` deleted ∴ ⊥ README row to match. id ⊥ reused
 V58: `README.md` Layout tree ! list each current `skills/` child exactly once [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V59: `README.md` encode-docs loader list ! include `review-plan` (writer of `PLAN.md`/`HANDOFF.md`) [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
 V60: `§I` test oracle ! distinguish automated `npm test` checks from release/manual invariants (e.g. V13); ⊥ claim exit 0 proves ∀ §V [MANUAL @ T64 — oracle = review, ⊥ `npm test` (§C test scope). Requirement stands.]
@@ -291,7 +288,15 @@ T78|x|add human-facing expansion rules to `encode-commit` (⊥ symbols, ⊥ plan
 T79|x|final verify: §V77-V85 HOLD, `npm test` green, CHANGELOG + full diff coherent, ⊥ stale skill name in live refs|V77,V78,V79,V80,V81,V82,V83,V84,V85
 T80|x|rename 7 skill dirs + frontmatter `name:` + intra-skill cross-refs, safe order per §R30: `prep`→`setup`, `cook`→`prep`, `workonplan`→`cook`, `dispatchplan`→`cater`, `caveman-encode`→`encode-docs`, `caveman-commit`→`encode-commit`, `caveman-pr`→`encode-pr`|V81,V82,V83,V4
 T81|x|delete `skills/caveman/`; bake §Rules + §Persistence → always-on report-output discipline in `review-plan` + `review-code` only; preserve Auto-Clarity carve-out ∀ security/irreversible/BLOCK items|V84,V85,R32
-T82|x|sweep repo surface: SPEC §G/§C/§I/§V paths + encoding-style vocabulary, `README.md`, `AGENTS.md`, `NOTICE.md` (by hand ∵ license), `.github/CONTRIBUTING.md`, tests (VENDORED list + stale-name guard), `CHANGELOG.md`; retire V18+V57; roster 13→12|V81,V82,V83,V18,V57
+T82|x|sweep repo surface: SPEC §G/§C/§I/§V paths + encoding-style vocabulary, `README.md`, `AGENTS.md`, `NOTICE.md` (by hand ∵ license), `.github/CONTRIBUTING.md`, tests (VENDORED list + stale-name guard), `CHANGELOG.md`; retire V18+V57; roster 13→12|V81,V82,V83
+T83|x|research: merge surface (`spec`+`encode-docs` overlap, ref counts, line budget vs V14 ≤500), §V losing oracle @ test cut, emoji inventory, PLAN/HANDOFF header design → §R33-R35; DOES `npx skills add` copy `NOTICE.md` to installed copy → §R36 (gates V94)|V86,V87,V88,V93,V94
+T84|x|merge `spec` → `encode-docs`: 3 tailored sections (SPEC\|PLAN\|HANDOFF) + mutator rules (NEW/DISTILL/BUG/AMEND) + dedupe encoding grammar; `git rm -r skills/spec/`|V86,V87
+T85|x|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n> T<n> B<n>` counter|V88,V89
+T86|x|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
+T87|x|lean skill bodies: purge emoji ∀ `skills/**` + `tests/**` (❌/✅ → `bad`/`good` words, severity emoji → text labels) + strip vendor attribution block @ `encode-docs` (§R36-gated); `NOTICE.md` Modified rows record vendored edits|V91,V92,V94,V17
+T88|x|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
+T89|x|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
+T90|x|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
 
 ## §B BUGS
 
@@ -302,11 +307,3 @@ B3|2026-07-15|copy-over commit `7bb0bc0` renamed `LICENSE` → `LICENSE.md` (git
 B4|2026-07-15|`js-yaml` 5.x = ESM, ⊥ `default` export ∴ `import yaml from 'js-yaml'` → `SyntaxError: does not provide an export named 'default'` ∴ ∀ 4 test files ⊥ load, pass 0/fail 4. Rode in via PR #3 (`js-yaml` 4.3.0→5.2.1) merged while CI already red from B3 ∴ breakage masked ∵ red ⊥ distinguishable from red|`import * as yaml from 'js-yaml'` @ `tests/helpers.mjs` + `tests/repo-hygiene.test.mjs`. `load` still named export ∴ `yaml.load` call sites unchanged. CI `npm ci` caught ∴ ⊥ new invariant. ⚠ process gap: ⊥ branch protection ∴ red PR mergeable — user call.
 B5|2026-07-16|`workonplan` description sentence fragment `targets one phase. at principal-engineer quality` — v0.4.0 all-phases edit (`c3aabac`) left stale clause; shipped in tag|V72
 B6|2026-07-19|MSYS `sed`/`grep` strip CR on read ∴ `sed -i` on CRLF file rewrote whole file LF (2592-line phantom diff, ∀ content unchanged); `grep -q $'\r'` returned false ∀ CRLF file ∴ detection loop wrong → "fix" pass appended CR to LF files, inverting the damage. Caught @ F2 self-review via `git diff --stat`, ⊥ by tests (content identical ∴ suite green throughout)|Restore from `git show HEAD:<path>`, re-apply edit via Edit tool ⊥ sed. Detect line endings with `tr -dc '\r' \| wc -c`, ⊥ `grep`. §C line-ending row records the per-file map. ⊥ new §V (⊥ testable: green suite ⊥ distinguishes it)
-T83|x|research: merge surface (`spec`+`encode-docs` overlap, ref counts, line budget vs V14 ≤500), §V losing oracle @ test cut, emoji inventory, PLAN/HANDOFF header design → §R33-R35; DOES `npx skills add` copy `NOTICE.md` to installed copy → §R36 (gates V94)|V86,V87,V88,V93,V94
-T84|x|merge `spec` → `encode-docs`: 3 tailored sections (SPEC\|PLAN\|HANDOFF) + mutator rules (NEW/DISTILL/BUG/AMEND) + dedupe encoding grammar; `git rm -r skills/spec/`|V86,V87
-T85|x|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n> T<n> B<n>` counter|V88,V89
-T86|x|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
-T87|x|lean skill bodies: purge emoji ∀ `skills/**` + `tests/**` (❌/✅ → `bad`/`good` words, severity emoji → text labels) + strip vendor attribution block @ `encode-docs` (§R36-gated); `NOTICE.md` Modified rows record vendored edits|V91,V92,V94,V17
-T88|x|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
-T89|x|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
-T90|x|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
