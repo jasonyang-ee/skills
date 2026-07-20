@@ -149,4 +149,4 @@ ambiguous, write the full sentence.
 - Do not mark `§T` rows done or alter `§T` status.
 - Do not skip the research gate when `?` items exist.
 - Do not replace `PLAN.md` without updating `HANDOFF.md` to match.
-- `spec` is the sole mutator of `SPEC.md`; hand findings, do not write directly.
+- `encode-docs` is the sole mutator of `SPEC.md`; hand findings, do not write directly.

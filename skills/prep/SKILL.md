@@ -115,7 +115,7 @@ Write sourced findings into `§R` through `spec` before handing off to
 
 ### 3. Hand durable facts to `spec`
 
-`spec` remains the sole mutator of `SPEC.md`. `prep` prepares the material and
+`encode-docs` remains the sole mutator of `SPEC.md`. `prep` prepares the material and
 invokes `spec` with the sections that need durable updates:
 
 - `§G` goal

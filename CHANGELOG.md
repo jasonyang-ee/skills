@@ -26,6 +26,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Merge the `spec` skill into `/encode-docs`, which now owns the format
+  of all three project documents and remains the only writer of `SPEC.md`.
+  It carries a tailored section set per document, because the three do
+  different jobs: the spec is durable and addressed from outside, the plan
+  is a one-cycle contract replaced wholesale, and the handoff is a baton
+  overwritten every session. `/spec` no longer resolves; use
+  `/encode-docs`, whose triggers cover both former skills.
 - `/encode-commit` now bars encoding symbols and plan or spec identifiers
   from the commit messages it generates, and explains how to expand an
   identifier into plain English. Plan files get purged when a cycle

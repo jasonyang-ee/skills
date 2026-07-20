@@ -31,6 +31,7 @@ const RETIRED_SKILLS = [
   'research',
   'review',
   'review-implementation',
+  'spec',
 ];
 
 /**
@@ -214,7 +215,7 @@ describe('the code reviewer ships as review-code', () => {
 describe('the renamed roster is the only one referenced', () => {
   const ROSTER = [
     'cater', 'cook', 'encode-commit', 'encode-docs', 'encode-pr', 'garnish',
-    'handoff', 'prep', 'review-code', 'review-plan', 'setup', 'spec',
+    'handoff', 'prep', 'review-code', 'review-plan', 'setup',
   ];
   // Names reused across different skills during the rename: `cook` used to mean
   // planning and now means execution. A stale reference is not a dead link, it
@@ -276,12 +277,12 @@ describe('the renamed roster is the only one referenced', () => {
   // The header is copied verbatim into every consumer repo's SPEC.md, so the
   // template and this repo's own SPEC.md must not drift apart.
   it('keeps the baked header template in step with this repo SPEC.md', () => {
-    const spec = readFileSync(join(SKILLS_DIR, 'spec', 'SKILL.md'), 'utf8');
+    const encoder = readFileSync(join(SKILLS_DIR, 'encode-docs', 'SKILL.md'), 'utf8');
     const ours = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8')
       .split('\n')
       .find((line) => line.startsWith('Encoding'));
     assert.ok(ours, 'SPEC.md baked header has no Encoding line');
-    assert.ok(spec.includes(ours), `spec skill template does not emit: ${ours}`);
+    assert.ok(encoder.includes(ours), `encode-docs template does not emit: `);
   });
 });
 
@@ -511,8 +512,8 @@ describe('prep stays the planning front door', () => {
     }
   });
 
-  it('hands durable updates to spec and resumes with cook', () => {
-    assert.match(prep, /`spec` remains the sole mutator of `SPEC\.md`/);
+  it('hands durable updates to the encoder and resumes with cook', () => {
+    assert.match(prep, /`encode-docs` remains the sole mutator of `SPEC\.md`/);
     assert.match(prep, /\/cook/);
   });
 
@@ -650,13 +651,41 @@ describe('failure handling routes through spec bug mode', () => {
 });
 
 describe('the spec format needs no FORMAT.md', () => {
-  const spec = readFileSync(join(SKILLS_DIR, 'spec', 'SKILL.md'), 'utf8');
+  const encoder = readFileSync(join(SKILLS_DIR, 'encode-docs', 'SKILL.md'), 'utf8');
 
-  // V20 — the format is embedded in the skill…
-  it('spec embeds the format and the baked header', () => {
-    assert.match(spec, /^## FORMAT$/m, 'spec/SKILL.md must embed the FORMAT section');
-    assert.match(spec, /^## BAKED HEADER$/m, 'spec/SKILL.md must define the baked header');
-    assert.match(spec, /SPEC FORMAT \(baked by \/spec/, 'baked header template missing');
+  // V20, V87 — the format is embedded in the skill, one tailored section per
+  // document, so no project needs a FORMAT.md of its own…
+  it('encode-docs embeds a section set and a baked header per document', () => {
+    for (const section of ['## SPEC SECTIONS', '## PLAN SECTIONS', '## HANDOFF SECTIONS']) {
+      assert.ok(encoder.includes(section), `encode-docs must embed ${section}`);
+    }
+    assert.match(encoder, /^## BAKED HEADERS$/m, 'encode-docs must define the baked headers');
+    for (const doc of ['SPEC', 'PLAN', 'HANDOFF']) {
+      assert.ok(
+        encoder.includes(`<!-- ${doc} FORMAT (baked by /encode-docs`),
+        `no baked header template for ${doc}.md`,
+      );
+    }
+  });
+
+  // V86 — the spec skill was folded in here. If another skill starts claiming
+  // the mutator role, two skills write SPEC.md and the sectioned ownership
+  // that keeps concurrent edits from clobbering each other is gone.
+  it('is the only skill claiming the SPEC.md mutator role', () => {
+    assert.match(encoder, /[Ss]ole mutator/, 'encode-docs does not claim the mutator role');
+    // Other skills may name the owner; they may not be it. Any line stating
+    // the role must point at encode-docs, so a stale name here (the role used
+    // to belong to a `spec` skill) fails rather than quietly misdirecting.
+    const offenders = [];
+    for (const skill of loadSkills()) {
+      if (skill.dirName === 'encode-docs') continue;
+      for (const line of skill.raw.split('\n')) {
+        if (/sole mutator/i.test(line) && !line.includes('encode-docs')) {
+          offenders.push(`skills/${skill.dirName}/SKILL.md: ${line.trim()}`);
+        }
+      }
+    }
+    assert.deepEqual(offenders, [], `mutator role misattributed: ${offenders.join(' | ')}`);
   });
 
   // V21 — …so no skill may still demand the file, and the repo must not carry one.
