@@ -706,6 +706,21 @@ describe('review and garnish workflow stays coherent', () => {
     assert.match(garnish, /review-code/);
   });
 
+  // V90 — pruning is the one step here that destroys durable state, so all
+  // four properties are asserted together. Dropping any one of them turns a
+  // context saving into a silently lost guarantee.
+  it('prunes stale spec rows only on evidence, and never reuses an id', () => {
+    assert.match(garnish, /Prune only on evidence/, 'prune step is not evidence-gated');
+    assert.match(garnish, /uncertain row is kept and reported, never deleted/i, 'no keep-when-unsure rule');
+    assert.match(garnish, /Delete the row outright rather than leaving a retired marker/, 'no hard-delete rule');
+    assert.match(garnish, /never reuse the id/i, 'ids are not protected from reuse');
+    // Routed, not written: garnish holds no mutator rights over SPEC.md.
+    assert.match(garnish, /Hand the\s+prunes to `encode-docs`/, 'prune does not route through the mutator');
+    for (const field of ['pruned:', 'kept:']) {
+      assert.ok(garnish.includes(field), `output block omits ${field}`);
+    }
+  });
+
   it('refreshes the baton after every completed phase', () => {
     assert.match(cook, /after every phase commit/);
     assert.match(cook, /refresh\s+`HANDOFF\.md`/);

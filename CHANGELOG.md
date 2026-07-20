@@ -56,6 +56,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   already carried the signal, so nothing is lost. Skill bodies also no
   longer carry vendor attribution blocks, which live in `NOTICE.md`.
 
+- `/garnish` now prunes `SPEC.md` invariants and tasks that no longer
+  describe live code, so a cold session loads less. Pruning is gated on
+  evidence that the thing a row described is actually gone; an uncertain
+  row is kept and reported instead. Rows are deleted outright rather than
+  left as retired markers, and their identifiers are never reused, so an
+  old commit citing one never resolves to something newer.
+
 ### Fixed
 
 - Point the encoding vocabulary and every cross-reference at what
