@@ -11,8 +11,8 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-19
 
-branch main | last commit 3a92afb docs: point every reference at the merged encoder | tests green
-green (182 pass, 0 fail) | oracle `npm test` | was 189 pre-merge | CLI lists 11
+branch main | last commit 9eece1a refactor(skills): replace emoji with words in skills and tests | tests green
+green (184 pass, 0 fail) | oracle `npm test` | was 189 pre-merge | CLI lists 11
 uncommitted: none
 
 ## done this session
@@ -23,13 +23,14 @@ F1 (T83 `x`) research: §R33 merge OVERLAP/UNIQUE map, §R34 line budget ~351 < 
 F2 (T84 `x`) merge landed: `skills/spec/` deleted → 11 dirs; `encode-docs` = 426 lines w/ §SPEC SECTIONS + §PLAN SECTIONS + §HANDOFF SECTIONS + §BAKED HEADERS ×3; ∀ 21 §R33 UNIQUE items verified present; V86+V87 guards proven red-when-broken
 F3 (T85 `x`) 3 baked headers live on this repo 3 docs; `SPEC.md` header → `next: V95 T91 B7` (§R excluded ∵ ⊥ rule prunes it ∴ max-scan still valid); 2 guards proven red-when-broken; fixed lost `${ours}` interpolation @ parity assert
 F4 (T86 `x`) ∀ refs re-pointed by SENSE: skill+cmd → `encode-docs`; `SPEC.md` filename + "spec-driven"/"spec bug"/"Agent Skills spec" prose UNCHANGED. roster 12→11 (README, AGENTS, §I ×2, V81). `NOTICE.md` by hand: `encode-docs` row credits `caveman`+`spec` both, `skills/spec/` row dropped. Stale-name guard gains NARROW `spec` rule (`skills/spec/` + `` `/spec` `` only) — proven fires on cmd, quiet on filename+prose
+F5 (T87 `x`) emoji purged ∀ `skills/**` + `tests/**`: ❌/✅ → words `bad`/`good`; `encode-pr` severity 🔴🟡🔵❓ → `bug:`/`risk:`/`nit:`/`q:` (labels already carried signal ∴ ⊥ loss); attribution block dropped (V94 satisfied); `license: MIT` added to both vendored files; `NOTICE.md` Modified rows record it; CR counts 100→101 & 54→55 = the added license line, ⊥ damage; 2 guards proven red-when-broken
 
 ## in progress (exact stop point)
 F3 (T85 `~`) partially pre-done @ F2: ∀ 3 baked-header TEMPLATES already written into `encode-docs`. REMAINS: apply them to THIS repo 3 files + real `next:` values. mid-edit files: none
 
 ## next
-F5 per PLAN.md | preconditions: none
-NEXT STEP: emoji purge. `encode-commit` ❌/✅ ×5 → words `bad`/`good`; `encode-pr` ❌/✅ ×6 → words + FUNCTIONAL severity 🔴🟡🔵❓ → text labels (`bug`/`risk`/`nit`/`q`) — signal ! survive; `tests/repo-hygiene.test.mjs:431` asserts ❌/✅ ∴ ! update w/ `encode-commit`. BOTH skill files = CRLF ∴ Edit tool ONLY (§B.6), verify CR unchanged after. Add `license: MIT` frontmatter to both (absent, travels per §R36). Add codepoint-RANGE emoji guard
+F6 per PLAN.md | preconditions: none
+NEXT STEP: `skills/garnish/SKILL.md` — add prune step BEFORE the purge: identify §V+§T rows ⊥ describing live code, EVIDENCE-GATED (prune only when the code/test the row described is provably gone; uncertain → keep & report), HARD-DELETE row ⊥ tombstone, ids ⊥ reused, route through `encode-docs` (garnish ⊥ write SPEC.md directly). Add contract test asserting all 4 properties
 
 ## deviations & decisions
 user ruled 2026-07-19 (c): merged skill KEEPS name `encode-docs`. `/spec` ⊥ resolves after merge. ∴ `encode-docs` description ! carry BOTH skills' trigger keywords else `/spec` muscle-memory lands nowhere
