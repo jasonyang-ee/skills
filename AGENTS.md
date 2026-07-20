@@ -26,7 +26,7 @@ Workflow (spec-driven, in order):
 
 Support:  `/handoff` baton | `/encode-docs` AI Files mutator | `/encode-commit` commit summary | `/encode-pr` PR review comments.
 
-## Caveman symbols
+## SYMBOLS
 
 Symbols = short exact operators. Preserve paths, code, IDs, URLs, numbers, regex, errors verbatim.
 

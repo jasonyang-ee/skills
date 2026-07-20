@@ -103,7 +103,7 @@ support: `/encode-docs` sole SPEC.md mutator + document formats | `/handoff` bat
 - `<user fills test command>` — run tests and linters. ! run before ending chat.
 - `<user fills release command>` — release new version.
 
-## Encoding symbols
+## Encoding Symbols
 
 Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
 numbers, regex, errors verbatim.
