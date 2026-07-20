@@ -1,6 +1,6 @@
 # HANDOFF 2026-07-19
 
-branch main | last commit pending F6 | tests green
+branch main | last commit 101b3c1 fix(skills): finish the vocabulary rename and close the plan | tests green
 green (189 pass, 0 fail) | oracle `npm test` | baseline was 187 pre-rename
 uncommitted: none
 
