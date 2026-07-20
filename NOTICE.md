@@ -12,9 +12,9 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/caveman-encode/` | `caveman` | Yes — renamed to `caveman-encode` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `cook` / `workonplan` plan files accordingly, and the description now names its focus keyword ("lossless compression"). |
+| `skills/encode-docs/` | `caveman` | Yes — renamed to `encode-docs` to avoid a name collision with the conversational `caveman` skill from JuliusBrussee/caveman. Frontmatter and triggers updated for `prep` / `cook` plan files accordingly, and the description now names its focus keyword ("lossless compression"). |
 | `skills/spec/` | `spec` | Yes — the SPEC format is now embedded in the skill and baked as a header into generated `SPEC.md` files, removing the per-project `FORMAT.md` dependency, and the skill now accepts `cook` planning handoff plus `/spec bug:` in place of a standalone backprop skill. |
-| `skills/cook/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
+| `skills/prep/` | `grill` + `research` + `check` | Yes — new composite planning skill derived from cavekit's idea refinement, sourced research, and final drift-check flows; adapted to draft `PLAN.md` + `HANDOFF.md` and hand durable updates to `spec`. |
 | `skills/review-plan/` | `review` | Yes — renamed to `review-plan` to distinguish spec/plan review from post-implementation review. |
 
 The `FORMAT.md` schema embedded in `skills/spec/SKILL.md` is also derived from
@@ -52,9 +52,9 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/caveman/` | `caveman` | Yes — description clarified to point spec work at `caveman-encode`; no behavioral change. |
-| `skills/caveman-commit/` | `caveman-commit` | No |
-| `skills/caveman-pr/` | `caveman-review` | Yes — renamed to `caveman-pr` to better reflect its scope (PR review comments). |
+| `skills/caveman/` | `caveman` | Yes — description clarified to point spec work at `encode-docs`; no behavioral change. |
+| `skills/encode-commit/` | `caveman-commit` | No |
+| `skills/encode-pr/` | `caveman-review` | Yes — renamed to `encode-pr` to better reflect its scope (PR review comments). |
 
 Not vendored, and still available upstream:
 
@@ -91,6 +91,6 @@ SOFTWARE.
 
 ## Original work
 
-`skills/handoff/`, `skills/workonplan/`, `skills/dispatchplan/`,
-`skills/review-code/`, `skills/garnish/`, and `skills/prep/` are original to
+`skills/handoff/`, `skills/cook/`, `skills/cater/`,
+`skills/review-code/`, `skills/garnish/`, and `skills/setup/` are original to
 this repository and are covered by the root [LICENSE](LICENSE).

@@ -4,18 +4,18 @@ description: |
   Principal-engineer sweep of implementation quality since the latest release
   tag or explicit release commit: a security check plus evidence-based audit
   of full-picture code coherence, complexity, reuse, and logic correctness.
-  Invokes cook to turn accepted fixes and improvements into a research-first
-  PLAN.md and HANDOFF.md. Triggers after workonplan completes a plan or when
+  Invokes prep to turn accepted fixes and improvements into a research-first
+  PLAN.md and HANDOFF.md. Triggers after cook completes a plan or when
   the user asks for an implementation review, code-quality sweep, security
   check, infosec sweep, or post-release audit.
 license: MIT
 ---
 
-# review-code — post-release code sweep → cook
+# review-code — post-release code sweep → prep
 
 This is a read-only implementation review. It finds risks and improvement
 opportunities across the whole change surface, then hands the result to
-`cook`. It does not edit code, `SPEC.md`, `PLAN.md`, or `HANDOFF.md` directly.
+`prep`. It does not edit code, `SPEC.md`, `PLAN.md`, or `HANDOFF.md` directly.
 
 ## When to use
 
@@ -83,7 +83,7 @@ Flag `[unverified]` when evidence is unavailable.
 6. Produce the gate below. Never report “looks good” without listing the scope,
    commands, and evidence reviewed.
 
-## Output and cook handoff
+## Output and prep handoff
 
 Output:
 
@@ -106,10 +106,10 @@ NOTE: <count>
 gate: <GO | NO-GO>
 ```
 
-After the report, invoke `cook` with the accepted `BLOCK` and `HARDEN`
-findings, evidence, baseline, and gate. `cook` must create the next
+After the report, invoke `prep` with the accepted `BLOCK` and `HARDEN`
+findings, evidence, baseline, and gate. `prep` must create the next
 research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `spec`.
-If gate is `NO-GO`, the cook plan starts with defect remediation. If `GO`, it
+If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it
 starts with the selected simplification or improvement work, or records that
 no implementation work is needed.
 
@@ -119,4 +119,4 @@ no implementation work is needed.
 - Do not invent a baseline.
 - Do not prescribe refactors without tracing callers and citing evidence.
 - Do not treat green tests as proof of correctness when coverage is absent.
-- Do not skip the `cook` handoff after the review report.
+- Do not skip the `prep` handoff after the review report.

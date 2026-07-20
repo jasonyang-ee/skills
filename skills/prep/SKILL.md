@@ -1,172 +1,250 @@
 ---
 name: prep
 description: |
-  Bootstrap repository guidance for the spec-driven workflow. Creates or safely
-  completes AGENTS.md with lifecycle commands, pre-filled caveman symbols, and
-  an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
-  asks spec to create minimal CHANGELOG.md and SPEC.md files when absent.
-  Never overwrites existing user guidance or durable project state. Triggers
-  on /prep, "bootstrap this repo", "set up workflow files", "prepare a new project for cook",
-  or "initialize agent guidance".
+  Turn a user request into a caveman-encoded execution package: refine the
+  goal just enough, research the unknowns first, hand durable requirements to
+  the spec skill, draft a phased PLAN.md, and trigger handoff so a cold
+  session can resume with cook. The generated plan always starts with
+  research, ends with final verification, and holds a production-quality,
+  verification-driven, evidence-based implementation contract across all six
+  workflow steps. Triggers when the user says "prep this", "draft PLAN.md",
+  "prepare a handoff", "turn this into a multi-session plan", or asks for
+  production-quality planning, evidence-based planning, principal-engineer
+  planning, or grill/research/check-style planning in one pass.
 license: MIT
 ---
 
-# prep — bootstrap repository guidance
+# prep — request → PLAN.md + HANDOFF.md + spec handoff
 
-Use `prep` once at the start of a repository, or later to audit missing workflow
-sections. It prepares the cold-session files needed by `cook`, `review-plan`,
-`workonplan`, `garnish`, and `review-code`.
+`prep` is the planning front door for work that is too fuzzy, too large, or too
+session-spanning for `cook` or `spec` alone. It replaces the old split between idea
+grilling, research setup, and a final drift-check pass by packaging them into
+one short planning run.
 
-## Bootstrap command list
+## Quality contract
 
-The generated or completed `AGENTS.md` must list these commands in this order:
+Use these operational cues in the generated plan and handoff. “Principal
+engineer” is a quality signal, not a substitute for an observable contract.
+Each cue also lives in the description of the skill that owns its step; this
+contract mirrors them, it is not their sole carrier.
 
-This is the seven-command bootstrap list, including `/prep`. It is separate from
-the six core workflow steps: those steps begin
-with `/cook`, and step 2 is the `caveman-encode` writing discipline. `spec`,
-`handoff`, and `caveman-encode` remain supporting skills invoked by the core
-workflow; do not add them as extra command entries.
+1. **Plan:** make the goal, constraints, interfaces, risks, unknowns, and
+   acceptance evidence explicit; preserve the smallest coherent scope.
+2. **Encode:** keep `PLAN.md` and `HANDOFF.md` compact, lossless, and
+   caveman-encoded so a cold agent can resume without hidden context.
+3. **Review the plan:** research unknowns, challenge assumptions and phase
+   dependencies, and require an explicit GO/NO-GO before high-blast-radius work.
+4. **Implement:** make the smallest codebase-consistent change, verify-first;
+   name exact tests and oracles, then self-review the complete diff.
+5. **Close:** leave evidence in `SPEC.md`, `CHANGELOG.md`, and `HANDOFF.md`;
+   never claim completion from a green command alone when manual invariants
+   remain unverified.
+6. **Review the implementation:** inspect correctness, complexity, reuse,
+   coherence, and drift from the release baseline; turn accepted findings into
+   the next `prep` cycle.
 
-`/workonplan` and `/dispatchplan` are two ways to run the same execution step,
-so the core workflow counts them once. The bootstrap list gives each its own
-entry: a reader who never sees `/dispatchplan` named never reaches for it.
+The quality contract is complete only when each applicable cue has evidence.
+Do not use “best effort”, “looks good”, or “principal engineer” as completion
+criteria.
 
-1. `/prep` — bootstrap guidance and minimal durable files.
-2. `/cook` — turn an idea, bug, feature, or expected behavior into iterative
-   `PLAN.md` + `HANDOFF.md` and durable `SPEC.md` material.
-3. `/review-plan` — research and refute the plan until GO; reduce research
-   phases as unknowns resolve.
-4. `/workonplan` — execute all remaining phases in order, verifying, committing,
-   and refreshing the handoff after each phase. One main agent, start to finish.
-   An optional phase argument targets one phase only.
-5. `/dispatchplan` — execute the same phases through sub-agents, in parallel
-   only where their file sets do not intersect. Choose this or `/workonplan`
-   for a given phase, never both.
-6. `/garnish` — send final decisions through `spec`, then purge short-term plan
-   files when the cycle is complete.
-7. `/review-code` — sweep implementation quality from the release baseline and
-   trigger the next `cook` cycle for accepted fixes.
+## When to use
 
-## Preflight
+Use `prep` when any of these are true:
 
-1. Load `caveman-encode` before reading or writing `AGENTS.md` — `AGENTS.md`
-   is caveman-encoded with the symbol set.
-2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
-   full when present.
-3. If `AGENTS.md` is absent, create it from the template below. If present,
-   preserve all user content and add only missing sections or clearly marked
-   placeholders. Never replace project-specific instructions silently.
-4. If `CLAUDE.md` is absent, create it with exactly:
+- The user gives a desire, idea, expected behaviour, or fully defined feature
+  and wants the agent to turn it into executable work.
+- The work will likely span multiple files, phases, or sessions.
+- The plan needs a deliberate research phase before coding starts.
+- A cold follow-up session should be able to start with `/cook` and no
+  extra explanation.
 
-   ```md
-   @AGENTS.md
-   ```
+Skip it for a tiny, already-clear change with no need for `PLAN.md` or
+`HANDOFF.md`; that work can go straight to `spec`.
 
-   If it exists, preserve it; report if it does not import `@AGENTS.md` instead
-   of overwriting it.
-5. If `CHANGELOG.md` is absent, create the minimal structure below.
-6. If `SPEC.md` is absent, invoke `spec` in NEW mode to create its baked-header
-   minimal structure. `prep` never writes `SPEC.md` directly.
+## Hard outputs
 
-## AGENTS.md required sections
+Every `prep` run must produce all of these:
 
-When creating or completing `AGENTS.md`, keep it caveman-encoded and include:
+1. `PLAN.md` at repo root, in caveman encoding.
+2. `HANDOFF.md` at repo root, in caveman encoding, written via the `handoff`
+   skill after the plan exists.
+3. A handoff block for the `spec` skill so durable goal / constraint / research /
+   invariant / task changes land in `SPEC.md`; every PLAN phase gets one matching
+   `§T` row.
+
+`PLAN.md` and `HANDOFF.md` are short-lived execution state. `SPEC.md` is the
+durable memory.
+
+## Load
+
+1. Read the user request carefully.
+2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` if they exist.
+   If `PLAN.md` already has incomplete phases (any mapped `§T` row not `x`),
+   default to **expanding** it — append new phases and update `§T` — rather
+   than replacing. Replace only when the user explicitly asks for a fresh
+   start or every mapped `§T` row is already `x`.
+3. Load `encode-docs`; both `PLAN.md` and `HANDOFF.md` use that encoding.
+4. Read just enough repo context to plan real work: existing tests, entrypoints,
+   configs, public interfaces, and nearby conventions.
+5. If the request has a blocking ambiguity, ask one question at a time in the
+   style `grill` used: recommend an answer, wait, then continue. Do not quiz the
+   user once the plan is unambiguous.
+
+## Workflow
+
+### 1. Distill the request
+
+Extract:
+
+- the goal the code must accomplish;
+- non-negotiable constraints;
+- public interfaces or files the outside world touches;
+- unknowns that need proof rather than guesses.
+
+Unknowns stay explicit as `?` items. Never silently invent a product decision.
+
+### 2. Force research first
+
+The first plan phase is always research, even if short. If there is no external
+question, use the phase to confirm local code patterns, APIs, and tests that the
+later phases must honor. Research is allowed to refine the rest of the plan;
+when it changes reality, update the later phases instead of pretending the first
+draft was right. External findings require a source; unresolved items stay `?`.
+Write sourced findings into `§R` through `spec` before handing off to
+`cook`.
+
+### 3. Hand durable facts to `spec`
+
+`spec` remains the sole mutator of `SPEC.md`. `prep` prepares the material and
+invokes `spec` with the sections that need durable updates:
+
+- `§G` goal
+- `§C` constraints
+- `§I` interfaces
+- `§R` sourced research rows
+- `§V` proposed invariants
+- `§T` ordered implementation tasks
+- one `§T` row per PLAN phase, referenced by phase `task:` field
+
+Do not write `SPEC.md` directly from `prep`.
+
+High blast radius after the spec update? Recommend `/review-plan` before the first
+implementation phase starts.
+
+### 4. Write `PLAN.md`
+
+Write or replace `PLAN.md` at repo root. Keep it short, agent-facing, and
+caveman-encoded. It must contain, in this order:
+
+1. a one-line goal;
+2. ground rules / process contract for the run, including the applicable
+   quality-contract cues and evidence required for each phase;
+3. existing assets or evidence already present;
+4. a phase-order table;
+5. the full section for each phase.
+
+Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
+
+### 5. Make the phase skeleton predictable
+
+The recommended minimum shape is:
+
+- `F1` — research: confirm unknowns, collect sources, refine `SPEC.md`, tighten
+  the later phases.
+- `F2..Fn-1` — implementation phases: code, tests, migrations, docs, or rollout
+  work, split only when a real boundary exists.
+- `Fn` — final verification: a check-style pass that compares code against
+  `SPEC.md`, `PLAN.md`, and touched tests before the work is declared done.
+
+The first phase must be research. The last phase must be final verification.
+Do not put coding ahead of research or after the final verification phase.
+
+### 6. Make every phase executable
+
+Each phase section must name:
+
+- objective;
+- inputs or prerequisites;
+- files / modules / surfaces likely touched;
+- numbered steps;
+- verification contract;
+- exit criteria;
+- next phase pointer.
+- one existing `§T` task id via `task: T<n>`; no duplicate phase/task mapping.
+
+A cold agent should be able to start `F1` or resume later phases with
+`/cook` and no extra chat context.
+
+### 7. Trigger `handoff`
+
+After `PLAN.md` is written, invoke the `handoff` skill so `HANDOFF.md` points at
+the next phase. A fresh plan with no baton is a broken plan. If no code has
+shipped yet, the handoff still records the exact next step: start `F1`.
+
+## `PLAN.md` template
+
+Use this shape and adapt the details to the repo:
 
 ```md
-# AGENTS.md
+# PLAN
 
-## AI File Purpose
-- `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan. `HANDOFF.md` = phase handoff summary. ∀ change → update `SPEC.md` + `PLAN.md` + `HANDOFF.md`.
+goal: <one line>
 
-## Codebase Summary
-<user fills project purpose, stack, and repository boundary>
+## ground rules
+- <caveman bullets>
 
-## Layout
-<user fills important paths>
+## existing assets
+- <repo facts, tests, docs, constraints>
 
-## Skills
-1. `/prep` → bootstrap guidance + minimal durable files
-2. `/cook` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff
-3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/workonplan` → execute all remaining phases in order → verify → commit →
-   handoff after each phase. Optional phase arg → target one phase. Single main
-   agent.
-5. `/dispatchplan` → same phases via sub-agents, parallel when file sets ⊥ intersect.
-   4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md
-7. `/review-code` → baseline code sweep → cook
+## phase order
+id|goal|depends|exit
+F1|research unknowns & refine plan|-|facts logged, later phases updated
+F2|implement approved work|F1|target tests green
+F3|final verify code vs spec & plan|F2|full suite green, drift resolved
 
-support: `/spec` sole SPEC.md mutator | `/handoff` baton | `/caveman-encode` file encoding | `/caveman` chat brevity | `/caveman-commit` commit summary | `/caveman-pr` PR review comments
+## F1 research
+task: T<n>
+goal: <one line>
+inputs: <paths, questions, sources>
+steps:
+1. <...>
+2. <...>
+verify: <what proves this phase done>
+exit: <state>
+next: F2
 
-## Project Scripts
-- `<user fills setup command>` — set up development environment.
-- `<user fills start command>` — start application or service.
-- `<user fills test command>` — run tests and linters. ! run before ending chat.
-- `<user fills release command>` — release new version.
+## F2 implement
+task: T<n>
+...
 
-## Caveman symbols
-
-Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
-numbers, regex, errors verbatim.
-
-- `→` leads to | becomes | triggers
-- `∴` therefore | consequence
-- `∀` every | for all
-- `∃` some | exists
-- `!` must | required
-- `?` unknown | optional
-- `⊥` never | forbidden | absent
-- `≠` differs | `∈` member of | `∉` not member of
-- `≤` at most | `≥` at least | `&` and | `|` or
-- `§` section reference, e.g. `§V.3`
-
-Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
-`caveman` prose drops symbols; `caveman-encode` requires them for `SPEC.md`,
-`PLAN.md`, and `HANDOFF.md`.
-
-## Rules
-<user fills project constraints and safety rules>
-
-## End of Chat Checklist
-- Ensure ∀ lint + tests pass.
-- Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
-- Update `SPEC.md` ∀ code change / new feature (`§U` ∀ UI change, flip `§T`, add `§V`).
-- Refresh `HANDOFF.md` when phase/session ends.
-- Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
+## F3 final verify
+task: T<n>
+...
 ```
 
-Do not invent project commands, paths, or constraints. Mark unknowns `?` until
-the user or research resolves them.
+Keep the file compact. `PLAN.md` is a working document, not an RFC.
 
-## Minimal CHANGELOG.md
+## Final verification phase rules
 
-If absent, create only:
+The last phase replaces the old `check` rhythm. It must, at minimum:
 
-```md
-# Changelog
+- re-read the relevant `SPEC.md` sections and touched `PLAN.md` phases;
+- run the agreed verification commands;
+- classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or
+  `UNVERIFIABLE`, with file/test evidence;
+- sweep touched implementation for logic correctness, unnecessary complexity,
+  missed reuse, and codebase incoherence; cite each finding;
+- name any drift explicitly and decide whether code or spec changes;
+- record the result table in `HANDOFF.md` before closing the phase.
 
-All notable changes to this project will be documented in this file.
-
-## [Unreleased]
-```
-
-## Verify
-
-Report each action and preservation decision. Confirm:
-
-- `AGENTS.md` has all seven bootstrap commands in order, Caveman symbols, and checklist;
-- a new `AGENTS.md` template includes AI-file purpose, workflow skills, project-script placeholders, and the full end-of-chat checklist;
-- `CLAUDE.md` is exactly `@AGENTS.md` when prep created it;
-- `CHANGELOG.md` has `## [Unreleased]`;
-- `SPEC.md` exists with the baked header and fixed sections;
-- existing files were not overwritten.
+If the final phase cannot prove the work, the plan is not finished.
 
 ## Boundaries
 
-- Never overwrite existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, or
-  `SPEC.md` without explicit user direction.
-- Never write `SPEC.md` directly; invoke `spec`.
-- Never add project-specific facts as guesses.
-- Never write code or create runtime dependencies.
+- Do not write code from `prep`.
+- Do not skip `PLAN.md`.
+- Do not skip `HANDOFF.md`.
+- Do not skip the research-first phase.
+- Do not skip the final verification phase.
+- Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is
+  `SPEC.md`.

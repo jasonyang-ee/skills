@@ -5,7 +5,7 @@ description: >
   by speaking like caveman while keeping full technical accuracy. Two levels: full (default) and
   ultra. Use when user says "caveman mode", "talk like caveman", "use caveman", "less tokens",
   "be brief", or invokes /caveman. Also auto-triggers when token efficiency is requested.
-  For encoding SPEC.md and spec-adjacent files, use the caveman-encode skill instead — this
+  For encoding SPEC.md and spec-adjacent files, use the encode-docs skill instead — this
   skill deliberately avoids the arrow/symbol set that SPEC.md requires.
 license: MIT
 ---

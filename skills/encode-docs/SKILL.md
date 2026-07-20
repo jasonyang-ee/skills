@@ -1,8 +1,8 @@
 ---
-name: caveman-encode
+name: encode-docs
 description: |
   Caveman encoding for SPEC.md and spec-adjacent writes. Loaded by /spec,
-  /cook, /handoff, and /workonplan. Lossless compression: cuts tokens ~75%
+  /prep, /handoff, and /cook. Lossless compression: cuts tokens ~75%
   vs prose while staying precise, using the symbol set (→ ∴ ∀ ⊥ !) that
   SPEC.md sections are written in. Triggers on any write to SPEC.md,
   PLAN.md, or HANDOFF.md, or when the user says "caveman encode", "encode
@@ -11,7 +11,7 @@ description: |
 license: MIT
 ---
 
-# caveman-encode — spec encoding
+# encode-docs — spec encoding
 
 > Vendored from [JuliusBrussee/cavekit](https://github.com/JuliusBrussee/cavekit)
 > (MIT, Copyright (c) 2026 Julius Brussee), renamed from `caveman` to avoid

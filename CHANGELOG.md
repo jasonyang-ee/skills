@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Rename seven skills to a consistent culinary and encoding vocabulary:
+  `prep` becomes `setup` (repository bootstrap), `cook` becomes `prep`
+  (planning), `workonplan` becomes `cook` (sequential execution),
+  `dispatchplan` becomes `cater` (parallel execution), `caveman-encode`
+  becomes `encode-docs`, `caveman-commit` becomes `encode-commit`, and
+  `caveman-pr` becomes `encode-pr`. Slash commands change with the skill
+  names, so `/cook` now runs phases instead of planning them and `/prep`
+  now plans instead of bootstrapping.
+
 ## [0.4.1] - 2026-07-17
 
 - Align all six workflow-step skill descriptions with canonical focus

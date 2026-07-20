@@ -1,12 +1,12 @@
 ---
 name: garnish
 description: |
-  Close a completed workonplan cycle with evidence-gated closure: verifies
+  Close a completed cook cycle with evidence-gated closure: verifies
   every PLAN task is done, final verification is complete, tests are green,
   and no unrelated work is dirty, then removes short-lived PLAN.md and
   HANDOFF.md while preserving SPEC.md and repository history. Triggers when
   the user says garnish, clean up the plan, close the plan cycle, or all
-  workonplan phases are complete.
+  cook phases are complete.
 license: MIT
 ---
 
@@ -14,7 +14,7 @@ license: MIT
 
 `garnish` is a destructive cleanup gate for short-term execution files. It
 does not erase durable specification, source code, tests, changelog entries, or
-git history. It prepares the repository for a new `/cook` round.
+git history. It prepares the repository for a new `/prep` round.
 
 ## Preconditions
 
@@ -34,7 +34,7 @@ Stop and report the blocker if any condition fails:
 ## Procedure
 
 1. Read `SPEC.md` and confirm durable goal, invariants, and task statuses are
-   complete. If a task is not complete, return to `workonplan`.
+   complete. If a task is not complete, return to `cook`.
 2. Read the entire final verification table and handoff next pointer. If it
    points to unfinished work, stop.
 3. Prepare a durable cleanup handoff for `spec`: accepted final decisions,
@@ -43,7 +43,7 @@ Stop and report the blocker if any condition fails:
    write `SPEC.md` directly from `garnish`. Review/accept the spec diff before
    cleanup.
 4. Run the recorded oracle and full suite; if either fails, classify via
-   `spec bug:` or return to `workonplan` before cleanup.
+   `spec bug:` or return to `cook` before cleanup.
 5. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
    `PLAN.md` and `HANDOFF.md` removal remain.
 6. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
@@ -70,5 +70,5 @@ next: `/review-code`
 - Never delete files when unrelated changes are present.
 - Never mark a phase complete or mutate `SPEC.md` directly; route durable
   changes through `spec`.
-- Never invoke `cook` automatically; review implementation first, then let it
-  trigger the next cook cycle.
+- Never invoke `prep` automatically; review implementation first, then let it
+  trigger the next prep cycle.

@@ -1,7 +1,7 @@
 ---
-name: dispatchplan
+name: cater
 description: |
-  Parallel alternative to workonplan for multi-phase PLAN.md execution, holding
+  Parallel alternative to cook for multi-phase PLAN.md execution, holding
   the same production-quality, verification-driven, evidence-based
   implementation bar per phase. You act as dispatcher, not author: each phase
   is assigned to a sub-agent through its own HANDOFF-<phase-id>.md file at
@@ -9,18 +9,18 @@ description: |
   and never dispatched alongside another assignment touching the same files.
   Each sub-agent reports back with a completion block; the dispatcher runs a
   phase-scoped acceptance review of its diff before accepting, then purges the
-  assignment file. Expects `cook` to have created PLAN.md + HANDOFF.md first,
-  and composes with the spec, caveman-encode, and handoff skills. Triggers:
-  "/dispatchplan", "dispatch the plan", "run phases in parallel", "parallelize
+  assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first,
+  and composes with the spec, encode-docs, and handoff skills. Triggers:
+  "/cater", "dispatch the plan", "run phases in parallel", "parallelize
   the plan", "assign phases to sub-agents", "fan out the plan".
 license: MIT
 ---
 
-# dispatchplan — execute PLAN.md phases in parallel, via sub-agents
+# cater — execute PLAN.md phases in parallel, via sub-agents
 
 You are the dispatcher. You do not write the phase's code yourself: you decide
 what gets assigned, to whom, in what order, and you decide what comes back is
-good enough to keep. Use `workonplan` instead when phases must run one at a
+good enough to keep. Use `cook` instead when phases must run one at a
 time; that skill is the single-agent path and is the safer default.
 
 Parallelism is the only thing this skill adds. It buys nothing if it costs
@@ -31,14 +31,14 @@ corrupting the plan, the baton, or each other's files.
 
 1. **Quality over throughput.** Running phases in parallel never lowers the
    bar for any one of them. Each assignment ends green, reviewed, and
-   committed, exactly as it would under `workonplan`.
+   committed, exactly as it would under `cook`.
 2. **You own the outcome.** A sub-agent's report is a claim, not evidence.
    Nothing is accepted until you have read its diff yourself.
 3. **Isolation before speed.** Two assignments that can touch the same file are
    not parallel work — they are a race. Serialize them.
 4. **The dispatcher does not implement.** If you find yourself editing phase
    code, either the phase should not have been dispatched, or you should be
-   running `workonplan`. Fixing a sub-agent's diff yourself hides the fact
+   running `cook`. Fixing a sub-agent's diff yourself hides the fact
    that the assignment was wrong.
 5. **The plan is authoritative — but not infallible.** If reality contradicts
    `PLAN.md`, surface the contradiction, propose the correction, and update
@@ -51,7 +51,7 @@ corrupting the plan, the baton, or each other's files.
    outstanding watchouts. If absent, this is a fresh start.
 2. `PLAN.md` — header, ground rules, existing-assets inventory, phase order
    table, and the FULL section of every phase you intend to dispatch. If
-   absent, invoke `cook` first. Stop.
+   absent, invoke `prep` first. Stop.
 3. `SPEC.md` — §C, every §V the phases cite, and their §T rows. Its baked
    header carries the format. Read §R when present; do not re-derive or
    contradict sourced facts.
@@ -98,7 +98,7 @@ another host makes this skill a silent no-op there.
 | Read-only investigation, search, or fan-out fact-finding with no edits | A search-oriented or read-only tier, if the host offers one. |
 
 If no tier meets what the phase needs, do not dispatch it: run it yourself
-under `workonplan`, or split it until the parts fit.
+under `cook`, or split it until the parts fit.
 
 ## PER-ASSIGNMENT LOOP
 
@@ -184,7 +184,7 @@ The main `HANDOFF.md` is yours alone. A sub-agent writes only its own
   signalled by the `## completion` block, and nothing else.
 - **Never invoke `/review-code` mid-dispatch**, per sub-agent or per phase. It
   is step 6 of the core workflow: it sweeps the whole release baseline to
-  `HEAD` on every run, and it must end by handing findings to `cook` — which
+  `HEAD` on every run, and it must end by handing findings to `prep` — which
   rewrites the very `PLAN.md` you are executing. The per-phase check is the
   acceptance review in this skill. `/review-code` stays where the workflow puts
   it: after `garnish`, once the cycle is closed.
@@ -216,7 +216,7 @@ ends without a fresh baton is a failed session, even if every phase passed.
 
 ## NON-GOALS
 
-- Not a replacement for `workonplan`. Sequential phases, or a plan whose file
+- Not a replacement for `cook`. Sequential phases, or a plan whose file
   sets all intersect, belong there.
 - No scope creep: work outside a phase section goes into `HANDOFF.md`
   watchouts or a `PLAN.md` note, not into an assignment.

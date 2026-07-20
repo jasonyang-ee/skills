@@ -6,7 +6,7 @@ description: |
   every SPEC.md it writes opens with a baked format header — no per-project
   FORMAT.md file is needed. Triggers when the user asks to write a spec, start a
   new spec, distill a spec from existing code, add invariants, amend sections
-  (§G, §C, §I, §R, §V, §T, §B), hand off durable planning material from cook, or
+  (§G, §C, §I, §R, §V, §T, §B), hand off durable planning material from prep, or
   record a bug via `bug:`. Common phrasings: "write the spec for...", "new
   spec", "bug: ...", "amend §V.3", "distill spec from code", "spec this idea".
 license: MIT
@@ -19,7 +19,7 @@ needed — this skill carries the rules, and every SPEC.md written gets the bake
 header (§BAKED HEADER) so a cold agent reads & amends the file without loading
 this skill.
 
-Encoding = caveman. Full rules → `caveman-encode` skill; §FORMAT below carries
+Encoding = caveman. Full rules → `encode-docs` skill; §FORMAT below carries
 the subset needed to write SPEC.md correctly. ⊥ load the `caveman` skill for
 this — that one is conversational compression & bans the symbol set §FORMAT
 requires.
@@ -45,26 +45,26 @@ it in the same write.
 The other verbs produce material; spec writes it. Ingest their handoff blocks
 into the right section, show a diff, write on OK:
 
-- **cook** → drafted §G/§C/§I, sourced §R rows, proposed §V/§T plan
+- **prep** → drafted §G/§C/§I, sourced §R rows, proposed §V/§T plan
 - **review-plan** → drafted §V lines + the risk verdict
 
 ⊥ rewrite a section the handoff did not name. Sectioned ownership.
 
 ## NEW — idea → spec
 
-Input: user idea. If it arrived fuzzy, prefer running **cook** first.
+Input: user idea. If it arrived fuzzy, prefer running **prep** first.
 
 Steps:
 1. Emit baked header (§BAKED HEADER) verbatim as first bytes of file.
 2. Extract goal (1 line, caveman). → §G.
 3. List constraints user stated or implied. → §C.
 4. List external surfaces user named. → §I.
-5. §R only if **cook** research ran — else omit the section (right-size).
+5. §R only if **prep** research ran — else omit the section (right-size).
 6. Propose initial invariants. → §V (numbered V1…).
 7. Break goal into ordered tasks. → §T pipe table, all status `.`, ids T1…
 8. §B section with header row only (`id|date|cause|fix`).
 
-Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review-plan` if high-blast-radius, else `/workonplan`."
+Write to `SPEC.md`. Show user full file. Ask: "spec OK? `/review-plan` if high-blast-radius, else `/cook`."
 
 ## DISTILL — code → spec
 
@@ -121,7 +121,7 @@ external surface. what world sees.
 - env: `FOO_KEY` required
 
 ## §R RESEARCH
-optional. only if /cook research ran. pipe table. each row ! cite source.
+optional. only if /prep research ran. pipe table. each row ! cite source.
 id|claim|source
 R1|lib X rate-limits @ 100 rps|https://docs.x/limits
 
@@ -216,7 +216,7 @@ If SPEC.md > 500 lines, compact §B (old bugs drop oldest) before splitting.
 | `/spec new` | creates | all |
 | `/spec amend` | edits | chosen |
 | `/spec bug` | appends | §B + §V |
-| `/workonplan` | flips | §T status cell `.` → `~` → `x` |
+| `/cook` | flips | §T status cell `.` → `~` → `x` |
 
 ## BAKED HEADER
 
@@ -248,5 +248,5 @@ Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed
 
 - No sub-agents. Main thread writes.
 - No dashboards, no logs, no state files beyond SPEC.md itself.
-- No auto-execute after spec. User invokes `/workonplan` explicitly.
+- No auto-execute after spec. User invokes `/cook` explicitly.
 - ⊥ write FORMAT.md. Format lives here + baked header.

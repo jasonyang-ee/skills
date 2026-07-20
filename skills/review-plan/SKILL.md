@@ -15,15 +15,15 @@ description: |
 license: MIT
 ---
 
-# review-plan — validate PLAN.md before workonplan
+# review-plan — validate PLAN.md before cook
 
 A cold session that reads the plan and the spec together, resolves any
 remaining unknowns through research, and decides whether the work is safe
-to hand to `workonplan`. Every finding is corrected before the gate closes.
+to hand to `cook`. Every finding is corrected before the gate closes.
 
 ## WHEN
 
-Before the first `/workonplan`, or after a previous `/review-plan` returns
+Before the first `/cook`, or after a previous `/review-plan` returns
 NO-GO.
 
 Skip when there are no `?` items, all phase contracts are named, and the
@@ -31,7 +31,7 @@ previous `/review-plan` already returned GO.
 
 ## LOAD
 
-1. Load `caveman-encode` — PLAN.md and HANDOFF.md use that encoding.
+1. Load `encode-docs` — PLAN.md and HANDOFF.md use that encoding.
 2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every
    phase section.
 3. Read `SPEC.md`: §G, §C, §I, §R, §V, §T. Note which `§T` rows map to
@@ -57,7 +57,7 @@ For each open research phase in order:
 4. Rewrite the affected phase steps with confirmed facts; remove guesses.
 5. If all `?` items in this phase are resolved with no new unknowns, mark
    it as a removal candidate. Note it in the gate output so the user can
-   confirm removal on the next `/cook` cycle.
+   confirm removal on the next `/prep` cycle.
 
 Skip this gate entirely when no `?` items remain in any phase.
 
@@ -86,7 +86,7 @@ Attack the plan on these axes. Every finding cites evidence or is tagged
 
 Each finding: evidence → claim → severity.
 
-- **BLOCK** — cannot enter `workonplan` with this finding. Fix before GO.
+- **BLOCK** — cannot enter `cook` with this finding. Fix before GO.
 - **HARDEN** — sharpen a contract, add a `§V`, or split a vague step.
 - **NOTE** — observation, no required action.
 
@@ -98,7 +98,7 @@ No evidence → down-rank to NOTE, tag `[unverified]`.
 2. Rewrite affected `PLAN.md` phases with resolved facts and sharper
    contracts. Replace `PLAN.md` at repo root.
 3. Update `HANDOFF.md` next pointer and watchouts. If a research phase
-   resolved cleanly, add a watchout: "on next `/cook`, remove F<n> —
+   resolved cleanly, add a watchout: "on next `/prep`, remove F<n> —
    all unknowns resolved."
 
 ## GATE
@@ -113,7 +113,7 @@ HARDEN: <count>
 NOTE: <count>
 - <evidence> — <observation>
 gate: <GO | NO-GO>
-next: /workonplan | /review-plan after fixes
+next: /cook | /review-plan after fixes
 ```
 
 GO or NO-GO, never a shrug. A plan with open BLOCKs does not get GO.

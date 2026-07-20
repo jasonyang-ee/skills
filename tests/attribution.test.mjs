@@ -11,10 +11,10 @@ import { REPO_ROOT, loadSkills } from './helpers.mjs';
  */
 const VENDORED = [
   'caveman',
-  'caveman-commit',
-  'caveman-encode',
-  'caveman-pr',
-  'cook',
+  'encode-commit',
+  'encode-docs',
+  'encode-pr',
+  'prep',
   'review-plan',
   'spec',
 ];
@@ -58,23 +58,23 @@ describe('original skills are accounted for', () => {
   });
 });
 
-describe('caveman and caveman-encode stay distinct', () => {
+describe('caveman and encode-docs stay distinct', () => {
   const byName = new Map(loadSkills().map((s) => [s.dirName, s]));
 
   // V18 — these two contradict each other on the symbol set. If either stops
   // pointing at the other, an agent will load the wrong one for SPEC.md writes
   // and silently drop the symbols FORMAT requires.
-  it('caveman points spec work at caveman-encode', () => {
-    assert.match(byName.get('caveman').raw, /caveman-encode/);
+  it('caveman points spec work at encode-docs', () => {
+    assert.match(byName.get('caveman').raw, /encode-docs/);
   });
 
-  it('caveman-encode distinguishes itself from caveman', () => {
-    assert.match(byName.get('caveman-encode').raw, /\bcaveman\b/);
+  it('encode-docs distinguishes itself from caveman', () => {
+    assert.match(byName.get('encode-docs').raw, /\bcaveman\b/);
   });
 
-  it('caveman-encode keeps the SPEC symbol set', () => {
+  it('encode-docs keeps the SPEC symbol set', () => {
     for (const symbol of ['→', '∴', '∀', '⊥']) {
-      assert.ok(byName.get('caveman-encode').raw.includes(symbol), `missing symbol ${symbol}`);
+      assert.ok(byName.get('encode-docs').raw.includes(symbol), `missing symbol ${symbol}`);
     }
   });
 });
