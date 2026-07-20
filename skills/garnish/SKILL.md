@@ -5,10 +5,8 @@ description: |
   every PLAN task is done, final verification is complete, tests are green,
   and no unrelated work is dirty; prunes SPEC.md invariants and tasks that
   no longer describe live code, on evidence only; then removes short-lived
-  PLAN.md and HANDOFF.md while preserving SPEC.md and repository history. Triggers when
-  the user says garnish, clean up the plan, close the plan cycle, or all
-  cook phases are complete.
-license: MIT
+  PLAN.md and HANDOFF.md while preserving SPEC.md and repository history.
+  Triggers: "/garnish".
 ---
 
 # garnish — close PLAN cycle
@@ -67,8 +65,9 @@ Stop and report the blocker if any condition fails:
    `encode-docs bug:` or return to `cook` before cleanup.
 6. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
    `PLAN.md` and `HANDOFF.md` removal remain.
-7. Remove exactly `PLAN.md` and `HANDOFF.md` from repository root. Preserve
-   `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
+7. Purge content of `PLAN.md` and `HANDOFF.md` from repository root. Preserve file
+   blank template with header to reduce next recreate cost. Preserve `SPEC.md`, 
+   source, tests, `CHANGELOG.md`, and all other files.
 8. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
    diff contains no unrelated deletion. Recommend `/review-code` as the final
    post-cycle review.

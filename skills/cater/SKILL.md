@@ -1,74 +1,56 @@
 ---
 name: cater
 description: |
-  Parallel alternative to cook for multi-phase PLAN.md execution, holding
-  the same production-quality, verification-driven, evidence-based
-  implementation bar per phase. You act as dispatcher, not author: each phase
-  is assigned to a sub-agent through its own HANDOFF-<phase-id>.md file at
-  repo root, sized to the phase's complexity,
-  and never dispatched alongside another assignment touching the same files.
+  Enhensed cook for PLAN.md execution using sub-agents with holding
+  production-quality, verification-driven, evidence-based implementation.
+  You act as dispatcher, not author: each phase is assigned to a sub-agent
+  through its own HANDOFF-<phase-id>.md file at repo root, sized to the 
+  phase's complexity, and never dual assign phase to multiple agents.
   Each sub-agent reports back with a completion block; the dispatcher runs a
   phase-scoped acceptance review of its diff before accepting, then purges the
   assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first,
-  and composes with the encode-docs and handoff skills. Triggers:
-  "/cater", "dispatch the plan", "run phases in parallel", "parallelize
-  the plan", "assign phases to sub-agents", "fan out the plan".
-license: MIT
+  and composes with the encode-docs and handoff skills. Triggers: "/cater".
 ---
 
-# cater — execute PLAN.md phases in parallel, via sub-agents
+# cater — Assign PLAN.md phases to cook by sub-agents
 
-You are the dispatcher. You do not write the phase's code yourself: you decide
+You are dispatcher. You do not write phase's code yourself: you decide
 what gets assigned, to whom, in what order, and you decide what comes back is
-good enough to keep. Use `cook` instead when phases must run one at a
-time; that skill is the single-agent path and is the safer default.
+good enough to keep.
 
-Parallelism is the only thing this skill adds. It buys nothing if it costs
-correctness, so every rule below exists to stop concurrent work from
-corrupting the plan, the baton, or each other's files.
+Switch to `cook` and code by yourself instead when phases must run in sequence.
 
-## OPERATING PRINCIPLES (non-negotiable, in priority order)
+Each sub-agent execute `cook #` for its own assigned # phase, and parallelism is
+the only thing this skill adds.
 
-1. **Quality over throughput.** Running phases in parallel never lowers the
-   bar for any one of them. Each assignment ends green, reviewed, and
-   committed, exactly as it would under `cook`.
+## OPERATING PRINCIPLES
+
+1. **Quality over speed.** Never skip a verification step to save time. A phase
+   is not done until its verification contract passes.
 2. **You own the outcome.** A sub-agent's report is a claim, not evidence.
    Nothing is accepted until you have read its diff yourself.
-3. **Isolation before speed.** Two assignments that can touch the same file are
-   not parallel work — they are a race. Serialize them.
+3. **Isolation before speed.** Never allow two assignments to touch the same file.
 4. **The dispatcher does not implement.** If you find yourself editing phase
    code, either the phase should not have been dispatched, or you should be
-   running `cook`. Fixing a sub-agent's diff yourself hides the fact
-   that the assignment was wrong.
+   running `cook`.
 5. **The plan is authoritative — but not infallible.** If reality contradicts
-   `PLAN.md`, surface the contradiction, propose the correction, and update
-   `PLAN.md` in the same commit. Silent deviations are forbidden, including
-   deviations a sub-agent made and reported.
+   `PLAN.md`, report contradiction, propose correction, and update `PLAN.md`
+   in the same commit. Silent deviations are forbidden.
 
-## LOAD (in this order, before any dispatch)
+## LOAD
 
-1. `HANDOFF.md` at repo root — the main baton. It defines the resume point and
-   outstanding watchouts. If absent, this is a fresh start.
-2. `PLAN.md` — header, ground rules, existing-assets inventory, phase order
-   table, and the FULL section of every phase you intend to dispatch. If
-   absent, invoke `prep` first. Stop.
-3. `SPEC.md` — §C, every §V the phases cite, and their §T rows. Its baked
-   header carries the format. Read §R when present; do not re-derive or
-   contradict sourced facts.
+1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent.
+3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
-5. Run the project's test command once BEFORE the first dispatch, to establish
-   a baseline. Find it in `package.json` scripts, `Makefile`, `justfile`, CI
-   config, or contributor docs — do not invent one. If red at baseline, log it
-   with `encode-docs` using `bug:` before dispatching anything. Never dispatch onto a
-   red base: every sub-agent will inherit the failure and report it as yours.
 
 ## SELECT PHASES TO DISPATCH
 
-A phase is dispatchable when its `task:` §T row is not `x`, its gate is
-satisfied, and its dependencies are already accepted. Gated phases with unmet
+Phase is dispatchable when `task:` §T row is not `x`, gate is
+satisfied, and dependencies are already accepted. Gated phases with unmet
 gates are skipped with a one-line note.
 
-### Shared-file safety (check this before capability)
+### Shared-file safety
 
 Build the file set of each candidate phase from its `files:` list plus anything
 its steps clearly touch. Then:
@@ -85,11 +67,9 @@ Only file sets that are provably disjoint may run at once.
 
 ### Sub-agent selection by complexity
 
-Match the assignment to the capability the phase actually needs. Describe the
+Assign matching agent capability for each phase needs. Describe the
 tier you need in capability terms and pick whatever the host offers that meets
-it. Never hardcode a specific agent's name: the agent roster belongs to the
-harness, not to this repository, and a named agent that does not exist on
-another host makes this skill a silent no-op there.
+it.
 
 | Phase shape | Capability needed |
 | --- | --- |
@@ -177,17 +157,9 @@ The main `HANDOFF.md` is yours alone. A sub-agent writes only its own
 
 ## FORBIDDEN
 
-- **A sub-agent must never run `garnish`.** It is the cycle-close skill, not a
-  completion signal. It requires every mapped §T row to be `x`, which is false
-  mid-plan, and it deletes the root `PLAN.md` and `HANDOFF.md` — destroying the
-  main baton and the plan the other agents are still executing. Completion is
-  signalled by the `## completion` block, and nothing else.
-- **Never invoke `/review-code` mid-dispatch**, per sub-agent or per phase. It
-  is step 6 of the core workflow: it sweeps the whole release baseline to
-  `HEAD` on every run, and it must end by handing findings to `prep` — which
-  rewrites the very `PLAN.md` you are executing. The per-phase check is the
-  acceptance review in this skill. `/review-code` stays where the workflow puts
-  it: after `garnish`, once the cycle is closed.
+- **A sub-agent must never run `garnish`.** Only the dispatcher may run it at 
+  plan cycle end, and only when all assignments are accepted or returned.
+- **Never invoke `/review-code` mid-dispatch**, per sub-agent or per phase.
 - **Never let two concurrent assignments touch one file.** See shared-file
   safety.
 - **Never name a specific harness agent** in an assignment or in this

@@ -2,18 +2,10 @@
 name: encode-docs
 description: |
   Owns the format and the writing of the three project documents: SPEC.md,
-  PLAN.md, and HANDOFF.md. Sole mutator of SPEC.md. Lossless compression:
-  cuts tokens ~75% vs prose while staying precise, using the symbol set
-  (arrow, therefore, for-all, never, must) those documents are written in.
-  Each document gets its own section rules and its own baked header, so a
-  cold agent can read or extend any of them without loading this skill.
-  Triggers on any write to SPEC.md, PLAN.md, or HANDOFF.md; when the user
-  asks to write a spec, start a new spec, distill a spec from existing code,
-  add invariants, amend sections (G, C, I, R, V, T, B), or record a bug via
-  `bug:`; and on "encode docs", "encode the spec", "compress this spec",
-  "write the spec for...", "new spec", "amend V.3", "distill spec from code".
-  Applies to these three files only, never to chat replies or commit messages.
-license: MIT
+  PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while 
+  staying precise by using the symbols and notations. Each document gets
+  its own baked header to help a cold agent bootstrap. Triggers on any
+  write to SPEC.md, PLAN.md, or HANDOFF.md, and on "/encode-docs".
 ---
 
 # encode-docs
@@ -23,12 +15,8 @@ Owns three documents and nothing else:
 | doc | lifetime | written by | this skill supplies |
 | --- | --- | --- | --- |
 | `SPEC.md` | durable | this skill only | format + all mutation |
-| `PLAN.md` | one cycle | `prep`, executed by `cook`/`cater` | format only |
-| `HANDOFF.md` | one session | `handoff` | format only |
-
-Sole mutator of `SPEC.md`. Other skills produce material and hand it here;
-they never write that file themselves. `PLAN.md` and `HANDOFF.md` are written
-by their owning skills, which load this one for the format.
+| `PLAN.md` | one cycle | `prep`, `cook`, or `cater` | format only + all mutation|
+| `HANDOFF.md` | one session | `handoff` | format only + all mutation|
 
 Applies to those three files, spec-referencing prose, and bug rows. Does NOT
 apply to code, error strings, commit messages, or PR descriptions.
@@ -82,12 +70,9 @@ Never compress:
 
 ## SPEC.md FILE
 
-`SPEC.md` is the durable one. It outlives every plan, every session, and most
-of the code it describes. It is appended to far more often than rewritten, and
-its identifiers are cited from commits and pull requests that will still exist
-when the rows are gone. So its rules are about **stable addressing and
-sectioned ownership**: never renumber, never reuse an id, never rewrite a
-section nobody asked you to touch.
+`SPEC.md` is the durable one. It outlives every plan and every sessions.
+It is appended to far more often than rewritten. Its rules are about
+stable addressing and sectioned ownership. Never renumber. Never reuse an id.
 
 ### Dispatch
 
@@ -220,12 +205,12 @@ because the highest is no longer the newest.
 
 When `garnish` prunes a stale §V or §T row, delete the row outright, bump
 nothing, and leave `next:` where it is. An id whose row is gone stays retired
-forever, so an old commit citing `V18` never resolves to some later invariant.
+forever. Then, prune the §B row that cites it.
 
 ### One file rule
 
 A big project gets more sections, not more files; grep ceremony kills agent
-speed. Past 500 lines, compact §B oldest-first before splitting anything.
+speed. Past 100 lines, compact §B oldest-first before splitting anything.
 
 ### Writes
 
@@ -411,12 +396,11 @@ Full rules: /encode-docs skill.
 
 - User asks for a prose explanation → switch to normal English.
 - Spec documents for external review (RFC, pitch) → normal English.
-- Commit message → normal English; `encode-commit` owns that format.
+- Commit message → `encode-commit` owns that format.
 - Diff comment in code → normal English.
 - No sub-agents. The main thread writes.
 - No dashboards, no logs, no state files beyond these three documents.
 - No auto-execute after a spec write. The user invokes `/cook` explicitly.
-- Never write a `FORMAT.md`. The format lives here and in the baked headers.
 
 ## WHEN UNSURE
 

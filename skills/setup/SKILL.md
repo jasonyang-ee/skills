@@ -5,10 +5,7 @@ description: |
   completes AGENTS.md with lifecycle commands, pre-filled encoding symbols, and
   an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and
   asks encode-docs to create minimal CHANGELOG.md and SPEC.md files when absent.
-  Never overwrites existing user guidance or durable project state. Triggers
-  on /setup, "bootstrap this repo", "set up workflow files", "prepare a new project for prep",
-  or "initialize agent guidance".
-license: MIT
+  Never overwrites existing user guidance or durable file. Triggers: "/setup".
 ---
 
 # setup — bootstrap repository guidance

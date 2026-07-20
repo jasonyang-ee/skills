@@ -2,10 +2,8 @@
 name: encode-pr
 description: >
   Ultra-compressed code review comments. Cuts noise from PR feedback while preserving
-  the actionable signal. Each comment is one line: location, problem, fix. Use when user
-  says "review this PR", "code review", "review the diff", "/review", or invokes
-  /encode-pr. Auto-triggers when reviewing pull requests.
-license: MIT
+  the actionable signal. Each comment is one line: location, problem, fix.
+  Triggers: "/encode-pr".
 ---
 
 Write code review comments terse and actionable. One line per finding. Location, problem, fix. No throat-clearing.

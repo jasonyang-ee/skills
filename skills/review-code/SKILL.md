@@ -5,10 +5,7 @@ description: |
   tag or explicit release commit: a security check plus evidence-based audit
   of full-picture code coherence, complexity, reuse, and logic correctness.
   Invokes prep to turn accepted fixes and improvements into a research-first
-  PLAN.md and HANDOFF.md. Triggers after cook completes a plan or when
-  the user asks for an implementation review, code-quality sweep, security
-  check, infosec sweep, or post-release audit.
-license: MIT
+  PLAN.md and HANDOFF.md. Triggers: "/review-code".
 ---
 
 # review-code — post-release code sweep → prep
@@ -52,19 +49,19 @@ needed to judge the full picture.
 For every finding, cite `file:line`, test name, commit, or sourced reference.
 Flag `[unverified]` when evidence is unavailable.
 
-- **Correctness** — wrong states, boundary cases, error paths, ordering,
-  partial failure, stale assumptions, and violated `§V`/`§I` contracts.
-- **Complexity** — unnecessary branches, indirection, state, duplication, or
-  abstraction whose cost exceeds its value.
-- **Reuse** — logic reimplemented instead of using an existing helper or
-  shared boundary; parallel paths that can drift.
-- **Coherence** — naming, interfaces, ownership, error policy, test strategy,
-  and module boundaries remain consistent across the codebase.
-- **Verification** — changed behavior has focused tests, regression coverage,
-  and a full-suite result appropriate to its blast radius.
-- **Security** — secrets or credentials in the diff, injection risks,
-  untrusted input paths, authn/authz changes, and dependency or
-  supply-chain deltas since baseline.
+- **Correctness** — is there any wrong states, boundary cases, error paths,
+  ordering, partial failure, stale assumptions, and violated `§V`/`§I` contracts.
+- **Complexity** — is there any unnecessary branches, indirection, state, 
+  duplication, or abstraction whose cost exceeds its value?
+- **Reuse** — is there any logic reimplemented instead of using an existing helper or
+  shared boundary?
+- **Coherence** — is naming, interfaces, ownership, error policy, test strategy,
+  and module boundaries remaining consistent across the codebase?
+- **Verification** — does changed behavior has proper tests, regression coverage?
+- **Security** — is any secrets or credentials in the diff, injection risks,
+  untrusted input paths, authn/authz changes, and dependency?
+- **Drift** — is distilled codebase diviating from `SPEC.md`?
+  Diviation is a DIVERGENCE.
 
 ## Review procedure
 
@@ -79,9 +76,19 @@ Flag `[unverified]` when evidence is unavailable.
      plan cycle.
    - `HARDEN` — invariant, test, simplification, or reuse improvement that
      prevents recurrence or lowers complexity.
+   - `DIVERGENCE` — codebase has drifted from `SPEC.md`.
    - `NOTE` — useful observation with no required action.
 6. Produce the gate below. Never report “looks good” without listing the scope,
    commands, and evidence reviewed.
+
+## CLASSIFY
+
+Each finding: evidence → claim → severity.
+
+- **BLOCK** — cannot enter `cook` with this finding. Fix before GO.
+- **HARDEN** — sharpen a contract, add a `§V`, or split a vague step.
+- **DIVERGENCE** — cannot enter `cook` with this finding. Ask before GO.
+- **NOTE** — observation, no required action.
 
 ## Output and prep handoff
 
@@ -100,13 +107,18 @@ BLOCK: <count>
 HARDEN: <count>
 - <file:line> — <complexity/reuse/coherence claim> — <evidence> — <improvement>
 
+DIVERGENCE: <count>
+- <SPEC.md §V/§I claim> — <evidence>
+
 NOTE: <count>
 - <evidence> — <observation>
 
 gate: <GO | NO-GO>
 ```
 
-After the report, invoke `prep` with the accepted `BLOCK` and `HARDEN`
+After the report, if divergence exist, confirm with user for the true intent.
+Either plan to update `SPEC.md` to match reality, or fix the code to match `SPEC.md`.
+Then invoke `prep` with the accepted `BLOCK`, `HARDEN`, `DIVERGENCE`,
 findings, evidence, baseline, and gate. `prep` must create the next
 research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `encode-docs`.
 If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it

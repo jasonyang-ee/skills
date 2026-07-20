@@ -5,10 +5,7 @@ description: |
   multi-phase PLAN.md execution. Captures branch/test/commit state, exact
   stopping point, deviations and decisions, the next phase pointer, and
   watchouts, in the spec encoding. The cook skill invokes this at the
-  end of every session; also triggers on "/handoff", "write the handoff",
-  "wrap up the session", "prepare for the next session", or when context
-  is running low mid-work.
-license: MIT
+  end of every session; also triggers on "/handoff".
 ---
 
 # handoff — session baton

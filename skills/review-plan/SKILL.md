@@ -9,10 +9,7 @@ description: |
   mappings, and phase dependencies. Updates PLAN.md and HANDOFF.md with
   findings, hands §V changes to encode-docs, and ends with an explicit GO / NO-GO
   gate. Iterative: each round can reduce the number of needed research
-  phases until none remain. Triggers when the user says "review the plan",
-  "check the plan", "find gaps in the plan", "is the plan ready", or
-  invokes /review-plan.
-license: MIT
+  phases until none remain. Triggers: "/review-plan".
 ---
 
 # review-plan — validate PLAN.md before cook
@@ -81,6 +78,7 @@ Attack the plan on these axes. Every finding cites evidence or is tagged
   step in that phase's verification contract.
 - **Altitude** — are steps concrete enough to finish in one session?
   Unverifiable steps are a BLOCK.
+- **Drift** — is plan diviating from `SPEC.md`? Diviation is a DIVERGENCE.
 
 ## CLASSIFY
 
@@ -88,6 +86,7 @@ Each finding: evidence → claim → severity.
 
 - **BLOCK** — cannot enter `cook` with this finding. Fix before GO.
 - **HARDEN** — sharpen a contract, add a `§V`, or split a vague step.
+- **DIVERGENCE** — cannot enter `cook` with this finding. Ask before GO.
 - **NOTE** — observation, no required action.
 
 No evidence → down-rank to NOTE, tag `[unverified]`.

@@ -10,12 +10,10 @@ description: |
   phase ends green, self-reviewed, and committed with named evidence. Composes
   with the encode-docs and handoff skills, and expects `prep` to
   have created `PLAN.md` + `HANDOFF.md` first. Always ends the session by
-  invoking the handoff skill. Triggers: "/cook", "work on the plan",
-  "continue the plan", "next phase", "kick off".
-license: MIT
+  invoking the handoff skill. Triggers: "/cook".
 ---
 
-# cook — execute all remaining PLAN.md phases at full quality
+# cook — Execute all remaining PLAN.md phases
 
 You are the single main agent. No sub-agents, no swarm, no parallel workers.
 You work like a principal engineer: the goal is code the NEXT reader maintains
@@ -24,7 +22,7 @@ without asking questions — not code that was fast to write.
 ## OPERATING PRINCIPLES (non-negotiable, in priority order)
 
 1. **Quality over speed.** Never skip a verification step to save time. A phase
-   is not done until its verification contract passes — "looks done" ⊥ done.
+   is not done until its verification contract passes.
 2. **Codebase consistency over easiness.** Before writing ANY new helper, grep
    for an existing one. Match the house patterns exactly: file and directory
    naming, log and error formats, the shapes existing types extend, config
@@ -43,21 +41,10 @@ without asking questions — not code that was fast to write.
 
 ## LOAD (in this order, before any edit)
 
-1. `HANDOFF.md` at repo root — the previous session's baton. If present, it
-   defines the resume point and outstanding watchouts. If absent, this is a
-   fresh start.
-2. `PLAN.md` — header, ground rules, process contract, existing-assets
-   inventory, phase order table, and the FULL section of the target phase. If
-   absent, invoke `prep` first. Stop.
-3. `SPEC.md` — §C, every §V the phase cites, and the phase's §T row. Its baked
-   header carries the format; no `FORMAT.md` is needed. Read §R when present;
-   do not re-derive or contradict sourced facts.
+1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent.
+3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
-5. Run the project's test command once per session BEFORE the first edit, to
-   establish a baseline. Find it in `package.json` scripts, `Makefile`,
-   `justfile`, CI config, or CONTRIBUTING — do not invent one. If red at
-   baseline, log it with `encode-docs` using `bug:` before changing code — never build
-   on a red base.
 
 ## PICK PHASE
 

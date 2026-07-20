@@ -7,11 +7,7 @@ description: |
   session can resume with cook. The generated plan always starts with
   research, ends with final verification, and holds a production-quality,
   verification-driven, evidence-based implementation contract across all six
-  workflow steps. Triggers when the user says "prep this", "draft PLAN.md",
-  "prepare a handoff", "turn this into a multi-session plan", or asks for
-  production-quality planning, evidence-based planning, principal-engineer
-  planning, or grill/research/check-style planning in one pass.
-license: MIT
+  workflow steps. Triggers: "/prep".
 ---
 
 # prep — request → PLAN.md + HANDOFF.md + encode-docs handoff
