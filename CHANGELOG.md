@@ -48,6 +48,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `/cook` and `/handoff` route their commits through it rather than
   keeping their own copies of the rules.
 
+### Changed
+
+- Skill files carry no emoji. Behaviour examples are labelled with the
+  words good and bad, and `/encode-pr` severity prefixes read `bug:`,
+  `risk:`, `nit:` and `q:` rather than coloured circles; the labels
+  already carried the signal, so nothing is lost. Skill bodies also no
+  longer carry vendor attribution blocks, which live in `NOTICE.md`.
+
 ### Fixed
 
 - Point the encoding vocabulary and every cross-reference at what

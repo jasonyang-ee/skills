@@ -51,8 +51,8 @@ Vendored skills:
 
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
-| `skills/encode-commit/` | `caveman-commit` | Yes — renamed from `caveman-commit`, and added rules barring encoding symbols and plan or spec identifiers from generated commit messages, with guidance on expanding those identifiers into plain English for readers who do not have the plan files. |
-| `skills/encode-pr/` | `caveman-review` | Yes — renamed to `encode-pr` to better reflect its scope (PR review comments). |
+| `skills/encode-commit/` | `caveman-commit` | Yes — renamed from `caveman-commit`; added rules barring encoding symbols and plan or spec identifiers from generated commit messages, with guidance on expanding those identifiers into plain English for readers who do not have the plan files; example markers changed from tick and cross emoji to the words good and bad; `license: MIT` declared in frontmatter. |
+| `skills/encode-pr/` | `caveman-review` | Yes — renamed to `encode-pr` to better reflect its scope (PR review comments); severity prefixes and example markers changed from emoji to plain words, keeping the same labels; `license: MIT` declared in frontmatter. |
 
 The upstream `caveman` skill was vendored here until it was retired. Its
 terse-output rules and always-on persistence, along with the auto-clarity

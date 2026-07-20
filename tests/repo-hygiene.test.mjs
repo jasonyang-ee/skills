@@ -325,6 +325,39 @@ describe('the renamed roster is the only one referenced', () => {
   });
 });
 
+describe('skill files and tests stay free of emoji', () => {
+  // V91, V92 — matched by codepoint range, not by listing the ones in use.
+  // An enumerated list only ever catches the emoji someone already removed.
+  // Ranges cover pictographs, dingbats, arrows/symbols and the variation
+  // selector that turns a plain glyph into an emoji.
+  const EMOJI = /[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}]/u;
+
+  it('uses the words good and bad rather than tick and cross marks', () => {
+    const offenders = [];
+    for (const skill of loadSkills()) {
+      for (const [index, line] of skill.raw.split('\n').entries()) {
+        if (EMOJI.test(line)) offenders.push(`skills/${skill.dirName}/SKILL.md:${index + 1}`);
+      }
+    }
+    for (const file of readdirSync(join(REPO_ROOT, 'tests'))) {
+      const text = readFileSync(join(REPO_ROOT, 'tests', file), 'utf8');
+      for (const [index, line] of text.split('\n').entries()) {
+        if (EMOJI.test(line)) offenders.push(`tests/${file}:${index + 1}`);
+      }
+    }
+    assert.deepEqual(offenders, [], `emoji found: ${offenders.join(', ')}`);
+  });
+
+  // V94 — attribution belongs in NOTICE.md. A skill body is loaded every
+  // session; NOTICE.md is not, so provenance prose here is a recurring cost.
+  it('keeps vendor attribution out of the skill bodies', () => {
+    const offenders = loadSkills()
+      .filter((skill) => /^>\s*(Vendored from|.*Copyright \(c\))/m.test(skill.raw))
+      .map((skill) => skill.dirName);
+    assert.deepEqual(offenders, [], `these skills carry an attribution block: ${offenders.join(', ')}`);
+  });
+});
+
 describe('the terse report discipline lives in the review skills only', () => {
   const REVIEWERS = ['review-plan', 'review-code'];
 
@@ -468,7 +501,7 @@ describe('generated commit messages stay readable without the plan files', () =>
   it('explains how to expand an identifier, with a worked example', () => {
     assert.match(encodeCommit, /^## Expanding plan references$/m);
     const section = encodeCommit.slice(encodeCommit.indexOf('## Expanding plan references'));
-    assert.ok(section.includes('❌') && section.includes('✅'), 'no before/after example');
+    assert.ok(section.includes('bad:') && section.includes('good:'), 'no before/after example');
     assert.match(section, /purged|deleted|outlives/, 'does not say why the identifiers go stale');
   });
 

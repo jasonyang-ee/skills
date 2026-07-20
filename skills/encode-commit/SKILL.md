@@ -5,6 +5,7 @@ description: >
   intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when "why"
   isn't obvious. Use when user says "write a commit", "commit message", "generate commit",
   "/commit", or invokes /encode-commit. Auto-triggers when staging changes.
+license: MIT
 ---
 
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
@@ -39,8 +40,8 @@ Write commit messages terse and exact. Conventional Commits format. No fluff. Wh
 ## Examples
 
 Diff: new endpoint for user profile with body explaining the why
-- ❌ "feat: add a new endpoint to get user profile information from the database"
-- ✅
+- bad: "feat: add a new endpoint to get user profile information from the database"
+- good:
   ```
   feat(api): add GET /users/:id/profile
 
@@ -51,7 +52,7 @@ Diff: new endpoint for user profile with body explaining the why
   ```
 
 Diff: breaking API change
-- ✅
+- good:
   ```
   feat(api)!: rename /v1/orders to /v1/checkout
 
@@ -72,14 +73,14 @@ which phase it was. Name the invariant's rule, not its number. Cite an
 identifier only as a bare cross-reference alongside the meaning, never as the
 carrier of it.
 
-❌
+bad:
 ```
 feat(F2): implement T80 per §R30
 
 Satisfies V81 → V83. See §T.
 ```
 
-✅
+good:
 ```
 refactor(skills): rename seven skills to the new vocabulary
 
