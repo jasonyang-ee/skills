@@ -1,38 +1,33 @@
 # HANDOFF 2026-07-19
 
-branch main | last commit 7ea04ee plan: make generated commit messages human-readable | tests green
+branch main | last commit cf2b454 refactor(skills): rename seven skills to the new vocabulary | tests green
 baseline green (187 pass, 0 fail) | oracle `npm test`
-uncommitted: none — SPEC.md (§R30-R32, V18+V57 retired, V77-V80 amended, V81-V85 added, T77-T79 amended, T80-T82 added) + PLAN.md (rewritten) + this file land in the closing commit of this session
+uncommitted: none
 
 ## done this session
-prep/cook: distilled 7-skill rename + `caveman` removal → 6-phase PLAN.md; SPEC updated; 2 user rulings captured
+F1 (T77 `x`) confirmation pass: §R30-R32 re-verified against live repo. Chain order safe, `cater`/`encode-*` vacant outside plan docs, `prepare*` ×16 & `setup` ×4 hazards confirmed, NOTICE provenance swap confirmed, bake source extracted
+F2 (T80 `x`) rename landed: 7 `git mv` in §R30 order, frontmatter `name:` == parent dir ∀ 12, intra-skill cross-refs re-pointed by meaning, tests + NOTICE.md path renames folded in
 
 ## in progress (exact stop point)
-planning complete → PLAN.md + HANDOFF.md written; ⊥ implementation started
-mid-edit files: none
+F3 (T81 `~`) ⊥ started. mid-edit files: none
 
 ## next
-F1 per PLAN.md | preconditions: none
-F1 = confirmation pass ∵ §R30-R32 already sourced this session. NEXT STEP: flip T77 `.`→`~` in SPEC.md, re-confirm §R30 chain order + §R31 semantic map, then start F2 `git mv skills/prep skills/setup`
+F3 per PLAN.md | preconditions: none
+NEXT STEP: `git rm -r skills/caveman/`, then add report-output discipline §Rules+§Persistence to `review-plan` + `review-code` ONLY, preserving §Auto-Clarity carve-out (§R32)
 
 ## deviations & decisions
-user ruled 2026-07-19 (a): encoding STYLE vocabulary renames too, ⊥ skills only. Baked SPEC header "Encoding caveman:" → "Encoding:", `AGENTS.md` `## Caveman symbols` → `## Encoding symbols`, "caveman-encoded" → neutral. ~137 refs beyond skill names. NOTE: baked header is stamped into CONSUMER repo SPEC.md files ∴ their headers drift until they re-run `/spec`
-user ruled 2026-07-19 (b): rename lands BEFORE the pending commit-expansion work ∴ T78 re-pointed `caveman-commit`→`encode-commit`, executes @ F5 ⊥ F2
-PLAN.md replaced ⊥ appended ∵ appending rename phases after F3-final-verify would break the verify-last contract. ⊥ task lost: T77/T78/T79 preserved & amended, now map to F1/F5/F6 (PLAN.md = short-lived state, SPEC §T = durable)
-§T ids ⊥ in execution order: F1=T77, F2=T80, F3=T81, F4=T82, F5=T78, F6=T79 (ids monotonic by creation per §FORMAT, never renumbered)
-V18 + V57 RETIRED ∵ both existed only to police the deleted `caveman` skill
+DEVIATION (F2): PLAN.md assigns ∀ test edits to F4 step 7, but F2 exit contract = `npm test` green. Mechanical rename of hardcoded skill paths ∈ `tests/*.mjs` + `NOTICE.md` folded into F2 ∵ rename ⊥ leave suite green without them. F4 retains SEMANTIC test work: VENDORED list caveman removal, V81/V82/V84/V85 new cases, roster 13→12, NOTICE caveman-row removal, `encode-commit` Modified flip
+`skills/caveman/SKILL.md` + `skills/encode-pr/SKILL.md` + `skills/encode-commit/SKILL.md` = CRLF ∈ repo (vendored caveman-repo). ∀ other file = LF. Verified byte-exact vs HEAD post-commit
 
 ## watchouts
-- RENAME REUSES NAMES ACROSS DIFFERENT SKILLS. ⊥ sed blindly. `cook` today == planning → becomes `prep`; `workonplan` == execution → becomes `cook`. ∀ touched file ! re-read after sweep (§R31)
-- order ! hold: `prep`→`setup`, THEN `cook`→`prep`, THEN `workonplan`→`cook`. Wrong order → double-shift, silent
-- word boundaries ! : `prepare`/`prepares` ×10 ∈ repo would be corrupted by naive `prep` match; `-` = word boundary in grep ∴ bare `caveman` ALSO matches inside `caveman-encode`
-- `NOTICE.md` = license-relevant & the single highest-risk file: cavekit-derived planning skill `cook`→`prep` while original-work `workonplan`→`cook` ∴ blind sed swaps vendored ↔ original provenance. HAND EDIT, verify @ F6 step 5
-- `setup` token already ∃ @ `.github/workflows/*.yml` (`actions/setup-node`) + `.github/CONTRIBUTING.md` heading ∴ ⊥ write a test asserting zero `setup` occurrences
+- ⚠ MSYS `sed` STRIPS CR ON READ ∴ `sed -i` on a CRLF file silently rewrites whole file → 2592-line phantom diff. ⊥ use `sed -i` on `skills/caveman/`, `skills/encode-pr/`, `skills/encode-commit/`. Use Edit tool. `grep -q $'\r'` ALSO CR-blind here ∴ ⊥ trust it to detect line endings — use `tr -dc '\r' | wc -c`
+- frontmatter `name:` ! be set AFTER the cross-ref sweep, ⊥ before: pass 2 (`cook`→`prep`) double-shifted `name: cook` → `name: prep` @ `skills/cook/SKILL.md`. Caught & repaired, but same trap ∀ future rename
+- `tests/repo-hygiene.test.mjs` V48 trigger string now reads `prepare a new project for prep` — mechanically correct per V83 (the `cook` there meant planning) but awkward English. V48 § still names `skills/prep/SKILL.md` + old trigger ∴ F4 ! reconcile. ? consider rewording trigger → needs spec amend, ⊥ silent
+- `git diff --stat` shows `cook`/`prep`/`setup`/`workonplan` as huge same-path content swaps — inherent to rename chain reusing paths, ⊥ damage. Tree state verified correct
+- `NOTICE.md` = license-relevant. F2 landed path renames only. F4 ! remove `skills/caveman/` row (⊥ shipped ∴ ⊥ notice obligation) + flip `skills/encode-commit/` Modified → `Yes` @ F5
+- SPEC internally inconsistent until F4 (§V rows still name old skills) — expected mid-plan, ⊥ a bug
 - V85 carve-out is the point of the bake, ⊥ decoration: terse review output ! still spell out Security findings, irreversible-action warnings, ∀ BLOCK item, `file:line` evidence, quoted errors (§R32)
 - V79 test ! assert rule PRESENCE ⊥ absence of symbols in file — `encode-commit` description legitimately ∋ `≤50 chars`
-- `tests/helpers.mjs` `loadSkills()` reads roster from disk ∴ most asserts auto-adapt; only `attribution.test.mjs:12-20` VENDORED + `LIVE_REF_FILES` are hardcoded
-- SPEC internally inconsistent until F4 (§V rows still name old skills) — expected mid-plan, ⊥ a bug
-- blast radius large (∀ skill dir + ∀ root doc + tests) → `/review-plan` before F2 = reasonable
 
 ## final verification
 item|status|evidence|decision
