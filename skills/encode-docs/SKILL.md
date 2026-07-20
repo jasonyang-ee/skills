@@ -80,7 +80,7 @@ Never compress:
 - SQL, regex, JSON, YAML.
 - Quoted strings.
 
-## SPEC.md File
+## SPEC SECTIONS
 
 `SPEC.md` is the durable one. It outlives every plan, every session, and most
 of the code it describes. It is appended to far more often than rewritten, and
@@ -244,7 +244,7 @@ speed. Past 500 lines, compact §B oldest-first before splitting anything.
 - Numbering monotonic; never reuse a §V, §T or §B id.
 - §T `cites` lists the §V/§I deps: `T5|.|impl auth mw|V2,I.api`.
 
-## PLAN.md FILE
+## PLAN SECTIONS
 
 `PLAN.md` is a contract for one cycle. It is replaced wholesale rather than
 amended, and it is read by an executor who was not present when it was
@@ -302,7 +302,7 @@ Keep it compact. `PLAN.md` is a working document, not an RFC. Durable facts
 belong in `SPEC.md`; if a line would still matter after the cycle closes, it
 is in the wrong file.
 
-## HANDOFF.md FILE
+## HANDOFF SECTIONS
 
 `HANDOFF.md` is a baton. It is overwritten in full every session and read by
 an agent with no memory of what happened. It records **state, not intent** —

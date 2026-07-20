@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- `tests/repo-hygiene.test.mjs` no longer requires `PLAN.md` and
+  `HANDOFF.md` to exist at repo root. Both are short-lived cycle state
+  that `/garnish` purges once a plan closes, so a repo between cycles
+  (like this one) failed the baked-header check with `ENOENT` even
+  though nothing was wrong. The check now only validates the docs that
+  are actually present, and `SPEC.md` is still checked unconditionally.
+- Revert the `## SPEC SECTIONS` / `## PLAN SECTIONS` / `## HANDOFF
+  SECTIONS` header renames in `/encode-docs` (introduced by the last
+  wording pass), which had silently broken V20 and V87 and failed the
+  section-set test.
+
 ### Changed
 
 - Rename seven skills to a consistent culinary and encoding vocabulary:
