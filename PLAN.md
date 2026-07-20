@@ -1,6 +1,6 @@
 # PLAN
 
-goal: merge `spec` → `encode-docs` as 3 doc-specific section sets w/ 3 baked headers; purge emoji; teach `garnish` to prune stale §V/§T; cut tests < 50
+goal: merge `spec` → `encode-docs` as 3 doc-specific section sets w/ 3 baked headers; lean skill bodies (⊥ emoji, ⊥ attribution block); teach `garnish` to prune stale §V/§T; cut tests < 50
 
 ## ground rules
 - quality > speed. ⊥ skip a verification step. smallest coherent diff per phase
@@ -8,6 +8,7 @@ goal: merge `spec` → `encode-docs` as 3 doc-specific section sets w/ 3 baked h
 - ⚠ MSYS `sed`/`grep` STRIP CR ON READ (§B.6). `skills/encode-commit/` + `skills/encode-pr/` = CRLF. ⊥ `sed -i` on those 2 — use Edit tool. Detect w/ `tr -dc '\r' | wc -c`, ⊥ `grep`
 - V14 caps SKILL.md @ 500 lines. merged file budget = 128 + 250 raw ∴ ! dedupe encoding grammar (∃ in both) else overflow
 - vendored edit → `NOTICE.md` Modified row ! record it (AGENTS vendor rule). `encode-docs` row ! credit BOTH upstream `caveman` + `spec` post-merge
+- skill BODY = instructions only. Attribution/provenance/license prose → `NOTICE.md` ∵ body loads ∀ session, `NOTICE.md` ⊥ (V94). frontmatter `license:` = the 1 permitted exception
 - ∀ phase: named test/oracle before edit; new guard ! proven red-when-broken, ⊥ assumed
 - §V losing its automated oracle @ F7 ! be marked MANUAL | hard-deleted per V90 — ⊥ silently unguarded
 - `encode-docs` = sole `SPEC.md` mutator post-merge. ⊥ push ⊥ tag without explicit ask
@@ -25,14 +26,14 @@ goal: merge `spec` → `encode-docs` as 3 doc-specific section sets w/ 3 baked h
 
 ## phase order
 id|goal|depends|exit
-F1|research: merge surface, line budget, oracle-loss map, header design|-|§R33-R35 logged, ⊥ open `?`
+F1|research: merge surface, line budget, oracle-loss map, header design, license gate|-|§R33-R36 logged, ⊥ open `?`
 F2|merge `spec` → `encode-docs`, 3 tailored sections, rm `skills/spec/`|F1|11 dirs, V86+V87 hold
 F3|3 baked headers + SPEC `next:` id counter|F2|V88+V89 hold
 F4|re-point ∀ `spec` ref, roster 12→11, NOTICE dual-credit|F3|⊥ stale ref, V17 holds
-F5|purge emoji ∀ skills + tests, good/bad words|F4|V91+V92 hold
+F5|lean skill bodies: emoji purge + strip vendor attribution|F4|V91+V92+V94 hold
 F6|`garnish` evidence-gated §V/§T prune|F5|V90 holds
 F7|cut tests < 50|F6|V93 holds, suite green
-F8|final verify|F7|∀ §V86-V93 HOLD
+F8|final verify|F7|∀ §V86-V94 HOLD
 
 ## F1 research
 task: T83
@@ -46,8 +47,12 @@ steps:
 5. oracle-loss map: ∀ §V whose ONLY oracle is a test F7 will cut → mark MANUAL | delete per V90. ! enumerate before cutting, ⊥ discover after
 6. emoji inventory: ∀ occurrence + whether decorative (delete) | functional (text replace)
 7. confirm `NOTICE.md` dual-credit wording ∵ merged skill derives from 2 upstream cavekit skills
-8. §T T83 → `~`; findings → §R33 (merge map), §R34 (section rationale), §R35 (oracle-loss) via `spec`
-verify: §R33-R35 sourced; ⊥ open `?`; line budget proven < 500; oracle-loss list complete
+8. LICENSE GATE ∀ V94: does `npx skills add <repo>` copy `NOTICE.md` into the installed skill dir, | only `SKILL.md`? Test empirically — install this repo into a temp dir & list what landed. ⊥ assume. → §R36
+   - NOTICE travels → stripping in-file attribution = safe, V94 proceeds
+   - NOTICE ⊥ travels → installed copy carries ⊥ notice ∴ MIT §R.15 exposure. ! REPORT to user w/ the evidence before F5 strips anything; ? compact 1-line alternative (frontmatter `license:` + 1 credit line)
+   - NOTE: 5 of 6 vendored skills ALREADY ship w/ ⊥ attribution ∴ exposure (if real) pre-exists this change, ⊥ created by it
+9. §T T83 → `~`; findings → §R33 (merge map), §R34 (section rationale), §R35 (oracle-loss), §R36 (install payload) via `spec`
+verify: §R33-R36 sourced; ⊥ open `?`; line budget proven < 500; oracle-loss list complete; V94 gate decided w/ empirical evidence
 exit: merged shape decided w/ evidence
 next: F2
 
@@ -103,10 +108,10 @@ verify: `npm test` exit 0; `git grep -w` ⊥ hit ∀ `skills/spec/` outside CHAN
 exit: surface coherent
 next: F5
 
-## F5 emoji purge
+## F5 lean skill bodies
 task: T87
-goal: ⊥ emoji ∈ `skills/**` | `tests/**`; examples read `good`/`bad`
-inputs: F1 emoji inventory; V91, V92
+goal: ⊥ emoji ∈ `skills/**` | `tests/**`; examples read `good`/`bad`; ⊥ vendor attribution block ∈ any skill body
+inputs: F1 emoji inventory + §R36 license gate; V91, V92, V94
 files: `skills/encode-commit/SKILL.md` (CRLF), `skills/encode-pr/SKILL.md` (CRLF), `tests/repo-hygiene.test.mjs`, `skills/encode-docs/SKILL.md`
 steps:
 1. flip T86 → `x`; T87 → `~`
@@ -114,9 +119,11 @@ steps:
 3. `encode-pr` severity 🔴🟡🔵 = FUNCTIONAL ∴ → text labels (`bug` / `risk` / `nit`), ⊥ silent deletion — the severity signal ! survive
 4. Edit tool ONLY on the 2 CRLF files (§B.6); verify CR count unchanged after
 5. `NOTICE.md` Modified rows ∀ both vendored files record the emoji removal
-6. add guard: ⊥ emoji ∈ `skills/**` + `tests/**` (codepoint-range match, ⊥ enumerated list — else next emoji slips through)
-verify: `npm test` exit 0; guard proven red when 1 emoji reintroduced; CR counts byte-identical vs pre-edit
-exit: emoji-free
+6. strip vendor attribution block @ `skills/encode-docs/SKILL.md` (the `> Vendored from...` blockquote, 3 lines) — ONLY if §R36 cleared the gate @ F1. Gate ⊥ cleared → STOP, report, ⊥ strip
+7. frontmatter `license: MIT` STAYS (1 line, spec-native field, ⊥ prose)
+8. add guard: ⊥ emoji ∈ `skills/**` + `tests/**` (codepoint-range match, ⊥ enumerated list — else next emoji slips through) + ⊥ attribution blockquote ∈ any skill body
+verify: `npm test` exit 0; both guards proven red when violated; CR counts byte-identical vs pre-edit; §R36 gate recorded
+exit: skill bodies lean
 next: F6
 
 ## F6 garnish prune
@@ -153,17 +160,17 @@ next: F8
 
 ## F8 final verify
 task: T90
-goal: §V86-V93 HOLD; ⊥ drift
-inputs: F2-F7 diffs; SPEC §V86-V93; §R33-R35
+goal: §V86-V94 HOLD; ⊥ drift
+inputs: F2-F7 diffs; SPEC §V86-V94; §R33-R36
 steps:
 1. flip T89 → `x`; T90 → `~`
-2. classify V86-V93 each HOLD|VIOLATE|UNVERIFIABLE + cite test/file
+2. classify V86-V94 each HOLD|VIOLATE|UNVERIFIABLE + cite test/file
 3. regression sweep: V4,V5,V7,V8,V14,V17,V19,V21,V47,V81,V82,V84,V85 ⊥ broken by merge
 4. manual doc §V oracle: V50,V52,V55,V56,V58,V59,V60 (§C — `npm test` ⊥ proves these)
-5. re-read `NOTICE.md` by hand — dual-credit correct, ⊥ vendored/original swap, emoji edits recorded
+5. re-read `NOTICE.md` by hand — dual-credit correct, ⊥ vendored/original swap, emoji + attribution-strip edits recorded. `NOTICE.md` = now the SOLE attribution record ∴ ! complete
 6. cold-read test: open merged `encode-docs` as if new session — can it construct all 3 docs from the file alone?
 7. `npm test` full — record output verbatim; confirm < 50
 8. commit via `encode-commit` (⊥ symbols, ⊥ plan ids); flip T90 → `x`
-verify: `npm test` exit 0 & < 50; ∀ §V86-V93 HOLD; result table → `HANDOFF.md`
+verify: `npm test` exit 0 & < 50; ∀ §V86-V94 HOLD; result table → `HANDOFF.md`
 exit: committed, green, drift resolved
 next: - (→ `/garnish`)
