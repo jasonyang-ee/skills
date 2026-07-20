@@ -285,13 +285,13 @@ describe('the renamed roster is the only one referenced', () => {
   // repo is the only place the drift is visible, since consumer copies are
   // written once and never revisited.
   it('keeps all three baked header templates in step with this repo', () => {
-    const encoder = readFileSync(join(SKILLS_DIR, 'encode-docs', 'SKILL.md'), 'utf8');
+    const encoder = readFileSync(join(SKILLS_DIR, 'encode-docs', 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n');
     // PLAN.md and HANDOFF.md are short-lived cycle state — garnish purges them
     // once a plan closes, so only check the docs actually present.
     for (const doc of ['SPEC', 'PLAN', 'HANDOFF']) {
       const path = join(REPO_ROOT, `${doc}.md`);
       if (!existsSync(path)) continue;
-      const lines = readFileSync(path, 'utf8').split('\n');
+      const lines = readFileSync(path, 'utf8').replace(/\r\n/g, '\n').split('\n');
       const open = lines.indexOf(`<!-- ${doc} FORMAT (baked by /encode-docs — keep; makes this file self-describing)`);
       assert.ok(open === 0, `${doc}.md does not open with its baked header`);
       const close = lines.indexOf('-->');
