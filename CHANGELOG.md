@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-07-19
+
 ### Fixed
 
 - `tests/repo-hygiene.test.mjs` no longer requires `PLAN.md` and
@@ -335,7 +337,8 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: personal:jasonyang-ee/skills/compare/v0.4.1...HEAD
+[Unreleased]: personal:jasonyang-ee/skills/compare/v0.5.0...HEAD
+[0.5.0]: personal:jasonyang-ee/skills/releases/tag/v0.5.0
 [0.4.1]: personal:jasonyang-ee/skills/releases/tag/v0.4.1
 [0.4.0]: personal:jasonyang-ee/skills/releases/tag/v0.4.0
 [0.3.0]: personal:jasonyang-ee/skills/releases/tag/v0.3.0
