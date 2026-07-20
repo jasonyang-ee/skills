@@ -191,6 +191,15 @@ V83: rename re-point ! by MEANING ⊥ by string (∵ §R31 — names reused acro
 V84: `skills/caveman/` ⊥ ∃; its §Rules + §Persistence baked into `review-plan` + `review-code` ONLY; ⊥ other skill carries the terse-output discipline (∵ user ruling 2026-07-19 — `prep`/`cook`/`cater` gain minimal benefit ∵ their output = files ⊥ chat)
 V85: `review-plan` + `review-code` ! carry report-output token discipline: drop articles/filler/pleasantries/hedging, ⊥ tool-call narration, ⊥ decorative tables/emoji, ⊥ invented abbreviations, ⊥ causal arrows in report prose; always-on ∀ report; ! carve-out — Security findings, irreversible-action warnings, & ∀ BLOCK item stay explicit uncompressed prose (∵ §R32 — else compression eats exactly the findings that ! stay legible)
 
+V86: `skills/spec/` ⊥ ∃ — merged into `encode-docs`. `encode-docs` = sole `SPEC.md` mutator & sole owner of all 3 doc formats. `/spec` ⊥ resolves; ∀ live ref → `encode-docs` (∵ user ruling 2026-07-19)
+V87: `encode-docs` ! carry 3 explicit tailored sections `## SPEC SECTIONS`, `## PLAN SECTIONS`, `## HANDOFF SECTIONS`. ∀ section ! own structure + rules fitted to that doc's function (durable truth \| phase contract \| session baton); ⊥ one generic ruleset stretched across 3
+V88: ∀ 3 docs ! own BAKED HEADER, emitted verbatim as first bytes by `encode-docs`. `PLAN.md` + `HANDOFF.md` headers NEW @ T86 (∵ prior: SPEC only ∴ cold agent read plan/baton w/ ⊥ format cue)
+V89: baked header ∀ `SPEC.md` ! carry next-id counter (`next: V<n> T<n> B<n>`) ∵ V90 hard-deletes rows ∴ max-id scan ⊥ valid ∴ counter = sole id source. ids ⊥ reused ∀ time
+V90: `garnish` ! instruct pruning §V + §T rows ⊥ relevant to current code: HARD-DELETE the row (⊥ `RETIRED` tombstone), bump baked-header `next:`, ⊥ reuse id (∵ user ruling 2026-07-19 — tombstones still cost ∀ session context; git = history). ! evidence-gated: prune only when code|test proving the row is gone
+V91: ∀ `skills/**/SKILL.md` ⊥ emoji. Behavior examples ! labelled `good` / `bad` as words (∵ user ruling 2026-07-19). Applies to vendored files too → `NOTICE.md` Modified ! record it
+V92: `tests/**` ⊥ emoji
+V93: `npm test` total < 50 (∵ user ruling 2026-07-19 — over-tested @ 189). Collapse per-skill loops → aggregate case reporting ∀ offender at once; scope stays `skills/**` + license/release guards. §V losing its automated oracle ! be marked MANUAL \| deleted per V90, ⊥ silently unguarded
+
 ## §T TASKS
 
 id|status|task|cites
@@ -286,3 +295,11 @@ B3|2026-07-15|copy-over commit `7bb0bc0` renamed `LICENSE` → `LICENSE.md` (git
 B4|2026-07-15|`js-yaml` 5.x = ESM, ⊥ `default` export ∴ `import yaml from 'js-yaml'` → `SyntaxError: does not provide an export named 'default'` ∴ ∀ 4 test files ⊥ load, pass 0/fail 4. Rode in via PR #3 (`js-yaml` 4.3.0→5.2.1) merged while CI already red from B3 ∴ breakage masked ∵ red ⊥ distinguishable from red|`import * as yaml from 'js-yaml'` @ `tests/helpers.mjs` + `tests/repo-hygiene.test.mjs`. `load` still named export ∴ `yaml.load` call sites unchanged. CI `npm ci` caught ∴ ⊥ new invariant. ⚠ process gap: ⊥ branch protection ∴ red PR mergeable — user call.
 B5|2026-07-16|`workonplan` description sentence fragment `targets one phase. at principal-engineer quality` — v0.4.0 all-phases edit (`c3aabac`) left stale clause; shipped in tag|V72
 B6|2026-07-19|MSYS `sed`/`grep` strip CR on read ∴ `sed -i` on CRLF file rewrote whole file LF (2592-line phantom diff, ∀ content unchanged); `grep -q $'\r'` returned false ∀ CRLF file ∴ detection loop wrong → "fix" pass appended CR to LF files, inverting the damage. Caught @ F2 self-review via `git diff --stat`, ⊥ by tests (content identical ∴ suite green throughout)|Restore from `git show HEAD:<path>`, re-apply edit via Edit tool ⊥ sed. Detect line endings with `tr -dc '\r' \| wc -c`, ⊥ `grep`. §C line-ending row records the per-file map. ⊥ new §V (⊥ testable: green suite ⊥ distinguishes it)
+T83|.|research: merge surface (`spec`+`encode-docs` overlap, ref counts, line budget vs V14 ≤500), §V losing oracle @ test cut, emoji inventory, PLAN/HANDOFF header design → §R33-R35|V86,V87,V88,V93
+T84|.|merge `spec` → `encode-docs`: 3 tailored sections (SPEC\|PLAN\|HANDOFF) + mutator rules (NEW/DISTILL/BUG/AMEND) + dedupe encoding grammar; `git rm -r skills/spec/`|V86,V87
+T85|.|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n> T<n> B<n>` counter|V88,V89
+T86|.|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
+T87|.|purge emoji ∀ `skills/**` + `tests/**`; ❌/✅ → `bad`/`good` words; severity emoji → text labels; `NOTICE.md` Modified rows record vendored edits|V91,V92,V17
+T88|.|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
+T89|.|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93
+T90|.|final verify: §V86-V93 HOLD, suite green & < 50, ⊥ stale `spec` ref, ⊥ emoji|V86,V87,V88,V89,V90,V91,V92,V93
