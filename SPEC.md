@@ -1,13 +1,15 @@
-<!-- SPEC FORMAT (baked by /spec — keep; makes this file self-describing)
+<!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants | §T tasks | §B bugs
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
-Tables (§R,§T,§B): pipe-delimited. ids monotonic, never reused. Escape literal \| . Empty cell = -
+Tables (§R,§T,§B): pipe-delimited. Escape literal \| . Empty cell = -
 §T status: x done | ~ wip | . todo
+ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
+next: V95 T91 B7
 One file rule: >500 lines → compact §B oldest-first, ⊥ split into more files.
-Full rules: /spec skill (§FORMAT). Cutting a word that loses a fact ⊥ allowed.
+Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
 
 # SPEC
@@ -302,8 +304,8 @@ B5|2026-07-16|`workonplan` description sentence fragment `targets one phase. at 
 B6|2026-07-19|MSYS `sed`/`grep` strip CR on read ∴ `sed -i` on CRLF file rewrote whole file LF (2592-line phantom diff, ∀ content unchanged); `grep -q $'\r'` returned false ∀ CRLF file ∴ detection loop wrong → "fix" pass appended CR to LF files, inverting the damage. Caught @ F2 self-review via `git diff --stat`, ⊥ by tests (content identical ∴ suite green throughout)|Restore from `git show HEAD:<path>`, re-apply edit via Edit tool ⊥ sed. Detect line endings with `tr -dc '\r' \| wc -c`, ⊥ `grep`. §C line-ending row records the per-file map. ⊥ new §V (⊥ testable: green suite ⊥ distinguishes it)
 T83|x|research: merge surface (`spec`+`encode-docs` overlap, ref counts, line budget vs V14 ≤500), §V losing oracle @ test cut, emoji inventory, PLAN/HANDOFF header design → §R33-R35; DOES `npx skills add` copy `NOTICE.md` to installed copy → §R36 (gates V94)|V86,V87,V88,V93,V94
 T84|x|merge `spec` → `encode-docs`: 3 tailored sections (SPEC\|PLAN\|HANDOFF) + mutator rules (NEW/DISTILL/BUG/AMEND) + dedupe encoding grammar; `git rm -r skills/spec/`|V86,V87
-T85|~|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n> T<n> B<n>` counter|V88,V89
-T86|.|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
+T85|x|3 baked headers, 1 per doc, emitted verbatim; SPEC header gains `next: V<n> T<n> B<n>` counter|V88,V89
+T86|~|re-point ∀ `/spec` + `spec` skill ref → `encode-docs` across `skills/**` + root docs + `NOTICE.md` (cavekit row ! credit `caveman`+`spec` both); roster 12→11|V86,V17,V81
 T87|.|lean skill bodies: purge emoji ∀ `skills/**` + `tests/**` (❌/✅ → `bad`/`good` words, severity emoji → text labels) + strip vendor attribution block @ `encode-docs` (§R36-gated); `NOTICE.md` Modified rows record vendored edits|V91,V92,V94,V17
 T88|.|`garnish` gains evidence-gated §V/§T prune step: hard-delete, bump `next:`, ⊥ reuse id|V90
 T89|.|cut tests < 50: collapse per-skill loops → aggregate; drop brittle prose asserts; ∀ §V losing oracle → MANUAL \| deleted per V90|V93

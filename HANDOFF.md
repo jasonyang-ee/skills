@@ -1,3 +1,14 @@
+<!-- HANDOFF FORMAT (baked by /encode-docs — keep; makes this file self-describing)
+Session baton. Overwritten in full ∀ session. Records STATE, ⊥ intent (intent → PLAN.md, truth → SPEC.md).
+Sections: header line | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification
+Header ! carry: branch | last commit | tests | baseline + oracle command | uncommitted files + why
+"in progress" ! name the NEXT STEP precisely: action, file, function. mid-edit files ! listed | `none`.
+Red tests ! named exactly (file + test name), ⊥ "some failing".
+final verification table ! filled only by the final verify phase; else header row alone.
+Encoding: same symbol set as SPEC.md.
+Full rules: /encode-docs skill.
+-->
+
 # HANDOFF 2026-07-19
 
 branch main | last commit 8bd2d68 feat(encode-docs): fold the spec skill into the document encoder | tests green

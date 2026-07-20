@@ -33,6 +33,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   is a one-cycle contract replaced wholesale, and the handoff is a baton
   overwritten every session. `/spec` no longer resolves; use
   `/encode-docs`, whose triggers cover both former skills.
+- `PLAN.md` and `HANDOFF.md` now carry their own baked format header, as
+  `SPEC.md` already did. A cold agent opening either one learns its
+  structure from the file itself instead of guessing. The `SPEC.md` header
+  also gains a `next:` counter naming the next free identifier, which
+  matters once pruning deletes rows and the highest surviving id stops
+  being the newest.
 - `/encode-commit` now bars encoding symbols and plan or spec identifiers
   from the commit messages it generates, and explains how to expand an
   identifier into plain English. Plan files get purged when a cycle

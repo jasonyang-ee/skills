@@ -274,15 +274,39 @@ describe('the renamed roster is the only one referenced', () => {
     assert.deepEqual(offenders, [], `these skills point at the deleted caveman skill: ${offenders.join(', ')}`);
   });
 
-  // The header is copied verbatim into every consumer repo's SPEC.md, so the
-  // template and this repo's own SPEC.md must not drift apart.
-  it('keeps the baked header template in step with this repo SPEC.md', () => {
+  // V88 — each header is copied verbatim into every consumer repo, so the
+  // templates and this repo's own three documents must not drift apart. This
+  // repo is the only place the drift is visible, since consumer copies are
+  // written once and never revisited.
+  it('keeps all three baked header templates in step with this repo', () => {
     const encoder = readFileSync(join(SKILLS_DIR, 'encode-docs', 'SKILL.md'), 'utf8');
-    const ours = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8')
-      .split('\n')
-      .find((line) => line.startsWith('Encoding'));
-    assert.ok(ours, 'SPEC.md baked header has no Encoding line');
-    assert.ok(encoder.includes(ours), `encode-docs template does not emit: `);
+    for (const doc of ['SPEC', 'PLAN', 'HANDOFF']) {
+      const lines = readFileSync(join(REPO_ROOT, `${doc}.md`), 'utf8').split('\n');
+      const open = lines.indexOf(`<!-- ${doc} FORMAT (baked by /encode-docs — keep; makes this file self-describing)`);
+      assert.ok(open === 0, `${doc}.md does not open with its baked header`);
+      const close = lines.indexOf('-->');
+      // The next: counter is per-repo state, so it is the one line allowed to
+      // differ from the template.
+      const body = lines.slice(open + 1, close).filter((line) => !line.startsWith('next:'));
+      for (const line of body) {
+        assert.ok(encoder.includes(line), `${doc} header line absent from encode-docs template: ${line}`);
+      }
+    }
+  });
+
+  // V89 — pruning deletes rows, so the highest surviving id is no longer the
+  // newest. The counter is the only safe source for the next one.
+  it('carries a next-id counter ahead of every id in use', () => {
+    const spec = readFileSync(join(REPO_ROOT, 'SPEC.md'), 'utf8');
+    const counter = spec.split('\n').find((line) => line.startsWith('next:'));
+    assert.ok(counter, 'SPEC.md baked header has no next: counter');
+    for (const [prefix, declared] of counter.replace('next:', '').trim().split(/\s+/)
+      .map((token) => [token[0], Number(token.slice(1))])) {
+      const highest = [...spec.matchAll(new RegExp(`^${prefix}(\\d+)`, 'gm'))]
+        .map((match) => Number(match[1]))
+        .reduce((a, b) => Math.max(a, b), 0);
+      assert.ok(declared > highest, `next: ${prefix}${declared} is not ahead of ${prefix}${highest} in use`);
+    }
   });
 });
 

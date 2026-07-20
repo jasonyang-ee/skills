@@ -1,3 +1,14 @@
+<!-- PLAN FORMAT (baked by /encode-docs — keep; makes this file self-describing)
+Short-lived: one cycle. Replaced wholesale, ⊥ amended. Durable facts → SPEC.md.
+Order: goal | ground rules | existing assets | phase order table | one section per phase.
+Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
+∀ phase names: goal | inputs | files | numbered steps | verify | exit | next | task: T<n>
+`task:` = exactly one §T id from SPEC.md; ⊥ two phases share one id.
+Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
+Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
+Full rules: /encode-docs skill.
+-->
+
 # PLAN
 
 goal: merge `spec` → `encode-docs` as 3 doc-specific section sets w/ 3 baked headers; lean skill bodies (⊥ emoji, ⊥ attribution block); teach `garnish` to prune stale §V/§T; cut tests < 50
