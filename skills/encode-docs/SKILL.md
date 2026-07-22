@@ -10,15 +10,16 @@ description: |
 
 # encode-docs
 
-Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`:
-no other skill writes that file directly, and sectioned ownership keeps
-concurrent edits from clobbering each other.
+Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`,
+`PLAN.md`, and `HANDOFF.md`: no other skill writes those files directly — other
+skills supply content, this skill performs every write. Sectioned ownership
+keeps concurrent edits from clobbering each other (§V16).
 
 | doc | lifetime | written by | this skill supplies |
 | --- | --- | --- | --- |
 | `SPEC.md` | durable | this skill only | format + all mutation |
-| `PLAN.md` | one cycle | `prep`, `cook`, or `cater` | format only + all mutation|
-| `HANDOFF.md` | one session | `handoff` | format only + all mutation|
+| `PLAN.md` | one cycle | this skill (content from `prep`/`cook`/`cater`) | format + all mutation |
+| `HANDOFF.md` | one session | this skill (content from `handoff`) | format + all mutation |
 
 Applies to those three files and spec-referencing prose. Does NOT
 apply to code, error strings, commit messages, or PR descriptions.
@@ -209,8 +210,9 @@ forever.
 | `/encode-docs` | creates + edits | all |
 | `/garnish` | deletes | stale §C/§V/§I rows, with evidence |
 
-`/cook` and `/cater` do not write `SPEC.md`; they flip `§T` task status inside
-`PLAN.md`, which the PLAN.md FILE section governs.
+`/cook` and `/cater` do not write `SPEC.md`; their `§T` task-status flips are
+content for `PLAN.md`, which this skill writes (§V16) and the PLAN.md FILE
+section governs.
 
 ### Output rules
 
@@ -285,54 +287,56 @@ is in the wrong file.
 
 ## HANDOFF.md FILE
 
-`HANDOFF.md` is a baton. It is overwritten in full every session and read by
-an agent with no memory of what happened. It records **state, not intent** —
-intent is in `PLAN.md`, truth is in `SPEC.md`. Its rules exist because the
-failure mode is specific: a session dies mid-edit and the next one cannot tell
-what was finished from what was merely started.
+`HANDOFF.md` = baton. Overwritten in full ∀ session, read by an agent with ⊥
+memory. Records **state, ⊥ intent** — intent → `PLAN.md`, truth → `SPEC.md`.
+Failure mode it guards: session dies mid-edit & the next cannot tell finished
+from merely started. ∴ only doc that ! record uncommitted work, exact test
+state, & precise next action (file + function).
 
-So it is the only one of the three that must record uncommitted work, exact
-test state, and the precise next action including file and function.
+Pointers = `F<n>.T<n>` (phase.task → `PLAN.md`), ⊥ bare step numbers. The
+`in progress` & `next` lines ! use them. Lean: one line per fact, symbols > words.
 
 ```md
 # HANDOFF <YYYY-MM-DD>
 
-branch <name> | last commit <sha> <subject> | tests <green | RED: named failures>
-baseline <green | RED: file + test name> | oracle <command>
-uncommitted: <none | exact files + why>
+branch <name> | last commit <sha> <subject> | tests <green | RED: named>
+baseline <green | RED: file+test> | oracle <cmd>
+uncommitted: <none | files + why>
 
 ## done this session
-<phase>: <one line> → <sha>
+<F<n>>: <one line> → <sha>
 
 ## in progress (exact stop point)
-<phase> ~: task done <T1,T2> | NEXT TASK: <precise action, file, function>
+<F<n>> ~: task done <T<n>…> | NEXT TASK: <action + file + function>
 mid-edit files: <paths | none>
 
 ## next
-<phase per PLAN.md sequence> | preconditions: <gates | none>
+<F<n>.T<n>> | preconditions: <gates | none>
 
 ## deviations & decisions
-plan said <X> → did <Y> because <Z> (PLAN.md updated: y|n)
-user decided: <anything the user ruled this session>
+plan said <X> → did <Y> ∵ <Z> (PLAN.md updated: y|n)
+user decided: <ruling | none>
 
 ## watchouts
-<traps: flaky test, env quirk, live-server state, half-truths in docs>
+<trap: flaky test | env quirk | live-server state | doc half-truth>
 
 ## final verification
 item|status|evidence|decision
-<§V/§I item>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | ->
+<§V/§I id>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | ->
 ```
 
 Rules:
 
-1. Uncommitted work is a first-class fact. Name every file and why it was left
-   that way. Prefer committing, even a `~` wip §T flip, over a dirty tree.
-2. Red tests are named exactly — file plus test name — never "some failing".
-3. Baseline and current oracle are distinguished, each with its exact command.
-4. Material deviations already live in `PLAN.md`/`SPEC.md`; the baton points at
-   them, it does not become their only record.
-5. Only the final verification phase fills the result table; other sessions
-   leave it with the header row.
+1. Uncommitted work = first-class fact. Name ∀ file + why. Prefer committing
+   (even a `~` wip §T flip) over a dirty tree.
+2. Red tests named exactly — file + test name — ⊥ "some failing".
+3. Baseline ≠ current oracle; each carries its exact command.
+4. `in progress` ! name the NEXT TASK executable verbatim: action, file,
+   function — ⊥ "continue the phase". Reference done tasks & next as `F<n>.T<n>`.
+5. Material deviations already live in `PLAN.md`/`SPEC.md`; baton points at
+   them, ⊥ becomes their only record.
+6. Empty section → `-`, ⊥ deleted (the shape is the checklist).
+7. Only the final-verify phase fills the result table; else header row alone.
 
 ## BAKED HEADERS
 
@@ -379,9 +383,10 @@ Full rules: /encode-docs skill.
 ```
 <!-- HANDOFF FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Session baton. Overwritten in full ∀ session. Records STATE, ⊥ intent (intent → PLAN.md, truth → SPEC.md).
-Sections: header line | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification
+Sections: header | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification. Empty section → `-`, ⊥ deleted.
 Header ! carry: branch | last commit | tests | baseline + oracle command | uncommitted files + why
-"in progress" ! name the NEXT STEP precisely: action, file, function. mid-edit files ! listed | `none`.
+Pointers = F<n>.T<n> (phase.task → PLAN.md), ⊥ bare step numbers. "in progress" & "next" ! use them.
+"in progress" ! name the NEXT TASK precisely: action, file, function. mid-edit files ! listed | `none`.
 Red tests ! named exactly (file + test name), ⊥ "some failing".
 final verification table ! filled only by the final verify phase; else header row alone.
 Encoding: same symbol set as SPEC.md.

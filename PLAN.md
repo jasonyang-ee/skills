@@ -42,7 +42,7 @@ goal: v16 round — encode-docs = sole mutator ∀ 3 docs; lean symbol-notation 
 id|phase|desc|status|checks
 T1|F1|confirm §R6/§R7 currency + lock marketplace.json/plugin.json field-set|x|schema matches cited docs, F6 file-set final
 T2|F2|purge tests → minimal gate; narrow §C|x|§V1-5, §C truthful
-T3|F3|encode-docs sole-mutator ∀3 + lean HANDOFF (`F<n>.T<n>`) + handoff skill|.|§V16, §V20
+T3|F3|encode-docs sole-mutator ∀3 + lean HANDOFF (`F<n>.T<n>`) + handoff skill|x|§V16, §V20
 T4|F4|sole-mutator consumer sweep + AGENTS.md|.|§V16
 T5|F5|slim encode-commit ≤60 lines|.|§V4, ≤60
 T6|F6|Claude Code plugin marketplace manifests + document all install paths|.|manifests parse, §I install rows, README/AGENTS 3 paths
