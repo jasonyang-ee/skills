@@ -80,7 +80,6 @@ Inspect the request and the project state:
 
 1. No `SPEC.md` at repo root AND args describe an idea → **NEW**
 2. No `SPEC.md` AND `from-code` in args → **DISTILL**
-3. `SPEC.md` exists AND args start `bug:` → **BUG**
 4. `SPEC.md` exists AND args start `amend` → **AMEND**
 5. `SPEC.md` exists, no args → ask which mode
 
@@ -92,7 +91,7 @@ from a legacy file → prepend it in the same write.
 The other skills produce material; this one writes it. Ingest their handoff
 blocks into the named section, show a diff, write on OK:
 
-- **prep** → drafted §G/§C/§I, sourced §R rows, proposed §V/§T plan
+- **prep** → drafted §G/§C/§I, sourced §R rows, proposed plan with detailed tasks in §T
 - **review-plan** → drafted §V lines + the risk verdict
 - **garnish** → rows to prune, with the evidence that they are stale
 
@@ -106,8 +105,6 @@ Never rewrite a section the handoff did not name. Sectioned ownership.
 4. List external surfaces the user named → §I.
 5. §R only if research ran — else omit the section entirely.
 6. Propose initial invariants → §V, numbered from V1.
-7. Break the goal into ordered tasks → §T table, all status `.`, ids from T1.
-8. §B with the header row only.
 
 Then show the full file and ask: "spec OK? `/review-plan` if the blast radius
 is large, else `/cook`."
@@ -115,26 +112,17 @@ is large, else `/cook`."
 ### DISTILL — code to spec
 
 Walk the repo. §G from README/package manifest/entrypoint, §C from the stack,
-§I from public APIs/CLIs/configs, §V derived from tests and assertions, §T one
-row per known TODO or missing test, §B empty. Baked header first. Flag every
+§I from public APIs/CLIs/configs, §V derived from tests and assertions. Baked header first. Flag every
 uncertain item with `?` so the user can confirm it.
 
-### BUG — bug to §B and §V
+### AMEND — update spec per reports or user request
 
 1. Parse the description.
 2. Find the root cause; read the relevant code.
 3. Decide whether a new invariant would catch a recurrence. If yes, draft it.
-4. Append a §B row: `B<next>|<date>|<cause>|<fix or V<n>>`.
-5. Append the invariant to §V.
-6. If the fix changes behavior, add or update §T rows.
-7. Show the diff. Apply only on user OK.
-
-Every bug gets a §B row. The invariant is optional but preferred.
-
-### AMEND — targeted edit
-
-Read the named section. Show it. Ask what changes. Write. Show the diff.
-Never silently rewrite a section the user did not name.
+4. Append the invariant to §V.
+5. If existing invariant is violated, remove or modify §V.
+6. If the fix changes behavior, remove or modify §V.
 
 ### Section skeleton
 
@@ -166,17 +154,6 @@ R1|lib X rate-limits @ 100 rps|https://docs.x/limits
 numbered. testable. each ! MUST hold.
 V1: ∀ req → auth check before handler
 V2: token expiry ≤ ⊥ allowed
-
-## §T TASKS
-pipe table. status: `x` done / `~` wip / `.` todo.
-id|status|task|cites
-T1|.|scaffold repo|-
-T2|x|add §V.1 middleware|V1,I.api
-
-## §B BUGS
-pipe table. each row = bug + what catches recurrence.
-id|date|cause|fix
-B1|2026-04-20|token `<` not `≤`|V2
 ```
 
 Row shapes:
@@ -203,31 +180,23 @@ baked header carries a `next:` counter and it is the only source for the next
 id — scanning for the highest current id is wrong once rows have been pruned,
 because the highest is no longer the newest.
 
-When `garnish` prunes a stale §V or §T row, delete the row outright, bump
+When `garnish` prunes a stale §V or §C or §I row, delete the row outright, bump
 nothing, and leave `next:` where it is. An id whose row is gone stays retired
 forever. Then, prune the §B row that cites it.
-
-### One file rule
-
-A big project gets more sections, not more files; grep ceremony kills agent
-speed. Past 100 lines, compact §B oldest-first before splitting anything.
 
 ### Writes
 
 | command | writes | section |
 | --- | --- | --- |
-| `/encode-docs new` | creates | all |
-| `/encode-docs amend` | edits | chosen |
-| `/encode-docs bug:` | appends | §B + §V |
-| `/cook`, `/cater` | flips | §T status `.` → `~` → `x` |
-| `/garnish` | deletes | stale §V/§T rows, with evidence |
+| `/encode-docs` | creates + edits | all |
+| `/cook`, `/cater` | flips | plan task §T status `.` → `~` → `x` |
+| `/garnish` | deletes | stale §C/§V/I rows, with evidence |
 
 ### Output rules
 
 - Encoded per this section. Baked header present.
 - Identifiers, paths, code verbatim.
-- Numbering monotonic; never reuse a §V, §T or §B id.
-- §T `cites` lists the §V/§I deps: `T5|.|impl auth mw|V2,I.api`.
+- Numbering monotonic; never reuse a section id.
 
 ## PLAN.md FILE
 
@@ -245,14 +214,16 @@ Structure, in this order:
 3. existing assets already in the repo;
 4. a phase-order table;
 5. the full section for each phase.
+6. a task table (§T) in each phase, citing the §V invariants if relevant for reviewer to check.
 
 Phase ids are `F1`, `F2`, ... and stay monotonic within the file. First phase
 is always research; last phase is always final verification. No coding before
 the research phase or after the verify phase.
 
-Every phase section names: goal, inputs, files touched, numbered steps, a
-verification contract, exit criteria, the next phase, and exactly one `§T` id
-via `task: T<n>`. No two phases share a task id.
+Task ids are `T1`, `T2`, ... and stay monotonic within the file.
+
+Every phase section names: goal, tasks, inputs, files touched, numbered steps, a
+verification contract, exit criteria, the next phase.
 
 ```md
 # PLAN
@@ -272,12 +243,17 @@ F2|implement approved work|F1|target tests green
 F3|final verify code vs spec & plan|F2|full suite green, drift resolved
 
 ## F1 research
-task: T<n>
 goal: <one line>
 inputs: <paths, questions, sources>
 files: <paths likely touched>
-steps:
-1. <...>
+§T  TASKS:
+T1. <X>
+touch: <paths>
+method: <how to research>
+verify: <what proves this phase done>
+exit: <state>
+next: T2
+T2. <~>
 verify: <what proves this phase done>
 exit: <state>
 next: F2
@@ -309,7 +285,7 @@ uncommitted: <none | exact files + why>
 <phase>: <one line> → <sha>
 
 ## in progress (exact stop point)
-<phase> ~: steps done <n1,n2> | NEXT STEP: <precise action, file, function>
+<phase> ~: task done <T1,T2> | NEXT TASK: <precise action, file, function>
 mid-edit files: <paths | none>
 
 ## next
@@ -324,7 +300,7 @@ user decided: <anything the user ruled this session>
 
 ## final verification
 item|status|evidence|decision
-<§V/§I/§T item>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | ->
+<§V/§I item>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | ->
 ```
 
 Rules:
@@ -348,7 +324,7 @@ file learns the format without loading this skill. Do not reword per project.
 
 ```
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
-Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants | §T tasks | §B bugs
+Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.

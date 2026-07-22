@@ -14,25 +14,17 @@ description: |
 
 # cater — Assign PLAN.md phases to cook by sub-agents
 
-You are dispatcher. You do not write phase's code yourself: you decide
-what gets assigned, to whom, in what order, and you decide what comes back is
-good enough to keep.
+You are dispatcher. You do not write phase's code yourself: you decide what gets assigned, to whom, in what order, and you decide what comes back is good enough to keep.
 
-Switch to `cook` and code by yourself instead when phases must run in sequence.
-
-Each sub-agent execute `cook #` for its own assigned # phase, and parallelism is
-the only thing this skill adds.
+Each sub-agent execute `cook #` for its own assigned # plan phase with specifying corresponding `HANDOFF-<phase-id>.md` file, and parallelism is the only thing this skill adds.
 
 ## OPERATING PRINCIPLES
 
-1. **Quality over speed.** Never skip a verification step to save time. A phase
-   is not done until its verification contract passes.
-2. **You own the outcome.** A sub-agent's report is a claim, not evidence.
-   Nothing is accepted until you have read its diff yourself.
-3. **Isolation before speed.** Never allow two assignments to touch the same file.
-4. **The dispatcher does not implement.** If you find yourself editing phase
-   code, either the phase should not have been dispatched, or you should be
-   running `cook`.
+1. **Quality over speed.** Never skip a verification step to save time. A phase is not done until its verification contract passes.
+2. **You own the outcome.** A sub-agent's report is a claim, not evidence. Nothing is accepted until you have read its diff yourself.
+3. **Isolation.** Never allow two assignments to touch the same file.
+4. **Dispatch only.** If a sub-agent fails, you do not fix it yourself. You return it to the same
+   phase for a second attempt with adjusted complexity assignment to different level of sub-agent, or stop and re-plan if it fails twice.
 5. **The plan is authoritative — but not infallible.** If reality contradicts
    `PLAN.md`, report contradiction, propose correction, and update `PLAN.md`
    in the same commit. Silent deviations are forbidden.
