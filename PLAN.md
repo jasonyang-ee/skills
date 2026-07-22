@@ -46,7 +46,7 @@ T3|F3|encode-docs sole-mutator ∀3 + lean HANDOFF (`F<n>.T<n>`) + handoff skill
 T4|F4|sole-mutator consumer sweep + AGENTS.md|x|§V16
 T5|F5|slim encode-commit ≤60 lines|x|§V4, ≤60
 T6|F6|Claude Code plugin marketplace manifests + document all install paths|x|manifests parse, §I install rows, README/AGENTS 3 paths
-T7|F7|unify review-code + review-plan taxonomy + exhaustive GO/NO-GO gate|.|§V mirror-check, both skills identical block
+T7|F7|unify review-code + review-plan taxonomy + exhaustive GO/NO-GO gate|x|§V mirror-check, both skills identical block
 T8|F8|final verify code vs SPEC/PLAN|.|all
 
 ## phase order

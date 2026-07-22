@@ -7,7 +7,7 @@ Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, 
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: R8 V26
+next: R8 V27
 One file rule: >500 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -99,3 +99,4 @@ V22: `cook`|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `H
 V23: `garnish` → evidence-gated prune of stale `SPEC.md` §V; purge `PLAN.md`/`HANDOFF.md`; ! completed cycle (∀ PLAN §T `x`, final verify `HOLD`)
 V24: `review-plan` → research gate on dated current primary sources (⊥ model memory); explicit GO/NO-GO
 V25: `review-code` → baseline = latest release tag | explicit release commit; ! carry security dimension; cite evidence; end → `prep`
+V26: `review-code` & `review-plan` share ONE finding taxonomy {BLOCK, DIVERGENCE, UNKNOWN(`?`), HARDEN, NOTE} + ONE exhaustive GO/NO-GO rule, stated verbatim in both (mirror-check: block byte-identical); NO-GO iff ≥1 open BLOCK | open DIVERGENCE | open blocking `?`; else GO; HARDEN & NOTE ⊥ block; security → always BLOCK; DIVERGENCE resolves via fix-to-match-SPEC | amend-SPEC-via-`encode-docs`

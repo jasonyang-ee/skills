@@ -71,24 +71,29 @@ Flag `[unverified]` when evidence is unavailable.
 3. Search for duplicate logic and near-identical abstractions before proposing
    new helpers. Prefer reducing concepts and hiding decisions at boundaries.
 4. Test or reason through edge cases; run focused tests, then the full oracle.
-5. Classify each finding:
-   - `BLOCK` — correctness, safety, or release-level defect; fix before next
-     plan cycle.
-   - `HARDEN` — invariant, test, simplification, or reuse improvement that
-     prevents recurrence or lowers complexity.
-   - `DIVERGENCE` — codebase has drifted from `SPEC.md`.
-   - `NOTE` — useful observation with no required action.
+5. Classify each finding by the taxonomy in FINDING TAXONOMY & GATE below
+   (evidence → claim → category).
 6. Produce the gate below. Never report “looks good” without listing the scope,
    commands, and evidence reviewed.
 
-## CLASSIFY
+## FINDING TAXONOMY & GATE
 
-Each finding: evidence → claim → severity.
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`):
+identical categories and identical GO / NO-GO rule. Each skill keeps its own
+review axes and scope; only this taxonomy and gate are shared.
 
-- **BLOCK** — cannot enter `cook` with this finding. Fix before GO.
-- **HARDEN** — sharpen a contract, add a `§V`, or split a vague step.
-- **DIVERGENCE** — cannot enter `cook` with this finding. Ask before GO.
-- **NOTE** — observation, no required action.
+Every finding is exactly one category — evidence → claim → category:
+
+- **BLOCK** — a correctness, safety, or release-level defect. A security finding is always BLOCK. Action: fix before proceeding. Gate: any open BLOCK forces NO-GO.
+- **DIVERGENCE** — reality (the code or the plan) has drifted from `SPEC.md`. Action: resolve one way — change the work to match `SPEC.md`, or amend `SPEC.md` through `encode-docs`. Gate: any open DIVERGENCE forces NO-GO; once resolved it no longer holds the gate.
+- **UNKNOWN** (`?`) — an open question that needs current primary-source research, never model memory. Action: resolve it with a cited source and the date checked, or record it as a non-blocking `?` with the reason it cannot be resolved yet. Gate: any open blocking `?` forces NO-GO.
+- **HARDEN** — an invariant, test, simplification, or reuse improvement that lowers complexity or prevents recurrence. Action: carry it to the next `prep`. Gate: never holds the gate.
+- **NOTE** — an observation with no required action. A finding with no evidence is down-ranked here and tagged `[unverified]`. Action: carry it as a note. Gate: never holds the gate.
+
+GO / NO-GO — exhaustive, never a shrug:
+
+- **NO-GO** if any open BLOCK, any open DIVERGENCE, or any open blocking `?` (UNKNOWN) remains.
+- **GO** otherwise. HARDEN and NOTE never hold the gate — they carry to the next `prep`.
 
 ## Output and prep handoff
 
@@ -104,11 +109,14 @@ tests: <command> → <green | exact failures>
 BLOCK: <count>
 - <file:line> — <claim> — <impact> — <fix direction>
 
+DIVERGENCE: <count>
+- <SPEC.md §V/§I claim> — <evidence> — <resolution: fix code | amend SPEC>
+
+UNKNOWN: <count>
+- <question> — <what to research> — <source + date | unresolved reason>
+
 HARDEN: <count>
 - <file:line> — <complexity/reuse/coherence claim> — <evidence> — <improvement>
-
-DIVERGENCE: <count>
-- <SPEC.md §V/§I claim> — <evidence>
 
 NOTE: <count>
 - <evidence> — <observation>
