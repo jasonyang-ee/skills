@@ -1,0 +1,13 @@
+{
+  "name": "jasonyang-ee",
+  "owner": {
+    "name": "jasonyang-ee"
+  },
+  "plugins": [
+    {
+      "name": "skills",
+      "source": "./",
+      "description": "Personal central collection of spec-driven development skills: prep, review-plan, cook, cater, garnish, review-code, plus the encode-docs/encode-commit/encode-pr helpers."
+    }
+  ]
+}

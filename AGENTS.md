@@ -2,7 +2,7 @@
 
 ## Codebase Summary
 
-Public repo. Personal central skill collection → installable via `npx skills add jasonyang-ee/skills`.
+Public repo. Personal central skill collection. Install: `npx skills add jasonyang-ee/skills` (→ ∀ detected agent; `-a claude-code` | `-a codex` targets one) | Claude Code CLI-free plugin: `/plugin marketplace add jasonyang-ee/skills` → `/plugin install skills@jasonyang-ee`.
 11 skills: own (`handoff`, `cook`, `cater`, `review-code`, `garnish`, `setup`), derived `prep`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
 Skills = markdown only. ⊥ runtime code shipped to user.
 

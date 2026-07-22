@@ -7,23 +7,35 @@ A personal collection of agent skills for spec-driven development
 
 ## Install
 
-- Default Install
+Install with the [`skills`](https://www.skills.sh/docs) CLI — it copies the skills into every detected agent (Claude Code, Codex, Cursor, and more).
+
+- Default — install into every detected agent
 
 	```bash
 	npx skills add jasonyang-ee/skills
 	```
 
-- Quick install for all in global scope
+- All skills, global scope, non-interactive
 
 	```bash
 	npx skills add jasonyang-ee/skills --all --global --yes
 	```
 
-- Quick install for all in global scope with Claude Code
+- Target one agent with `-a`
 
 	```bash
-	npx skills add jasonyang-ee/skills --all --global --yes --a claude-code
+	npx skills add jasonyang-ee/skills --all --global --yes -a claude-code
+	npx skills add jasonyang-ee/skills --all --global --yes -a codex
 	```
+
+### Claude Code plugin (no CLI)
+
+Claude Code can also install straight from the plugin marketplace — no `npx` needed:
+
+```
+/plugin marketplace add jasonyang-ee/skills
+/plugin install skills@jasonyang-ee
+```
 
 ## Skills
 
@@ -31,11 +43,11 @@ A personal collection of agent skills for spec-driven development
 | --- | --- |
 | [`setup`](skills/setup/SKILL.md) | Bootstraps `AGENTS.md`, the `CLAUDE.md` import, and minimal missing `CHANGELOG.md`/`SPEC.md` files before the core workflow. |
 | [`prep`](skills/prep/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `encode-docs`, and reserves the last phase for final verification. |
-| [`encode-docs`](skills/encode-docs/SKILL.md) | Owns the format of all three documents and is the only writer of `SPEC.md`. Listed again under Compression. |
+| [`encode-docs`](skills/encode-docs/SKILL.md) | Owns the format of all three documents and is the only writer of `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. Listed again under Compression. |
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
 | [`cook`](skills/cook/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
 | [`cater`](skills/cater/SKILL.md) | The parallel alternative: assigns phases to sub-agents through per-phase handoff files, never overlapping their file sets, and reviews each diff before accepting it. |
-| [`handoff`](skills/handoff/SKILL.md) | Writes `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for. |
+| [`handoff`](skills/handoff/SKILL.md) | Gathers `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for, and hands it to `encode-docs` to write. |
 | [`review-code`](skills/review-code/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `prep`. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
 

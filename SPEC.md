@@ -52,6 +52,9 @@ Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole `SPEC.md` mutato
 - cmd: `npx skills add jasonyang-ee/skills` → installs ∀ skills → detected agents
 - cmd: `npx skills add jasonyang-ee/skills --list` → lists ∀ skills
 - cmd: `npx skills add jasonyang-ee/skills -s prep -s cook -s encode-docs -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
+- cmd: `npx skills add jasonyang-ee/skills -a <claude-code|codex>` → install ∀ skills into one named agent (§R6)
+- file: `.claude-plugin/marketplace.json` = `{name:"jasonyang-ee", owner{name}, plugins[{name:"skills", source:"./", description}]}` + `.claude-plugin/plugin.json` = `{name:"skills", description}` → Claude Code plugin marketplace @ repo root; root plugin auto-scans `skills/` (§R7)
+- cmd: `/plugin marketplace add jasonyang-ee/skills` → `/plugin install skills@jasonyang-ee` → Claude Code CLI-free install (§R7)
 - file: `skills/<name>/SKILL.md` → frontmatter `{name == <name>, description}`
 - cmd: `npm test` → `node --test` → exit 0 ⟺ automated checks pass (release/manual checks separate)
 - cmd: `./release.sh [--major|--minor|--patch] [-y] [-n]` → preflight (branch, clean tree, tag ⊥ ∃, `[Unreleased]` ⊥ empty) → `npm test` gate → bump → changelog move → commit → tag `v<x.y.z>` → push
