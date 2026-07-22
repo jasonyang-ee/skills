@@ -74,7 +74,7 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 
 ## AI File Purpose
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ tasks, ⊥ one-time fixes; high bar to add.
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ one-time fixes; high bar to add.
 - `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → update `PLAN.md` + `HANDOFF.md`; update `SPEC.md` only for durable change.
 
 ## Codebase Summary
@@ -96,12 +96,6 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 7. `/review-code` → baseline code sweep → prep
 
 support: `/encode-docs` sole SPEC.md mutator + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
-
-## Project Scripts
-- `<user fills setup command>` — set up development environment.
-- `<user fills start command>` — start application or service.
-- `<user fills test command>` — run tests and linters. ! run before ending chat.
-- `<user fills release command>` — release new version.
 
 ## Encoding Symbols
 
@@ -127,11 +121,11 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 <user fills project constraints and safety rules>
 
 ## End of Chat Checklist
-- Ensure ∀ lint + tests pass.
+- Ensure repo tests pass.
 - Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
 - Update `SPEC.md` only for durable change (add `§V`, high bar); flip `§T` in `PLAN.md`.
 - Refresh `HANDOFF.md` when phase/session ends.
-- Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
+- Commit directly (single summary commit, no AI co-author trailer). ⊥ push | tag without explicit ask.
 ```
 
 Do not invent project commands, paths, or constraints. Mark unknowns `?` until

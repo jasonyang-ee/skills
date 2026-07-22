@@ -7,7 +7,7 @@ Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, 
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: R6 V26
+next: R8 V26
 One file rule: >500 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -34,7 +34,7 @@ Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole `SPEC.md` mutato
 
 ## §C CONSTRAINTS
 
-- Comply Agent Skills spec (§R1). Installable: `npx skills add` (https://www.skills.sh/docs), Claude Code skills (https://code.claude.com/docs/en/skills), Codex skills (https://codex.skills.sh/docs).
+- Comply Agent Skills spec (§R1). Installable: `npx skills add` (https://www.skills.sh/docs) → serves Claude Code (https://code.claude.com/docs/en/skills) + Codex (https://www.skills.sh/agent/codex) + more via `-a <agent>` from flat `skills/` layout (§R6); Claude Code also CLI-free via plugin marketplace (§R7).
 - Skills = markdown only. ⊥ runtime deps for installing user. ⊥ Python. ⊥ `scripts/`. ⊥ vendor skills needing hooks | subagents.
 - Layout `skills/<name>/SKILL.md`; `name` == dir. Agent Skills spec + skills CLI flat discovery (§R1, §R4).
 - ⊥ project-specific | private refs in `skills/**` (∵ repo public & skills ∀ codebases).
@@ -66,6 +66,8 @@ R2|`skills add owner/repo` → git clone GitHub direct; npm registry ∉ install
 R3|`npx skills add <repo>` copies `SKILL.md` + `skills-lock.json` only — ⊥ `NOTICE.md`, ⊥ `LICENSE` ∴ in-body attribution = only notice that would travel; user accepted `NOTICE.md`-only + frontmatter `license:` (MIT exposure accepted, leanness chosen)|empirical: `npx skills add` → temp dir → `find`
 R4|skills CLI walks `skills/` 1 deep; `parseSkillMd` → null unless `name` & `description` present as strings ∴ malformed skill invisible to CLI|skills CLI dist
 R5|Claude Code: ∀ frontmatter optional, `name` ← dir default; `description` always in context & drives auto-invocation ∴ state what + when-to-use|https://code.claude.com/docs/en/skills
+R6|`skills` CLI (npm `skills`; github vercel-labs/skills) installs flat `skills/<name>/SKILL.md` into ∀ detected agent via `npx skills add <repo> -a <claude-code\|codex\|cursor>`; auto-detects installed agents; Codex + Claude Code served from same layout ∴ ⊥ per-agent repo files needed (old `codex.skills.sh/docs` = 404)|https://www.skills.sh/agent/codex + /agent/claude-code (2026-07-22)
+R7|Claude Code CLI-free native install = plugin marketplace: `.claude-plugin/marketplace.json` = `{name, owner{name}, plugins[{name, source, description}]}` @ repo root; plugin `source` = relative path ! start `./` → marketplace-root plugin = `source:"./"`; single root entry (⊥ explicit `skills` path) → default `skills/` full scan = ∀ skills load; `.claude-plugin/plugin.json` optional, `name` = only required field if present; user runs `/plugin marketplace add jasonyang-ee/skills` then `/plugin install <name>@<marketplace>`|https://code.claude.com/docs/en/plugin-marketplaces + /plugins-reference (2026-07-22)
 
 ## §V INVARIANTS
 
@@ -84,8 +86,8 @@ V12: ∀ `.github/workflows/*.yml` → ! top-level `permissions:` block
 V13: `.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0`; security updates + alerts stay on
 V14: release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `<x.y.z>`; release via `./release.sh` only
 V15: core workflow order: `prep` → `review-plan` → `cook`|`cater` → `garnish` → `review-code` → (next `prep`); `cook`|`cater` exclusive per phase; `setup` = bootstrap ⊥ core step; `encode-docs`/`handoff`/`encode-commit`/`encode-pr` = support
-V16: `encode-docs` = sole `SPEC.md` mutator & sole owner of `SPEC.md`/`PLAN.md`/`HANDOFF.md` formats
-V17: `SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; ⊥ §T, ⊥ §B; add durable rows only (high bar), prune stale on evidence
+V16: `encode-docs` = sole mutator and owner of `SPEC.md`/`PLAN.md`/`HANDOFF.md` formats
+V17: `SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; add durable rows only (high bar), prune stale on evidence
 V18: task tracking (§T) lives in `PLAN.md` only; one-time fixes & bugs → `CHANGELOG.md` + git, ⊥ `SPEC.md`
 V19: `PLAN.md` (phase plan; F1 research, Fn final verify; owns §T) + `HANDOFF.md` (session baton) = short-lived cycle files; ∀ their writes load `encode-docs`
 V20: ∀ 3 docs open with own baked header emitted verbatim by `encode-docs`; SPEC header carries `next:` counter; ids monotonic, never reused
