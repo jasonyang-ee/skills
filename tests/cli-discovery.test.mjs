@@ -30,7 +30,7 @@ describe('skills CLI discovers this repo', () => {
     });
 
     const output = stripAnsi(stdout);
-    // V8 — a skill missing here is invisible to `npx skills add`, however
+    // V5 — a skill missing here is invisible to `npx skills add`, however
     // valid its frontmatter looks.
     for (const skill of loadSkills()) {
       assert.match(output, new RegExp(`\\b${skill.dirName}\\b`), `CLI did not list "${skill.dirName}"`);

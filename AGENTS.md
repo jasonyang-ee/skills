@@ -50,8 +50,8 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. 
 ## Layout
 
 - `skills/<name>/SKILL.md` = products. Scanned by skills CLI.
-- `tests/` = `node:test`. Scope = `skills/**` + license/release guards only.
-  ⊥ assert doc prose (`README.md`, `.github/CONTRIBUTING.md`) ∵ brittle @ ⊥ value.
+- `tests/` = `node:test`. Scope = Agent Skills contract (§V1-4) + real CLI discovery (§V5) only; license/release/hygiene = manual review, ⊥ test-backed.
+  ⊥ assert doc prose | skill-body wording.
 - `.github/` = `workflows/`, `dependabot.yml`, `CONTRIBUTING.md`.
 - `NOTICE.md` = upstream MIT notices + per-skill provenance.
 

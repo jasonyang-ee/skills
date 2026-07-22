@@ -41,7 +41,7 @@ Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole `SPEC.md` mutato
 - License MIT (`LICENSE` @ root). Vendored MIT → `NOTICE.md` reproduce upstream copyright + permission notice. Attribution ⊥ skill body → `NOTICE.md` sole record; frontmatter `license:` MAY stay (∵ `npx skills add` copies `SKILL.md` only, §R3).
 - Publish = GitHub Release only (tag `v*` → `release.yml`). ⊥ npm publish (§R2). `package.json` `private: true`.
 - Release = `./release.sh` (⊥ hand-bump). Test gate ! stay & ! surface output on red; ⊥ skip flag.
-- Node ≥ 20 LTS. Tests = `node:test`; lean (direction: much less | none). Scope = `skills/**` + license/release guards; ⊥ assert doc prose (README/CONTRIBUTING/AGENTS/CLAUDE ∵ brittle).
+- Node ≥ 20 LTS. Tests = `node:test`; scope = Agent Skills contract (§V1-4) + real CLI discovery (§V5) only; license/release/hygiene = manual review, ⊥ test-backed; ⊥ assert doc prose | skill-body wording.
 - CI ! least-priv top-level `permissions:`; ⊥ secrets beyond `GITHUB_TOKEN`.
 - `.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0` (∵ public repo, PR noise); dependabot security updates + alerts stay on.
 - `encode-docs` almost always loaded → keep skill instructions lean.

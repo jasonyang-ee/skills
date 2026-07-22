@@ -28,7 +28,7 @@ describe('every skill satisfies the Agent Skills contract', () => {
     assert.deepEqual(unparseable, [], `frontmatter missing or malformed: ${unparseable.join(', ')}`);
   });
 
-  // V2, V3 — the skills CLI silently drops a skill whose name or description
+  // V1 — the skills CLI silently drops a skill whose name or description
   // is absent or not a string, so these two failures are invisible without it.
   it('declares name and description as non-empty strings', () => {
     const bad = offenders(({ parsed }) => {
@@ -39,7 +39,7 @@ describe('every skill satisfies the Agent Skills contract', () => {
     assert.deepEqual(bad, [], `name or description missing/empty: ${bad.join(', ')}`);
   });
 
-  // V4, V5, V7
+  // V2
   it('names every skill legally, uniquely, and after its directory', () => {
     const mismatched = offenders((s) => s.parsed.data.name !== s.dirName);
     assert.deepEqual(mismatched, [], `name does not match directory: ${mismatched.join(', ')}`);
@@ -54,7 +54,7 @@ describe('every skill satisfies the Agent Skills contract', () => {
     assert.equal(new Set(names).size, names.length, `duplicate skill names: ${names.join(', ')}`);
   });
 
-  // V6 — name and description are the only metadata loaded at startup, so
+  // V3 — name and description are the only metadata loaded at startup, so
   // this limit is what keeps the roster affordable to have in context.
   it('keeps every description within the spec limit', () => {
     const over = skills
@@ -64,7 +64,7 @@ describe('every skill satisfies the Agent Skills contract', () => {
     assert.deepEqual(over, [], `description over ${DESCRIPTION_MAX} chars: ${over.join(', ')}`);
   });
 
-  // V14 — progressive disclosure: the body loads in full on activation.
+  // V4 — progressive disclosure: the body loads in full on activation.
   it('keeps every body under the recommended length', () => {
     const over = skills
       .map((s) => [s.dirName, s.parsed.body.split('\n').length])
