@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Redefine `SPEC.md` as lean, durable, and mutable. It now carries only five
+  sections — goal, constraints, interfaces, research, and invariants. The task
+  section and the bug section are gone: task tracking moves to `PLAN.md`, where
+  it is short-lived, and one-time fixes and bug history live in `CHANGELOG.md`
+  and git. This removes the two sections that grew fat with one-time entries and
+  drove the spec drift the old file suffered from. A fresh `SPEC.md` is written
+  from the new direction; the previous spec is kept as `SPEC-OBSELETE.md` as a
+  record of that drift.
+- `prep` now guards the spec. Adding a row to `SPEC.md` is a deliberate,
+  high-bar decision rather than a byproduct of planning: the default is no spec
+  change, a new invariant must be a standing guarantee rather than a one-time
+  fix or a task, and editing or deleting an existing row is preferred over
+  adding one. Tasks are authored directly in `PLAN.md` and never handed to
+  `encode-docs` for `SPEC.md`.
+- `encode-docs` drops the task and bug sections from the `SPEC.md` format and
+  from its baked header, adds a "what belongs here" bar for spec rows, and moves
+  the task-status legend to the `PLAN.md` header, which is where tasks now live.
+- Point the rest of the workflow at the new task location. `cook`, `cater`,
+  `garnish`, `review-plan`, `review-code`, `setup`, and `AGENTS.md` now read and
+  flip `§T` task status in `PLAN.md` rather than `SPEC.md`.
+
 ## [0.5.2] - 2026-07-19
 
 ### Fixed

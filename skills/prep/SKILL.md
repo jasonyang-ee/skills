@@ -61,15 +61,18 @@ Skip it for a tiny, already-clear change with no need for `PLAN.md` or
 
 Every `prep` run must produce all of these:
 
-1. `PLAN.md` at repo root, in the spec encoding.
+1. `PLAN.md` at repo root, in the spec encoding, carrying the phase task table
+   (`§T`). Tasks live here — never in `SPEC.md`. Every phase maps to exactly
+   one `§T` row.
 2. `HANDOFF.md` at repo root, in the spec encoding, written via the `handoff`
    skill after the plan exists.
-3. A handoff block for the `encode-docs` skill so durable goal / constraint / research /
-   invariant / task changes land in `SPEC.md`; every PLAN phase gets one matching
-   `§T` row.
+3. A handoff block for the `encode-docs` skill **only when** the cycle changes
+   durable truth — goal, constraint, interface, sourced research, or a standing
+   invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time
+   fixes are not durable truth and never land in `SPEC.md`.
 
 `PLAN.md` and `HANDOFF.md` are short-lived execution state. `SPEC.md` is the
-durable memory.
+durable memory, and it stays lean.
 
 ## Load
 
@@ -109,23 +112,37 @@ draft was right. External findings require a source; unresolved items stay `?`.
 Write sourced findings into `§R` through `encode-docs` before handing off to
 `cook`.
 
-### 3. Hand durable facts to `encode-docs`
+### 3. Guard the spec, then hand durable facts to `encode-docs`
 
-`encode-docs` remains the sole mutator of `SPEC.md`. `prep` prepares the material and
-invokes `encode-docs` with the sections that need durable updates:
+`encode-docs` remains the sole mutator of `SPEC.md`, and `SPEC.md` holds durable
+truth only. Adding to it is a high-priority, high-bar decision, not a routine
+byproduct of planning. Before proposing any spec change, apply the bar:
 
-- `§G` goal
-- `§C` constraints
-- `§I` interfaces
-- `§R` sourced research rows
-- `§V` proposed invariants
-- `§T` ordered implementation tasks
-- one `§T` row per PLAN phase, referenced by phase `task:` field
+- **Default to no spec change.** Most cycles touch behaviour that the skill
+  files, `PLAN.md`, and `CHANGELOG.md` already record. A new spec row is the
+  exception, not the norm.
+- A new `§V`/`§C`/`§I` row must be a **standing guarantee** a future reviewer
+  keeps checking — never a one-time fix, a task, a bug record, or a note that
+  only matters this cycle.
+- Prefer **editing or deleting** an existing row over adding one. If the cycle
+  makes a row false, hand `encode-docs` the removal, not a second row beside it.
+- When unsure whether a fact is durable, leave it out. An over-full spec drifts,
+  and every session pays to read it.
 
-Do not write `SPEC.md` directly from `prep`.
+Then invoke `encode-docs` with only the sections that genuinely need a durable
+update:
 
-High blast radius after the spec update? Recommend `/review-plan` before the first
-implementation phase starts.
+- `§G` goal — only if the mission changed
+- `§C` constraints — only a new non-negotiable boundary
+- `§I` interfaces — only a changed external surface
+- `§R` sourced research rows — findings that carry a citation
+- `§V` proposed invariants — durable standing guarantees only
+
+Tasks (`§T`) are authored directly in `PLAN.md` and are never handed to
+`encode-docs` for `SPEC.md`. Do not write `SPEC.md` directly from `prep`.
+
+High blast radius after any spec update? Recommend `/review-plan` before the
+first implementation phase starts.
 
 ### 4. Write `PLAN.md`
 
@@ -166,7 +183,8 @@ Each phase section must name:
 - verification contract;
 - exit criteria;
 - next phase pointer.
-- one existing `§T` task id via `task: T<n>`; no duplicate phase/task mapping.
+- one `§T` task id via `task: T<n>`, defined in this `PLAN.md`; no duplicate
+  phase/task mapping.
 
 A cold agent should be able to start `F1` or resume later phases with
 `/cook` and no extra chat context.
@@ -244,3 +262,7 @@ If the final phase cannot prove the work, the plan is not finished.
 - Do not skip the final verification phase.
 - Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is
   `SPEC.md`.
+- Do not put tasks, one-time fixes, or bug records in `SPEC.md`; those belong in
+  `PLAN.md`, `CHANGELOG.md`, and git.
+- Do not add a `§V`/`§C`/`§I` row that is not a durable standing guarantee. When
+  unsure, leave it out.

@@ -9,8 +9,8 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 ## AI File Purpose
 
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan. `HANDOFF.md` = phase handoff summary. ∀ change → update `SPEC.md` + `PLAN.md` + `HANDOFF.md`.
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ §T tasks, ⊥ §B bugs; high bar to add, prune freely on evidence.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → update `PLAN.md` + `HANDOFF.md`; update `SPEC.md` only for durable change.
 
 ## Skills
 
@@ -72,6 +72,6 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. 
 
 - `npm test` pass.
 - Update `CHANGELOG.md` `## [Unreleased]` for every feature/fix using plain English.
-- Update `SPEC.md` for any behavior change (flip §T, add §V).
+- Update `SPEC.md` only for durable change (add §V, high bar); flip §T in `PLAN.md`.
 - Refresh `HANDOFF.md` when phase/session ends.
 - Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.

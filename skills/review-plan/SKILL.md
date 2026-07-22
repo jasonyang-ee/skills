@@ -31,7 +31,7 @@ previous `/review-plan` already returned GO.
 1. Load `encode-docs` — PLAN.md and HANDOFF.md use that encoding.
 2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every
    phase section.
-3. Read `SPEC.md`: §G, §C, §I, §R, §V, §T. Note which `§T` rows map to
+3. Read `SPEC.md`: §G, §C, §I, §R, §V. Note which `PLAN.md` `§T` rows map to
    which phases.
 4. Read `HANDOFF.md` if present: current next pointer and watchouts.
 5. Count open research phases: phases with unresolved `?` items or an
@@ -68,7 +68,7 @@ Attack the plan on these axes. Every finding cites evidence or is tagged
   and case that proves each touched `§V`? "add tests" without a file name
   is a BLOCK.
 - **§T mapping** — does every phase carry exactly one `task: T<n>` that
-  exists in `SPEC.md §T` and is not already `x`? Duplicate or missing
+  exists in `PLAN.md §T` and is not already `x`? Duplicate or missing
   mappings are a BLOCK.
 - **Phase gates** — are all preconditions achievable? Does any gate depend
   on elapsed time, external approval, or a soak period?

@@ -74,8 +74,8 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 
 ## AI File Purpose
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth. Read before any change. Baked format header @ top. §V invariants, §T tasks, §R sourced research.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan. `HANDOFF.md` = phase handoff summary. ∀ change → update `SPEC.md` + `PLAN.md` + `HANDOFF.md`.
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ tasks, ⊥ one-time fixes; high bar to add.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → update `PLAN.md` + `HANDOFF.md`; update `SPEC.md` only for durable change.
 
 ## Codebase Summary
 <user fills project purpose, stack, and repository boundary>
@@ -129,7 +129,7 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 ## End of Chat Checklist
 - Ensure ∀ lint + tests pass.
 - Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
-- Update `SPEC.md` ∀ code change / new feature (`§U` ∀ UI change, flip `§T`, add `§V`).
+- Update `SPEC.md` only for durable change (add `§V`, high bar); flip `§T` in `PLAN.md`.
 - Refresh `HANDOFF.md` when phase/session ends.
 - Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
 ```

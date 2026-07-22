@@ -122,8 +122,8 @@ Run this for every dispatched phase.
 
    A reported `status: done` with no diff, or a test that passes because it
    asserts nothing, is a failed assignment. Verify, do not trust.
-6. **Accept or return.** Accept → flip the phase's §T row to `x`, per the
-   repo's process contract. Return → send the findings back as a new
+6. **Accept or return.** Accept → flip the phase's §T row to `x` in `PLAN.md`,
+   per the repo's process contract. Return → send the findings back as a new
    assignment on the same phase id; do not fix it yourself (principle 4).
 7. **Purge the assignment file.** Once accepted, delete
    `HANDOFF-<phase-id>.md`. Leaving them behind litters the repo root and

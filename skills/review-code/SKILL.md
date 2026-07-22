@@ -36,9 +36,9 @@ needed to judge the full picture.
 
 ## Load
 
-1. Read `SPEC.md` sections `§G`, `§C`, `§I`, `§R`, `§V`, and `§T`.
-2. Read `PLAN.md` and `HANDOFF.md` when present; confirm the plan is complete
-   before treating this as a post-plan review.
+1. Read `SPEC.md` sections `§G`, `§C`, `§I`, `§R`, `§V`.
+2. Read `PLAN.md` (including its `§T` task table) and `HANDOFF.md` when present;
+   confirm the plan is complete before treating this as a post-plan review.
 3. Read repository guidance, tests, changed files, callers, and adjacent
    abstractions in full.
 4. Run the documented verification command and record its exact result. A red

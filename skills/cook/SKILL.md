@@ -65,10 +65,11 @@ without asking questions — not code that was fast to write.
 
 ## EXECUTE (per phase)
 
-1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing, duplicated,
-   or absent from SPEC.md. Flip that exact §T row `.` → `~` in SPEC.md.
-2. **Verification contract first:** from the phase's `§T` cites and SPEC
-   section, name the
+1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing,
+   duplicated, or absent from `PLAN.md`. Flip that exact §T row `.` → `~` in
+   `PLAN.md`.
+2. **Verification contract first:** from the phase's `§T` cites (the §V
+   invariants it names in `SPEC.md`), name the
    exact test file + case that will prove each new or changed §V, plus oracle
    command. New invariant without a named test = lie. Write failing tests first
    where phase logic is pure.
@@ -88,8 +89,9 @@ without asking questions — not code that was fast to write.
      unvalidated;
    - comments state constraints, not narration.
    Fix everything found; re-run the tests if code changed.
-6. **Close out per the repo's process contract:** SPEC.md updates (new §V / §I
-   lines exactly as the phase's SPEC block specifies; flip §T → `x`), a
+6. **Close out per the repo's process contract:** any `SPEC.md` update the phase
+   calls for (new §V / §I lines exactly as its SPEC block specifies — durable
+   truth only), flip the phase's §T row → `x` in `PLAN.md`, a
    `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Flip §T →
    `x` only after oracle + named tests pass. At session end, run full suite.
    Write the message through `encode-commit`: scope is the component the diff

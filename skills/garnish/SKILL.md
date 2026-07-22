@@ -3,7 +3,7 @@ name: garnish
 description: |
   Close a completed cook cycle with evidence-gated closure: verifies
   every PLAN task is done, final verification is complete, tests are green,
-  and no unrelated work is dirty; prunes SPEC.md invariants and tasks that
+  and no unrelated work is dirty; prunes SPEC.md invariants (§V) that
   no longer describe live code, on evidence only; then removes short-lived
   PLAN.md and HANDOFF.md while preserving SPEC.md and repository history.
   Triggers: "/garnish".
@@ -20,8 +20,8 @@ git history. It prepares the repository for a new `/prep` round.
 Stop and report the blocker if any condition fails:
 
 1. `PLAN.md` and `HANDOFF.md` both exist at repository root.
-2. Every PLAN phase has a `task: T<n>` mapping and every mapped `§T` row is
-   `x`.
+2. Every PLAN phase has a `task: T<n>` mapping and every mapped `§T` row in
+   `PLAN.md` is `x`.
 3. The final verification table in `HANDOFF.md` has no `VIOLATE` or
    `UNVERIFIABLE` result; all checked items are `HOLD` with evidence.
 4. The recorded oracle and full-suite command pass now. Record exact command
@@ -32,8 +32,8 @@ Stop and report the blocker if any condition fails:
 
 ## Procedure
 
-1. Read `SPEC.md` and confirm durable goal, invariants, and task statuses are
-   complete. If a task is not complete, return to `cook`.
+1. Read `SPEC.md` (durable goal, invariants) and `PLAN.md` (task statuses);
+   confirm every task is complete. If a task is not complete, return to `cook`.
 2. Read the entire final verification table and handoff next pointer. If it
    points to unfinished work, stop.
 3. Prepare a durable cleanup handoff for `encode-docs`: accepted final decisions,
@@ -46,7 +46,7 @@ Stop and report the blocker if any condition fails:
    exists costs every future session and misleads some of them. Hand the
    prunes to `encode-docs` in the same handoff as step 3.
 
-   Prune only on evidence. For each candidate `§V` or `§T` row, the file,
+   Prune only on evidence. For each candidate `§V` (or `§C`/`§I`) row, the file,
    test, command or behaviour it describes must be provably gone — deleted in
    this cycle, or absent from the repository now. "Looks stale", "probably
    superseded" and "we don't do that any more" are not evidence. **An
@@ -81,7 +81,7 @@ handoff: <removed | blocked: reason>
 tests: <command> → <green | exact failures>
 durable state: SPEC.md preserved
 SPEC.md: <updated | no durable changes>
-pruned: <§V/§T ids removed, each with the evidence it is gone | none>
+pruned: <§V ids removed, each with the evidence it is gone | none>
 kept: <candidate ids not provably stale, each with why | none>
 next: `/review-code`
 ```
@@ -89,8 +89,8 @@ next: `/review-code`
 ## Boundaries
 
 - Never purge `SPEC.md`.
-- Never prune a `§V` or `§T` row without evidence that what it describes is
-  gone; keep it and report it instead.
+- Never prune a `§V` (or `§C`/`§I`) row without evidence that what it describes
+  is gone; keep it and report it instead.
 - Never reuse a pruned id, and never renumber the rows that remain.
 - Never delete files when unrelated changes are present.
 - Never mark a phase complete or mutate `SPEC.md` directly; route durable

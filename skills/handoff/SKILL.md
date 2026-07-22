@@ -79,5 +79,5 @@ item|status|evidence|decision
 
 ## NON-GOALS
 
-- Not a status dashboard (SPEC §T is), not a changelog (CHANGELOG.md is),
+- Not a status dashboard (PLAN §T is), not a changelog (CHANGELOG.md is),
   not a diary. State that helps the NEXT session act — nothing else.

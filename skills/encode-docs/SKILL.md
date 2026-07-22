@@ -10,7 +10,9 @@ description: |
 
 # encode-docs
 
-Owns three documents and nothing else:
+Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`:
+no other skill writes that file directly, and sectioned ownership keeps
+concurrent edits from clobbering each other.
 
 | doc | lifetime | written by | this skill supplies |
 | --- | --- | --- | --- |
@@ -18,7 +20,7 @@ Owns three documents and nothing else:
 | `PLAN.md` | one cycle | `prep`, `cook`, or `cater` | format only + all mutation|
 | `HANDOFF.md` | one session | `handoff` | format only + all mutation|
 
-Applies to those three files, spec-referencing prose, and bug rows. Does NOT
+Applies to those three files and spec-referencing prose. Does NOT
 apply to code, error strings, commit messages, or PR descriptions.
 
 ## GRAMMAR
@@ -70,9 +72,22 @@ Never compress:
 
 ## SPEC.md FILE
 
-`SPEC.md` is the durable one. It outlives every plan and every sessions.
-It is appended to far more often than rewritten. Its rules are about
-stable addressing and sectioned ownership. Never renumber. Never reuse an id.
+`SPEC.md` is the durable one. It outlives every plan and every session, and it
+is **mutable** — when scope changes, rows are added, rewritten, or deleted. Its
+rules are about stable addressing and sectioned ownership. Never renumber.
+Never reuse an id. Sections are `§G` goal, `§C` constraints, `§I` interfaces,
+`§R` research (optional), and `§V` invariants — and nothing else. Tasks and
+one-time work never live here (see What belongs here).
+
+### What belongs here
+
+SPEC holds durable truth only: facts true across cycles, not this cycle's work.
+The bar to add a row is high. A new `§V`/`§C`/`§I` row must be a standing
+guarantee a future reviewer keeps checking — never a one-time fix, never a
+task, never a bug record. Tasks (`§T`) live in `PLAN.md`. One-time fixes and
+bug history live in `CHANGELOG.md` and git. When unsure whether a line is
+durable, leave it out: an over-full spec drifts, and every session pays to read
+it. Prefer removing a stale row to keeping it (garnish prunes on evidence).
 
 ### Dispatch
 
@@ -91,7 +106,8 @@ from a legacy file → prepend it in the same write.
 The other skills produce material; this one writes it. Ingest their handoff
 blocks into the named section, show a diff, write on OK:
 
-- **prep** → drafted §G/§C/§I, sourced §R rows, proposed plan with detailed tasks in §T
+- **prep** → drafted §G/§C/§I, sourced §R rows, proposed §V invariants (durable
+  only). Its `PLAN.md` tasks (§T) stay in `PLAN.md`; they are never handed here.
 - **review-plan** → drafted §V lines + the risk verdict
 - **garnish** → rows to prune, with the evidence that they are stale
 
@@ -119,10 +135,12 @@ uncertain item with `?` so the user can confirm it.
 
 1. Parse the description.
 2. Find the root cause; read the relevant code.
-3. Decide whether a new invariant would catch a recurrence. If yes, draft it.
-4. Append the invariant to §V.
-5. If existing invariant is violated, remove or modify §V.
-6. If the fix changes behavior, remove or modify §V.
+3. Prefer editing or deleting a §V over adding one. If an existing invariant is
+   now violated or the behavior changed, remove or rewrite it.
+4. Add a new §V only when it clears the What-belongs-here bar: a durable,
+   standing guarantee, not a one-time fix or a task. A recurrence that a code
+   change already prevents does not need an invariant. When in doubt, do not add.
+5. Append any new invariant to §V using the `next:` counter for its id.
 
 ### Section skeleton
 
@@ -182,15 +200,17 @@ because the highest is no longer the newest.
 
 When `garnish` prunes a stale §V or §C or §I row, delete the row outright, bump
 nothing, and leave `next:` where it is. An id whose row is gone stays retired
-forever. Then, prune the §B row that cites it.
+forever.
 
 ### Writes
 
 | command | writes | section |
 | --- | --- | --- |
 | `/encode-docs` | creates + edits | all |
-| `/cook`, `/cater` | flips | plan task §T status `.` → `~` → `x` |
-| `/garnish` | deletes | stale §C/§V/I rows, with evidence |
+| `/garnish` | deletes | stale §C/§V/§I rows, with evidence |
+
+`/cook` and `/cater` do not write `SPEC.md`; they flip `§T` task status inside
+`PLAN.md`, which the PLAN.md FILE section governs.
 
 ### Output rules
 
@@ -325,15 +345,15 @@ file learns the format without loading this skill. Do not reword per project.
 ```
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
+Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence. Tasks (§T) → PLAN.md, ⊥ here. ⊥ §B bugs (→ CHANGELOG + git).
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
-Tables (§R,§T,§B): pipe-delimited. Escape literal \| . Empty cell = -
-§T status: x done | ~ wip | . todo
+Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: V<n> T<n> B<n>
-One file rule: >500 lines → compact §B oldest-first, ⊥ split into more files.
+next: R<n> V<n>
+One file rule: >500 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
 ```
@@ -346,7 +366,8 @@ Short-lived: one cycle. Replaced wholesale, ⊥ amended. Durable facts → SPEC.
 Order: goal | ground rules | existing assets | phase order table | one section per phase.
 Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
 ∀ phase names: goal | inputs | files | numbered steps | verify | exit | next | task: T<n>
-`task:` = exactly one §T id from SPEC.md; ⊥ two phases share one id.
+§T tasks defined & tracked here, ⊥ SPEC.md. Status: x done | ~ wip | . todo.
+`task:` = exactly one §T id from this file; ⊥ two phases share one id.
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
