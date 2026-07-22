@@ -65,9 +65,9 @@ Stop and report the blocker if any condition fails:
    `encode-docs bug:` or return to `cook` before cleanup.
 6. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
    `PLAN.md` and `HANDOFF.md` removal remain.
-7. Purge content of `PLAN.md` and `HANDOFF.md` from repository root. Preserve file
-   blank template with header to reduce next recreate cost. Preserve `SPEC.md`, 
-   source, tests, `CHANGELOG.md`, and all other files.
+7. Hand the purge of `PLAN.md` and `HANDOFF.md` to `encode-docs`, which blanks
+   each to its baked-header template at repository root to reduce next recreate
+   cost. Preserve `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
 8. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
    diff contains no unrelated deletion. Recommend `/review-code` as the final
    post-cycle review.

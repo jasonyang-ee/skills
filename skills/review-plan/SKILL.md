@@ -6,8 +6,8 @@ description: |
   gate — if open unknowns remain, runs targeted research against current
   primary sources, records sourced findings in §R via encode-docs, and tightens
   later phases. Then refutes phase ordering, verification contracts, §T
-  mappings, and phase dependencies. Updates PLAN.md and HANDOFF.md with
-  findings, hands §V changes to encode-docs, and ends with an explicit GO / NO-GO
+  mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V
+  updates to encode-docs, and ends with an explicit GO / NO-GO
   gate. Iterative: each round can reduce the number of needed research
   phases until none remain. Triggers: "/review-plan".
 ---
@@ -95,10 +95,11 @@ No evidence → down-rank to NOTE, tag `[unverified]`.
 
 1. Hand new `§R` rows and proposed `§V` additions to `encode-docs`.
 2. Rewrite affected `PLAN.md` phases with resolved facts and sharper
-   contracts. Replace `PLAN.md` at repo root.
-3. Update `HANDOFF.md` next pointer and watchouts. If a research phase
-   resolved cleanly, add a watchout: "on next `/prep`, remove F<n> —
-   all unknowns resolved."
+   contracts; hand the revised `PLAN.md` to `encode-docs`, which writes it at
+   repo root.
+3. Hand `encode-docs` the `HANDOFF.md` next-pointer and watchout updates. If a
+   research phase resolved cleanly, add a watchout: "on next `/prep`, remove
+   F<n> — all unknowns resolved."
 
 ## GATE
 
@@ -147,5 +148,5 @@ ambiguous, write the full sentence.
 - Do not write code.
 - Do not mark `§T` rows done or alter `§T` status.
 - Do not skip the research gate when `?` items exist.
-- Do not replace `PLAN.md` without updating `HANDOFF.md` to match.
+- Do not revise `PLAN.md` without a matching `HANDOFF.md` update; hand both to `encode-docs`.
 - `encode-docs` is the sole mutator of `SPEC.md`; hand findings, do not write directly.

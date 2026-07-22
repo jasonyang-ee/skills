@@ -36,7 +36,8 @@ without asking questions — not code that was fast to write.
    section IN FULL before starting. Never edit from memory of the file.
 5. **The plan is authoritative — but not infallible.** If reality contradicts
    PLAN.md (API changed, claim wrong), STOP improvising: surface the
-   contradiction, propose the correction, update PLAN.md in the same commit.
+   contradiction, propose the correction, hand the PLAN.md correction to
+   `encode-docs` in the same commit.
    Silent deviations are forbidden.
 
 ## LOAD (in this order, before any edit)
@@ -66,8 +67,8 @@ without asking questions — not code that was fast to write.
 ## EXECUTE (per phase)
 
 1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing,
-   duplicated, or absent from `PLAN.md`. Flip that exact §T row `.` → `~` in
-   `PLAN.md`.
+   duplicated, or absent from `PLAN.md`. Hand the §T flip `.` → `~` for that
+   exact row to `encode-docs`, which writes `PLAN.md`.
 2. **Verification contract first:** from the phase's `§T` cites (the §V
    invariants it names in `SPEC.md`), name the
    exact test file + case that will prove each new or changed §V, plus oracle
@@ -91,9 +92,10 @@ without asking questions — not code that was fast to write.
    Fix everything found; re-run the tests if code changed.
 6. **Close out per the repo's process contract:** any `SPEC.md` update the phase
    calls for (new §V / §I lines exactly as its SPEC block specifies — durable
-   truth only), flip the phase's §T row → `x` in `PLAN.md`, a
-   `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Flip §T →
-   `x` only after oracle + named tests pass. At session end, run full suite.
+   truth only), the phase's §T flip → `x` handed to `encode-docs` which writes
+   `PLAN.md`, a `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit.
+   Hand the §T → `x` flip only after oracle + named tests pass. At session end,
+   run full suite.
    Write the message through `encode-commit`: scope is the component the diff
    touched, never the phase id, and the body names the changed paths and what
    was verified, in plain English a reader without `PLAN.md` can follow. Never

@@ -73,9 +73,10 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 # AGENTS.md
 
 ## AI File Purpose
+- `encode-docs` = sole mutator & format owner of the 3 docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`); ∀ write to them routes through it. Other skills hand it content, ⊥ write directly.
 - `AGENTS.md` = repo work rules.
 - `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ one-time fixes; high bar to add.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → update `PLAN.md` + `HANDOFF.md`; update `SPEC.md` only for durable change.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → hand `PLAN.md` + `HANDOFF.md` updates to `encode-docs`; `SPEC.md` only for durable change.
 
 ## Codebase Summary
 <user fills project purpose, stack, and repository boundary>
@@ -95,7 +96,7 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 6. `/garnish` → SPEC.md cleanup → purge PLAN.md + HANDOFF.md
 7. `/review-code` → baseline code sweep → prep
 
-support: `/encode-docs` sole SPEC.md mutator + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/encode-docs` sole mutator of the 3 docs + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Encoding Symbols
 

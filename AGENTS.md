@@ -8,9 +8,10 @@ Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## AI File Purpose
 
+- `encode-docs` = sole mutator & format owner of the 3 docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`); ∀ write to them routes through it (§V16, §V19). Other skills hand it content, ⊥ write directly.
 - `AGENTS.md` = repo work rules.
 - `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ §T tasks, ⊥ §B bugs; high bar to add, prune freely on evidence.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → update `PLAN.md` + `HANDOFF.md`; update `SPEC.md` only for durable change.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → hand `PLAN.md` + `HANDOFF.md` updates to `encode-docs`; `SPEC.md` only for durable change.
 
 ## Skills
 

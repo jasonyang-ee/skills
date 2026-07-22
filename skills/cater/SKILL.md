@@ -26,8 +26,9 @@ Each sub-agent execute `cook #` for its own assigned # plan phase with specifyin
 4. **Dispatch only.** If a sub-agent fails, you do not fix it yourself. You return it to the same
    phase for a second attempt with adjusted complexity assignment to different level of sub-agent, or stop and re-plan if it fails twice.
 5. **The plan is authoritative — but not infallible.** If reality contradicts
-   `PLAN.md`, report contradiction, propose correction, and update `PLAN.md`
-   in the same commit. Silent deviations are forbidden.
+   `PLAN.md`, report contradiction, propose correction, and hand the `PLAN.md`
+   correction to `encode-docs` in the same commit. Silent deviations are
+   forbidden.
 
 ## LOAD
 
@@ -90,9 +91,10 @@ Run this for every dispatched phase.
    - stop conditions: what to do when the plan is wrong, ambiguous, or the base
      is red — surface it, do not improvise;
    - a `## completion` block for it to fill in.
-2. **Refresh the main baton, then dispatch.** Update `HANDOFF.md` with what is
-   going out and to which tier (see REFRESH POINTS). Then dispatch the
-   sub-agent, pointing it at `HANDOFF-<phase-id>.md` as its instructions.
+2. **Refresh the main baton, then dispatch.** Hand `encode-docs` the `HANDOFF.md`
+   update — what is going out and to which tier (see REFRESH POINTS). Then
+   dispatch the sub-agent, pointing it at `HANDOFF-<phase-id>.md` as its
+   instructions.
 3. **Sub-agent finishes by writing its completion block.** On finish it must
    write a `## completion` block into its own `HANDOFF-<phase-id>.md`:
 
@@ -122,9 +124,10 @@ Run this for every dispatched phase.
 
    A reported `status: done` with no diff, or a test that passes because it
    asserts nothing, is a failed assignment. Verify, do not trust.
-6. **Accept or return.** Accept → flip the phase's §T row to `x` in `PLAN.md`,
-   per the repo's process contract. Return → send the findings back as a new
-   assignment on the same phase id; do not fix it yourself (principle 4).
+6. **Accept or return.** Accept → hand the phase's §T flip → `x` to `encode-docs`,
+   which writes `PLAN.md`, per the repo's process contract. Return → send the
+   findings back as a new assignment on the same phase id; do not fix it yourself
+   (principle 4).
 7. **Purge the assignment file.** Once accepted, delete
    `HANDOFF-<phase-id>.md`. Leaving them behind litters the repo root and
    blocks the cycle close: `garnish` removes exactly `PLAN.md` and
@@ -144,7 +147,8 @@ session loses everything not written down. Refresh the main baton at each of:
 - **after acceptance review** — accepted or returned, with evidence;
 - **before stop** — for any reason, including running out of context.
 
-The main `HANDOFF.md` is yours alone. A sub-agent writes only its own
+The main `HANDOFF.md` is yours alone and written by `encode-docs`; hand it the
+baton content at each point above. A sub-agent writes only its own
 `HANDOFF-<phase-id>.md`; two agents writing one baton lose each other's work.
 
 ## FORBIDDEN

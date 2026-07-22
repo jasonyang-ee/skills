@@ -144,10 +144,10 @@ Tasks (`§T`) are authored directly in `PLAN.md` and are never handed to
 High blast radius after any spec update? Recommend `/review-plan` before the
 first implementation phase starts.
 
-### 4. Write `PLAN.md`
+### 4. Draft `PLAN.md`
 
-Write or replace `PLAN.md` at repo root. Keep it short, agent-facing, and
-encoded. It must contain, in this order:
+Draft `PLAN.md` and hand it to `encode-docs`, which writes it at repo root. Keep
+it short, agent-facing, and encoded. It must contain, in this order:
 
 1. a one-line goal;
 2. ground rules / process contract for the run, including the applicable
