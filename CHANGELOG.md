@@ -29,6 +29,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Point the rest of the workflow at the new task location. `cook`, `cater`,
   `garnish`, `review-plan`, `review-code`, `setup`, and `AGENTS.md` now read and
   flip `§T` task status in `PLAN.md` rather than `SPEC.md`.
+- `encode-docs` is now the sole writer of all three documents, not just
+  `SPEC.md`. `PLAN.md` and `HANDOFF.md` edits — including task-status flips —
+  are handed to it by the other workflow skills instead of being written
+  directly, so concurrent work cannot clobber a shared document.
+- Redesign the `HANDOFF.md` baton into a leaner, pointer-based format that
+  refers to plan work as phase-dot-task, and reframe the `handoff` skill as a
+  content-gatherer that hands the baton to `encode-docs` to write.
+- Slim `encode-commit` from 94 to 45 lines, keeping every rule while dropping
+  duplicated examples and folding the always-include-a-body cases into the body
+  rule.
+- `review-code` and `review-plan` now share one finding taxonomy (block,
+  divergence, unknown, harden, note) and one exhaustive go/no-go rule, written
+  identically in both — replacing `review-code`'s duplicated, mis-pasted
+  category list and the plan gate's missing divergence row.
+- Trim the test suite to the two checks that verify something real — the Agent
+  Skills frontmatter contract and live skills-CLI discovery — and narrow the
+  documented test scope to match.
+
+### Added
+
+- Claude Code plugin marketplace manifests (`.claude-plugin/marketplace.json`
+  and `plugin.json`) so the collection installs with `/plugin marketplace add`
+  and `/plugin install skills@jasonyang-ee`, no CLI needed. Document every
+  install path (default, per-agent for Claude Code and Codex, and the plugin
+  path) in the README and `AGENTS.md`.
+
+### Removed
+
+- The `tests/repo-hygiene.test.mjs` and `tests/attribution.test.mjs` suites,
+  which asserted skill-body wording and stale invariant numbers and went red on
+  every legitimate edit without covering anything real.
 
 ## [0.5.2] - 2026-07-19
 

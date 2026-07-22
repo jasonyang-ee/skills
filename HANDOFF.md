@@ -12,37 +12,52 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-22
 
-branch main | last commit 48c6399 refactor: slim encode-commit | tests green (`node --test` 7/7)
-baseline RED@cycle-start (`tests/repo-hygiene.test.mjs` 7 fail + `tests/attribution.test.mjs` 1 fail — both purged by F2) | oracle `node --test`
-uncommitted: none (this baton commits next)
+branch main | last commit 256e1e3 refactor: share one finding taxonomy | tests green (`node --test` 7/7)
+baseline RED@cycle-start (`tests/repo-hygiene.test.mjs` 7 fail + `tests/attribution.test.mjs` 1 fail — purged by F2) → now green | oracle `node --test`
+uncommitted: `CHANGELOG.md` + `PLAN.md`(T8) + `HANDOFF.md` = F8 close-out commit (committing now)
 
 ## done this session
-F1: currency-check §R6/§R7 vs live Claude Code docs; fixed drift plugin `source:"."`→`"./"` in §R7 → 3d6fc89
-F2: purged brittle suites (repo-hygiene+attribution), re-pointed §V comments, narrowed §C+AGENTS test-scope → fbeeee7
-F3: encode-docs = sole mutator ∀3 docs; handoff reframed content-gatherer; HANDOFF format redesigned lean `F<n>.T<n>` → 78471c3
-F5: encode-commit slimmed 94→45 lines (LF-normalized) → 48c6399
+F1.T1: install-schema currency-check; fixed §R7 drift `source:"."`→`"./"` → 3d6fc89
+F2.T2: purged brittle test suites, re-pointed §V comments, narrowed §C+AGENTS scope → fbeeee7
+F3.T3: encode-docs = sole mutator ∀3; handoff = content-gatherer; lean HANDOFF `F<n>.T<n>` → 78471c3
+F5.T5: encode-commit 94→45 lines (LF-normalized) → 48c6399
+F4.T4: sole-mutator sweep — 6 skills + AGENTS route PLAN/HANDOFF writes via encode-docs → 87bcbde
+F6.T6: `.claude-plugin/` marketplace+plugin manifests; 3 install paths in README/AGENTS/§I → f1e32a6
+F7.T7: review-code & review-plan share byte-identical taxonomy+gate block; §V26 anchor → 256e1e3
+F8.T8: final verify — all §V HOLD, CHANGELOG updated → (this commit)
 
 ## in progress (exact stop point)
-none ~: wave 1 (F2∥F3∥F5) dispatched via cater sub-agents, all accepted + committed | NEXT TASK: dispatch F4 sole-mutator consumer sweep — route direct PLAN/HANDOFF write verbs through encode-docs in `skills/{prep,cook,cater,garnish,review-plan,setup}/SKILL.md` + `AGENTS.md` §AI-File-Purpose (offenders: prep:149, cook:39,95, cater:29,93, garnish:68, review-plan:98,99,150)
+none: all 8 phases (T1-T8) accepted, committed, green. Cycle complete.
 mid-edit files: none
 
 ## next
-F4.T4 | preconditions: F3+F2 done (met). Then F6.T6 (plugin manifests + install docs; waits F2+F4 AGENTS/SPEC) → F7.T7 (review-gate unify; waits F4+F6) → F8.T8 (final verify)
+`/garnish` (evidence-gated close: ∀ §T `x` ✓, final-verify table ⊥ VIOLATE ✓, suite green ✓) → then `git push` (user asked). preconditions: none
+watchout for garnish: pre-existing garnish remove-vs-blank contradiction (below) — decide on next `/prep`, ⊥ this cycle.
 
 ## deviations & decisions
-plan said §R7 `source:"."` → did `source:"./"` ∵ live doc: relative source ! start `./`, marketplace-root = `"./"`, single entry → default `skills/` full scan (PLAN.md updated: y, SPEC §R7)
-user decided: F6 names marketplace `jasonyang-ee` + plugin `skills` → `/plugin install skills@jasonyang-ee`; F6 confirmed wanted
-user decided: commit per phase + PUSH all at end of round (overrides default ⊥ push)
-cater model: sub-agents edit-only in shared tree (⊥ commit, ⊥ full-suite, ⊥ touch PLAN/HANDOFF); dispatcher runs authoritative `node --test`, reviews diff, commits per phase, flips §T
+plan said §R7 `source:"."` → did `source:"./"` ∵ live doc requires relative source start `./` (PLAN updated: y, SPEC §R7)
+plan said F6 plugin.json `{name,description,version}` → omitted `version` ∵ git-relative source treats every commit as a new version (auto-update); fixed version would pin users + drift from package.json (PLAN updated: n — noted here)
+user decided: F6 names marketplace `jasonyang-ee` + plugin `skills` → `/plugin install skills@jasonyang-ee`
+user decided: commit per phase + PUSH all at end of round
+dispatcher extras (accepted-time coherence): fixed setup L99 "sole SPEC.md mutator"→"sole mutator of 3 docs"; README `--a`→`-a` typo; README encode-docs/handoff descriptions refreshed for §V16
 
 ## watchouts
-- AGENTS.md touched by F4 (§AI-File-Purpose) + F6 (install paths) — sequential, ⊥ same wave. F2 already edited its §Layout tests note (separate section).
-- SPEC.md touched by F6 (§I install rows) + F7 (§V review anchor) — both via encode-docs, sequential. `next: R8 V26` in SPEC header.
-- `skills/review-plan/SKILL.md` touched by F4 (sole-mutator) then F7 (taxonomy) — run F4 first.
-- F6 live install (`/plugin marketplace add .`) = manual user smoke; ⊥ CI-verifiable.
-- encode-commit derived-MIT → keep `NOTICE.md` row; ⊥ attribution block in body (held).
+- `garnish` DIVERGENCE (pre-existing, out of scope): description/preconditions/output + step 8 say "remove"/"absent" (garnish L7,30,67,71,79) but step 7 says encode-docs "blanks each to baked-header template" — contradictory (delete vs blank-to-stub). Needs behavioral-intent decision on next `/prep`; F4 only touched step-7 phrasing.
+- setup End-of-Chat checklist + real AGENTS.md checklist say "flip §T in PLAN.md" tersely (routing stated in §AI-File-Purpose above) — NOTE, ⊥ §V16 violation.
+- F6 live `/plugin marketplace add .` = manual user smoke, UNVERIFIABLE in CI.
 - `SPEC-OBSELETE.md` + `REFACTOR.md` = cruft, out of scope, leave.
 
 ## final verification
 item|status|evidence|decision
--|-|-|-
+§V1-5 (skill-contract + CLI)|HOLD|`node --test` 7/7; tests/ = skill-contract+cli-discovery+helpers; comments re-pointed to §V1-5|code
+§V4 (body ≤500)|HOLD|∀ 11 bodies ≤500 (encode-commit 45, encode-docs 409, review-code 168, review-plan 164)|code
+§V8 (⊥ emoji)|HOLD|emoji-range grep across skills/docs/manifests = 0 (only allowed → ⟷ ⊥ symbols)|code
+§V16 (encode-docs sole mutator ∀3)|HOLD|encode-docs L13; consumer-sweep grep = all hits routed via encode-docs/handoff|code
+§V19 (PLAN/HANDOFF writes load encode-docs)|HOLD|F4 sweep; 6 skills + AGENTS reworded|code
+§V20 (baked headers, next: counter, ids monotonic)|HOLD|SPEC `next: R8 V27` bumped for §V26; F3 lean HANDOFF header|code
+§V24 §V25 (review skills own axes)|HOLD|each retains research-gate / baseline+security scope|code
+§V26 (shared taxonomy+gate, mirror-check)|HOLD|block byte-identical 18 lines both skills; `split a vague step`=0|code
+§I install (F6 manifests)|HOLD|both JSON parse; `skills add . --list` = 11; §I rows added|code
+§I live `/plugin` install|UNVERIFIABLE|CI cannot run Claude Code `/plugin`; manual user smoke|-
+§R7 (plugin source `"./"`)|HOLD|re-fetched code.claude.com plugin-marketplaces 2026-07-22|code
+garnish remove-vs-blank|DIVERGENCE|garnish L71 "absent" vs step7 "blanks to template" (pre-existing)|next /prep
