@@ -24,6 +24,7 @@ Each sub-agent execute `cook #` for its own assigned # plan phase with specifyin
 2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed on `work-in-progress` (resume a cycle already under way), and proceed on `new` when the file carries executable phase sections (a plan `prep` wrote that nobody has started yet); `new` with no phase sections is an empty stub, so stop and recommend `/prep`; `done` stops and recommends `/garnish` (the cycle is complete). The discriminator between the two kinds of `new` is the presence of phase sections, never task status.
 3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
+5. Never `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and acting on it would execute work the plan never approved.
 
 ## SELECT PHASES TO DISPATCH
 

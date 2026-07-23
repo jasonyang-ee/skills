@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit b4f44ce | tests pass 7/7 (`npm test`)
+branch main | last commit 7ca3610 | tests pass 7/7 (`npm test`)
 uncommitted: none (∀ phase lands its edits + §T flips + this baton in ONE commit)
 
 ## done this session
@@ -24,13 +24,14 @@ F1.T5: oracle 7/7 green; portability grep ⊥ match; ∀ skill body far under th
 F2.T1-T4 (Theme G): 4 delimiter rows added inside `encode-docs` `### Section skeleton` (`skills/encode-docs/SKILL.md`:132,139,148,155) + lead prose now STATES the rule; SPEC baked-header table line rewritten in BOTH the template (`encode-docs`:295) and live `SPEC.md`:8, byte-identical; `AGENTS.md`:45 + `skills/setup/SKILL.md`:65 carry the same delimiter sentence; `CHANGELOG.md` `## [Unreleased]` entry added. `npm test` 7/7 green. `SPEC.md` `next: C13 I12 R8 V30` untouched, ⊥ row diff.
 F3.T1-T5 (Theme D): `encode-docs` `## PLAN.md File` status paragraph rewritten execution-keyed + baked PLAN `Tracked:` line synced verbatim to the live `PLAN.md` header wording; `cook`:22 + `cater`:24 LOAD gate now runs on `wip`|`new`-with-phases and stops only on the empty stub; the `new`→`wip` flip added as an explicit step at `cook` `## PICK PHASE`:28 + `cater` `## SELECT PHASES TO DISPATCH`:30; `prep`:94 writes `new` + carries the expand-⟺-≠wip gate; `handoff`:30 is done-else-LEAVE; `CHANGELOG.md` entry added. `git grep "proceed only on" -- skills/` → ⊥ match; `npm test` 7/7 green.
 F4.T1-T3 (Theme A): `encode-docs` `## HANDOFF.md File` template collapsed to `branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)`; Rule 2 reworded, old Rule 3 (baseline≠oracle) DELETED, rules renumbered 1-6; baked HANDOFF `Header ! carry:` + failing-tests lines rewritten; `handoff` GATHER bullet + `## RULES` 1-5 aligned byte-for-byte with the owner. This live `HANDOFF.md` moved onto the new header too. `git grep -i "oracle\|baseline\|<subject>" -- skills/encode-docs/SKILL.md skills/handoff/SKILL.md` → ⊥ match; `npm test` 7/7 green.
+F5.T1-T4 (Theme B+C): `prep` Load step 3 gated to ingest mode, Hard-outputs item 4 now states BOTH defer + ingest with the blank-after-write ordering, `## Boundaries` carries the ⊥-blank-before-write line; ⊥-read gate added as `cook`:25, `cater`:27, `review-plan`:24, `review-code`:31 (each matching its own LOAD numbering); `garnish` Procedure:23 ⊥-read guard + Boundaries:58 ⊥-touch guard; `CHANGELOG.md` entry added. `git grep BACKLOG -- skills/` → gate present in ∀ 5 executors; `npm test` 7/7 green.
 
 ## in progress (exact stop point)
 -
 mid-edit files: none
 
 ## next
-F5.T1 — in `skills/prep/SKILL.md`, rewrite Load step 3 ("Read `BACKLOG.md` if it exists, and treat it as part of the user request.") so it applies in ingest/expand mode only, rewrite Hard-outputs item 4 to state BOTH the defer and the ingest branch with the blank-only-after-`PLAN.md`-is-written ordering, and add the matching `## Boundaries` line. preconditions: F3 landed (the status gate F5 keys off) — done @ b4f44ce.
+F6.T1 — create `skills/encode-header/SKILL.md`: frontmatter `name: encode-header` + a what-and-when `description`, body = the 3 baked templates moved VERBATIM from `skills/encode-docs/SKILL.md` `## BAKED HEADERS` in their post-F2/F3/F4 form, plus the ownership rule (this skill SUPPLIES the header bytes, `encode-docs` performs every write). preconditions: F2+F3+F4 landed (F6 moves the very bytes they rewrote) — done @ 10e8e2d, b4f44ce, 7ca3610.
 
 ## deviations & decisions
 `cook` started on `planning status: new` and flipped it → `work-in-progress` per `SPEC.md` §V29 (plan carries executable phases F1-F7 ∴ ⊥ an empty stub). The `cook` skill body still reads "proceed only on `work-in-progress`" — that stale clause is exactly what F3.T2 fixes; SPEC ≫ skill body.

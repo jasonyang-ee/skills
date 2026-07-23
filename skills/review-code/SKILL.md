@@ -28,6 +28,7 @@ Record baseline ref, `HEAD`, branch, and dirty-tree state in the review. Review 
 2. Read `PLAN.md` (including its `§T` task table) and `HANDOFF.md` when present; confirm the plan is complete before treating this as a post-plan review.
 3. Read repository guidance, tests, changed files, callers, and adjacent abstractions in full.
 4. Run the documented verification command and record its exact result. A red baseline is a finding, not evidence that the new code is correct.
+5. Never read `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and sweeping against it would report on work nobody approved.
 
 ## REVIEW DIMENSIONS
 

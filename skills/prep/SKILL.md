@@ -38,7 +38,7 @@ Every `prep` run must produce all of these:
 1. `PLAN.md` at repo root, carrying the phase task details.
 2. `HANDOFF.md` at repo root, written via the `handoff` skill after the plan exists.
 3. `SPEC.md` at repo root, **only when** the cycle changes durable truth — goal, constraint, interface, sourced research, or a standing invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time fixes are not durable truth and never land in `SPEC.md`.
-4. `BACKLOG.md` at repo root, **only when** `PLAN.md` is in middle of phases implementation, distill user request and save summary to `BACKLOG.md` for next cycle. Do not interrupt an ongoing implementation phase. `BACKLOG.md` does not need to be encoded, in fact, it must be detailed enough for a cold agent to pick up the next cycle. No fixed format for `BACKLOG.md` is required.
+4. `BACKLOG.md` at repo root, handled in one of two modes chosen by the `PLAN.md` baked-header `planning status`. **Defer mode** — the status reads `work-in-progress`, so a cycle is already running: distill the user request and append it to `BACKLOG.md` for the next cycle, without pruning what is already there and without clobbering the in-flight plan. Do not interrupt an ongoing implementation phase. **Ingest mode** — the status is anything else: read `BACKLOG.md` as part of the request, write or expand `PLAN.md`, and blank `BACKLOG.md` only after that plan is on disk. Blanking any earlier loses the request outright if the session dies before the plan is written. `BACKLOG.md` does not need to be encoded, in fact, it must be detailed enough for a cold agent to pick up the next cycle. No fixed format for `BACKLOG.md` is required.
 
 `PLAN.md`, `HANDOFF.md`, and `BACKLOG.md` are short-lived execution state. `SPEC.md` is the durable memory, and it stays lean with high bar for new inclusion.
 
@@ -46,7 +46,7 @@ Every `prep` run must produce all of these:
 
 1. Read the user request carefully.
 2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` for full context.
-3. Read `BACKLOG.md` if it exists, and treat it as part of the user request.
+3. Read `BACKLOG.md` if it exists, and treat it as part of the user request — but in ingest mode only, meaning the `PLAN.md` `planning status` does not read `work-in-progress`. While a plan is running, `BACKLOG.md` is a write target rather than an input.
 4. Read just enough repo context to plan real work: existing tests, entrypoints, configs, public interfaces, and nearby conventions.
 
 ## Workflow
@@ -149,3 +149,4 @@ If the final phase cannot prove the work, the plan is not finished.
 - Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is `SPEC.md`.
 - Do not put tasks, one-time fixes, or bug records in `SPEC.md`; those belong in `PLAN.md`, `CHANGELOG.md`, and git.
 - Do not add a `§V`/`§C`/`§I` row that is not a durable standing guarantee. When unsure, leave it out.
+- Do not blank `BACKLOG.md` before `PLAN.md` has been written; a session that dies in between would take the request with it.

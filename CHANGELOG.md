@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- `BACKLOG.md` is now strictly `prep`'s input. `cook`, `cater`, `review-plan`,
+  `review-code`, and `garnish` never read it, so none of them can act on a
+  request nobody approved, and `garnish` never clears it, so closing a cycle
+  no longer silently erases a pending request. `prep` owns the whole
+  lifecycle: it folds the backlog into a new plan and clears it only after
+  that plan is written, or appends to it when a plan is already running.
 - The handoff header is now a single line for test state — the pass count, or
   the exact failing file and case, followed by the command that produced it —
   and it records only the commit hash. The separate baseline line was dropped

@@ -20,7 +20,7 @@ Stop and report the blocker if any condition fails:
 
 ## Procedure
 
-1. Read `SPEC.md` (durable goal, invariants) and `PLAN.md` (task statuses); confirm every task is complete. If a task is not complete, return to `cook`.
+1. Read `SPEC.md` (durable goal, invariants) and `PLAN.md` (task statuses); confirm every task is complete. If a task is not complete, return to `cook`. Do not read `BACKLOG.md` — it is raw, un-ingested `prep`-only input and says nothing about whether this cycle is closable.
 2. Read the entire final verification table and handoff next pointer. If it points to unfinished work, stop.
 3. Prepare a durable cleanup handoff for `encode-docs`: accepted final decisions, resolved research, new bugs/invariants, interface changes, and completed task state. Invoke `encode-docs` to update only durable `SPEC.md` sections; never write `SPEC.md` directly from `garnish`. Review and accept the spec diff before cleanup.
 4. **Prune the spec rows that no longer describe live code.** `SPEC.md` is read in full every session, so a row describing something that no longer exists costs every future session and misleads some of them. Hand the prunes to `encode-docs` in the same handoff as step 3.
@@ -55,5 +55,6 @@ next: `/review-code`
 - Never prune a `§V` (or `§C`/`§I`) row without evidence that what it describes is gone; keep it and report it instead.
 - Never reuse a pruned id, and never renumber the rows that remain.
 - Never blank the short-term files when unrelated changes are present.
+- Never blank, prune, delete, or otherwise touch `BACKLOG.md`; only `prep` manages that file. `garnish` blanks `PLAN.md` and `HANDOFF.md` and nothing else — clearing a pending request while closing a cycle silently erases work the user asked for.
 - Never mark a phase complete or mutate `SPEC.md` directly; route durable changes through `encode-docs`.
 - Never invoke `prep` automatically; review implementation first, then let it trigger the next prep cycle.

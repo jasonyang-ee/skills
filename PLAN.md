@@ -201,28 +201,28 @@ inputs: F1.T3 register; §V27, §V29, §V23.
 files: `skills/prep/SKILL.md`, `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/review-plan/SKILL.md`, `skills/review-code/SKILL.md`, `skills/garnish/SKILL.md`, `CHANGELOG.md`.
 
 §T  TASKS:
-T1|.|prep: ingest / defer / blank lifecycle
+T1|x|prep: ingest / defer / blank lifecycle
 touch: `skills/prep/SKILL.md`
 details: rewrite Load step 3 ("Read `BACKLOG.md` if it exists, and treat it as part of the user request.") so it applies in ingest/expand mode only — that is, when `PLAN.md` status is ≠ `work-in-progress`. Rewrite Hard-outputs item 4 so it states BOTH branches: defer mode (status == `work-in-progress`) appends the distilled request to `BACKLOG.md` without pruning it and without clobbering the in-flight plan; ingest/expand mode reads it as input and blanks it ONLY after `PLAN.md` has been written — blanking earlier risks losing the request if the session dies. Add the matching Boundaries line: never blank `BACKLOG.md` before `PLAN.md` is written. Keep `BACKLOG.md` freeform and un-encoded.
 verify: `grep -n "BACKLOG" skills/prep/SKILL.md` shows both modes, the status gate, and the blank-after-write ordering; body ≤500 lines.
 exit: `prep` owns the whole BACKLOG lifecycle.
 next: F5.T2
 
-T2|.|cook + cater + review-plan + review-code: LOAD ⊥-read gate
+T2|x|cook + cater + review-plan + review-code: LOAD ⊥-read gate
 touch: `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/review-plan/SKILL.md`, `skills/review-code/SKILL.md`
 details: add one line to each LOAD/Load section: do ⊥ read `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and acting on it would execute work the plan never approved. Match each file's own numbering and prose style; keep each statement self-sufficient.
 verify: `grep -n "BACKLOG" skills/cook/SKILL.md skills/cater/SKILL.md skills/review-plan/SKILL.md skills/review-code/SKILL.md` → ≥1 hit per file, each in the LOAD section; bodies ≤500 lines.
 exit: no non-`prep` executor reads raw backlog.
 next: F5.T3
 
-T3|.|garnish: ⊥ read & ⊥ touch BACKLOG
+T3|x|garnish: ⊥ read & ⊥ touch BACKLOG
 touch: `skills/garnish/SKILL.md`
 details: add a `## Procedure` guard that `garnish` does ⊥ read `BACKLOG.md`, and a `## Boundaries` line that it ⊥ blanks, prunes, deletes, or otherwise touches `BACKLOG.md` — only `prep` manages that file; `garnish` blanks `PLAN.md` and `HANDOFF.md` only. This closes the failure mode where closing a cycle silently erases a pending request.
 verify: `grep -n "BACKLOG" skills/garnish/SKILL.md` → both guards present, one in `## Procedure` and one in `## Boundaries`; body ≤500 lines.
 exit: `garnish` cannot erase a pending backlog.
 next: F5.T4
 
-T4|.|changelog
+T4|x|changelog
 touch: `CHANGELOG.md`
 details: add a `## [Unreleased]` bullet in plain English: `BACKLOG.md` is now strictly `prep`'s input — the execution and review skills leave it alone, `garnish` never clears it, and `prep` either folds it into a new plan (clearing it only after the plan is written) or appends to it when a plan is already running.
 verify: entry present.

@@ -21,6 +21,7 @@ Skip when there are no `?` items, all phase contracts are named, and the previou
 3. Read `SPEC.md`: §G, §C, §I, §R, §V. Note which `PLAN.md` `§T` rows map to which phases.
 4. Read `HANDOFF.md` if present: current next pointer and watchouts.
 5. Count open research phases: phases with unresolved `?` items or an explicit research goal. Record as "research phases remaining: N".
+6. Never read `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and reviewing against it would judge the plan on work nobody approved.
 
 ## RESEARCH GATE
 
