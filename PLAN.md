@@ -235,35 +235,35 @@ inputs: F1.T4 design + §V16/§V20 draft + NOTICE decision; the ALREADY-updated 
 files: NEW `skills/encode-header/SKILL.md`, `skills/encode-docs/SKILL.md`, `SPEC.md` (via `encode-docs`), `NOTICE.md`, `CHANGELOG.md`; verify-only: `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`, `.claude-plugin/marketplace.json`.
 
 §T  TASKS:
-T1|.|create the `encode-header` skill
+T1|x|create the `encode-header` skill
 touch: `skills/encode-header/SKILL.md`
 details: new skill with frontmatter `name: encode-header` (== the directory name) and a `description` stating what it does AND when to use it, since the description drives auto-invocation: supplies the baked header for `SPEC.md`, `PLAN.md`, and `HANDOFF.md`, triggered when a document's header is missing or a header/format update is requested. Body = the three templates moved verbatim from `encode-docs` (post-F2/F3/F4 bytes) plus the ownership rule: this skill SUPPLIES the header text, `encode-docs` performs every write. Unwrapped prose; ⊥ numbered SPEC-row citations; ⊥ `scripts/`; keep it self-sufficient when loaded alone.
 verify: `npm test` green and the new skill appears in `skills add . --list`; `name` == dir; `description` ≤1024 chars; body ≤500 lines; the three templates byte-match what `encode-docs` held after F2/F3/F4.
 exit: the header templates own their skill.
 next: F6.T2
 
-T2|.|encode-docs: remove `## BAKED HEADERS`, leave a trigger hint, reconcile Dispatch + NEW
+T2|x|encode-docs: remove `## BAKED HEADERS`, leave a trigger hint, reconcile Dispatch + NEW
 touch: `skills/encode-docs/SKILL.md`
 details: delete the `## BAKED HEADERS` section body (the 3 fenced templates) and leave ONE line in its place: when a document's baked header is missing, or a header/format update is requested, trigger `encode-header` to supply it and emit it verbatim. Update `### Dispatch` ("Every mode that writes `SPEC.md` must leave the baked header present. Absent from a legacy file → prepend it in the same write.") and `### NEW` step 1 ("Emit the SPEC baked header verbatim as the first bytes of the file.") to route through `encode-header` while keeping `encode-docs` the writer. Confirm the `Full rules: /encode-docs skill.` line inside each moved template still points at `encode-docs` per the F1.T4 decision.
 verify: `grep -n "BAKED HEADER" skills/encode-docs/SKILL.md` → the hint only, ⊥ the templates; `grep -c "" skills/encode-docs/SKILL.md` materially lower than the pre-phase count (≈54 lines removed) and ≤500; `### Dispatch` and `### NEW` both name `encode-header`.
 exit: the hot-path skill is slimmer and still coherent.
 next: F6.T3
 
-T3|.|SPEC §V16 + §V20 reconcile (via `encode-docs`)
+T3|x|SPEC §V16 + §V20 reconcile (via `encode-docs`)
 touch: `SPEC.md`
 details: hand `encode-docs` two in-place row rewrites — §V16 → `encode-docs` is the sole WRITER/mutator of the three documents, while `encode-header` supplies the baked-header format (a content supplier, like `prep` and `handoff`); §V20 → the three encoded documents each open with their own baked header, supplied by `encode-header` and emitted verbatim by `encode-docs`, with the SPEC header carrying the `next:` counter and ids monotonic and never reused. Edit in place: ⊥ new ids, `next:` untouched. `SPEC.md` §G already lists `encode-header` ∴ ⊥ §G edit.
 verify: §V16 and §V20 read as above; `next: C13 I12 R8 V30` unchanged; ⊥ new row added; §G unchanged.
 exit: durable truth matches the extraction.
 next: F6.T4
 
-T4|.|roster + provenance accounting
+T4|x|roster + provenance accounting
 touch: `NOTICE.md`; verify-only `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`, `.claude-plugin/marketplace.json`
 details: apply the F1.T4 NOTICE decision — default is a `## Modifications:` row for `skills/encode-header/` mirroring the `encode-docs` provenance (the baked headers descend from the `caveman` + `spec` derivation), so every shipped skill stays accounted for. Then VERIFY, ⊥ re-edit, the roster claims that already exist: `README.md`:90 link now resolves to a real file, `AGENTS.md` "12 skills" + support list, `skills/setup/SKILL.md` support line, `SPEC.md` §G Helpers. Confirm `.claude-plugin/marketplace.json` needs ⊥ change because the root plugin auto-scans `skills/`.
 verify: `ls skills/encode-header/SKILL.md` resolves the README link; every roster site names `encode-header` and the count reads 12; `NOTICE.md` accounts for every shipped skill; marketplace file unchanged in the diff.
 exit: roster, licence accounting, and shipped files agree.
 next: F6.T5
 
-T5|.|changelog
+T5|x|changelog
 touch: `CHANGELOG.md`
 details: add a `## [Unreleased]` bullet in plain English: the baked document headers now live in a new `encode-header` skill instead of `encode-docs`, so the almost-always-loaded encoder stays lean and the header templates load only when a header is actually being written; `encode-docs` still performs every write. Note that this also fixes the README link to a skill that did not exist.
 verify: entry present.

@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit 7ca3610 | tests pass 7/7 (`npm test`)
+branch main | last commit 5588001 | tests pass 7/7 (`npm test`)
 uncommitted: none (∀ phase lands its edits + §T flips + this baton in ONE commit)
 
 ## done this session
@@ -25,13 +25,14 @@ F2.T1-T4 (Theme G): 4 delimiter rows added inside `encode-docs` `### Section ske
 F3.T1-T5 (Theme D): `encode-docs` `## PLAN.md File` status paragraph rewritten execution-keyed + baked PLAN `Tracked:` line synced verbatim to the live `PLAN.md` header wording; `cook`:22 + `cater`:24 LOAD gate now runs on `wip`|`new`-with-phases and stops only on the empty stub; the `new`→`wip` flip added as an explicit step at `cook` `## PICK PHASE`:28 + `cater` `## SELECT PHASES TO DISPATCH`:30; `prep`:94 writes `new` + carries the expand-⟺-≠wip gate; `handoff`:30 is done-else-LEAVE; `CHANGELOG.md` entry added. `git grep "proceed only on" -- skills/` → ⊥ match; `npm test` 7/7 green.
 F4.T1-T3 (Theme A): `encode-docs` `## HANDOFF.md File` template collapsed to `branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)`; Rule 2 reworded, old Rule 3 (baseline≠oracle) DELETED, rules renumbered 1-6; baked HANDOFF `Header ! carry:` + failing-tests lines rewritten; `handoff` GATHER bullet + `## RULES` 1-5 aligned byte-for-byte with the owner. This live `HANDOFF.md` moved onto the new header too. `git grep -i "oracle\|baseline\|<subject>" -- skills/encode-docs/SKILL.md skills/handoff/SKILL.md` → ⊥ match; `npm test` 7/7 green.
 F5.T1-T4 (Theme B+C): `prep` Load step 3 gated to ingest mode, Hard-outputs item 4 now states BOTH defer + ingest with the blank-after-write ordering, `## Boundaries` carries the ⊥-blank-before-write line; ⊥-read gate added as `cook`:25, `cater`:27, `review-plan`:24, `review-code`:31 (each matching its own LOAD numbering); `garnish` Procedure:23 ⊥-read guard + Boundaries:58 ⊥-touch guard; `CHANGELOG.md` entry added. `git grep BACKLOG -- skills/` → gate present in ∀ 5 executors; `npm test` 7/7 green.
+F6.T1-T5 (Theme E): NEW `skills/encode-header/SKILL.md` carries the 3 templates verbatim in post-F2/F3/F4 form + the supplier/writer rule + Boundaries; `encode-docs` `## BAKED HEADERS` reduced to a 1-line trigger hint (:281) and `### Dispatch`:84 + `### NEW`:98 now route through `encode-header`, body 345→295 lines; `SPEC.md` §V16 + §V20 rewritten IN PLACE for the supplier/writer split (⊥ new id, `next:` untouched); `NOTICE.md` gained an `skills/encode-header/` provenance row; `CHANGELOG.md` entry added. `npx skills add . --list` lists `encode-header`; `npm test` 7/7 green. Roster verified ⊥ re-edit: 12 skill dirs == `AGENTS.md`:7 count, `README.md`:90 link resolves, `marketplace.json` unchanged in the diff.
 
 ## in progress (exact stop point)
 -
 mid-edit files: none
 
 ## next
-F6.T1 — create `skills/encode-header/SKILL.md`: frontmatter `name: encode-header` + a what-and-when `description`, body = the 3 baked templates moved VERBATIM from `skills/encode-docs/SKILL.md` `## BAKED HEADERS` in their post-F2/F3/F4 form, plus the ownership rule (this skill SUPPLIES the header bytes, `encode-docs` performs every write). preconditions: F2+F3+F4 landed (F6 moves the very bytes they rewrote) — done @ 10e8e2d, b4f44ce, 7ca3610.
+F7.T1 — run `npm test`, then classify §V1-5, §V4, §V10, §V11, §V16, §V20, §V22, §V23, §V27, §V29, §V28, §C4 as HOLD/VIOLATE/UNVERIFIABLE, each citing a file:line, grep output, or test name; then F7.T2 coherence sweep and F7.T3 result table. preconditions: F2-F6 landed — done @ 10e8e2d, b4f44ce, 7ca3610, 5588001, and the F6 commit.
 
 ## deviations & decisions
 `cook` started on `planning status: new` and flipped it → `work-in-progress` per `SPEC.md` §V29 (plan carries executable phases F1-F7 ∴ ⊥ an empty stub). The `cook` skill body still reads "proceed only on `work-in-progress`" — that stale clause is exactly what F3.T2 fixes; SPEC ≫ skill body.

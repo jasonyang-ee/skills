@@ -81,7 +81,7 @@ Inspect the request and the project state:
 4. `SPEC.md` exists AND args start `amend` → **AMEND**
 5. `SPEC.md` exists, no args → ask which mode
 
-Every mode that writes `SPEC.md` must leave the baked header present. Absent from a legacy file → prepend it in the same write.
+Every mode that writes `SPEC.md` must leave the baked header present. Absent from a legacy file → trigger `encode-header` for the bytes and prepend them in the same write.
 
 ### Inputs from other skills
 
@@ -95,7 +95,7 @@ Never rewrite a section the handoff did not name. Sectioned ownership.
 
 ### NEW — idea to spec
 
-1. Emit the SPEC baked header verbatim as the first bytes of the file.
+1. Trigger `encode-header` for the SPEC baked header and emit it verbatim as the first bytes of the file.
 2. Extract repo goal, one line, encoded → §G
 3. Define core repo constraints → §C
 4. List external surfaces → §I
@@ -278,58 +278,7 @@ Rules:
 
 ## BAKED HEADERS
 
-Each document opens with its own header, emitted verbatim as the first bytes. HTML comments, so they do not render on GitHub, but an agent reading the raw file learns the format without loading this skill. Do not reword per project.
-
-`SPEC.md`:
-
-```
-<!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
-Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
-Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
-Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
-Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
-Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
-Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
-ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: C<n> I<n> R<n> V<n>
-One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
-Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
--->
-```
-
-`PLAN.md`:
-
-```
-<!-- PLAN FORMAT (baked by /encode-docs — keep; makes this file self-describing)
-Short-lived: one cycle. Replaced wholesale, ⊥ amended. Durable facts → SPEC.md.
-Order: goal | ground rules | existing assets | phase order table | one section per phase.
-Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
-∀ phase names: goal | inputs | files | §T tasks (≥1) | verify | exit | next
-§T tasks defined & tracked in each phase. Status: x done | ~ wip | . todo.
-Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTION, ⊥ authorship. prep writes/expands as `new`; cook/cater ALONE flip new→work-in-progress at start & run on new(has phases)|wip; handoff→done on ∀ §T x + verify HOLD; garnish resets new. `new`+⊥phases (empty stub) → /prep; `done` → /garnish. prep expands ⟺ status ≠ work-in-progress.
-Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
-Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
-Full rules: /encode-docs skill.
-planning status: <new | work-in-progress | done>
--->
-```
-
-`HANDOFF.md`:
-
-```
-<!-- HANDOFF FORMAT (baked by /encode-docs — keep; makes this file self-describing)
-Session baton. Overwritten in full ∀ session. Records STATE, ⊥ intent (intent → PLAN.md, truth → SPEC.md).
-Sections: header | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification. Empty section → `-`, ⊥ deleted.
-Header ! carry: branch | last commit sha (⊥ subject) | tests pass N/N \| FAIL: file+case + command | uncommitted files + why
-Pointers = F<n>.T<n> (phase.task → PLAN.md), ⊥ bare step numbers. "in progress" & "next" ! use them.
-"in progress" ! name current working task precisely: action, file, function. mid-edit files ! listed | `none`.
-Failing tests ! named exactly (file + case), ⊥ "some failing".
-final verification table ! filled only by the final verify phase; else header row alone.
-Encoding: same symbol set as SPEC.md.
-Full rules: /encode-docs skill.
--->
-```
+Each of the three documents opens with its own baked header, emitted verbatim as the first bytes. When a header is missing, or a header or format update is requested, trigger `encode-header` to supply the bytes and emit them exactly as given — this skill still performs the write.
 
 ## BOUNDARIES
 

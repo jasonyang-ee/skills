@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The baked document headers now live in a new `encode-header` skill instead
+  of `encode-docs`. `encode-docs` is loaded on almost every write, but the
+  header text is only needed when a header is actually being created, so
+  moving it keeps the almost-always-loaded skill lean; `encode-docs` still
+  performs every write. This also fixes the README link, which pointed at a skill that did
+  not exist.
 - `BACKLOG.md` is now strictly `prep`'s input. `cook`, `cater`, `review-plan`,
   `review-code`, and `garnish` never read it, so none of them can act on a
   request nobody approved, and `garnish` never clears it, so closing a cycle
