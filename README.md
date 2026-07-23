@@ -7,7 +7,7 @@ A personal collection of agent skills for spec-driven development
 
 ## INSTALL
 
-Install with [`Vercel skills`](https://www.skills.sh/docs).
+Install with [`Vercel Skills`](https://www.skills.sh/docs).
 
 - Default
 
@@ -27,17 +27,12 @@ Install with [`Vercel skills`](https://www.skills.sh/docs).
 	npx skills add jasonyang-ee/skills --all --global --yes -a claude-code
 	```
 
-Install with [`Claude Code plugin and marketplace`](https://claude.com/plugins).
+Install with Claude Code or Codex via Marketplace.
 
-- Marketplace
+- Add Marketplace Then Install Skills Plugin
 
 	```
 	/plugin marketplace add jasonyang-ee/skills
-	```
-
-- Plugin
-
-	```
 	/plugin install skills@jasonyang-ee
 	```
 

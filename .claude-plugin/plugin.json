@@ -1,4 +1,7 @@
 {
   "name": "skills",
-  "description": "Personal central collection of spec-driven development skills: prep, review-plan, cook, cater, garnish, review-code, plus the encode-docs/encode-commit/encode-pr helpers."
+  "description": "Personal central collection of spec-driven development skills: prep, review-plan, cook, cater, garnish, review-code, plus the encode-docs/encode-commit/encode-pr helpers.",
+  "author": "jasonyang-ee",
+  "homepage": "https://github.com/jasonyang-ee/skills",
+  "license": "MIT"
 }
