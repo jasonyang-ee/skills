@@ -12,36 +12,41 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit 0b7a60f unwrap skill bodies to soft-wrap prose and tighten wording | tests green (`node --test` 7/7)
+branch main | last commit a94b61a close plan cycle after final verification | tests green (`node --test` 7/7)
 baseline green | oracle `npm test`
-uncommitted: `BACKLOG.md` (untracked; prep-owned deferred requests — ⊥ read/act this cycle); `HANDOFF.md` (this baton).
+uncommitted: `BACKLOG.md` (untracked; prep-owned deferred requests — ⊥ read/act/prune this cycle); `HANDOFF.md` (this baton).
 
 ## done this session
-F2.T1-T8 (all `x`): planning-status gate + garnish blank-not-delete cascade + multi-task-per-phase propagation + setup 5-step, across `SPEC.md` + 9 skills + `AGENTS.md` → 8a5f0d9 (with held foundation + F1 `SWEEP.md`).
-F3.T1 (`x`): declared `## REPORT OUTPUT` a 2nd verbatim mirror in `review-plan` + `review-code`, reconciled both copies byte-identical → 1581657.
-F4.T1 (`x`): unwrapped ∀ 11 skill bodies to one-line-per-paragraph prose (−321 lines: 1667→1346), added `AGENTS.md` unwrapped-prose rule → 0b7a60f.
-F4.T2 (`~`): leaning + typo fixes (`Enhanced`, `deviating`/`Deviation`) applied + committed in 0b7a60f. Verified: tests 7/7, mirrors byte-identical, fences balanced, ∀ bodies ≤500 lines. HELD at accuracy sign-off (see next).
+F2.T1-T8 (`x`): planning-status gate + garnish blank-not-delete cascade + multi-task propagation + setup 5-step → 8a5f0d9 (with held foundation + F1 `SWEEP.md`).
+F3.T1 (`x`): `## REPORT OUTPUT` declared 2nd verbatim mirror; both copies reconciled byte-identical → 1581657.
+F4.T1+T2 (`x`): unwrapped ∀ 11 skill bodies (−321 lines), tightened wording, fixed typos, added AGENTS unwrapped-prose rule; user signed off accuracy → 0b7a60f.
+F5.T1 (`x`): final verify — cycle proven; `PLAN.md` `planning status` → `done` → a94b61a.
 
 ## in progress (exact stop point)
-F4.T2: leaning applied + committed (0b7a60f); PAUSED for user accuracy sign-off before F5 + push (user ruling: "full F4, pause before push").
+-
 mid-edit files: none
 
 ## next
-F4.T2 accuracy sign-off (user) → flip F4.T2 `~`→`x` → F5.T1 final verify → push. preconditions: USER SIGN-OFF on the F4 diff. Do NOT run F5 or push until given.
+`/garnish` (blanks `PLAN.md` + `HANDOFF.md` to template, resets `planning status: new`, prunes stale `§V` on evidence), then `/review-code`. preconditions: none — `planning status: done`, ∀ §T `x`, ∀ verify `HOLD`. See watchouts for `SWEEP.md` + `BACKLOG.md` handling before/at garnish.
 
 ## deviations & decisions
-- User ruling (this session): F4 = full unwrap + lean, then PAUSE before F5 + push for accuracy sign-off.
-- Prior session left all F2 edits applied to the working tree but never verified, flipped §T, committed, or handed off. This session verified the full F2 diff line-by-line vs `PLAN.md`, ran oracle (7/7) + verification greps (clean), flipped §T `~`→`x`, then committed.
-- F3.T1: plan framed F3 as "add 1 mirror note", but the two `## REPORT OUTPUT` blocks were NOT byte-identical (heading case + review-plan missing the security carve-out sentence). §V26 + F3.T1 verify demand byte-identical → reconciled both (kept richer security text + all-caps heading) beyond just the note.
-- `BACKLOG.md` discovered in tree: holds NEW user feedback (HANDOFF-format changes, a BACKLOG read-gate for cook/cater/review-*/garnish, setup AI-file note) deferred per §V27. Out of scope for this cook cycle → left untouched for a future `/prep`. Cook did NOT act on its contents.
-- Commit strategy: foundation + F1 + F2 committed as one coherent unit (8a5f0d9) per the prior recorded decision.
+- All F2 edits were pre-applied by a prior stalled session (tree dirty, §T unset, no commit/baton). This session verified the full diff line-by-line, ran oracle + greps, then finalized (flip §T, commit).
+- F3.T1: the two `## REPORT OUTPUT` blocks were not byte-identical (heading case + a missing security sentence); reconciled both beyond just adding the mirror note, per §V26.
+- F4: full unwrap + lean; PAUSED before F5 for user accuracy sign-off (user ruling), signed off, then resumed.
+- `BACKLOG.md` holds NEW user feedback (HANDOFF-format changes, a BACKLOG read-gate, setup AI-file note) deferred per §V27 → untouched this cycle; awaits a future `/prep`.
 
 ## watchouts
-- Do NOT run F5 or push until the user signs off on F4 accuracy.
-- `BACKLOG.md` ! NOT be pruned/blanked/committed this cycle; it awaits `/prep` ingestion (user instruction inside the file).
-- `SWEEP.md` fate decided at F5 (persist loading table → AGENTS.md | drop at `/garnish`).
-- §V28 self-sufficiency held through F4 (each skill still stands alone after lean).
+- `/garnish` preconditions are now met. garnish will blank `PLAN.md` + `HANDOFF.md` and may prune stale `§V` — none identified stale this cycle (V22/V23/V26/V28/V29 all live).
+- `SWEEP.md` fate (F5 item 9): recommend DROP at `/garnish` (short-lived F1 artifact). If the skill-loading state machine is wanted long-term, persist it into `AGENTS.md` as a "Skill Loading Model" section BEFORE `/garnish` — user call.
+- `BACKLOG.md` ! left untouched by `/garnish` too (prep-owned, §V27); garnish must not blank or prune it. Awaits `/prep`.
+- Body ≤500 lines holds (max `encode-docs` 347) but post-unwrap line count is a weak metric; token budget (§R1 ≤5000 rec) is truer — flagged, test unchanged.
 
 ## final verification
 item|status|evidence|decision
--|-|-|-
+§V22 cook/cater active-plan gate|HOLD|cook:31 + cater:32 read `planning status`, run ⟺ `work-in-progress`|code
+§V23 garnish blank-not-delete|HOLD|garnish blanks to template + requires `done`; greps find no delete/purge-framing of PLAN/HANDOFF|code
+§V26 two verbatim mirrors|HOLD|extract+diff: FINDING TAXONOMY & GATE + REPORT OUTPUT byte-identical review-plan↔review-code|code
+§V28 skill self-sufficiency|HOLD|each skill loads standalone; shared statements only where co-loaded; mirrors declared|code
+§V29 planning-status gate|HOLD|prep→WIP (prep:95), handoff→done (handoff:31), garnish→new (garnish:21/40), cook/cater gate (cook:31, cater:32)|code
+§V4 body ≤500 lines|HOLD|`node --test` + `wc -l`: all ≤500 (max `encode-docs` 347)|code
+§V15 5-step workflow|HOLD|setup:22 names five core steps; grep "six core"/"step 2 encode-docs" clean|code
