@@ -158,7 +158,7 @@ inputs: `SWEEP.md` finding (F3 near-empty); gate decision (REPORT OUTPUT → 2nd
 files: `skills/review-plan/SKILL.md`, `skills/review-code/SKILL.md` (+ any approved cut file).
 
 §T  TASKS:
-T1|.|declare REPORT OUTPUT 2nd mirror + apply cut list (empty)
+T1|x|declare REPORT OUTPUT 2nd mirror + apply cut list (empty)
 touch: `skills/review-plan/SKILL.md`, `skills/review-code/SKILL.md`
 details: add 1 line atop each "## Report output"/"## REPORT OUTPUT" section: "Shared verbatim with the paired review skill (mirror-check byte-identical), like FINDING TAXONOMY & GATE." (§V26 extension done F2.T1). CUT LIST = empty per `SWEEP.md` (skills already well-factored; token win = F4). ⊥ touch protected taxonomy mirror. Confirm both blocks byte-identical after edit.
 verify: both skills carry the mirror note; REPORT OUTPUT + taxonomy blocks byte-identical review-plan↔review-code; each skill self-sufficient

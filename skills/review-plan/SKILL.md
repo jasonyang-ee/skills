@@ -134,6 +134,9 @@ Decide GO / NO-GO by the exhaustive rule in FINDING TAXONOMY & GATE — never a 
 
 ## REPORT OUTPUT
 
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`),
+mirror-check byte-identical, like FINDING TAXONOMY & GATE.
+
 Always on, for every report this skill produces. It does not drift back to
 prose after a long session, and it is not something the user has to ask for.
 
@@ -148,7 +151,8 @@ Do not restate evidence the gate block already carries.
 
 **Carve-out — these stay explicit, uncompressed prose:**
 
-- Security findings.
+- Security findings. A compressed vulnerability report is a missed
+  vulnerability.
 - Warnings about irreversible or destructive actions.
 - Every `BLOCK` item.
 - `file:line` evidence, quoted error strings, and code. Never reword these.

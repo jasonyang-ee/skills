@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Mark the report-output formatting block shared by `review-plan` and
+  `review-code` as a second verbatim mirror, alongside the finding taxonomy,
+  and reconcile the two copies so they are byte-identical — the security
+  carve-out now reads the same in both, and both headings match.
 - Add a `planning status` gate to the plan cycle. `PLAN.md` now carries a
   `new | work-in-progress | done` value in its header: `prep` sets it to
   work-in-progress, `handoff` marks it done once every task is finished and

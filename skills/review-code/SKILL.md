@@ -133,7 +133,10 @@ If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it
 starts with the selected simplification or improvement work, or records that
 no implementation work is needed.
 
-## Report output
+## REPORT OUTPUT
+
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`),
+mirror-check byte-identical, like FINDING TAXONOMY & GATE.
 
 Always on, for every report this skill produces. It does not drift back to
 prose after a long session, and it is not something the user has to ask for.
