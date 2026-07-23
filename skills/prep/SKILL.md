@@ -10,8 +10,7 @@ description: |
 
 ## Quality contract
 
-Use these operational cues in the generated plan. “Principal engineer” is a quality signal, not a substitute for an observable contract. Each cue also lives in the description of the skill that owns its step; this
-contract mirrors them, it is not their sole carrier.
+Use these operational cues in the generated plan. “Principal engineer” is a quality signal, not a substitute for an observable contract. Each cue also lives in the description of the skill that owns its step; this contract mirrors them, it is not their sole carrier.
 
 1. **Distill the request:** make the goal, constraints, interfaces, and unknowns explicit. preserve the smallest coherent scope. Ask questions to resolve ambiguity.
 2. **Plan:** 
@@ -24,14 +23,11 @@ contract mirrors them, it is not their sole carrier.
 5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
 6. **Report:** summarize the plan and highlight implementation plan in the final message to the user. Then suggest if secondary review-plan cycle is needed before the first implementation phase starts.
 
-The quality contract is complete only when each applicable cue has evidence.
-Do not use “best effort”, “looks good”, or “principal engineer” as completion
-criteria.
+The quality contract is complete only when each applicable cue has evidence. Do not use “best effort”, “looks good”, or “principal engineer” as completion criteria.
 
 ## When to use
 
-- The user gives a desire, idea, expected behaviour, or fully defined feature
-  and wants the agent to turn it into executable work.
+- The user gives a desire, idea, expected behaviour, or fully defined feature and wants the agent to turn it into executable work.
 - The work will likely span multiple files, phases, or sessions.
 - A cold implementation session should be able to begin work without extra chat context.
 
@@ -73,16 +69,10 @@ The first plan phase is always research to confirm local code patterns, APIs, ex
 
 ### 3. Guard the spec, then hand durable facts to `encode-docs`
 
-- **Default to no spec change.** Most cycles touch behaviour that the skill
-  files, `PLAN.md`, and `CHANGELOG.md` already record. A new spec row is the
-  exception, not the norm.
-- A new `§V`/`§C`/`§I` row must be a **standing guarantee** a future reviewer
-  keeps checking — never a one-time fix, a task, a bug record, or a note that
-  only matters this cycle.
-- Prefer **editing or deleting** an existing row over adding one. If the cycle
-  makes a row false, hand `encode-docs` the removal, not a second row beside it.
-- When unsure whether a fact is durable, leave it out. An over-full spec drifts,
-  and every session pays to read it.
+- **Default to no spec change.** Most cycles touch behaviour that the skill files, `PLAN.md`, and `CHANGELOG.md` already record. A new spec row is the exception, not the norm.
+- A new `§V`/`§C`/`§I` row must be a **standing guarantee** a future reviewer keeps checking — never a one-time fix, a task, a bug record, or a note that only matters this cycle.
+- Prefer **editing or deleting** an existing row over adding one. If the cycle makes a row false, hand `encode-docs` the removal, not a second row beside it.
+- When unsure whether a fact is durable, leave it out. An over-full spec drifts, and every session pays to read it.
 
 Invoke `encode-docs` to update `SPEC.md` with only the sections that genuinely need a durable update:
 
@@ -97,14 +87,12 @@ Invoke `encode-docs` to update `SPEC.md` with only the sections that genuinely n
 Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
 
 1. a one-line goal;
-2. ground rules / process contract for the run, including the applicable
-   quality-contract cues and evidence required for each phase;
+2. ground rules / process contract for the run, including the applicable quality-contract cues and evidence required for each phase;
 3. existing assets or evidence already present;
 4. a phase-order table;
 5. the full section for each phase.
 
-Set the baked-header `planning status` to `work-in-progress`; that is the gate
-`cook` and `cater` read before executing a phase.
+Set the baked-header `planning status` to `work-in-progress`; that is the gate `cook` and `cater` read before executing a phase.
 
 Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
 
@@ -112,15 +100,11 @@ Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
 
 The recommended minimum shape is:
 
-- `F1` — research: confirm unknowns, collect sources, refine `SPEC.md`, tighten
-  the later phases.
-- `F2..Fn-1` — implementation phases: code, tests, migrations, docs, or rollout
-  work, split only when a real boundary exists.
-- `Fn` — final verification: a check-style pass that compares code against
-  `SPEC.md`, `PLAN.md`, and touched tests before the work is declared done.
+- `F1` — research: confirm unknowns, collect sources, refine `SPEC.md`, tighten the later phases.
+- `F2..Fn-1` — implementation phases: code, tests, migrations, docs, or rollout work, split only when a real boundary exists.
+- `Fn` — final verification: a check-style pass that compares code against `SPEC.md`, `PLAN.md`, and touched tests before the work is declared done.
 
-The first phase must be research. The last phase must be final verification.
-Do not put coding ahead of research or after the final verification phase.
+The first phase must be research. The last phase must be final verification. Do not put coding ahead of research or after the final verification phase.
 
 ### 6. Make every phase executable
 
@@ -150,10 +134,8 @@ the starting phase `F1`.
 
 - re-read the relevant `SPEC.md` sections and touched `PLAN.md` phases;
 - run verification and unit test command / script to confirm the work is correct;
-- classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or
-  `UNVERIFIABLE`, with file/test evidence;
-- sweep touched implementation for logic correctness, unnecessary complexity,
-  missed reuse, and codebase incoherence; cite each finding;
+- classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or `UNVERIFIABLE`, with file/test evidence;
+- sweep touched implementation for logic correctness, unnecessary complexity, missed reuse, and codebase incoherence; cite each finding;
 - name any drift explicitly and decide whether code or spec changes;
 - record the result table in `HANDOFF.md` before closing the phase.
 
@@ -166,9 +148,6 @@ If the final phase cannot prove the work, the plan is not finished.
 - Do not skip `HANDOFF.md`.
 - Do not skip the research-first phase.
 - Do not skip the final verification phase.
-- Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is
-  `SPEC.md`.
-- Do not put tasks, one-time fixes, or bug records in `SPEC.md`; those belong in
-  `PLAN.md`, `CHANGELOG.md`, and git.
-- Do not add a `§V`/`§C`/`§I` row that is not a durable standing guarantee. When
-  unsure, leave it out.
+- Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is `SPEC.md`.
+- Do not put tasks, one-time fixes, or bug records in `SPEC.md`; those belong in `PLAN.md`, `CHANGELOG.md`, and git.
+- Do not add a `§V`/`§C`/`§I` row that is not a durable standing guarantee. When unsure, leave it out.

@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Reflow every skill body to unwrapped prose — one line per paragraph, relying
+  on the editor's soft-wrap instead of manual line breaks — and tighten the
+  wording without dropping any instruction, cutting roughly 320 lines of hard
+  wrapping across the eleven skills. Fix three typos along the way ("Enhanced",
+  and "deviating"/"Deviation" in both review skills). Add an `AGENTS.md` rule
+  recording the unwrapped-prose convention for skill bodies.
 - Mark the report-output formatting block shared by `review-plan` and
   `review-code` as a second verbatim mirror, alongside the finding taxonomy,
   and reconcile the two copies so they are byte-identical — the security

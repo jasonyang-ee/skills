@@ -61,6 +61,7 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. 
   `name` == parent dir name, ≤64 chars, `[a-z0-9-]`. `description` ≤1024 chars. Body ≤500 lines.
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
 - ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents.
+- `skills/**` bodies = unwrapped prose (1 line/paragraph); rely on editor soft-wrap, ⊥ manual line-wrap. Preserve verbatim: code fences, tables, baked-header comments, frontmatter, list structure.
 - `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `encode-docs`.
 - Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice.
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.

@@ -10,71 +10,49 @@ description: |
 
 # review-code — post-release code sweep → prep
 
-This is a read-only implementation review. It finds risks and improvement
-opportunities across the whole change surface, then hands the result to
-`prep`. It does not edit code, `SPEC.md`, `PLAN.md`, or `HANDOFF.md` directly.
+This is a read-only implementation review. It finds risks and improvement opportunities across the whole change surface, then hands the result to `prep`. It does not edit code, `SPEC.md`, `PLAN.md`, or `HANDOFF.md` directly.
 
 ## When to use
 
-Use after all phases in a `PLAN.md` finish and before starting another round.
-Use it for a post-release or post-tag audit when the implementation needs a
-principal-engineer coherence check.
+Use after all phases in a `PLAN.md` finish and before starting another round. Use it for a post-release or post-tag audit when the implementation needs a principal-engineer coherence check.
 
 ## Baseline
 
 Resolve the comparison point before reading the diff:
 
 1. Use the latest reachable tag matching `v<major>.<minor>.<patch>`.
-2. If no such tag exists, use the explicit release commit supplied by the user
-   or recorded in repository release documentation.
-3. If neither exists, stop and ask for a baseline. Do not silently use `HEAD~1`
-   or an arbitrary branch tip.
+2. If no such tag exists, use the explicit release commit supplied by the user or recorded in repository release documentation.
+3. If neither exists, stop and ask for a baseline. Do not silently use `HEAD~1` or an arbitrary branch tip.
 
-Record baseline ref, `HEAD`, branch, and dirty-tree state in the review. Review
-the baseline-to-HEAD diff, then inspect surrounding callers and shared modules
-needed to judge the full picture.
+Record baseline ref, `HEAD`, branch, and dirty-tree state in the review. Review the baseline-to-HEAD diff, then inspect surrounding callers and shared modules needed to judge the full picture.
 
 ## Load
 
 1. Read `SPEC.md` sections `§G`, `§C`, `§I`, `§R`, `§V`.
-2. Read `PLAN.md` (including its `§T` task table) and `HANDOFF.md` when present;
-   confirm the plan is complete before treating this as a post-plan review.
-3. Read repository guidance, tests, changed files, callers, and adjacent
-   abstractions in full.
-4. Run the documented verification command and record its exact result. A red
-   baseline is a finding, not evidence that the new code is correct.
+2. Read `PLAN.md` (including its `§T` task table) and `HANDOFF.md` when present; confirm the plan is complete before treating this as a post-plan review.
+3. Read repository guidance, tests, changed files, callers, and adjacent abstractions in full.
+4. Run the documented verification command and record its exact result. A red baseline is a finding, not evidence that the new code is correct.
 
 ## Review dimensions
 
-For every finding, cite `file:line`, test name, commit, or sourced reference.
-Flag `[unverified]` when evidence is unavailable.
+For every finding, cite `file:line`, test name, commit, or sourced reference. Flag `[unverified]` when evidence is unavailable.
 
-- **Correctness** — is there any wrong states, boundary cases, error paths,
-  ordering, partial failure, stale assumptions, and violated `§V`/`§I` contracts.
-- **Complexity** — is there any unnecessary branches, indirection, state, 
-  duplication, or abstraction whose cost exceeds its value?
-- **Reuse** — is there any logic reimplemented instead of using an existing helper or
-  shared boundary?
-- **Coherence** — is naming, interfaces, ownership, error policy, test strategy,
-  and module boundaries remaining consistent across the codebase?
+- **Correctness** — is there any wrong states, boundary cases, error paths, ordering, partial failure, stale assumptions, and violated `§V`/`§I` contracts.
+- **Complexity** — is there any unnecessary branches, indirection, state, duplication, or abstraction whose cost exceeds its value?
+- **Reuse** — is there any logic reimplemented instead of using an existing helper or shared boundary?
+- **Coherence** — is naming, interfaces, ownership, error policy, test strategy, and module boundaries remaining consistent across the codebase?
 - **Verification** — does changed behavior has proper tests, regression coverage?
-- **Security** — is any secrets or credentials in the diff, injection risks,
-  untrusted input paths, authn/authz changes, and dependency?
-- **Drift** — is distilled codebase diviating from `SPEC.md`?
-  Diviation is a DIVERGENCE.
+- **Security** — is any secrets or credentials in the diff, injection risks, untrusted input paths, authn/authz changes, and dependency?
+- **Drift** — is the distilled codebase deviating from `SPEC.md`? Deviation is a DIVERGENCE.
 
 ## Review procedure
 
 1. Inventory baseline-to-HEAD files and classify behavior vs mechanical edits.
-2. Trace changed entrypoints through callers, shared helpers, persistence, and
-   error paths; inspect both the happy path and failure path.
-3. Search for duplicate logic and near-identical abstractions before proposing
-   new helpers. Prefer reducing concepts and hiding decisions at boundaries.
+2. Trace changed entrypoints through callers, shared helpers, persistence, and error paths; inspect both the happy path and failure path.
+3. Search for duplicate logic and near-identical abstractions before proposing new helpers. Prefer reducing concepts and hiding decisions at boundaries.
 4. Test or reason through edge cases; run focused tests, then the full oracle.
-5. Classify each finding by the taxonomy in FINDING TAXONOMY & GATE below
-   (evidence → claim → category).
-6. Produce the gate below. Never report “looks good” without listing the scope,
-   commands, and evidence reviewed.
+5. Classify each finding by the taxonomy in FINDING TAXONOMY & GATE below (evidence → claim → category).
+6. Produce the gate below. Never report “looks good” without listing the scope, commands, and evidence reviewed.
 
 ## FINDING TAXONOMY & GATE
 
@@ -124,14 +102,7 @@ NOTE: <count>
 gate: <GO | NO-GO>
 ```
 
-After the report, if divergence exist, confirm with user for the true intent.
-Either plan to update `SPEC.md` to match reality, or fix the code to match `SPEC.md`.
-Then invoke `prep` with the accepted `BLOCK`, `HARDEN`, `DIVERGENCE`,
-findings, evidence, baseline, and gate. `prep` must create the next
-research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `encode-docs`.
-If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it
-starts with the selected simplification or improvement work, or records that
-no implementation work is needed.
+After the report, if divergence exist, confirm with user for the true intent. Either plan to update `SPEC.md` to match reality, or fix the code to match `SPEC.md`. Then invoke `prep` with the accepted `BLOCK`, `HARDEN`, `DIVERGENCE`, findings, evidence, baseline, and gate. `prep` must create the next research-first `PLAN.md` + `HANDOFF.md` and hand durable changes to `encode-docs`. If gate is `NO-GO`, the prep plan starts with defect remediation. If `GO`, it starts with the selected simplification or improvement work, or records that no implementation work is needed.
 
 ## REPORT OUTPUT
 

@@ -14,28 +14,21 @@ description: |
 
 # review-plan — validate PLAN.md before cook
 
-A cold session that reads the plan and the spec together, resolves any
-remaining unknowns through research, and decides whether the work is safe
-to hand to `cook`. Every finding is corrected before the gate closes.
+A cold session that reads the plan and the spec together, resolves any remaining unknowns through research, and decides whether the work is safe to hand to `cook`. Every finding is corrected before the gate closes.
 
 ## WHEN
 
-Before the first `/cook`, or after a previous `/review-plan` returns
-NO-GO.
+Before the first `/cook`, or after a previous `/review-plan` returns NO-GO.
 
-Skip when there are no `?` items, all phase contracts are named, and the
-previous `/review-plan` already returned GO.
+Skip when there are no `?` items, all phase contracts are named, and the previous `/review-plan` already returned GO.
 
 ## LOAD
 
 1. Load `encode-docs` — PLAN.md and HANDOFF.md use that encoding.
-2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every
-   phase section.
-3. Read `SPEC.md`: §G, §C, §I, §R, §V. Note which `PLAN.md` `§T` rows map to
-   which phases.
+2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every phase section.
+3. Read `SPEC.md`: §G, §C, §I, §R, §V. Note which `PLAN.md` `§T` rows map to which phases.
 4. Read `HANDOFF.md` if present: current next pointer and watchouts.
-5. Count open research phases: phases with unresolved `?` items or an
-   explicit research goal. Record as "research phases remaining: N".
+5. Count open research phases: phases with unresolved `?` items or an explicit research goal. Record as "research phases remaining: N".
 
 ## RESEARCH GATE
 
@@ -44,43 +37,28 @@ Before reviewing plan structure, resolve open unknowns.
 For each open research phase in order:
 
 1. List every `?` item in the phase.
-2. Research them: read codebase modules, existing tests, and current
-   primary web sources (official docs, changelogs, release notes) —
-   never trust model memory for versions, APIs, or external behavior.
-   Every finding must cite a source (file:line or URL) and carry the
-   date it was checked. Items that cannot be resolved stay `?` with a
-   note on why.
+2. Research them: read codebase modules, existing tests, and current primary web sources (official docs, changelogs, release notes) — never trust model memory for versions, APIs, or external behavior. Every finding must cite a source (file:line or URL) and carry the date it was checked. Items that cannot be resolved stay `?` with a note on why.
 3. Record sourced findings in `§R` by invoking `encode-docs`.
 4. Rewrite the affected phase steps with confirmed facts; remove guesses.
-5. If all `?` items in this phase are resolved with no new unknowns, mark
-   it as a removal candidate. Note it in the gate output so the user can
-   confirm removal on the next `/prep` cycle.
+5. If all `?` items in this phase are resolved with no new unknowns, mark it as a removal candidate. Note it in the gate output so the user can confirm removal on the next `/prep` cycle.
 
 Skip this gate entirely when no `?` items remain in any phase.
 
 ## REFUTE THE PLAN
 
-Attack the plan on these axes. Every finding cites evidence or is tagged
-`[unverified]` and down-ranked to NOTE.
+Attack the plan on these axes. Every finding cites evidence or is tagged `[unverified]` and down-ranked to NOTE.
 
 - **Phase ordering** — does each phase depend on its predecessor's output?
-- **Verification contracts** — does every phase name the exact test file
-  and case that proves each touched `§V`? "add tests" without a file name
-  is a BLOCK.
+- **Verification contracts** — does every phase name the exact test file and case that proves each touched `§V`? "add tests" without a file name is a BLOCK.
 - **§T mapping** — does every phase carry at least one `task: T<n>`, ids
   monotonic within the phase, each existing in `PLAN.md §T` and not already
   `x`? A phase with no task, or an id missing from `§T` or out of order, is a
   BLOCK. (Task ids restart per phase, so the same `T<n>` recurring across
   phases is expected, not a duplicate.)
-- **Phase gates** — are all preconditions achievable? Does any gate depend
-  on elapsed time, external approval, or a soak period?
-- **Blast radius** — does any phase touch shared modules, auth, data
-  migrations, or public `§I` surfaces? Does any step handle secrets,
-  untrusted input, or injection-prone surfaces? Flag for an extra safety
-  step in that phase's verification contract.
-- **Altitude** — are steps concrete enough to finish in one session?
-  Unverifiable steps are a BLOCK.
-- **Drift** — is plan diviating from `SPEC.md`? Diviation is a DIVERGENCE.
+- **Phase gates** — are all preconditions achievable? Does any gate depend on elapsed time, external approval, or a soak period?
+- **Blast radius** — does any phase touch shared modules, auth, data migrations, or public `§I` surfaces? Does any step handle secrets, untrusted input, or injection-prone surfaces? Flag for an extra safety step in that phase's verification contract.
+- **Altitude** — are steps concrete enough to finish in one session? Unverifiable steps are a BLOCK.
+- **Drift** — is the plan deviating from `SPEC.md`? Deviation is a DIVERGENCE.
 
 ## FINDING TAXONOMY & GATE
 
@@ -104,12 +82,8 @@ GO / NO-GO — exhaustive, never a shrug:
 ## UPDATE
 
 1. Hand new `§R` rows and proposed `§V` additions to `encode-docs`.
-2. Rewrite affected `PLAN.md` phases with resolved facts and sharper
-   contracts; hand the revised `PLAN.md` to `encode-docs`, which writes it at
-   repo root.
-3. Hand `encode-docs` the `HANDOFF.md` next-pointer and watchout updates. If a
-   research phase resolved cleanly, add a watchout: "on next `/prep`, remove
-   F<n> — all unknowns resolved."
+2. Rewrite affected `PLAN.md` phases with resolved facts and sharper contracts; hand the revised `PLAN.md` to `encode-docs`, which writes it at repo root.
+3. Hand `encode-docs` the `HANDOFF.md` next-pointer and watchout updates. If a research phase resolved cleanly, add a watchout: "on next `/prep`, remove F<n> — all unknowns resolved."
 
 ## GATE
 

@@ -10,60 +10,38 @@ description: |
 
 # setup — bootstrap repository guidance
 
-Use `setup` once at the start of a repository, or later to audit missing workflow
-sections. It prepares the cold-session files needed by `prep`, `review-plan`,
-`cook`, `garnish`, and `review-code`.
+Use `setup` once at the start of a repository, or later to audit missing workflow sections. It prepares the cold-session files needed by `prep`, `review-plan`, `cook`, `garnish`, and `review-code`.
 
 ## Bootstrap command list
 
 The generated or completed `AGENTS.md` must list these commands in this order:
 
-This is the seven-command bootstrap list, including `/setup`. It is separate from
-the five core workflow steps — `/prep`, `/review-plan`, `/cook` | `/cater`,
-`/garnish`, `/review-code`. `encode-docs` and `handoff` are supporting skills
-invoked by the core workflow, not counted among the five; do not add them as
-extra command entries.
+This is the seven-command bootstrap list, including `/setup`. It is separate from the five core workflow steps — `/prep`, `/review-plan`, `/cook` | `/cater`, `/garnish`, `/review-code`. `encode-docs` and `handoff` are supporting skills invoked by the core workflow, not counted among the five; do not add them as extra command entries.
 
-`/cook` and `/cater` are two ways to run the same execution step,
-so the core workflow counts them once. The bootstrap list gives each its own
-entry: a reader who never sees `/cater` named never reaches for it.
+`/cook` and `/cater` are two ways to run the same execution step, so the core workflow counts them once. The bootstrap list gives each its own entry: a reader who never sees `/cater` named never reaches for it.
 
 1. `/setup` — bootstrap guidance and minimal durable files.
-2. `/prep` — turn an idea, bug, feature, or expected behavior into iterative
-   `PLAN.md` + `HANDOFF.md` and durable `SPEC.md` material.
-3. `/review-plan` — research and refute the plan until GO; reduce research
-   phases as unknowns resolve.
-4. `/cook` — execute all remaining phases in order, verifying, committing,
-   and refreshing the handoff after each phase. One main agent, start to finish.
-   An optional phase argument targets one phase only.
-5. `/cater` — execute the same phases through sub-agents, in parallel
-   only where their file sets do not intersect. Choose this or `/cook`
-   for a given phase, never both.
-6. `/garnish` — send final decisions through `encode-docs`, then blank short-term plan
-   files to their baked-header template when the cycle is complete.
-7. `/review-code` — sweep implementation quality from the release baseline and
-   trigger the next `prep` cycle for accepted fixes.
+2. `/prep` — turn an idea, bug, feature, or expected behavior into iterative `PLAN.md` + `HANDOFF.md` and durable `SPEC.md` material.
+3. `/review-plan` — research and refute the plan until GO; reduce research phases as unknowns resolve.
+4. `/cook` — execute all remaining phases in order, verifying, committing, and refreshing the handoff after each phase. One main agent, start to finish. An optional phase argument targets one phase only.
+5. `/cater` — execute the same phases through sub-agents, in parallel only where their file sets do not intersect. Choose this or `/cook` for a given phase, never both.
+6. `/garnish` — send final decisions through `encode-docs`, then blank short-term plan files to their baked-header template when the cycle is complete.
+7. `/review-code` — sweep implementation quality from the release baseline and trigger the next `prep` cycle for accepted fixes.
 
 ## Preflight
 
-1. Load `encode-docs` before reading or writing `AGENTS.md` — `AGENTS.md`
-   is encoded with the symbol set.
-2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in
-   full when present.
-3. If `AGENTS.md` is absent, create it from the template below. If present,
-   preserve all user content and add only missing sections or clearly marked
-   placeholders. Never replace project-specific instructions silently.
+1. Load `encode-docs` before reading or writing `AGENTS.md` — `AGENTS.md` is encoded with the symbol set.
+2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in full when present.
+3. If `AGENTS.md` is absent, create it from the template below. If present, preserve all user content and add only missing sections or clearly marked placeholders. Never replace project-specific instructions silently.
 4. If `CLAUDE.md` is absent, create it with exactly:
 
    ```md
    @AGENTS.md
    ```
 
-   If it exists, preserve it; report if it does not import `@AGENTS.md` instead
-   of overwriting it.
+   If it exists, preserve it; report if it does not import `@AGENTS.md` instead of overwriting it.
 5. If `CHANGELOG.md` is absent, create the minimal structure below.
-6. If `SPEC.md` is absent, invoke `encode-docs` in NEW mode to create its baked-header
-   minimal structure. `setup` never writes `SPEC.md` directly.
+6. If `SPEC.md` is absent, invoke `encode-docs` in NEW mode to create its baked-header minimal structure. `setup` never writes `SPEC.md` directly.
 
 ## AGENTS.md required sections
 
@@ -129,8 +107,7 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 - Commit directly (single summary commit, no AI co-author trailer). ⊥ push | tag without explicit ask.
 ```
 
-Do not invent project commands, paths, or constraints. Mark unknowns `?` until
-the user or research resolves them.
+Do not invent project commands, paths, or constraints. Mark unknowns `?` until the user or research resolves them.
 
 ## Minimal CHANGELOG.md
 
@@ -157,8 +134,7 @@ Report each action and preservation decision. Confirm:
 
 ## Boundaries
 
-- Never overwrite existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, or
-  `SPEC.md` without explicit user direction.
+- Never overwrite existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, or `SPEC.md` without explicit user direction.
 - Never write `SPEC.md` directly; invoke `encode-docs`.
 - Never add project-specific facts as guesses.
 - Never write code or create runtime dependencies.

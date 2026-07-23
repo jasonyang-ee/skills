@@ -171,14 +171,14 @@ inputs: §V4/§V28; §R1 (body ≤5000 tokens recommended); LINT state above; us
 files: ∀ `skills/*/SKILL.md`; `AGENTS.md` (add authoring rule).
 
 §T  TASKS:
-T1|.|unwrap — join hard-wrapped prose paragraphs to one line each
+T1|x|unwrap — join hard-wrapped prose paragraphs to one line each
 touch: ∀ `skills/*/SKILL.md`
 details: paragraph-aware reflow: join consecutive non-blank prose lines within a paragraph into a single line; keep blank-line paragraph separators. PRESERVE untouched: frontmatter, headings, list-item structure (a wrapped bullet continuation joins its bullet), table rows, code fences + contents, blockquotes, HTML-comment baked headers, horizontal rules, links/paths/ids verbatim. `cook`+`garnish` = full reflow; others = reflow the still-wrapped prose only. Target style = `prep` (long-line paragraphs). Add `AGENTS.md` Rules line: skill bodies = unwrapped prose (one line/paragraph), rely on editor soft-wrap, ⊥ manual line-wrap.
 verify: no broken table/list/code/frontmatter (eyeball render); each paragraph = 1 line; `AGENTS.md` rule present
 exit: wrap normalized
 next: F4.T2
 
-T2|.|lean wording — tighten prose, preserve accuracy
+T2|~|lean wording — tighten prose, preserve accuracy
 touch: ∀ `skills/*/SKILL.md`
 details: drop filler/redundancy/throat-clearing, prefer short words, cut repetition WITHIN each skill — keep complete, natural, accurate English (products, ⊥ symbol/fragment encoding). ⊥ drop any instruction, nuance, boundary, or verbatim token. Fix typos: X19 review-plan:81 + X20 review-code:63-64 "diviating/Diviation"→"deviating/Deviation"; X21 cater:4 "Enhensed"→"Enhanced", "with holding"→"holding". Each skill still self-sufficient (§V28) + accurate + spec-compliant (name==dir, description ≤1024, body ≤500 lines §V4). SURFACE F4 diff summary to user for accuracy sign-off.
 verify: skills read leaner but lossless (cold spot-read vs pre-F4); §V4 line count ≤500; description unchanged in intent

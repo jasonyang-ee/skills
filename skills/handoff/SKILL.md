@@ -7,14 +7,9 @@ description: |
 
 # handoff — session baton
 
-The next session starts cold. HANDOFF.md is everything it must know that
-PLAN.md, SPEC.md, and git history do NOT already record. Never duplicate
-what those files say — point at them.
+The next session starts cold. HANDOFF.md is everything it must know that PLAN.md, SPEC.md, and git history do NOT already record. Never duplicate what those files say — point at them.
 
-`handoff` GATHERS the baton content; it does NOT write `HANDOFF.md` directly.
-`encode-docs` is the sole mutator (§V16): it owns the format and performs the
-write. This skill collects the state below, then hands it to `encode-docs`,
-which emits the baked header + lean `F<n>.T<n>` template and overwrites the file.
+`handoff` GATHERS the baton content; it does NOT write `HANDOFF.md` directly. `encode-docs` is the sole mutator (§V16): it owns the format and performs the write. This skill collects the state below, then hands it to `encode-docs`, which emits the baked header + lean `F<n>.T<n>` template and overwrites the file.
 
 ## WHEN
 
@@ -25,9 +20,7 @@ which emits the baked header + lean `F<n>.T<n>` template and overwrites the file
 
 ## GATHER → hand to encode-docs
 
-Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md`
-(repo root, overwritten in full — git keeps history) with its own lean template;
-do NOT reproduce that template here — encode-docs owns the shape.
+Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md` (repo root, overwritten in full — git keeps history) with its own lean template; do NOT reproduce that template here — encode-docs owns the shape.
 
 - branch | last commit `<sha>` `<subject>` | tests `<green | RED: named>`
 - baseline `<green | RED: file+test>` | oracle `<cmd>`
@@ -35,29 +28,19 @@ do NOT reproduce that template here — encode-docs owns the shape.
 - done this session: `<F<n>.T<n>>: <one line> → <sha>`
 - in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
 - next: `<F<n>.T<n>> | preconditions: <gates | none>`
-- planning status: `done` when every `§T` row is `x` and the final-verify table
-  holds; else `work-in-progress`. Hand the flip to `encode-docs` with the baton.
+- planning status: `done` when every `§T` row is `x` and the final-verify table holds; else `work-in-progress`. Hand the flip to `encode-docs` with the baton.
 - deviations & decisions; watchouts
 - final verification table
 
 ## RULES
 
-1. **Uncommitted work is a first-class fact.** Name every uncommitted file and
-   why it was left so. Prefer committing (even a `~` wip §T flip) over a dirty
-   tree.
+1. **Uncommitted work is a first-class fact.** Name every uncommitted file and why it was left so. Prefer committing (even a `~` wip §T flip) over a dirty tree.
 2. **Red tests named exactly** — file + test name — never "some failing".
-3. **Test state distinguishes baseline from current oracle** — each with its
-   exact command and named failures.
-4. **NEXT TASK is executable verbatim** by a cold agent: file, function, action
-   — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
-5. **Only the final-verify phase fills the final verification table**; others
-   leave the header row.
-6. **Commit HANDOFF.md** — inside the session's final phase commit or its own,
-   per repo conventions. A standalone baton commit goes through `encode-commit`:
-   which phase closed, the next task, and the test state, in plain English. No
-   phase ids, no encoding symbols, never a bare `docs: handoff`.
+3. **Test state distinguishes baseline from current oracle** — each with its exact command and named failures.
+4. **NEXT TASK is executable verbatim** by a cold agent: file, function, action — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
+5. **Only the final-verify phase fills the final verification table**; others leave the header row.
+6. **Commit HANDOFF.md** — inside the session's final phase commit or its own, per repo conventions. A standalone baton commit goes through `encode-commit`: which phase closed, the next task, and the test state, in plain English. No phase ids, no encoding symbols, never a bare `docs: handoff`.
 
 ## NON-GOALS
 
-- Not a status dashboard (PLAN §T is), not a changelog (CHANGELOG.md is),
-  not a diary. State that helps the NEXT session act — nothing else.
+- Not a status dashboard (PLAN §T is), not a changelog (CHANGELOG.md is), not a diary. State that helps the NEXT session act — nothing else.
