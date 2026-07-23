@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: work-in-progress
+planning status: done
 -->
 
 # PLAN
@@ -276,21 +276,21 @@ inputs: `SPEC.md` §C2/§C4/§C8/§V1-5/§V10/§V11/§V16/§V20/§V22/§V23/§V2
 files: read-only sweep; the result table goes to `HANDOFF.md` via `encode-docs`.
 
 §T  TASKS:
-T1|.|invariant classification + oracle
+T1|x|invariant classification + oracle
 touch: read `SPEC.md`, `skills/**`, `AGENTS.md`, `README.md`, `NOTICE.md`; run `npm test`
 details: run the full suite (expect green; the new skill adds coverage rows, ⊥ failures). Classify each of §V1-5 (contract + CLI discovery, incl. `encode-header`), §V4 (≤500 lines for every touched body), §V10 (NOTICE accounting), §V11 (`## [Unreleased]` populated), §V16 + §V20 (supplier/writer split), §V22 (cook/cater gate), §V23 (garnish scope), §V27 + §V29 (BACKLOG lifecycle + state machine), §V28 (self-sufficiency), §C4 (⊥ numbered citations in skill bodies) as HOLD, VIOLATE, or UNVERIFIABLE with file/grep/test evidence.
 verify: every row cites a file:line, grep output, or test name; ⊥ row left unclassified.
 exit: all relevant invariants HOLD, or the drift is named.
 next: F7.T2
 
-T2|.|coherence + leftover sweep
+T2|x|coherence + leftover sweep
 touch: read `skills/encode-docs/SKILL.md`, `skills/handoff/SKILL.md`, `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/prep/SKILL.md`, `skills/garnish/SKILL.md`, `skills/encode-header/SKILL.md`, `skills/setup/SKILL.md`
 details: confirm ⊥ residual "prep writes `work-in-progress`", ⊥ "proceed only on `work-in-progress`", ⊥ `oracle`/`baseline`/`<subject>` inside any HANDOFF header surface, ⊥ `§[VCIRGT][0-9]` anywhere under `skills/`. Confirm the `cook`/`cater` flip logic is unambiguous and matches §V29 including the empty-stub branch. Confirm `garnish`'s "the recorded oracle and full-suite command" still resolves to the command carried in the new tests line — name the resolution or flag it as a real break. Confirm the `encode-docs` → `encode-header` trigger hint exists and that ⊥ skill body reimplements another skill's rule (§V28). Confirm the delimiter rule is stated (⊥ merely demonstrated) and did ⊥ leak into the PLAN/HANDOFF templates.
 verify: each check cites its evidence; any residual inconsistency is named with an explicit fix-or-accept decision.
 exit: no silent drift.
 next: F7.T3
 
-T3|.|record the result table
+T3|x|record the result table
 touch: `HANDOFF.md` (via `encode-docs`), `PLAN.md` (via `encode-docs`)
 details: write the final verification table (item | status | evidence | decision) into `HANDOFF.md`, flip every `§T` row in this plan to `x`, and set `planning status: done` once every classified item is HOLD.
 verify: table complete with evidence per row; `planning status: done`; ∀ `§T` rows `x`.

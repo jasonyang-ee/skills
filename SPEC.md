@@ -99,14 +99,14 @@ V11|`CHANGELOG.md` ! ∋ `## [Unreleased]`
 V12|∀ `.github/workflows/*.yml` → ! top-level `permissions:` block
 V13|`.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0`; security updates + alerts stay on
 V14|release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `<x.y.z>`; release via `./release.sh` only
-V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); `cook`\|`cater` exclusive per phase; `setup` = bootstrap ⊥ core step; `encode-docs`/`handoff`/`encode-commit`/`encode-pr` = support
+V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); `cook`\|`cater` exclusive per phase; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`handoff`/`encode-commit`/`encode-pr` = support
 V16|`encode-docs` = sole WRITER/mutator of `SPEC.md`/`PLAN.md`/`HANDOFF.md` & owner of their formats; `encode-header` supplies the baked-header format (content supplier like `prep`/`handoff`), ⊥ writes
 V17|`SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; add durable rows only (high bar), prune stale on evidence
 V18|task tracking (§T) lives in `PLAN.md` only; one-time fixes & bugs → `CHANGELOG.md` + git, ⊥ `SPEC.md`
 V19|`PLAN.md` (phase plan; F1 research, Fn final verify; owns §T) + `HANDOFF.md` (session baton) = short-lived cycle files; ∀ their writes route through `encode-docs`
 V20|∀ 3 encoded docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`) open with own baked header, supplied by `encode-header` & emitted verbatim by `encode-docs`; SPEC header carries `next:` counter; ids monotonic, never reused
 V21|`prep` → durable facts → `SPEC.md` via `encode-docs` (high bar, ⊥ default); §T tasks authored in `PLAN.md`; ∀ phase ≥1 task, ids `T<n>` monotonic within phase, ∀ task cites relevant §V; F1 research-first & Fn final-verify; embeds 1 `review-plan` pass → `handoff`
-V22|`cook`\|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `HANDOFF.md` refreshed + committed ∀ phase; `cook` = single agent, `cater` = parallel sub-agents on disjoint file sets via `HANDOFF-<phase-id>.md`; active plan gate §V29 (run ⟺ `planning status: work-in-progress`)
+V22|`cook`\|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `HANDOFF.md` refreshed + committed ∀ phase; `cook` = single agent, `cater` = parallel sub-agents on disjoint file sets via `HANDOFF-<phase-id>.md`; active plan gate → §V29
 V23|`garnish` → evidence-gated (completed cycle: ∀ PLAN §T `x`, final-verify ∀ `HOLD`) → prune stale `SPEC.md` §V/§C/§I on evidence only; blank `PLAN.md` + `HANDOFF.md` to baked-header template (⊥ delete — absent only via fresh repo \| manual user delete); preserve `SPEC.md` + history
 V24|`review-plan` → research gate on dated current primary sources (⊥ model memory); explicit GO/NO-GO
 V25|`review-code` → baseline = latest release tag \| explicit release commit; ! carry security dimension; cite evidence; end → `prep`
