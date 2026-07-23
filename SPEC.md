@@ -25,12 +25,12 @@ Core = 5-step spec-driven workflow (order contract → §V15):
 4. `garnish` → purge short-lived files, preserve + prune durable `SPEC.md`
 5. `review-code` → post-implementation sweep; may trigger next `prep`
 
-Core AI files:
-- `SPEC.md` → durable truth, mutable when scope changes; holds durable facts only
-- `PLAN.md` → phase plan for `cook`|`cater`; research-first, verify-last; owns task tracking (§T)
-- `HANDOFF.md` → session baton for cold resume
+Core AI files used in workflow:
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. only for durable change. ⊥ one-time fixes; high bar to add.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = session progress tracking.
+- `BACKLOG.md` = optional, free style pending prep inputs and notes. only ingested by `/prep`.
 
-Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator and owner), `encode-commit` (commit messages), `encode-pr` (PR review comments).
+Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator and owner), `encode-header` (header template) `encode-commit` (commit messages), `encode-pr` (PR review comments).
 
 ## §C CONSTRAINTS
 
