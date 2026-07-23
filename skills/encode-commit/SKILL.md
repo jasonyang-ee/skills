@@ -24,7 +24,7 @@ Write commit messages terse and exact. Conventional Commits format. No fluff. Wh
 - "I", "we", "now", "currently" — the diff says what
 - AI attribution ("Generated with Claude Code") or emoji
 - Encoding symbols (`→ ∴ ∀ ⊥ ∃ §`) — write the English word instead
-- Plan/spec identifiers (`F1`, `T77`, `V77`, `R28`) — expand into what it stood for: SPEC.md/PLAN.md are purged each cycle, only commit messages survive
+- Plan/spec identifiers (`F1`, `T77`, `V77`, `R28`) — expand into what it stood for: PLAN.md is blanked each cycle and SPEC.md rows get pruned, so only the commit message survives to explain the change
 
 ## Example
 

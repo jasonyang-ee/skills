@@ -67,9 +67,11 @@ Attack the plan on these axes. Every finding cites evidence or is tagged
 - **Verification contracts** — does every phase name the exact test file
   and case that proves each touched `§V`? "add tests" without a file name
   is a BLOCK.
-- **§T mapping** — does every phase carry exactly one `task: T<n>` that
-  exists in `PLAN.md §T` and is not already `x`? Duplicate or missing
-  mappings are a BLOCK.
+- **§T mapping** — does every phase carry at least one `task: T<n>`, ids
+  monotonic within the phase, each existing in `PLAN.md §T` and not already
+  `x`? A phase with no task, or an id missing from `§T` or out of order, is a
+  BLOCK. (Task ids restart per phase, so the same `T<n>` recurring across
+  phases is expected, not a duplicate.)
 - **Phase gates** — are all preconditions achievable? Does any gate depend
   on elapsed time, external approval, or a soak period?
 - **Blast radius** — does any phase touch shared modules, auth, data

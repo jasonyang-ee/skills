@@ -43,7 +43,10 @@ without asking questions — not code that was fast to write.
 ## LOAD (in this order, before any edit)
 
 1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent.
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its
+   baked-header `planning status`: proceed only on `work-in-progress`; `new`
+   stops and recommends `/prep` (the plan is a stub); `done` stops and
+   recommends `/garnish` (the cycle is complete).
 3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
 

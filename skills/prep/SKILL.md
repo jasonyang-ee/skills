@@ -18,7 +18,7 @@ contract mirrors them, it is not their sole carrier.
    - research first, then implementation, then final verification;
    - each phase must be executable and verifiable;
    - each phase must have a clear exit criteria and next phase pointer;
-   - each phase must have a task table with numbered steps, citing the relevant §V invariants if any.
+   - each phase must have a task table with at least one task, each citing the relevant §V invariants if any.
 3. **Encode:** keep `PLAN.md` compact, lossless, and encoded so a cold agent can resume without hidden context.
 4. **Review the plan:** embed one cycle of review-plan after encoding to ensure the plan is complete, executable, and verifiable.
 5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
@@ -102,6 +102,9 @@ Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
 3. existing assets or evidence already present;
 4. a phase-order table;
 5. the full section for each phase.
+
+Set the baked-header `planning status` to `work-in-progress`; that is the gate
+`cook` and `cater` read before executing a phase.
 
 Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
 

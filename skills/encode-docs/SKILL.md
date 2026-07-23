@@ -187,7 +187,7 @@ Item are addressed by section abbriviation + id.
 `<Sn>` — `C1` is constrains item 1.
 `<Sn>` — `V2` is invariants item 2.
 
-Ids are monotonic and never reused, including after a row is deleted. The baked header carries a `next:` counter and it is the only source for the next id — scanning for the highest current id is wrong once rows have been pruned, because the highest is no longer the newest.
+Ids are monotonic and never reused, including after a row is deleted. The baked header carries one `next:` counter per id-keyed section (`§C`/`§I`/`§R`/`§V`) and it is the only source for the next id — scanning for the highest current id is wrong once rows have been pruned, because the highest is no longer the newest.
 When prune a stale row, delete the row outright, bump nothing, and leave `next:` where it is. An id whose row is gone stays retired forever.
 
 ### Delete or rewrite
@@ -218,8 +218,17 @@ the research phase or after the verify phase.
 
 Task ids are `T1`, `T2`, ... and stay monotonic within the phase.
 
-Every phase section names: goal, tasks, inputs, files touched, numbered steps, a
-verification contract, exit criteria, the next phase.
+The baked header carries a mutable `planning status: new | work-in-progress |
+done` line — the one header value that changes through the cycle, like
+`SPEC.md`'s `next:` counter. It gates execution: `prep` writes
+`work-in-progress` when the plan is ready to run, `handoff` sets `done` once
+every `§T` row is `x` and final verification holds, and `garnish` resets it to
+`new` when it blanks the file. `cook` and `cater` run only while it reads
+`work-in-progress`; `new` stops for `/prep`, `done` stops for `/garnish`.
+
+Every phase section names its goal, inputs, and files touched, then one or more
+`§T` tasks. Each task carries an id, status, touch paths, work details (citing
+the relevant §V), a verification contract, exit criteria, and the next pointer.
 
 ```md
 # PLAN
@@ -332,9 +341,9 @@ Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
+Tables (§C/§I/§R/§V): pipe-delimited, id-keyed. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: R<n> V<n>
+next: C<n> I<n> R<n> V<n>
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -347,11 +356,13 @@ Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 Short-lived: one cycle. Replaced wholesale, ⊥ amended. Durable facts → SPEC.md.
 Order: goal | ground rules | existing assets | phase order table | one section per phase.
 Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
-∀ phase names: goal | inputs | files | numbered steps | verify | exit | next | task: T<n>
+∀ phase names: goal | inputs | files | §T tasks (≥1) | verify | exit | next
 §T tasks defined & tracked in each phase. Status: x done | ~ wip | . todo.
+Tracked: planning status ∈ {new, work-in-progress, done}. cook/cater run ⟺ work-in-progress; new → stop (/prep); done → stop (/garnish).
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
+planning status: <new | work-in-progress | done>
 -->
 ```
 

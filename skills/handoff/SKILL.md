@@ -35,6 +35,8 @@ do NOT reproduce that template here — encode-docs owns the shape.
 - done this session: `<F<n>.T<n>>: <one line> → <sha>`
 - in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
 - next: `<F<n>.T<n>> | preconditions: <gates | none>`
+- planning status: `done` when every `§T` row is `x` and the final-verify table
+  holds; else `work-in-progress`. Hand the flip to `encode-docs` with the baton.
 - deviations & decisions; watchouts
 - final verification table
 
@@ -46,11 +48,11 @@ do NOT reproduce that template here — encode-docs owns the shape.
 2. **Red tests named exactly** — file + test name — never "some failing".
 3. **Test state distinguishes baseline from current oracle** — each with its
    exact command and named failures.
-5. **NEXT TASK is executable verbatim** by a cold agent: file, function, action
+4. **NEXT TASK is executable verbatim** by a cold agent: file, function, action
    — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
-7. **Only the final-verify phase fills the final verification table**; others
+5. **Only the final-verify phase fills the final verification table**; others
    leave the header row.
-8. **Commit HANDOFF.md** — inside the session's final phase commit or its own,
+6. **Commit HANDOFF.md** — inside the session's final phase commit or its own,
    per repo conventions. A standalone baton commit goes through `encode-commit`:
    which phase closed, the next task, and the test state, in plain English. No
    phase ids, no encoding symbols, never a bare `docs: handoff`.

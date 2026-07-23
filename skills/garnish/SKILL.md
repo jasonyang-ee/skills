@@ -4,31 +4,32 @@ description: |
   Close a completed cook cycle with evidence-gated closure: verifies
   every PLAN task is done, final verification is complete, tests are green,
   and no unrelated work is dirty; prunes SPEC.md invariants (§V) that
-  no longer describe live code, on evidence only; then removes short-lived
-  PLAN.md and HANDOFF.md while preserving SPEC.md and repository history.
-  Triggers: "/garnish".
+  no longer describe live code, on evidence only; then blanks short-lived
+  PLAN.md and HANDOFF.md to their baked-header template while preserving SPEC.md
+  and repository history. Triggers: "/garnish".
 ---
 
 # garnish — close PLAN cycle
 
-`garnish` is a destructive cleanup gate for short-term execution files. It
-does not erase durable specification, source code, tests, changelog entries, or
-git history. It prepares the repository for a new `/prep` round.
+`garnish` is a cleanup gate that blanks short-term execution files to their
+baked-header template. It does not erase durable specification, source code,
+tests, changelog entries, or git history. It prepares the repository for a new
+`/prep` round.
 
 ## Preconditions
 
 Stop and report the blocker if any condition fails:
 
 1. `PLAN.md` and `HANDOFF.md` both exist at repository root.
-2. Every PLAN phase has a `task: T<n>` mapping and every mapped `§T` row in
-   `PLAN.md` is `x`.
+2. `PLAN.md` `planning status` reads `done`, and every `§T` row across all
+   phases is `x`.
 3. The final verification table in `HANDOFF.md` has no `VIOLATE` or
    `UNVERIFIABLE` result; all checked items are `HOLD` with evidence.
 4. The recorded oracle and full-suite command pass now. Record exact command
    and result before cleanup.
 5. Before the `encode-docs` handoff, `git status` contains no unrelated changes. After
-   it, only the expected `SPEC.md` update plus `PLAN.md`/`HANDOFF.md` removal
-   may remain; never delete or reset anything else.
+   it, only the expected `SPEC.md` update plus the `PLAN.md`/`HANDOFF.md`
+   blanking may remain; never delete or reset anything else.
 
 ## Procedure
 
@@ -64,13 +65,14 @@ Stop and report the blocker if any condition fails:
 5. Run the recorded oracle and full suite; if either fails, classify via
    `encode-docs bug:` or return to `cook` before cleanup.
 6. Recheck `git status --short`; confirm only expected `SPEC.md` changes plus
-   `PLAN.md` and `HANDOFF.md` removal remain.
-7. Hand the purge of `PLAN.md` and `HANDOFF.md` to `encode-docs`, which blanks
-   each to its baked-header template at repository root to reduce next recreate
-   cost. Preserve `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
-8. Verify both short-term files are absent, `SPEC.md` remains, and the cleanup
-   diff contains no unrelated deletion. Recommend `/review-code` as the final
-   post-cycle review.
+   the `PLAN.md` and `HANDOFF.md` blanking remain.
+7. Hand the blanking of `PLAN.md` and `HANDOFF.md` to `encode-docs`, which
+   resets each to its baked-header template at repository root — including
+   `planning status: new` in `PLAN.md` — to reduce next recreate cost. Preserve
+   `SPEC.md`, source, tests, `CHANGELOG.md`, and all other files.
+8. Verify both short-term files hold only their baked-header template, `SPEC.md`
+   remains, and the cleanup diff contains no unrelated change. Recommend
+   `/review-code` as the final post-cycle review.
 
 ## Output
 
@@ -92,7 +94,7 @@ next: `/review-code`
 - Never prune a `§V` (or `§C`/`§I`) row without evidence that what it describes
   is gone; keep it and report it instead.
 - Never reuse a pruned id, and never renumber the rows that remain.
-- Never delete files when unrelated changes are present.
+- Never blank the short-term files when unrelated changes are present.
 - Never mark a phase complete or mutate `SPEC.md` directly; route durable
   changes through `encode-docs`.
 - Never invoke `prep` automatically; review implementation first, then let it

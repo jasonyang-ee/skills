@@ -9,6 +9,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Add a `planning status` gate to the plan cycle. `PLAN.md` now carries a
+  `new | work-in-progress | done` value in its header: `prep` sets it to
+  work-in-progress, `handoff` marks it done once every task is finished and
+  final verification holds, and `garnish` resets it to new when it clears the
+  file. `cook` and `cater` only execute while it reads work-in-progress —
+  otherwise they stop and point you at `/prep` (stub plan) or `/garnish`
+  (finished cycle).
+- `garnish` now blanks `PLAN.md` and `HANDOFF.md` back to their template
+  instead of deleting them, so the next cycle starts from a header rather than
+  from nothing. The wording that described this as deletion or purging is
+  corrected everywhere it appeared (`garnish`, `cater`, `setup`,
+  `encode-commit`, `AGENTS.md`), including a stale claim that `SPEC.md` was
+  purged each cycle — it is preserved and pruned, never purged.
+- Finish rolling out the multi-task-per-phase plan model. `review-plan` no
+  longer blocks a valid plan whose phases carry more than one task, and the
+  same-`T<n>` ids that legitimately recur across phases are no longer flagged
+  as duplicates; `prep`, `handoff`, and `encode-docs` wording is aligned to the
+  same shape.
+- Align `setup` to the five core workflow steps named in the spec, so it no
+  longer describes six steps with `encode-docs` counted as one of them —
+  `encode-docs` and `handoff` are supporting skills, not core steps.
+- Refresh `SPEC.md` to the current `encode-docs` template: constraints,
+  interfaces, and invariants are now id-keyed pipe tables (`C1`, `I1`, `V1`)
+  instead of loose bullets and `V1:` lines, and the baked header tracks the next
+  id for all four id sections. Reverse-distilled `§C` and `§V` from the current
+  skill files so the spec matches intent: the invariant that mapped each plan
+  phase to exactly one task is rewritten, since a phase now carries multiple
+  tasks whose ids restart per phase, and a new invariant records `BACKLOG.md`,
+  the freeform file `prep` writes to defer a request while a cycle is mid-flight.
 - Redefine `SPEC.md` as lean, durable, and mutable. It now carries only five
   sections — goal, constraints, interfaces, research, and invariants. The task
   section and the bug section are gone: task tracking moves to `PLAN.md`, where

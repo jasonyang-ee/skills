@@ -21,7 +21,7 @@ Workflow (spec-driven, in order):
 3. `/review-plan` → research/refute plan → GO/NO-GO.
 4. `/cook` → execute phase → verify → commit → handoff. Single main agent.
 5. `/cater` → parallel execute phases via sub-agents, parallel when file sets ⊥ intersect. 4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → spec cleanup → purge PLAN.md + HANDOFF.md.
+6. `/garnish` → spec cleanup → blank PLAN.md + HANDOFF.md to template.
 7. `/review-code` → baseline code sweep → cook.
 
 Support:  `/handoff` baton | `/encode-docs` AI Files mutator | `/encode-commit` commit summary | `/encode-pr` PR review comments.

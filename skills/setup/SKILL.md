@@ -19,10 +19,10 @@ sections. It prepares the cold-session files needed by `prep`, `review-plan`,
 The generated or completed `AGENTS.md` must list these commands in this order:
 
 This is the seven-command bootstrap list, including `/setup`. It is separate from
-the six core workflow steps: those steps begin
-with `/prep`, and step 2 is the `encode-docs` writing discipline. `encode-docs`
-and `handoff` remain supporting skills invoked by the core workflow; do not add
-them as extra command entries.
+the five core workflow steps — `/prep`, `/review-plan`, `/cook` | `/cater`,
+`/garnish`, `/review-code`. `encode-docs` and `handoff` are supporting skills
+invoked by the core workflow, not counted among the five; do not add them as
+extra command entries.
 
 `/cook` and `/cater` are two ways to run the same execution step,
 so the core workflow counts them once. The bootstrap list gives each its own
@@ -39,8 +39,8 @@ entry: a reader who never sees `/cater` named never reaches for it.
 5. `/cater` — execute the same phases through sub-agents, in parallel
    only where their file sets do not intersect. Choose this or `/cook`
    for a given phase, never both.
-6. `/garnish` — send final decisions through `encode-docs`, then purge short-term plan
-   files when the cycle is complete.
+6. `/garnish` — send final decisions through `encode-docs`, then blank short-term plan
+   files to their baked-header template when the cycle is complete.
 7. `/review-code` — sweep implementation quality from the release baseline and
    trigger the next `prep` cycle for accepted fixes.
 
@@ -93,7 +93,7 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
    agent.
 5. `/cater` → same phases via sub-agents, parallel when file sets ⊥ intersect.
    4 | 5 exclusive per phase, ⊥ both.
-6. `/garnish` → SPEC.md cleanup → purge PLAN.md + HANDOFF.md
+6. `/garnish` → SPEC.md cleanup → blank PLAN.md + HANDOFF.md to template
 7. `/review-code` → baseline code sweep → prep
 
 support: `/encode-docs` sole mutator of the 3 docs + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments

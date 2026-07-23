@@ -33,7 +33,10 @@ Each sub-agent execute `cook #` for its own assigned # plan phase with specifyin
 ## LOAD
 
 1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent.
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its
+   baked-header `planning status`: proceed only on `work-in-progress`; `new`
+   stops and recommends `/prep` (the plan is a stub); `done` stops and
+   recommends `/garnish` (the cycle is complete).
 3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
 
@@ -130,9 +133,9 @@ Run this for every dispatched phase.
    (principle 4).
 7. **Purge the assignment file.** Once accepted, delete
    `HANDOFF-<phase-id>.md`. Leaving them behind litters the repo root and
-   blocks the cycle close: `garnish` removes exactly `PLAN.md` and
-   `HANDOFF.md`, and refuses to run with unrelated files dirty. At cycle close
-   no `HANDOFF-<phase-id>.md` may remain.
+   blocks the cycle close: `garnish` blanks `PLAN.md` and `HANDOFF.md` to their
+   baked-header template, and refuses to run with unrelated files dirty. At
+   cycle close no `HANDOFF-<phase-id>.md` may remain.
 8. **Refresh the main baton after acceptance.** Then continue to the next
    dispatchable phase.
 
