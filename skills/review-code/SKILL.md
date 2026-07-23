@@ -8,11 +8,11 @@ description: |
 
 This is a read-only implementation review. It finds risks and improvement opportunities across the whole change surface, then hands the result to `prep`. It does not edit code, `SPEC.md`, `PLAN.md`, or `HANDOFF.md` directly.
 
-## When to use
+## WHEN
 
 Use after all phases in a `PLAN.md` finish and before starting another round. Use it for a post-release or post-tag audit when the implementation needs a principal-engineer coherence check.
 
-## Baseline
+## BASELINE
 
 Resolve the comparison point before reading the diff:
 
@@ -22,14 +22,14 @@ Resolve the comparison point before reading the diff:
 
 Record baseline ref, `HEAD`, branch, and dirty-tree state in the review. Review the baseline-to-HEAD diff, then inspect surrounding callers and shared modules needed to judge the full picture.
 
-## Load
+## LOAD
 
 1. Read `SPEC.md` sections `§G`, `§C`, `§I`, `§R`, `§V`.
 2. Read `PLAN.md` (including its `§T` task table) and `HANDOFF.md` when present; confirm the plan is complete before treating this as a post-plan review.
 3. Read repository guidance, tests, changed files, callers, and adjacent abstractions in full.
 4. Run the documented verification command and record its exact result. A red baseline is a finding, not evidence that the new code is correct.
 
-## Review dimensions
+## REVIEW DIMENSIONS
 
 For every finding, cite `file:line`, test name, commit, or sourced reference. Flag `[unverified]` when evidence is unavailable.
 
@@ -41,7 +41,7 @@ For every finding, cite `file:line`, test name, commit, or sourced reference. Fl
 - **Security** — is any secrets or credentials in the diff, injection risks, untrusted input paths, authn/authz changes, and dependency?
 - **Drift** — is the distilled codebase deviating from `SPEC.md`? Deviation is a DIVERGENCE.
 
-## Review procedure
+## REVIEW PROCEDURE
 
 1. Inventory baseline-to-HEAD files and classify behavior vs mechanical edits.
 2. Trace changed entrypoints through callers, shared helpers, persistence, and error paths; inspect both the happy path and failure path.
@@ -69,7 +69,7 @@ GO / NO-GO — exhaustive, never a shrug:
 - **NO-GO** if any open BLOCK, any open DIVERGENCE, or any open blocking `?` (UNKNOWN) remains.
 - **GO** otherwise. HARDEN and NOTE never hold the gate — they carry to the next `prep`.
 
-## Output and prep handoff
+## OUTPUT AND PREP HANDOFF
 
 Output:
 
@@ -102,34 +102,22 @@ After the report, if divergence exist, confirm with user for the true intent. Ei
 
 ## REPORT OUTPUT
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`),
-mirror-check byte-identical, like FINDING TAXONOMY & GATE.
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`), mirror-check byte-identical, like FINDING TAXONOMY & GATE.
 
-Always on, for every report this skill produces. It does not drift back to
-prose after a long session, and it is not something the user has to ask for.
+Always on, for every report this skill produces. It does not drift back to prose after a long session, and it is not something the user has to ask for.
 
-Drop articles, filler (just/really/basically/simply), pleasantries, and
-hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a
-solution for". Do not narrate tool calls. No decorative tables or emoji. Use
-standard well-known acronyms (API, DB, HTTP), but never invent new ones
-(cfg/impl/req): the tokenizer splits an invented abbreviation into the same
-pieces as the full word, so it saves nothing and costs the reader a decode.
-No causal arrows in report prose for the same reason — spell out the word.
-Do not restate evidence the gate block already carries.
+Drop articles, filler (just/really/basically/simply), pleasantries, and hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a solution for". Do not narrate tool calls. No decorative tables or emoji. Use standard well-known acronyms (API, DB, HTTP), but never invent new ones (cfg/impl/req): the tokenizer splits an invented abbreviation into the same pieces as the full word, so it saves nothing and costs the reader a decode. No causal arrows in report prose for the same reason — spell out the word. Do not restate evidence the gate block already carries.
 
 **Carve-out — these stay explicit, uncompressed prose:**
 
-- Security findings. A compressed vulnerability report is a missed
-  vulnerability.
+- Security findings. A compressed vulnerability report is a missed vulnerability.
 - Warnings about irreversible or destructive actions.
 - Every `BLOCK` item.
 - `file:line` evidence, quoted error strings, and code. Never reword these.
 
-Compression that eats a finding has destroyed the thing the report exists to
-deliver. When terseness would make an order-sensitive sequence or a risk
-ambiguous, write the full sentence.
+Compression that eats a finding has destroyed the thing the report exists to deliver. When terseness would make an order-sensitive sequence or a risk ambiguous, write the full sentence.
 
-## Boundaries
+## BOUNDARIES
 
 - Do not edit implementation, tests, `SPEC.md`, `PLAN.md`, or `HANDOFF.md`.
 - Do not invent a baseline.

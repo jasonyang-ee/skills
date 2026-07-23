@@ -40,8 +40,7 @@ Every `prep` run must produce all of these:
 3. `SPEC.md` at repo root, **only when** the cycle changes durable truth — goal, constraint, interface, sourced research, or a standing invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time fixes are not durable truth and never land in `SPEC.md`.
 4. `BACKLOG.md` at repo root, **only when** `PLAN.md` is in middle of phases implementation, distill user request and save summary to `BACKLOG.md` for next cycle. Do not interrupt an ongoing implementation phase. `BACKLOG.md` does not need to be encoded, in fact, it must be detailed enough for a cold agent to pick up the next cycle. No fixed format for `BACKLOG.md` is required.
 
-`PLAN.md`, `HANDOFF.md`, and `BACKLOG.md` are short-lived execution state. `SPEC.md` is the
-durable memory, and it stays lean with high bar for new inclusion.
+`PLAN.md`, `HANDOFF.md`, and `BACKLOG.md` are short-lived execution state. `SPEC.md` is the durable memory, and it stays lean with high bar for new inclusion.
 
 ## Load
 
@@ -127,8 +126,7 @@ A cold agent should be able to work on any single phase without extra context.
 
 ### 7. Trigger `handoff`
 
-After `PLAN.md` is written, invoke the `handoff` skill so `HANDOFF.md` points at
-the starting phase `F1`.
+After `PLAN.md` is written, invoke the `handoff` skill so `HANDOFF.md` points at the starting phase `F1`.
 
 ## Final verification phase rules
 

@@ -1,8 +1,7 @@
 ---
 name: garnish
 description: |
-  Close a completed cook cycle with evidence-gated closure: verifies every PLAN task is done, final verification is complete, tests are green, and no unrelated work is dirty; prunes SPEC.md invariants (§V) that no longer describe live code, on evidence only; then blanks short-lived
-  PLAN.md and HANDOFF.md to their baked-header template while preserving SPEC.md and repository history. Triggers: "/garnish".
+  Close a completed cook cycle with evidence-gated closure: verifies every PLAN task is done, final verification is complete, tests are green, and no unrelated work is dirty; prunes SPEC.md invariants (§V) that no longer describe live code, on evidence only; then blanks short-lived PLAN.md and HANDOFF.md to their baked-header template while preserving SPEC.md and repository history. Triggers: "/garnish".
 ---
 
 # garnish — close PLAN cycle

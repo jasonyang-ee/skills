@@ -1,8 +1,7 @@
 ---
 name: encode-docs
 description: |
-  Owns the format and the writing of the three project documents: SPEC.md, PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while  staying precise by using the symbols and notations. Each document gets its own baked header to help a cold agent bootstrap. Triggers on any
-  write to SPEC.md, PLAN.md, or HANDOFF.md, and on "/encode-docs".
+  Owns the format and the writing of the three project documents: SPEC.md, PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while  staying precise by using the symbols and notations. Each document gets its own baked header to help a cold agent bootstrap. Triggers on any write to SPEC.md, PLAN.md, or HANDOFF.md, and on "/encode-docs".
 ---
 
 # encode-docs
@@ -162,6 +161,7 @@ Item are addressed by section abbriviation + id.
 `<Sn>` — `V2` is invariants item 2.
 
 Ids are monotonic and never reused, including after a row is deleted. The baked header carries one `next:` counter per id-keyed section (`§C`/`§I`/`§R`/`§V`) and it is the only source for the next id — scanning for the highest current id is wrong once rows have been pruned, because the highest is no longer the newest.
+
 When prune a stale row, delete the row outright, bump nothing, and leave `next:` where it is. An id whose row is gone stays retired forever.
 
 ### Delete or rewrite

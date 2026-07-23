@@ -1,8 +1,7 @@
 ---
 name: review-plan
 description: |
-  Find gaps in PLAN.md phases before any implementation starts — plan gap finding backed by research with latest web data. Opens with a research gate — if open unknowns remain, runs targeted research against current primary sources, records sourced findings in §R via encode-docs, and tightens later phases. Then refutes phase ordering, verification contracts, §T mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V updates to encode-docs, and ends with an explicit GO / NO-GO gate. Iterative: each round can reduce the number of needed research
-  phases until none remain. Triggers: "/review-plan".
+  Find gaps in PLAN.md phases before any implementation starts — plan gap finding backed by research with latest web data. Opens with a research gate — if open unknowns remain, runs targeted research against current primary sources, records sourced findings in §R via encode-docs, and tightens later phases. Then refutes phase ordering, verification contracts, §T mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V updates to encode-docs, and ends with an explicit GO / NO-GO gate. Iterative: each round can reduce the number of needed research phases until none remain. Triggers: "/review-plan".
 ---
 
 # review-plan — validate PLAN.md before cook
@@ -43,11 +42,7 @@ Attack the plan on these axes. Every finding cites evidence or is tagged `[unver
 
 - **Phase ordering** — does each phase depend on its predecessor's output?
 - **Verification contracts** — does every phase name the exact test file and case that proves each touched `§V`? "add tests" without a file name is a BLOCK.
-- **§T mapping** — does every phase carry at least one `task: T<n>`, ids
-  monotonic within the phase, each existing in `PLAN.md §T` and not already
-  `x`? A phase with no task, or an id missing from `§T` or out of order, is a
-  BLOCK. (Task ids restart per phase, so the same `T<n>` recurring across
-  phases is expected, not a duplicate.)
+- **§T mapping** — does every phase carry at least one `task: T<n>`, ids monotonic within the phase, each existing in `PLAN.md §T` and not already `x`? A phase with no task, or an id missing from `§T` or out of order, is a BLOCK. (Task ids restart per phase, so the same `T<n>` recurring across phases is expected, not a duplicate.)
 - **Phase gates** — are all preconditions achievable? Does any gate depend on elapsed time, external approval, or a soak period?
 - **Blast radius** — does any phase touch shared modules, auth, data migrations, or public `§I` surfaces? Does any step handle secrets, untrusted input, or injection-prone surfaces? Flag for an extra safety step in that phase's verification contract.
 - **Altitude** — are steps concrete enough to finish in one session? Unverifiable steps are a BLOCK.
@@ -55,9 +50,7 @@ Attack the plan on these axes. Every finding cites evidence or is tagged `[unver
 
 ## FINDING TAXONOMY & GATE
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`):
-identical categories and identical GO / NO-GO rule. Each skill keeps its own
-review axes and scope; only this taxonomy and gate are shared.
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`): identical categories and identical GO / NO-GO rule. Each skill keeps its own review axes and scope; only this taxonomy and gate are shared.
 
 Every finding is exactly one category — evidence → claim → category:
 
@@ -101,32 +94,20 @@ Decide GO / NO-GO by the exhaustive rule in FINDING TAXONOMY & GATE — never a 
 
 ## REPORT OUTPUT
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`),
-mirror-check byte-identical, like FINDING TAXONOMY & GATE.
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`), mirror-check byte-identical, like FINDING TAXONOMY & GATE.
 
-Always on, for every report this skill produces. It does not drift back to
-prose after a long session, and it is not something the user has to ask for.
+Always on, for every report this skill produces. It does not drift back to prose after a long session, and it is not something the user has to ask for.
 
-Drop articles, filler (just/really/basically/simply), pleasantries, and
-hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a
-solution for". Do not narrate tool calls. No decorative tables or emoji. Use
-standard well-known acronyms (API, DB, HTTP), but never invent new ones
-(cfg/impl/req): the tokenizer splits an invented abbreviation into the same
-pieces as the full word, so it saves nothing and costs the reader a decode.
-No causal arrows in report prose for the same reason — spell out the word.
-Do not restate evidence the gate block already carries.
+Drop articles, filler (just/really/basically/simply), pleasantries, and hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a solution for". Do not narrate tool calls. No decorative tables or emoji. Use standard well-known acronyms (API, DB, HTTP), but never invent new ones (cfg/impl/req): the tokenizer splits an invented abbreviation into the same pieces as the full word, so it saves nothing and costs the reader a decode. No causal arrows in report prose for the same reason — spell out the word. Do not restate evidence the gate block already carries.
 
 **Carve-out — these stay explicit, uncompressed prose:**
 
-- Security findings. A compressed vulnerability report is a missed
-  vulnerability.
+- Security findings. A compressed vulnerability report is a missed vulnerability.
 - Warnings about irreversible or destructive actions.
 - Every `BLOCK` item.
 - `file:line` evidence, quoted error strings, and code. Never reword these.
 
-Compression that eats a finding has destroyed the thing the report exists to
-deliver. When terseness would make an order-sensitive sequence or a risk
-ambiguous, write the full sentence.
+Compression that eats a finding has destroyed the thing the report exists to deliver. When terseness would make an order-sensitive sequence or a risk ambiguous, write the full sentence.
 
 ## BOUNDARIES
 

@@ -62,11 +62,8 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 1. `/setup` → bootstrap guidance + minimal durable files
 2. `/prep` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff
 3. `/review-plan` → research/refute plan → GO/NO-GO
-4. `/cook` → execute all remaining phases in order → verify → commit →
-   handoff after each phase. Optional phase arg → target one phase. Single main
-   agent.
-5. `/cater` → same phases via sub-agents, parallel when file sets ⊥ intersect.
-   4 | 5 exclusive per phase, ⊥ both.
+4. `/cook` → execute all remaining phases in order → verify → commit → handoff after each phase. Optional phase arg → target one phase. Single main agent.
+5. `/cater` → same phases via sub-agents, parallel when file sets ⊥ intersect. 4 | 5 exclusive per phase, ⊥ both.
 6. `/garnish` → SPEC.md cleanup → blank PLAN.md + HANDOFF.md to template
 7. `/review-code` → baseline code sweep → prep
 
@@ -74,8 +71,7 @@ support: `/encode-docs` sole mutator of the 3 docs + document formats | `/handof
 
 ## Encoding Symbols
 
-Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs,
-numbers, regex, errors verbatim.
+Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs, numbers, regex, errors verbatim.
 
 - `→` leads to | becomes | triggers
 - `∴` therefore | consequence
@@ -88,9 +84,7 @@ numbers, regex, errors verbatim.
 - `≤` at most | `≥` at least | `&` and | `|` or
 - `§` section reference, e.g. `§V.3`
 
-Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
-`encode-docs` requires the symbols for `SPEC.md`,
-`PLAN.md`, and `HANDOFF.md`.
+Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. `encode-docs` requires the symbols for `SPEC.md`, `PLAN.md`, and `HANDOFF.md`.
 
 ## Rules
 <user fills project constraints and safety rules>
