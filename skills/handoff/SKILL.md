@@ -8,7 +8,7 @@ description: |
 
 The next session starts cold. HANDOFF.md is everything it must know that PLAN.md, SPEC.md, and git history do NOT already record. Never duplicate what those files say — point at them.
 
-`handoff` GATHERS the baton content; it does NOT write `HANDOFF.md` directly. `encode-docs` is the sole mutator (§V16): it owns the format and performs the write. This skill collects the state below, then hands it to `encode-docs`, which emits the baked header + lean `F<n>.T<n>` template and overwrites the file.
+`handoff` GATHERS the baton content; it does NOT write `HANDOFF.md` directly. This skill collects the state below, then hands it to `encode-docs`.
 
 ## WHEN
 

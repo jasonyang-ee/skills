@@ -6,29 +6,13 @@ description: |
 
 # setup — bootstrap repository guidance
 
-Use `setup` once at the start of a repository, or later to audit missing workflow sections. It prepares the cold-session files needed by `prep`, `review-plan`, `cook`, `garnish`, and `review-code`.
-
-## Bootstrap command list
-
-The generated or completed `AGENTS.md` must list these commands in this order:
-
-This is the seven-command bootstrap list, including `/setup`. It is separate from the five core workflow steps — `/prep`, `/review-plan`, `/cook` | `/cater`, `/garnish`, `/review-code`. `encode-docs` and `handoff` are supporting skills invoked by the core workflow, not counted among the five; do not add them as extra command entries.
-
-`/cook` and `/cater` are two ways to run the same execution step, so the core workflow counts them once. The bootstrap list gives each its own entry: a reader who never sees `/cater` named never reaches for it.
-
-1. `/setup` — bootstrap guidance and minimal durable files.
-2. `/prep` — turn an idea, bug, feature, or expected behavior into iterative `PLAN.md` + `HANDOFF.md` and durable `SPEC.md` material.
-3. `/review-plan` — research and refute the plan until GO; reduce research phases as unknowns resolve.
-4. `/cook` — execute all remaining phases in order, verifying, committing, and refreshing the handoff after each phase. One main agent, start to finish. An optional phase argument targets one phase only.
-5. `/cater` — execute the same phases through sub-agents, in parallel only where their file sets do not intersect. Choose this or `/cook` for a given phase, never both.
-6. `/garnish` — send final decisions through `encode-docs`, then blank short-term plan files to their baked-header template when the cycle is complete.
-7. `/review-code` — sweep implementation quality from the release baseline and trigger the next `prep` cycle for accepted fixes.
+Use `setup` once at the start of a repository, or later to audit missing workflow sections. It prepares the  files needed by spec-driven workflow skills.
 
 ## Preflight
 
-1. Load `encode-docs` before reading or writing `AGENTS.md` — `AGENTS.md` is encoded with the symbol set.
+1. Load `encode-docs` before reading or writing `AGENTS.md`.
 2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in full when present.
-3. If `AGENTS.md` is absent, create it from the template below. If present, preserve all user content and add only missing sections or clearly marked placeholders. Never replace project-specific instructions silently.
+3. If `AGENTS.md` is absent, create it from the template below. Preserve all existing content and add only missing sections by the structure below. Only mutate content if user specifically asked.
 4. If `CLAUDE.md` is absent, create it with exactly:
 
    ```md
@@ -41,22 +25,16 @@ This is the seven-command bootstrap list, including `/setup`. It is separate fro
 
 ## AGENTS.md required sections
 
-When creating or completing `AGENTS.md`, keep it encoded and include:
+When creating or completing `AGENTS.md`, append the following sections if they are missing. Preserve all user content, and never overwrite project-specific instructions.
 
 ```md
 # AGENTS.md
 
 ## AI File Purpose
-- `encode-docs` = sole mutator & format owner of the 3 docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`); ∀ write to them routes through it. Other skills hand it content, ⊥ write directly.
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ one-time fixes; high bar to add.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → hand `PLAN.md` + `HANDOFF.md` updates to `encode-docs`; `SPEC.md` only for durable change.
-
-## Codebase Summary
-<user fills project purpose, stack, and repository boundary>
-
-## Layout
-<user fills important paths>
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. only for durable change. ⊥ one-time fixes; high bar to add.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = session progress tracking.
+- `BACKLOG.md` = optional, free style pending prep inputs and notes. only ingested by `/prep`.
 
 ## Skills
 1. `/setup` → bootstrap guidance + minimal durable files
@@ -67,7 +45,7 @@ When creating or completing `AGENTS.md`, keep it encoded and include:
 6. `/garnish` → SPEC.md cleanup → blank PLAN.md + HANDOFF.md to template
 7. `/review-code` → baseline code sweep → prep
 
-support: `/encode-docs` sole mutator of the 3 docs + document formats | `/handoff` baton | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## Encoding Symbols
 
@@ -84,22 +62,17 @@ Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs, nu
 - `≤` at most | `≥` at least | `&` and | `|` or
 - `§` section reference, e.g. `§V.3`
 
-Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. `encode-docs` requires the symbols for `SPEC.md`, `PLAN.md`, and `HANDOFF.md`.
-
-## Rules
-<user fills project constraints and safety rules>
+Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 
 ## End of Chat Checklist
 - Ensure repo tests pass.
 - Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
-- Update `SPEC.md` only for durable change (add `§V`, high bar); flip `§T` in `PLAN.md`.
-- Refresh `HANDOFF.md` when phase/session ends.
 - Commit directly (single summary commit, no AI co-author trailer). ⊥ push | tag without explicit ask.
 ```
 
 Do not invent project commands, paths, or constraints. Mark unknowns `?` until the user or research resolves them.
 
-## Minimal CHANGELOG.md
+## CHANGELOG.md minimal Sections
 
 If absent, create only:
 

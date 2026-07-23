@@ -2,15 +2,16 @@
 
 ## Codebase Summary
 
-Public repo. Personal central skill collection. Install: `npx skills add jasonyang-ee/skills` (→ ∀ detected agent; `-a claude-code` | `-a codex` targets one) | Claude Code CLI-free plugin: `/plugin marketplace add jasonyang-ee/skills` → `/plugin install skills@jasonyang-ee`.
-11 skills: own (`handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-commit`, `encode-pr`, and `encode-docs`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
+Public repo. Spec driven design skill collection.
+
+12 skills: `handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-commit`, `encode-pr`, `encode-docs`, and `encode-header`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## AI File Purpose
 
-- `encode-docs` = sole mutator & format owner of the 3 docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`); ∀ write to them routes through it (§V16, §V19). Other skills hand it content, ⊥ write directly.
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants; high bar to add, prune freely on evidence.
-- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → hand `PLAN.md` + `HANDOFF.md` updates to `encode-docs`; `SPEC.md` only for durable change.
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. only for durable change. ⊥ one-time fixes; high bar to add.
+- `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = session progress tracking.
+- `BACKLOG.md` = optional, free style pending prep inputs and notes. only ingested by `/prep`.
 
 ## Skills
 
@@ -22,9 +23,9 @@ Workflow (spec-driven, in order):
 4. `/cook` → execute phase → verify → commit → handoff. Single main agent.
 5. `/cater` → parallel execute phases via sub-agents, parallel when file sets ⊥ intersect. 4 | 5 exclusive per phase, ⊥ both.
 6. `/garnish` → spec cleanup → blank PLAN.md + HANDOFF.md to template.
-7. `/review-code` → baseline code sweep → cook.
+7. `/review-code` → baseline code sweep → prep.
 
-Support:  `/handoff` baton | `/encode-docs` AI Files mutator | `/encode-commit` commit summary | `/encode-pr` PR review comments.
+support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## SYMBOLS
 
@@ -41,7 +42,7 @@ Symbols = short exact operators. Preserve paths, code, IDs, URLs, numbers, regex
 - `≤` at most | `≥` at least | `&` and | `|` or
 - `§` section reference, e.g. `§V.3`
 
-Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. `/encode-docs` requires them for `SPEC.md`, `PLAN.md`, `HANDOFF.md`.
+Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
 
 ## Project Scripts:
 
@@ -73,6 +74,4 @@ Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo. 
 
 - `npm test` pass.
 - Update `CHANGELOG.md` `## [Unreleased]` for every feature/fix using plain English.
-- Update `SPEC.md` only for durable change (add §V, high bar); flip §T in `PLAN.md`.
-- Refresh `HANDOFF.md` when phase/session ends.
 - Commit directly (single summary commit, no Claude co-author trailer). ⊥ push | tag without explicit ask.
