@@ -1,39 +1,34 @@
-once prep ingested BACKLOG.md, we will simply blank it to avoid confusion and ensure that all relevant information is captured in the appropriate documentation files. guard is if we accidently prep but got cut off from session limit, so we will only blank after PLAN.md is written to capture all backlog information. This ensures that no important details are lost and that the documentation remains clear and organized.
+# BACKLOG — deferred request (queued while PLAN.md work-in-progress)
 
-This is a live HANDOFF.md file, I want you to give me good opnion on the current format. Is it good for the purpose of tracking progress and ensuring that all relevant information is captured? Are there any areas that could be improved or clarified? I feel the baseline should not use green|red|color to track, we should use explicit pass|fail|etc to indicate the status. There should be no need for `oracle` used as keyword here. It usually just the same full repo unit test script. Please let me know if oralcle really helps you to determine the handoff contition? Last commit may just need commit hash? let's skip including commit message in the handoff. Once all those are addressed, please update the handoff and encode-docs skill to reflect the changes.
-```
-# HANDOFF 2026-07-22
+Deferred per §V27 defer-mode: a `/prep` arrived while the current cycle's `PLAN.md` (HANDOFF-header simplification + BACKLOG read-gate, F1-F4) is `work-in-progress`. Not clobbering the live plan. Pick this up in the NEXT `/prep` cycle, AFTER the current cycle closes via `/garnish`.
 
-branch main | last commit 5ace8b9 refine encoding and template | tests green (`node --test` 7/7, not re-run — F1 = docs-only research)
-baseline green | oracle `npm test`
-uncommitted: `SPEC.md`+`CHANGELOG.md` (prior spec-refresh foundation); `PLAN.md`+`HANDOFF.md` (plan+baton); `SWEEP.md` (F1 artifact). ALL commits HELD pending review gate.
+## Why sequence after the current cycle (ordering dependency)
+The current cycle's F2 edits the HANDOFF baked-header text that lives INSIDE `skills/encode-docs/SKILL.md` `## BAKED HEADERS`. This deferred request MOVES that whole section out to a new skill. Doing them concurrently would collide on the same block. Let the current cycle simplify the HANDOFF baked header first; then this cycle relocates the already-simplified `## BAKED HEADERS` section. So: finish current cycle → `/garnish` → then `/prep` this backlog.
 
-## done this session
-F1.T1/T2/T3 (all `x`): swept 11 skills + AGENTS + SPEC → `SWEEP.md` = inconsistency register (X1-X22) + skill-loading state machine + overlap/de-dup map. PLAN existing-assets updated with F1 findings.
+## Request A — extract `## BAKED HEADERS` into a new `encode-header` support skill
+Goal: move the `## BAKED HEADERS` section (the three verbatim baked-header templates for SPEC.md / PLAN.md / HANDOFF.md) out of `skills/encode-docs/SKILL.md` into a NEW support skill `skills/encode-header/SKILL.md`. Rationale: the baked headers are one-time-use content (needed only when a doc is created fresh, a header is missing, or a header format update is requested), yet `encode-docs` is almost-always-loaded (§C11) and pays to carry ~50 lines of template on every load. Extracting shrinks the hot-path skill.
 
-## in progress (exact stop point)
--
-mid-edit files: none
+Details:
+- New skill: `skills/encode-header/SKILL.md`. Frontmatter `name: encode-header` (== dir, §V2), a `description` ≤1024 (§V3), body ≤500 lines (§V4). Body = the three baked-header templates + guidance on when/how they are emitted verbatim.
+- In `encode-docs`, replace the removed `## BAKED HEADERS` body with a ONE-LINE hint that triggers `encode-header` when a baked header is missing or the user requests a header update/format change. (User's explicit ask: "Leave a one line hint to trigger `encode-header` if header is missing or user request an update.")
+- `encode-docs` stays the SOLE WRITER/mutator of the 3 docs; `encode-header` is a content-supplier (like `prep`/`handoff` supply content) — it provides the header template, `encode-docs` still performs the write. Confirm this keeps §V16 (sole mutator) intact.
 
-## next
-REVIEW GATE (user) → then F2.T1. User reviews `SWEEP.md` and decides: (a) X17 workflow step-count (setup 6 vs SPEC 5), (b) confirm F2 expansion for multi-task propagation (X13-X16, X18) + review-plan into scope, (c) F3 cut list (near-empty) incl. REPORT OUTPUT block (2nd mirror | accept). Then cook resumes F2.
+## Request B — portability: strip repo-specific SPEC-id citations from skill bodies
+Principle (user): "We should not mention our spec in those skills which should be portable." A generic user who installs these skills has no `§V16` in their repo.
+- Distinction to preserve: the GENERIC format vocabulary (`§G/§C/§I/§R/§V/§T` as the spec-driven-workflow doc mechanism) is inherent to what these skills DO and stays. Only SPECIFIC numbered citations that point at THIS repo's rows (e.g. `(§V16)`, `(§V20)`) are non-portable and should be removed or reworded to describe the behavior self-containedly.
+- Already done (uncommitted, user's working tree): `(§V16)` removed from `skills/encode-docs/SKILL.md` line 10 ("...clobbering each other."). Also reflowed the `description:` block. NOTE: this uncommitted edit sits in the same file the current cycle's F2 will touch — either commit it separately or let the current cycle's encode-docs commit sweep it up.
+- Next-cycle task: audit ALL `skills/**/SKILL.md` bodies for specific numbered SPEC-row citations `(§V<n>)`/`(§C<n>)`/`(§I<n>)` and remove/reword them; keep generic `§V`-as-mechanism references. Grep seed: `§V[0-9]`, `§C[0-9]`, `§I[0-9]`, `§R[0-9]` across `skills/`.
 
-## deviations & decisions
-plan choice: F1 held its commit — SWEEP.md is a review-gate artifact that may change on user input; commit F1 + foundation together once gate resolves scope, so history stays coherent.
-F1 refined later phases (per cook/prep doctrine): added multi-task-propagation + typo + X17 findings to PLAN existing-assets rather than rewriting F2/F4 before the gate decides scope.
+## Research / touch-points the next /prep must confirm (do not treat as decided)
+- SPEC reconciliation: does moving header emission touch §V16 ("sole mutator and OWNER of ... formats") and §V20 ("∀ 3 encoded docs open with own baked header emitted verbatim by `encode-docs`")? Likely a light reword: encode-docs emits header VIA encode-header; encode-docs remains sole writer. Decide edit-in-place vs leave.
+- `SPEC.md §G` "Helpers:" list and `## Skills` support line name the support skills (`encode-docs`, `handoff`, `encode-commit`, `encode-pr`) — add `encode-header`.
+- `AGENTS.md`: top line "11 skills: own (...)" → 12 skills, add `encode-header`; `## Skills` support list → add `encode-header`; `## AI File Purpose` if it references header ownership.
+- `skills/setup/SKILL.md`: AGENTS template `## Skills` support line → add `encode-header`.
+- `CHANGELOG.md`: `## [Unreleased]` entry; note prior "11 skills" prose (CHANGELOG.md line ~391) is historical, do not rewrite history.
+- `NOTICE.md`: `encode-header` is ORIGINAL (derived from original `encode-docs`), not vendored — confirm whether an original-skill provenance row is expected.
+- Plugin/marketplace: `.claude-plugin/marketplace.json` root plugin auto-scans `skills/` (§I5/§R7) → new skill auto-included; confirm no marketplace edit needed.
+- Tests: `tests/skill-contract.test.mjs` asserts `skills.length > 0` (no hard count) → new skill is auto-picked-up by §V1-5 contract tests; confirm `encode-header` passes frontmatter/name/desc/body-line checks. `npm test` should go from 7/7 to still-green (new skill adds coverage, not failures).
+- Trigger wording: `encode-header`'s `description` must state what + when-to-use (auto-invocation driver, §R5) — "emit/refresh the baked header for SPEC/PLAN/HANDOFF when a header is missing or a format update is requested."
 
-## watchouts
-- MULTI-TASK half-propagated: decision landed only at encode-docs:350. Still singular at encode-docs:221, **review-plan:70 (a BLOCK trigger — would fail a valid multi-task plan)**, garnish:23, prep:21. F2 must cover all; review-plan not yet in F2 file list.
-- X17 workflow count is a genuine SPEC↔setup contradiction → needs user ruling before fixing.
-- F3 de-dup near-empty (skills already well-factored; dup is in necessary emitters / travelling headers / protected mirror). Set token-reduction expectation on F4, not F3.
-- SELF-SUFFICIENCY (§V28) + PROTECTED taxonomy mirror (§V26) still bind F3.
-- planning-status gate spans 5 skills + encode-docs def (F2.T3/T6) — wire all.
-- line numbers drift → re-find by quoted string (SWEEP.md quotes each).
-- `SWEEP.md` short-lived → F5 decides persist-as-AGENTS-section | drop at /garnish.
-
-## final verification
-item|status|evidence|decision
--|-|-|-
-```
-
-It seems a cold agent session will auto read BACKLOG.md. Please add a cook or cater or review-* or garnish gate to prevent reading BACKLOG.md since is is raw file and is not properly ingested and summarized by prep yet. Please don't read BACKLOG.md until prep has ingested it. This can be in the LOAD secion. Garnish is especially prohibited from touching BACKLOG.md. Maybe also update setup to make the agents.md file to have AI file to make it clear of BACKLOG.md is explicit for prep only. The edge case is that if prep on a work-in-progress session with BACKLOG.md file existed, we will only take user input and put into the BACKLOG.md file, and be sure to not prune BACKLOG.md in this case.
+## Suggested phase shape for the next cycle
+F1 research (confirm the §V16/§V20 reconciliation + all touch-points above) → F2 create `encode-header` skill + move `## BAKED HEADERS` + leave one-line trigger hint in `encode-docs` → F3 portability audit (strip specific `(§V<n>)` citations across `skills/**`) + roster/doc updates (AGENTS/SPEC/setup/CHANGELOG/NOTICE) → F4 final verify (`npm test` green, §V16/§V20 HOLD, new skill contract-compliant, no repo-specific citation left, roster count consistent).

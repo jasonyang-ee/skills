@@ -1,9 +1,7 @@
 ---
 name: encode-commit
 description: >
-  Ultra-compressed commit message generator. Cuts noise from commit messages while preserving
-  intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when "why"
-  isn't obvious. Triggers: "/encode-commit". Auto-triggers when staging changes.
+  Ultra-compressed commit message generator. Cuts noise from commit messages while preserving intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when "why" isn't obvious. Triggers: "/encode-commit". Auto-triggers when staging changes.
 ---
 
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.

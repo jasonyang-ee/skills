@@ -1,14 +1,7 @@
 ---
 name: review-plan
 description: |
-  Find gaps in PLAN.md phases before any implementation starts — plan gap
-  finding backed by research with latest web data. Opens with a research
-  gate — if open unknowns remain, runs targeted research against current
-  primary sources, records sourced findings in §R via encode-docs, and tightens
-  later phases. Then refutes phase ordering, verification contracts, §T
-  mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V
-  updates to encode-docs, and ends with an explicit GO / NO-GO
-  gate. Iterative: each round can reduce the number of needed research
+  Find gaps in PLAN.md phases before any implementation starts — plan gap finding backed by research with latest web data. Opens with a research gate — if open unknowns remain, runs targeted research against current primary sources, records sourced findings in §R via encode-docs, and tightens later phases. Then refutes phase ordering, verification contracts, §T mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V updates to encode-docs, and ends with an explicit GO / NO-GO gate. Iterative: each round can reduce the number of needed research
   phases until none remain. Triggers: "/review-plan".
 ---
 

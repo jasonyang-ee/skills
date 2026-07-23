@@ -1,15 +1,7 @@
 ---
 name: cater
 description: |
-  Enhanced cook for PLAN.md execution using sub-agents, holding
-  production-quality, verification-driven, evidence-based implementation.
-  You act as dispatcher, not author: each phase is assigned to a sub-agent
-  through its own HANDOFF-<phase-id>.md file at repo root, sized to the
-  phase's complexity, and never dual assign phase to multiple agents.
-  Each sub-agent reports back with a completion block; the dispatcher runs a
-  phase-scoped acceptance review of its diff before accepting, then purges the
-  assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first,
-  and composes with the encode-docs and handoff skills. Triggers: "/cater".
+  Enhanced cook for PLAN.md execution using sub-agents, holding production-quality, verification-driven, evidence-based implementation. You act as dispatcher, not author: each phase is assigned to a sub-agent through its own HANDOFF-<phase-id>.md file at repo root, sized to the phase's complexity, and never dual assign phase to multiple agents. Each sub-agent reports back with a completion block; the dispatcher runs a phase-scoped acceptance review of its diff before accepting, then purges the assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first, and composes with the encode-docs and handoff skills. Triggers: "/cater".
 ---
 
 # cater — Assign PLAN.md phases to cook by sub-agents

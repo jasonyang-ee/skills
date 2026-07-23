@@ -1,11 +1,7 @@
 ---
 name: review-code
 description: |
-  Principal-engineer sweep of implementation quality since the latest release
-  tag or explicit release commit: a security check plus evidence-based audit
-  of full-picture code coherence, complexity, reuse, and logic correctness.
-  Invokes prep to turn accepted fixes and improvements into a research-first
-  PLAN.md and HANDOFF.md. Triggers: "/review-code".
+  Principal-engineer sweep of implementation quality since the latest release tag or explicit release commit: a security check plus evidence-based audit of full-picture code coherence, complexity, reuse, and logic correctness. Invokes prep to turn accepted fixes and improvements into a research-first PLAN.md and HANDOFF.md. Triggers: "/review-code".
 ---
 
 # review-code — post-release code sweep → prep

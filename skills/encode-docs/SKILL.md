@@ -1,16 +1,13 @@
 ---
 name: encode-docs
 description: |
-  Owns the format and the writing of the three project documents: SPEC.md,
-  PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while 
-  staying precise by using the symbols and notations. Each document gets
-  its own baked header to help a cold agent bootstrap. Triggers on any
+  Owns the format and the writing of the three project documents: SPEC.md, PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while  staying precise by using the symbols and notations. Each document gets its own baked header to help a cold agent bootstrap. Triggers on any
   write to SPEC.md, PLAN.md, or HANDOFF.md, and on "/encode-docs".
 ---
 
 # encode-docs
 
-Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`, `PLAN.md`, and `HANDOFF.md`: no other skill writes those files directly — other skills supply content, this skill performs every write. Sectioned ownership keeps concurrent edits from clobbering each other (§V16).
+Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`, `PLAN.md`, and `HANDOFF.md`: no other skill writes those files directly — other skills supply content, this skill performs every write. Sectioned ownership keeps concurrent edits from clobbering each other.
 
 | doc | lifetime | written by | this skill supplies |
 | --- | --- | --- | --- |
