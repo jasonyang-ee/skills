@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done}. cook/cater run ⟺ w
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: work-in-progress
+planning status: done
 -->
 
 # PLAN
@@ -178,7 +178,7 @@ verify: no broken table/list/code/frontmatter (eyeball render); each paragraph =
 exit: wrap normalized
 next: F4.T2
 
-T2|~|lean wording — tighten prose, preserve accuracy
+T2|x|lean wording — tighten prose, preserve accuracy
 touch: ∀ `skills/*/SKILL.md`
 details: drop filler/redundancy/throat-clearing, prefer short words, cut repetition WITHIN each skill — keep complete, natural, accurate English (products, ⊥ symbol/fragment encoding). ⊥ drop any instruction, nuance, boundary, or verbatim token. Fix typos: X19 review-plan:81 + X20 review-code:63-64 "diviating/Diviation"→"deviating/Deviation"; X21 cater:4 "Enhensed"→"Enhanced", "with holding"→"holding". Each skill still self-sufficient (§V28) + accurate + spec-compliant (name==dir, description ≤1024, body ≤500 lines §V4). SURFACE F4 diff summary to user for accuracy sign-off.
 verify: skills read leaner but lossless (cold spot-read vs pre-F4); §V4 line count ≤500; description unchanged in intent
@@ -191,7 +191,7 @@ inputs: F2-F4 diffs; §V4/§V16/§V17/§V19/§V20/§V22/§V23/§V26/§V28/§V29;
 files: whole repo (read) + `CHANGELOG.md`, `HANDOFF.md` (write); decide `SWEEP.md` fate.
 
 §T  TASKS:
-T1|.|verify + classify + changelog + result table
+T1|x|verify + classify + changelog + result table
 touch: `CHANGELOG.md`, `HANDOFF.md`
 details: 1) `node --test` → green (7/7). 2) grep `remove|delete|purge|absent`, `next: R`, `Tables (§R)`, `task: T<n>` → 0 residual contradiction. 3) each 11 skills readable standalone + accurate (spot-check de-dup'd + lean'd); render check no broken markdown; body ≤500 lines (§V4) — NOTE post-unwrap line count is weak, token (§R1) is truer metric (flag only, ⊥ change test). 4) planning-status GATE trace: cook/cater stop on `new`+`done`, run on WIP; this PLAN.md carries WIP. 5) `SPEC.md` header ↔ encode-docs SPEC+PLAN templates consistent; V28+V29 present; mirror byte-identical (§V26). 6) classify §V22,§V23,§V26,§V28,§V29 = HOLD w/ evidence. 7) `CHANGELOG.md` [Unreleased] plain English. 8) result table → `HANDOFF.md`. 9) `SWEEP.md` fate: persist loading table as AGENTS.md "Skill Loading Model" (user call) | drop at `/garnish`.
 verify: `npm test` green; grep clean; gate traced; §V ∀ HOLD; skills self-sufficient + accurate; wrap normalized
