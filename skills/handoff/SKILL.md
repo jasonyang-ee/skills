@@ -33,7 +33,7 @@ do NOT reproduce that template here — encode-docs owns the shape.
 - baseline `<green | RED: file+test>` | oracle `<cmd>`
 - uncommitted: `<none | files + why>`
 - done this session: `<F<n>.T<n>>: <one line> → <sha>`
-- in progress: `<F<n>.T<n>>: mid-edit files: <paths | none>`
+- in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
 - next: `<F<n>.T<n>> | preconditions: <gates | none>`
 - deviations & decisions; watchouts
 - final verification table

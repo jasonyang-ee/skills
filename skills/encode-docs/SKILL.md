@@ -56,6 +56,7 @@ Prefer over words:
 &   and
 |   or
 §   section reference
+
 ```
 
 ## PRESERVE VERBATIM
@@ -71,7 +72,7 @@ Never compress:
 - SQL, regex, JSON, YAML.
 - Quoted strings.
 
-## SPEC.md FILE
+## SPEC.md File
 
 `SPEC.md` is the durable one. It outlives every plan and every session, and it
 is **mutable** — when scope changes, rows are added, rewritten, or deleted. Its
@@ -117,14 +118,13 @@ Never rewrite a section the handoff did not name. Sectioned ownership.
 ### NEW — idea to spec
 
 1. Emit the SPEC baked header verbatim as the first bytes of the file.
-2. Extract goal, one line, encoded → §G.
-3. List constraints the user stated or implied → §C.
-4. List external surfaces the user named → §I.
-5. §R only if research ran — else omit the section entirely.
-6. Propose initial invariants → §V, numbered from V1.
+2. Extract repo goal, one line, encoded → §G
+3. Define core repo constraints → §C
+4. List external surfaces → §I
+5. research result → §R
+6. Propose initial critical design spec invariants → §V
 
-Then show the full file and ask: "spec OK? `/review-plan` if the blast radius
-is large, else `/cook`."
+Then show the full file and ask: "spec OK? `/review-plan` if the blast radius is large, else `/cook`."
 
 ### DISTILL — code to spec
 
@@ -145,7 +145,7 @@ uncertain item with `?` so the user can confirm it.
 
 ### Section skeleton
 
-Fixed order, fixed headers, addressable.
+Pipe table using `|`, Fixed order, fixed headers, addressable, escape a literal `|` as `\|`. Backticks fine. Cells trimmed. Empty cell is `-`.
 
 ```
 # SPEC
@@ -154,73 +154,47 @@ Fixed order, fixed headers, addressable.
 one line. what code must do.
 
 ## §C CONSTRAINTS
-- bullet. non-negotiable boundary.
-- bullet. tech/lang/lib locked in.
+non-negotiable boundary. tech/lang/lib locked in
+id|description
+C1|run on Linux, macOS, Windows
+C2|use Go 1.21
 
 ## §I INTERFACES
 external surface. what world sees.
-- cmd: `foo bar` → stdout JSON
-- api: POST /x → 200 {id}
-- file: `config.yaml` schema …
-- env: `FOO_KEY` required
+id|type|shape → output,purpose,condition
+I1|cmd|`foo bar` → stdout JSON
+I2|api|POST /x → 200 {id}
+I3|file|`config.yaml` schema
+I4|env|`FOO_KEY` required
 
 ## §R RESEARCH
-optional. only if research ran. pipe table. each row ! cite source.
+each row ! cite source.
 id|claim|source
 R1|lib X rate-limits @ 100 rps|https://docs.x/limits
+R2|`name` 1-64 chars `[a-z0-9-]`, ⊥ lead/trail `-`|https://agentskills.io/specification.md
 
 ## §V INVARIANTS
-numbered. testable. each ! MUST hold.
-V1: ∀ req → auth check before handler
-V2: token expiry ≤ ⊥ allowed
+critical design spec. each ! hold.
+id|invariant definition
+V1|∀ req → auth check before handler
+V2|token expiry ≤ ⊥ allowed
 ```
-
-Row shapes:
-
-```
-V<n>: <subject> <relation> <condition>
-<kind>: <name> → <shape>          api: POST /x → 200 {id:string}
-                                  cmd: `foo bar <arg>` → stdout JSON
-                                  env: FOO_KEY ! set
-```
-
-**Table cells**: escape a literal `|` as `\|`. Backticks fine. Cells trimmed.
-Empty cell is `-`.
 
 ### Addressing
 
-`§<S>.<n>` is section.item — `§V.2` is invariants item 2. Commits, commit
-messages and PRs cite by section. Zero ambiguity.
+Item are addressed by section abbriviation + id.
 
-### Ids never move
+`<Sn>` — `C1` is constrains item 1.
+`<Sn>` — `V2` is invariants item 2.
 
-Ids are monotonic and never reused, including after a row is deleted. The
-baked header carries a `next:` counter and it is the only source for the next
-id — scanning for the highest current id is wrong once rows have been pruned,
-because the highest is no longer the newest.
+Ids are monotonic and never reused, including after a row is deleted. The baked header carries a `next:` counter and it is the only source for the next id — scanning for the highest current id is wrong once rows have been pruned, because the highest is no longer the newest.
+When prune a stale row, delete the row outright, bump nothing, and leave `next:` where it is. An id whose row is gone stays retired forever.
 
-When `garnish` prunes a stale §V or §C or §I row, delete the row outright, bump
-nothing, and leave `next:` where it is. An id whose row is gone stays retired
-forever.
+### Delete or rewrite
 
-### Writes
+Deletes stale §C/§R/§V/§I rows if no longer relevent, with evidence. Rewrites if row is partically relevent but need corrections to steer repo toward users intent　or instruction.
 
-| command | writes | section |
-| --- | --- | --- |
-| `/encode-docs` | creates + edits | all |
-| `/garnish` | deletes | stale §C/§V/§I rows, with evidence |
-
-`/cook` and `/cater` do not write `SPEC.md`; their `§T` task-status flips are
-content for `PLAN.md`, which this skill writes (§V16) and the PLAN.md FILE
-section governs.
-
-### Output rules
-
-- Encoded per this section. Baked header present.
-- Identifiers, paths, code verbatim.
-- Numbering monotonic; never reuse a section id.
-
-## PLAN.md FILE
+## PLAN.md File
 
 `PLAN.md` is a contract for one cycle. It is replaced wholesale rather than
 amended, and it is read by an executor who was not present when it was
@@ -289,7 +263,7 @@ Keep it compact. `PLAN.md` is a working document, not an RFC. Durable facts
 belong in `SPEC.md`; if a line would still matter after the cycle closes, it
 is in the wrong file.
 
-## HANDOFF.md FILE
+## HANDOFF.md File
 
 `HANDOFF.md` = baton. Overwritten in full ∀ session, read by an agent with ⊥
 memory. Records **state, ⊥ intent** — intent → `PLAN.md`, truth → `SPEC.md`.
@@ -311,7 +285,8 @@ uncommitted: <none | files + why>
 <F<n>.T<n>>: <one line> → <sha>
 
 ## in progress (exact stop point)
-<F<n>.T<n>>: mid-edit files: <paths | none>
+<F<n>.T<n>>: <status: mid-edit | done>
+mid-edit files: <paths | none>
 
 ## next
 <F<n>.T<n>> | preconditions: <gates | none>
@@ -353,14 +328,14 @@ file learns the format without loading this skill. Do not reword per project.
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
-Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence. Tasks (§T) → PLAN.md, ⊥ here. ⊥ §B bugs (→ CHANGELOG + git).
+Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: R<n> V<n>
-One file rule: >500 lines → prune stale §V, ⊥ split into more files.
+One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
 ```
@@ -373,8 +348,7 @@ Short-lived: one cycle. Replaced wholesale, ⊥ amended. Durable facts → SPEC.
 Order: goal | ground rules | existing assets | phase order table | one section per phase.
 Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
 ∀ phase names: goal | inputs | files | numbered steps | verify | exit | next | task: T<n>
-§T tasks defined & tracked here, ⊥ SPEC.md. Status: x done | ~ wip | . todo.
-`task:` = exactly one §T id from this file; ⊥ two phases share one id.
+§T tasks defined & tracked in each phase. Status: x done | ~ wip | . todo.
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
@@ -389,7 +363,7 @@ Session baton. Overwritten in full ∀ session. Records STATE, ⊥ intent (inten
 Sections: header | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification. Empty section → `-`, ⊥ deleted.
 Header ! carry: branch | last commit | tests | baseline + oracle command | uncommitted files + why
 Pointers = F<n>.T<n> (phase.task → PLAN.md), ⊥ bare step numbers. "in progress" & "next" ! use them.
-"in progress" ! name the NEXT TASK precisely: action, file, function. mid-edit files ! listed | `none`.
+"in progress" ! name current working task precisely: action, file, function. mid-edit files ! listed | `none`.
 Red tests ! named exactly (file + test name), ⊥ "some failing".
 final verification table ! filled only by the final verify phase; else header row alone.
 Encoding: same symbol set as SPEC.md.

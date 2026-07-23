@@ -8,7 +8,7 @@ Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, 
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: R8 V27
-One file rule: >500 lines → prune stale §V, ⊥ split into more files.
+One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
 
