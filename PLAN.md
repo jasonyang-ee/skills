@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: new
+planning status: work-in-progress
 -->
 
 # PLAN
@@ -58,35 +58,35 @@ inputs: this PLAN existing-assets; `SPEC.md` §C4/§V4/§V5/§V10/§V16/§V20/§
 files: read-only.
 
 §T  TASKS:
-T1|.|lock delimiter bytes + Theme G sites
+T1|x|lock delimiter bytes + Theme G sites
 touch: read `skills/encode-docs/SKILL.md` (`### Section skeleton`, `## BAKED HEADERS` SPEC block), `SPEC.md`, `skills/setup/SKILL.md`, `AGENTS.md`
 details: capture the 4 fenced SPEC table headers verbatim and derive each delimiter row by column count — `id|description` → `|---|---|`; `id|type|shape → output,purpose,condition` → `|---|---|---|`; `id|claim|source` → `|---|---|---|`; `id|invariant definition` → `|---|---|`. Confirm GFM validity: header row cell count == delimiter row cell count (leading/trailing pipes optional and may differ between the two rows). Confirm the PLAN phase-order and HANDOFF final-verification templates are OUT of scope per the user ruling. Confirm live `SPEC.md` body tables already carry delimiter rows ∴ only the header line + templates change.
 verify: 4 header/delimiter pairs recorded verbatim; out-of-scope tables named; live-SPEC-body-already-done confirmed by read.
 exit: F2 edit list exact.
 next: F1.T2
 
-T2|.|confirm state-machine + HANDOFF-header sites & semantics
+T2|x|confirm state-machine + HANDOFF-header sites & semantics
 touch: read `skills/prep/SKILL.md`, `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/handoff/SKILL.md`, `skills/encode-docs/SKILL.md`
 details: capture the Theme-D and Theme-A quoted anchors listed in existing assets. Lock corrected semantics against §V29: prep writes/expands `new`; `cook`|`cater` ALONE flip `new`→`work-in-progress` at execution start; they run on `new` WITH executable phases (flip then start) or `work-in-progress` (resume); `new` with ⊥ phases (empty stub) → stop, recommend `/prep`; `done` → stop, recommend `/garnish`; `handoff` sets `done` on ∀ §T `x` + final-verify HOLD, else leaves the value untouched. Resolve the `new` ambiguity explicitly: the discriminator is presence of phase sections, ⊥ task status. For Theme A lock the replacement line bytes: `branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)`.
 verify: every Theme-D/Theme-A anchor captured verbatim; semantics mapped clause-by-clause to §V29; replacement header line recorded.
 exit: F3 + F4 edit lists exact.
 next: F1.T3
 
-T3|.|confirm BACKLOG gate sites + prep lifecycle trigger
+T3|x|confirm BACKLOG gate sites + prep lifecycle trigger
 touch: read `skills/prep/SKILL.md`, `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/review-plan/SKILL.md`, `skills/review-code/SKILL.md`, `skills/garnish/SKILL.md`, `skills/setup/SKILL.md`, `AGENTS.md`
 details: capture each LOAD/Load section shape (numbering + style differ per file) so the ⊥-read line matches local convention. Capture `garnish` `## Procedure` + `## Boundaries` insertion points. Confirm against §V27 that the prep mode gate is the §V29 status: status ≠ `work-in-progress` → ingest/expand (read `BACKLOG.md` as input, write `PLAN.md`, THEN blank `BACKLOG.md`); status == `work-in-progress` → defer (append the request to `BACKLOG.md`, ⊥ prune, ⊥ clobber the in-flight plan). Confirm `setup`:37 + `AGENTS.md`:14 already carry the AI-File-Purpose line ∴ ⊥ re-edit.
 verify: 5 insertion points recorded with local numbering; prep mode gate mapped to §V27+§V29; already-done sites confirmed.
 exit: F5 executable cold.
 next: F1.T4
 
-T4|.|confirm encode-header extraction design + reconciliation + licence accounting
+T4|x|confirm encode-header extraction design + reconciliation + licence accounting
 touch: read `skills/encode-docs/SKILL.md` (`## BAKED HEADERS`, `### Dispatch`, `### NEW`), `NOTICE.md`, `README.md`, `.claude-plugin/marketplace.json`, `tests/`
 details: confirm the 3 templates to move and that moving them leaves `encode-docs` coherent (`### NEW` step 1 and `### Dispatch` must route via `encode-header` instead of holding the bytes). Fix the ownership split: `encode-header` SUPPLIES the header format, `encode-docs` remains the sole WRITER — this keeps §V16 true and satisfies §V28 (a skill may reference another only when that other is guaranteed co-loaded; `encode-docs` invokes `encode-header` on compose). Draft the exact §V16 and §V20 replacement wording. Decide whether the baked headers' trailing `Full rules: /encode-docs skill.` line stays pointing at `encode-docs` (doc format lives there) — expected yes, record the reasoning. Decide the §V10 accounting for `encode-header`: `NOTICE.md` lists vendored/derived skills only (`cook`/`cater`/`garnish`/`setup`/`handoff`/`review-code` have ⊥ row), but the moved SPEC-header content descends from the `caveman`+`spec` derivation already recorded for `encode-docs` → default DECISION = add a `NOTICE.md` row for `skills/encode-header/` mirroring the `encode-docs` provenance; record the alternative (treat as original, ⊥ row) and why it was rejected. Confirm the contract tests auto-cover a new skill dir (no hard skill count) and that `.claude-plugin/marketplace.json` root auto-scan needs ⊥ edit.
 verify: move-list + reconciled §V16/§V20 draft + NOTICE decision + test/marketplace evidence all recorded.
 exit: F6 executable cold.
 next: F1.T5
 
-T5|.|oracle baseline + portability inventory
+T5|x|oracle baseline + portability inventory
 touch: run `npm install` then `npm test`; `git grep -n "§[VCIRGT][0-9]" -- skills/`
 details: record the pass count (expect 7/7). Record the numbered-citation inventory (expect ⊥ match) as the F7 regression baseline — F2-F6 ! ⊥ introduce new numbered citations into skill bodies. Note the ≤500-line headroom for every skill F2-F6 touches, including `encode-docs` after F6 removes ~54 header lines.
 verify: `N/N` pass recorded; grep output recorded; headroom table recorded.

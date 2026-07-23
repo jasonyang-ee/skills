@@ -12,35 +12,36 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit bec4fbe fix: minor update to spec of this repo | tests green (`npm test` 7/7, run this session)
+branch main | last commit a2d9a89 docs: plan table delimiters and encode-header | tests green (`npm test` 7/7, run this session)
 baseline green | oracle `npm test`
-uncommitted: `PLAN.md` (rewritten F1-F7, status `new`) + `BACKLOG.md` (blanked — request ingested → F2) + `HANDOFF.md` (this baton). Held for user review / `/review-plan`; ⊥ auto-commit. `SPEC.md` ⊥ touched this run.
+uncommitted: none (F1 lands `PLAN.md` §T flips + this baton in one commit)
 
 ## done this session
-prep (rewrite): ingested the `BACKLOG.md` pipe-table request and rewrote `PLAN.md` as F1-F7 — Theme G (SPEC table delimiter rows, new) + Theme D (state machine) + Theme A (HANDOFF header) + Theme B+C (BACKLOG gate) + Theme E (`encode-header` extraction). Dropped Theme F (portability) ∵ already landed. Blanked `BACKLOG.md` after `PLAN.md` was written. ⊥ commit yet.
+F1.T1: locked the 4 SPEC table header/delimiter pairs in `skills/encode-docs/SKILL.md` `### Section skeleton`; confirmed PLAN phase-order + HANDOFF final-verify templates are out of scope; confirmed live `SPEC.md` body tables already carry delimiter rows.
+F1.T2: captured ∀ Theme-D + Theme-A anchors verbatim; locked the replacement HANDOFF header line and the §V29 clause-by-clause semantics.
+F1.T3: captured the 5 BACKLOG insertion points with each file's local numbering; confirmed the `prep` mode gate = §V29 status.
+F1.T4: confirmed the 3 templates to move, the supplier/writer split, the §V16/§V20 draft wording, and the `NOTICE.md` decision; confirmed tests + marketplace need ⊥ change.
+F1.T5: oracle 7/7 green; portability grep ⊥ match; ∀ skill body far under the 500-line cap.
 
 ## in progress (exact stop point)
 -
 mid-edit files: none
 
 ## next
-F1.T1 (`/cook F1`, or `/review-plan` first) — read `skills/encode-docs/SKILL.md` `### Section skeleton` + `## BAKED HEADERS` SPEC block, capture the 4 SPEC table headers verbatim, and derive each `|---|---|` delimiter row by column count. preconditions: `npm install` has been run (see watchouts).
+F2.T1 — in `skills/encode-docs/SKILL.md` `### Section skeleton`, insert `|---|---|` under `id|description`, `|---|---|---|` under `id|type|shape → output,purpose,condition`, `|---|---|---|` under `id|claim|source`, `|---|---|` under `id|invariant definition`, and extend the lead prose (line "Pipe table using `|`, Fixed order, fixed headers, ...") to STATE the delimiter-row rule. preconditions: none.
 
 ## deviations & decisions
-user rulings this run: (1) all four pending themes stay in one cycle — pipe-table delimiter + `encode-header` + state machine + HANDOFF header/BACKLOG gate; (2) delimiter rows land in the SPEC `§C`/`§I`/`§R`/`§V` tables ONLY — PLAN phase-order and HANDOFF final-verification templates stay plain; (3) canonical delimiter form = `|---|---|`, ⊥ the terser `-|-|-|-` that the previous `HANDOFF.md` used.
-prior plan reconciled to the tree, ⊥ re-issued blind: Theme F (portability) is DONE (`git grep "§[VCIRGT][0-9]" -- skills/` → ⊥ match) → dropped. The AI-File-Purpose `BACKLOG.md` line already landed in `skills/setup/SKILL.md`:37 + `AGENTS.md`:14 → F5 no longer re-edits them. Themes D, A, B+C confirmed still unlanded by grep.
-⊥ SPEC change this run (default-to-no-spec-change held). §V27/§V29/§C4 were corrected in a prior cycle and are committed; the only planned durable edit is §V16/§V20 in F6.T3, deferred there ∵ it depends on the extraction design F1.T4 confirms.
-this baton uses the OLD two-line header (baseline + oracle) ∵ F4 has ⊥ landed. `planning status: new` follows `SPEC.md` §V29, ⊥ the `handoff` skill body, which still says "else `work-in-progress`" — that stale sentence is exactly what F3.T4 fixes.
+`cook` started on `planning status: new` and flipped it → `work-in-progress` per `SPEC.md` §V29 (plan carries executable phases F1-F7 ∴ ⊥ an empty stub). The `cook` skill body still reads "proceed only on `work-in-progress`" — that stale clause is exactly what F3.T2 fixes; SPEC ≫ skill body.
+F1 found ⊥ contradiction between `PLAN.md` and the tree → F2-F6 stand as written, ⊥ plan correction issued.
+F1.T4 decisions recorded: (1) `NOTICE.md` GETS an `encode-header` row mirroring the `encode-docs` provenance (the moved SPEC header descends from `caveman`+`spec`); alternative "treat as original, ⊥ row" rejected ∵ §V10 wants ∀ shipped skill accounted and the bytes are derived. (2) each moved template keeps its trailing `Full rules: /encode-docs skill.` line ∵ the full document format lives in `encode-docs`; `encode-header` supplies header bytes only. (3) tests assert `skills.length > 0` + iterate discovered dirs ∴ a new skill dir is auto-covered, ⊥ count to bump.
+this baton still uses the OLD two-line header ∵ F4 has ⊥ landed.
 
 ## watchouts
-- `node_modules/` was ABSENT at session start → `npm test` failed with `ERR_MODULE_NOT_FOUND: js-yaml` from `tests/helpers.mjs`. Env setup, ⊥ a repo defect. Run `npm install` before trusting the oracle; 7/7 green after.
-- live drift F6 closes: `README.md`:90 links `skills/encode-header/SKILL.md`, `AGENTS.md`:7 says "12 skills", `SPEC.md` §G Helpers and `skills/setup/SKILL.md`:48 all name `encode-header` — but `skills/encode-header/` does ⊥ exist. Until F6 lands the README link is dead.
-- `skills/encode-docs/SKILL.md` is touched by F2, F3, F4, F6 and `skills/prep/SKILL.md` by F3, F5 → serialize. F6 ! run after F2+F3+F4 ∵ it moves the very header bytes those phases rewrite; a `/cater` run ! ⊥ parallelize them.
-- state machine is self-referential: F3 rewrites the PLAN baked header that governs `cook`/`cater`. This file's PLAN header already carries the corrected wording — F3 syncs the `encode-docs` template TO it, ⊥ invents a third phrasing.
-- `new` ambiguity = empty stub (post-`garnish`, ⊥ phase sections) vs ready plan (prep-written, has phase sections). `cook`/`cater` ! disambiguate on phase presence, ⊥ task status (F3.T2).
-- portability: F2-F6 ! ⊥ introduce numbered `§<S><n>` citations into skill BODIES; numbered ids belong in `PLAN.md` tasks only. Baseline inventory = ⊥ match; F7.T2 re-greps.
+- `npm install` ! run before trusting the oracle (`node_modules` was absent last session; env setup, ⊥ a repo defect). Already installed this session.
+- `skills/encode-docs/SKILL.md` is touched by F2, F3, F4, F6 and `skills/prep/SKILL.md` by F3, F5 → serialize. F6 ! run after F2+F3+F4 ∵ it moves the very header bytes those phases rewrite.
 - `garnish`:18 + :33 say "the recorded oracle and full-suite command" — after F4 drops the labeled `oracle <cmd>` field this must still resolve to the `(<cmd>)` inside the new tests line. F7.T2 checks; ⊥ pre-emptive edit.
-- `BACKLOG.md` is blank again → any `/cook`|`/cater`|`/review-*`|`/garnish` run before F5 lands ! still ⊥ read it (`SPEC.md` §V27).
+- F2-F6 ! ⊥ introduce numbered `§<S><n>` citations into skill BODIES; baseline = ⊥ match, F7.T2 re-greps.
+- `BACKLOG.md` is blank → any run before F5 lands ! still ⊥ read it (`SPEC.md` §V27).
 - line numbers drift as phases land → re-find every edit site by the quoted strings in `PLAN.md` existing-assets.
 
 ## final verification
