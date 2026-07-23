@@ -76,8 +76,8 @@ Stop and report the blocker if any condition fails:
 
 ```md
 ## garnish
-plan: <removed | blocked: reason>
-handoff: <removed | blocked: reason>
+plan: <blanked | blocked: reason>
+handoff: <blanked | blocked: reason>
 tests: <command> → <green | exact failures>
 durable state: SPEC.md preserved
 SPEC.md: <updated | no durable changes>

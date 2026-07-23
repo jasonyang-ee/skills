@@ -1,10 +1,10 @@
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
+Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence. Tasks (§T) → PLAN.md, ⊥ here. ⊥ §B bugs (→ CHANGELOG + git).
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: R8 V27
@@ -30,7 +30,7 @@ Core AI files:
 - `PLAN.md` → phase plan for `cook`|`cater`; research-first, verify-last; owns task tracking (§T)
 - `HANDOFF.md` → session baton for cold resume
 
-Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole `SPEC.md` mutator + owns all 3 doc formats), `encode-commit` (commit messages), `encode-pr` (PR review comments).
+Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator and owner), `encode-commit` (commit messages), `encode-pr` (PR review comments).
 
 ## §C CONSTRAINTS
 

@@ -3,14 +3,13 @@
 ## Codebase Summary
 
 Public repo. Personal central skill collection. Install: `npx skills add jasonyang-ee/skills` (→ ∀ detected agent; `-a claude-code` | `-a codex` targets one) | Claude Code CLI-free plugin: `/plugin marketplace add jasonyang-ee/skills` → `/plugin install skills@jasonyang-ee`.
-11 skills: own (`handoff`, `cook`, `cater`, `review-code`, `garnish`, `setup`), derived `prep`, + vendored MIT (cavekit, caveman → see `NOTICE.md`).
-Skills = markdown only. ⊥ runtime code shipped to user.
+11 skills: own (`handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-commit`, `encode-pr`, and `encode-docs`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## AI File Purpose
 
 - `encode-docs` = sole mutator & format owner of the 3 docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`); ∀ write to them routes through it (§V16, §V19). Other skills hand it content, ⊥ write directly.
 - `AGENTS.md` = repo work rules.
-- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants. ⊥ §T tasks, ⊥ §B bugs; high bar to add, prune freely on evidence.
+- `SPEC.md` = single system truth, durable & mutable. Read before any change. Baked format header @ top. §G goal, §C constraints, §I interfaces, §R sourced research, §V invariants; high bar to add, prune freely on evidence.
 - `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = phase handoff summary. ∀ change → hand `PLAN.md` + `HANDOFF.md` updates to `encode-docs`; `SPEC.md` only for durable change.
 
 ## Skills

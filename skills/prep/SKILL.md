@@ -1,43 +1,28 @@
 ---
 name: prep
 description: |
-  Turn a user request into an encoded execution package: refine the
-  goal just enough, research the unknowns first, hand durable requirements to
-  the encode-docs skill, draft a phased PLAN.md, and trigger handoff so a cold
-  session can resume with cook. The generated plan always starts with
-  research, ends with final verification, and holds a production-quality,
-  verification-driven, evidence-based implementation contract across all six
-  workflow steps. Triggers: "/prep".
+  Turn a user request into an encoded execution package: refine the goal just enough, research the unknowns first, hand durable requirements to the encode-docs skill, draft a phased PLAN.md, and trigger handoff so a cold session can resume review or cook or cater. The generated plan always include with research, implementation phases, and ends with final verification. It must hold a production-quality verification-driven, evidence-based implementation contract. Triggers: "/prep".
 ---
 
-# prep — request → PLAN.md + HANDOFF.md + encode-docs handoff
+# prep — user input -> detailed plan → PLAN.md -> handoff -> HANDOFF.md
 
-`prep` is the planning front door for work that is too fuzzy, too large, or too
-session-spanning for `cook` or `encode-docs` alone. It analysis and summarize between
-new idea, research setup, and a final drift-check pass by packaging them into
-one short planning run.
+`prep` is the planning front door for work that is too fuzzy, too large, or too session-spanning. It analysis and summarize between new idea, research setup, and a final drift-check pass by packaging them into short lived memory files.
 
 ## Quality contract
 
-Use these operational cues in the generated plan and handoff. “Principal
-engineer” is a quality signal, not a substitute for an observable contract.
-Each cue also lives in the description of the skill that owns its step; this
+Use these operational cues in the generated plan. “Principal engineer” is a quality signal, not a substitute for an observable contract. Each cue also lives in the description of the skill that owns its step; this
 contract mirrors them, it is not their sole carrier.
 
-1. **Plan:** make the goal, constraints, interfaces, risks, unknowns, and
-   acceptance evidence explicit; preserve the smallest coherent scope.
-2. **Encode:** keep `PLAN.md` and `HANDOFF.md` compact, lossless, and
-   encoded so a cold agent can resume without hidden context.
-3. **Review the plan:** research unknowns, challenge assumptions and phase
-   dependencies, and require an explicit GO/NO-GO before high-blast-radius work.
-4. **Implement:** make the smallest codebase-consistent change, verify-first;
-   name exact tests and oracles, then self-review the complete diff.
-5. **Close:** leave evidence in `SPEC.md`, `CHANGELOG.md`, and `HANDOFF.md`;
-   never claim completion from a green command alone when manual invariants
-   remain unverified.
-6. **Review the implementation:** inspect correctness, complexity, reuse,
-   coherence, and drift from the release baseline; turn accepted findings into
-   the next `prep` cycle.
+1. **Distill the request:** make the goal, constraints, interfaces, and unknowns explicit. preserve the smallest coherent scope. Ask questions to resolve ambiguity.
+2. **Plan:** 
+   - research first, then implementation, then final verification;
+   - each phase must be executable and verifiable;
+   - each phase must have a clear exit criteria and next phase pointer;
+   - each phase must have a task table with numbered steps, citing the relevant §V invariants if any.
+3. **Encode:** keep `PLAN.md` compact, lossless, and encoded so a cold agent can resume without hidden context.
+4. **Review the plan:** embed one cycle of review-plan after encoding to ensure the plan is complete, executable, and verifiable.
+5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
+6. **Report:** summarize the plan and highlight implementation plan in the final message to the user. Then suggest if secondary review-plan cycle is needed before the first implementation phase starts.
 
 The quality contract is complete only when each applicable cue has evidence.
 Do not use “best effort”, “looks good”, or “principal engineer” as completion
@@ -45,49 +30,29 @@ criteria.
 
 ## When to use
 
-Use `prep` when any of these are true:
-
 - The user gives a desire, idea, expected behaviour, or fully defined feature
   and wants the agent to turn it into executable work.
 - The work will likely span multiple files, phases, or sessions.
-- The plan needs a deliberate research phase before coding starts.
-- A cold follow-up session should be able to start with `/cook` and no
-  extra explanation.
-
-Skip it for a tiny, already-clear change with no need for `PLAN.md` or
-`HANDOFF.md`; that work can go straight to `encode-docs`.
+- A cold implementation session should be able to begin work without extra chat context.
 
 ## Hard outputs
 
 Every `prep` run must produce all of these:
 
-1. `PLAN.md` at repo root, in the spec encoding, carrying the phase task table
-   (`§T`). Tasks live here — never in `SPEC.md`. Every phase maps to exactly
-   one `§T` row.
-2. `HANDOFF.md` at repo root, in the spec encoding, written via the `handoff`
-   skill after the plan exists.
-3. A handoff block for the `encode-docs` skill **only when** the cycle changes
-   durable truth — goal, constraint, interface, sourced research, or a standing
-   invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time
-   fixes are not durable truth and never land in `SPEC.md`.
+1. `PLAN.md` at repo root, carrying the phase task details.
+2. `HANDOFF.md` at repo root, written via the `handoff` skill after the plan exists.
+3. `SPEC.md` at repo root, **only when** the cycle changes durable truth — goal, constraint, interface, sourced research, or a standing invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time fixes are not durable truth and never land in `SPEC.md`.
+4. `BACKLOG.md` at repo root, **only when** `PLAN.md` is in middle of phases implementation, distill user request and save summary to `BACKLOG.md` for next cycle. Do not interrupt an ongoing implementation phase. `BACKLOG.md` does not need to be encoded, in fact, it must be detailed enough for a cold agent to pick up the next cycle. No fixed format for `BACKLOG.md` is required.
 
-`PLAN.md` and `HANDOFF.md` are short-lived execution state. `SPEC.md` is the
-durable memory, and it stays lean.
+`PLAN.md`, `HANDOFF.md`, and `BACKLOG.md` are short-lived execution state. `SPEC.md` is the
+durable memory, and it stays lean with high bar for new inclusion.
 
 ## Load
 
 1. Read the user request carefully.
-2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` if they exist.
-   If `PLAN.md` already has incomplete phases (any mapped `§T` row not `x`),
-   default to **expanding** it — append new phases and update `§T` — rather
-   than replacing. Replace only when the user explicitly asks for a fresh
-   start or every mapped `§T` row is already `x`.
-3. Load `encode-docs`; both `PLAN.md` and `HANDOFF.md` use that encoding.
-4. Read just enough repo context to plan real work: existing tests, entrypoints,
-   configs, public interfaces, and nearby conventions.
-5. If the request has a blocking ambiguity, ask one question at a time in the
-   style `grill` used: recommend an answer, wait, then continue. Do not quiz the
-   user once the plan is unambiguous.
+2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` for full context.
+3. Read `BACKLOG.md` if it exists, and treat it as part of the user request.
+4. Read just enough repo context to plan real work: existing tests, entrypoints, configs, public interfaces, and nearby conventions.
 
 ## Workflow
 
@@ -99,24 +64,14 @@ Extract:
 - non-negotiable constraints;
 - public interfaces or files the outside world touches;
 - unknowns that need proof rather than guesses.
+- ask the user to resolve any ambiguity, one question at a time, until the request is unambiguous.
+- be creative and suggest other possible constrains and approaches that the user may not have considered.
 
-Unknowns stay explicit as `?` items. Never silently invent a product decision.
+### 2. Always research first
 
-### 2. Force research first
-
-The first plan phase is always research, even if short. If there is no external
-question, use the phase to confirm local code patterns, APIs, and tests that the
-later phases must honor. Research is allowed to refine the rest of the plan;
-when it changes reality, update the later phases instead of pretending the first
-draft was right. External findings require a source; unresolved items stay `?`.
-Write sourced findings into `§R` through `encode-docs` before handing off to
-`cook`.
+The first plan phase is always research to confirm local code patterns, APIs, external latest documentations, and tests that the later phases must honor. Research is allowed to refine the rest of the plan; when it changes reality, update the later phases instead of pretending the first draft was right. External findings require a source. Only write external sourced findings into `§R` through `encode-docs`.
 
 ### 3. Guard the spec, then hand durable facts to `encode-docs`
-
-`encode-docs` remains the sole mutator of `SPEC.md`, and `SPEC.md` holds durable
-truth only. Adding to it is a high-priority, high-bar decision, not a routine
-byproduct of planning. Before proposing any spec change, apply the bar:
 
 - **Default to no spec change.** Most cycles touch behaviour that the skill
   files, `PLAN.md`, and `CHANGELOG.md` already record. A new spec row is the
@@ -129,8 +84,7 @@ byproduct of planning. Before proposing any spec change, apply the bar:
 - When unsure whether a fact is durable, leave it out. An over-full spec drifts,
   and every session pays to read it.
 
-Then invoke `encode-docs` with only the sections that genuinely need a durable
-update:
+Invoke `encode-docs` to update `SPEC.md` with only the sections that genuinely need a durable update:
 
 - `§G` goal — only if the mission changed
 - `§C` constraints — only a new non-negotiable boundary
@@ -138,16 +92,9 @@ update:
 - `§R` sourced research rows — findings that carry a citation
 - `§V` proposed invariants — durable standing guarantees only
 
-Tasks (`§T`) are authored directly in `PLAN.md` and are never handed to
-`encode-docs` for `SPEC.md`. Do not write `SPEC.md` directly from `prep`.
-
-High blast radius after any spec update? Recommend `/review-plan` before the
-first implementation phase starts.
-
 ### 4. Draft `PLAN.md`
 
-Draft `PLAN.md` and hand it to `encode-docs`, which writes it at repo root. Keep
-it short, agent-facing, and encoded. It must contain, in this order:
+Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
 
 1. a one-line goal;
 2. ground rules / process contract for the run, including the applicable
@@ -176,74 +123,30 @@ Do not put coding ahead of research or after the final verification phase.
 
 Each phase section must name:
 
-- objective;
-- inputs or prerequisites;
+- goal;
+- inputs of original instructions and research findings;
 - files / modules / surfaces likely touched;
-- numbered steps;
+
+Then with multiple implementation tasks block containing the following:
+
+- task id, status, and short description;
+- touch paths;
+- details of the work to be done including the `§V` invariants to be checked;
 - verification contract;
 - exit criteria;
-- next phase pointer.
-- one `§T` task id via `task: T<n>`, defined in this `PLAN.md`; no duplicate
-  phase/task mapping.
+- next phase and task pointer.
 
-A cold agent should be able to start `F1` or resume later phases with
-`/cook` and no extra chat context.
+A cold agent should be able to work on any single phase without extra context.
 
 ### 7. Trigger `handoff`
 
 After `PLAN.md` is written, invoke the `handoff` skill so `HANDOFF.md` points at
-the next phase. A fresh plan with no baton is a broken plan. If no code has
-shipped yet, the handoff still records the exact next step: start `F1`.
-
-## `PLAN.md` template
-
-Use this shape and adapt the details to the repo:
-
-```md
-# PLAN
-
-goal: <one line>
-
-## ground rules
-- <encoded bullets>
-
-## existing assets
-- <repo facts, tests, docs, constraints>
-
-## phase order
-id|goal|depends|exit
-F1|research unknowns & refine plan|-|facts logged, later phases updated
-F2|implement approved work|F1|target tests green
-F3|final verify code vs spec & plan|F2|full suite green, drift resolved
-
-## F1 research
-task: T<n>
-goal: <one line>
-inputs: <paths, questions, sources>
-steps:
-1. <...>
-2. <...>
-verify: <what proves this phase done>
-exit: <state>
-next: F2
-
-## F2 implement
-task: T<n>
-...
-
-## F3 final verify
-task: T<n>
-...
-```
-
-Keep the file compact. `PLAN.md` is a working document, not an RFC.
+the starting phase `F1`.
 
 ## Final verification phase rules
 
-The last phase replaces the old `check` rhythm. It must, at minimum:
-
 - re-read the relevant `SPEC.md` sections and touched `PLAN.md` phases;
-- run the agreed verification commands;
+- run verification and unit test command / script to confirm the work is correct;
 - classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or
   `UNVERIFIABLE`, with file/test evidence;
 - sweep touched implementation for logic correctness, unnecessary complexity,

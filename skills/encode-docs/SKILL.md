@@ -236,13 +236,13 @@ Structure, in this order:
 3. existing assets already in the repo;
 4. a phase-order table;
 5. the full section for each phase.
-6. a task table (§T) in each phase, citing the §V invariants if relevant for reviewer to check.
+6. multiple task for detailed work instruction in each phase, citing the §V invariants if relevant for reviewer to check.
 
 Phase ids are `F1`, `F2`, ... and stay monotonic within the file. First phase
 is always research; last phase is always final verification. No coding before
 the research phase or after the verify phase.
 
-Task ids are `T1`, `T2`, ... and stay monotonic within the file.
+Task ids are `T1`, `T2`, ... and stay monotonic within the phase.
 
 Every phase section names: goal, tasks, inputs, files touched, numbered steps, a
 verification contract, exit criteria, the next phase.
@@ -266,19 +266,23 @@ F3|final verify code vs spec & plan|F2|full suite green, drift resolved
 
 ## F1 research
 goal: <one line>
-inputs: <paths, questions, sources>
+inputs: <specs, questions, sources, instructions>
 files: <paths likely touched>
+
 §T  TASKS:
-T1. <X>
+T.id|status|description
 touch: <paths>
-method: <how to research>
+details: <how|what to work>
 verify: <what proves this phase done>
 exit: <state>
-next: T2
-T2. <~>
+next: <F<n>.T<n>>
+
+T.id|status|cites
+touch: <paths>
+details: <how|what to work>
 verify: <what proves this phase done>
 exit: <state>
-next: F2
+next: <F<n>.T<n>>
 ```
 
 Keep it compact. `PLAN.md` is a working document, not an RFC. Durable facts
@@ -304,11 +308,10 @@ baseline <green | RED: file+test> | oracle <cmd>
 uncommitted: <none | files + why>
 
 ## done this session
-<F<n>>: <one line> → <sha>
+<F<n>.T<n>>: <one line> → <sha>
 
 ## in progress (exact stop point)
-<F<n>> ~: task done <T<n>…> | NEXT TASK: <action + file + function>
-mid-edit files: <paths | none>
+<F<n>.T<n>>: mid-edit files: <paths | none>
 
 ## next
 <F<n>.T<n>> | preconditions: <gates | none>
@@ -349,11 +352,11 @@ file learns the format without loading this skill. Do not reword per project.
 ```
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
+Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence. Tasks (§T) → PLAN.md, ⊥ here. ⊥ §B bugs (→ CHANGELOG + git).
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
 Tables (§R): pipe-delimited. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: R<n> V<n>
