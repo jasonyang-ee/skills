@@ -1,11 +1,11 @@
-# Agent Skills
+# AGENT SKILLS
 
 [![CI](https://github.com/jasonyang-ee/skills/actions/workflows/ci.yml/badge.svg)](https://github.com/jasonyang-ee/skills/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 A personal collection of agent skills for spec-driven development
 
-## Install
+## INSTALL
 
 Install with the [`skills`](https://www.skills.sh/docs) CLI — it copies the skills into every detected agent (Claude Code, Codex, Cursor, and more).
 
@@ -28,7 +28,7 @@ Install with the [`skills`](https://www.skills.sh/docs) CLI — it copies the sk
 	npx skills add jasonyang-ee/skills --all --global --yes -a codex
 	```
 
-### Claude Code plugin (no CLI)
+### Claude Code plugin
 
 Claude Code can also install straight from the plugin marketplace — no `npx` needed:
 
@@ -37,7 +37,7 @@ Claude Code can also install straight from the plugin marketplace — no `npx` n
 /plugin install skills@jasonyang-ee
 ```
 
-## Skills
+## SKILLS
 
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What it does |
 | --- | --- |
@@ -51,7 +51,7 @@ Claude Code can also install straight from the plugin marketplace — no `npx` n
 | [`review-code`](skills/review-code/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `prep`. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
 
-## Five Steps Workflow
+## FIVE STEPS WORKFLOW
 
 `/setup` bootstraps a repository for the following workflow:
 
@@ -73,23 +73,21 @@ Both `cook` and `cater` invoke `handoff` at the end of every session, so the nex
 | [`encode-commit`](skills/encode-commit/SKILL.md) | Generate compressed commits messages. Subject ≤50 chars. |
 | [`encode-pr`](skills/encode-pr/SKILL.md) | Generate compressed summary. One line per finding: location, problem, fix. |
 
-## B. SKILL-LOADING STATE MACHINE
+## SKILL LOADING STATE MACHINE
 
-`→` = invokes/loads at runtime. "co-loaded" = present when this skill runs.
-
-| skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | trigger | reads at load | invokes → | guaranteed co-loaded |
+| Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | Trigger | Reads | Outputs | Co-Loaded |
 | --- | --- | --- | --- | --- |
-| setup | `/setup` | AGENTS, CLAUDE, CHANGELOG, SPEC | encode-docs (SPEC create) | encode-docs |
-| prep | `/prep`; by review-code | SPEC, PLAN, HANDOFF, BACKLOG, repo | encode-docs (SPEC/PLAN), handoff | encode-docs, handoff |
-| review-plan | `/review-plan`; after NO-GO | PLAN, SPEC, HANDOFF, web | encode-docs (§R/§V/PLAN/HANDOFF) | encode-docs |
-| cook | `/cook` | HANDOFF, PLAN, SPEC, git | encode-docs (PLAN §T/SPEC), encode-commit, handoff | encode-docs, encode-commit, handoff |
-| cater | `/cater` | HANDOFF, PLAN, SPEC, git | sub-agents→cook; encode-docs, handoff | encode-docs, handoff (+cook in sub-agents) |
-| garnish | `/garnish`; by cook/cater end | SPEC, PLAN, HANDOFF, git | encode-docs (prune/blank) | encode-docs |
-| review-code | `/review-code`; by garnish end | SPEC, PLAN, HANDOFF, diff, tests | prep (→encode-docs, handoff) | prep, encode-docs, handoff |
-| handoff | `/handoff`; end of prep/cook/cater/review-plan session | git, PLAN, SPEC | encode-docs (writes HANDOFF) | encode-docs |
-| encode-docs | any SPEC/PLAN/HANDOFF write; `/encode-docs`; invoked by 7 skills above | target doc | — (terminal writer) | whichever skill invoked it |
-| encode-commit | `/encode-commit`; auto on stage; by cook/handoff | staged diff | — | cook (when in cook) |
-| encode-pr | `/encode-pr` | PR diff | — | none (standalone) |
+| setup | blank project | AGENTS, CLAUDE, CHANGELOG, SPEC | AGENTS, CLAUDE, CHANGELOG, SPEC | encode-docs |
+| prep | new idea | SPEC, PLAN, HANDOFF, BACKLOG, repo | SPEC, PLAN, HANDOFF, BACKLOG | encode-docs, handoff |
+| review-plan | end of `prep` | PLAN, SPEC, HANDOFF, web | SPEC, PLAN, HANDOFF | encode-docs |
+| cook | end of `prep`/`review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | encode-docs, encode-commit, handoff |
+| cater | end of `prep`/`review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | cook, encode-docs, handoff |
+| garnish | end of `cook`/`cater` | SPEC, PLAN, HANDOFF, git | PLAN, HANDOFF | encode-docs |
+| review-code | end of `garnish` | SPEC, PLAN, HANDOFF, diff, tests | SPEC, PLAN, HANDOFF | prep, encode-docs, handoff |
+| handoff | all sessions | git, PLAN, SPEC | HANDOFF | encode-docs |
+| encode-docs | all 7 skills above | target doc | SPEC, PLAN, HANDOFF | - |
+| encode-commit | auto by `cook`/`handoff` | staged diff | - | - |
+| encode-pr | user | PR diff | - | - |
 
 ## License
 
