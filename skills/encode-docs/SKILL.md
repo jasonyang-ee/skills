@@ -189,7 +189,7 @@ Phase ids are `F1`, `F2`, ... and stay monotonic within the file. First phase is
 
 Task ids are `T1`, `T2`, ... and stay monotonic within the phase.
 
-The baked header carries a mutable `planning status: new | work-in-progress | done` line — the one header value that changes through the cycle, like `SPEC.md`'s `next:` counter. It gates execution: `prep` writes `work-in-progress` when the plan is ready to run, `handoff` sets `done` once every `§T` row is `x` and final verification holds, and `garnish` resets it to `new` when it blanks the file. `cook` and `cater` run only while it reads `work-in-progress`; `new` stops for `/prep`, `done` stops for `/garnish`.
+The baked header carries a mutable `planning status: new | work-in-progress | done` line — the one header value that changes through the cycle, like `SPEC.md`'s `next:` counter. It tracks **execution**, not authorship: `prep` writes and expands the plan as `new` and never as `work-in-progress`, `cook` and `cater` alone flip `new` → `work-in-progress` at the moment they start executing, `handoff` sets `done` once every `§T` row is `x` and final verification holds and otherwise leaves the value untouched, and `garnish` resets it to `new` when it blanks the file. `cook` and `cater` run on `work-in-progress` (resume) or on a `new` plan that carries executable phase sections (flip first, then start); a `new` plan with no phase sections is an empty stub and stops for `/prep`, and `done` stops for `/garnish`. The discriminator between the two kinds of `new` is the presence of phase sections, never task status. `prep` may expand or rewrite a plan only while its status is not `work-in-progress`, so an in-flight cycle is never clobbered.
 
 Every phase section names its goal, inputs, and files touched, then one or more `§T` tasks. Each task carries an id, status, touch paths, work details (citing the relevant §V), a verification contract, exit criteria, and the next pointer.
 
@@ -309,7 +309,7 @@ Order: goal | ground rules | existing assets | phase order table | one section p
 Phase ids F1..Fn monotonic. F1 ! research. Fn ! final verify. ⊥ coding outside that span.
 ∀ phase names: goal | inputs | files | §T tasks (≥1) | verify | exit | next
 §T tasks defined & tracked in each phase. Status: x done | ~ wip | . todo.
-Tracked: planning status ∈ {new, work-in-progress, done}. cook/cater run ⟺ work-in-progress; new → stop (/prep); done → stop (/garnish).
+Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTION, ⊥ authorship. prep writes/expands as `new`; cook/cater ALONE flip new→work-in-progress at start & run on new(has phases)|wip; handoff→done on ∀ §T x + verify HOLD; garnish resets new. `new`+⊥phases (empty stub) → /prep; `done` → /garnish. prep expands ⟺ status ≠ work-in-progress.
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.

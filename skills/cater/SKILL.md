@@ -21,11 +21,13 @@ Each sub-agent execute `cook #` for its own assigned # plan phase with specifyin
 ## LOAD
 
 1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed only on `work-in-progress`; `new` stops and recommends `/prep` (the plan is a stub); `done` stops and recommends `/garnish` (the cycle is complete).
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed on `work-in-progress` (resume a cycle already under way), and proceed on `new` when the file carries executable phase sections (a plan `prep` wrote that nobody has started yet); `new` with no phase sections is an empty stub, so stop and recommend `/prep`; `done` stops and recommends `/garnish` (the cycle is complete). The discriminator between the two kinds of `new` is the presence of phase sections, never task status.
 3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
 
 ## SELECT PHASES TO DISPATCH
+
+Before the first assignment goes out, if `planning status` still reads `new`, hand the flip `new` → `work-in-progress` to `encode-docs`. `cook` and `cater` are the only skills that write that value — it marks execution, not authorship — so it must land before the first dispatch.
 
 A phase is dispatchable when its `task:` §T row is not `x`, its gate is satisfied, and its dependencies are already accepted. Gated phases with unmet gates are skipped with a one-line note.
 

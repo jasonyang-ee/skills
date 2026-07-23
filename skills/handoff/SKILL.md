@@ -27,7 +27,7 @@ Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md` (
 - done this session: `<F<n>.T<n>>: <one line> → <sha>`
 - in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
 - next: `<F<n>.T<n>> | preconditions: <gates | none>`
-- planning status: `done` when every `§T` row is `x` and the final-verify table holds; else `work-in-progress`. Hand the flip to `encode-docs` with the baton.
+- planning status: `done` when every `§T` row is `x` and the final-verify table holds; otherwise leave the value exactly as it is, because `cook` and `cater` own the `new` → `work-in-progress` flip. Hand the flip to `encode-docs` with the baton.
 - deviations & decisions; watchouts
 - final verification table
 

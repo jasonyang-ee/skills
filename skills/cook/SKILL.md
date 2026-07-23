@@ -19,12 +19,13 @@ You are the single main agent. No sub-agents, no swarm, no parallel workers. You
 ## LOAD (in this order, before any edit)
 
 1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed only on `work-in-progress`; `new` stops and recommends `/prep` (the plan is a stub); `done` stops and recommends `/garnish` (the cycle is complete).
+2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed on `work-in-progress` (resume a cycle already under way), and proceed on `new` when the file carries executable phase sections (a plan `prep` wrote that nobody has started yet); `new` with no phase sections is an empty stub, so stop and recommend `/prep`; `done` stops and recommends `/garnish` (the cycle is complete). The discriminator between the two kinds of `new` is the presence of phase sections, never task status.
 3. `SPEC.md` — Long term storage for repo work rules.
 4. `git status`, current branch, and `git log -3 --oneline`.
 
 ## PICK PHASE
 
+- Before any phase work starts, if `planning status` still reads `new`, hand the flip `new` → `work-in-progress` to `encode-docs`. `cook` and `cater` are the only skills that write that value — it marks execution, not authorship — so it must land before the first phase begins.
 - Arg given (`/cook F1`) → that phase only; stop after its handoff.
 - No arg → start at the `HANDOFF.md` "next" pointer.
 - If no pointer exists → start at the first phase in PLAN.md's recommended sequence whose `task:` §T row is not `x` and whose gate (if any) is satisfied. Gated phases with unmet gates — anything waiting on elapsed time, external evidence, or a soak period — are skipped with a one-line note.

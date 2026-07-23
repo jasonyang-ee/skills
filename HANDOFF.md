@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit 5d0d853 docs: confirm plan edit sites and start the cycle | tests green (`npm test` 7/7, run this session)
+branch main | last commit 10e8e2d docs: render spec tables as real markdown tables | tests green (`npm test` 7/7, run this session)
 baseline green | oracle `npm test`
 uncommitted: none (∀ phase lands its edits + §T flips + this baton in ONE commit)
 
@@ -23,13 +23,14 @@ F1.T3: captured the 5 BACKLOG insertion points with each file's local numbering;
 F1.T4: confirmed the 3 templates to move, the supplier/writer split, the §V16/§V20 draft wording, and the `NOTICE.md` decision; confirmed tests + marketplace need ⊥ change.
 F1.T5: oracle 7/7 green; portability grep ⊥ match; ∀ skill body far under the 500-line cap.
 F2.T1-T4 (Theme G): 4 delimiter rows added inside `encode-docs` `### Section skeleton` (`skills/encode-docs/SKILL.md`:132,139,148,155) + lead prose now STATES the rule; SPEC baked-header table line rewritten in BOTH the template (`encode-docs`:295) and live `SPEC.md`:8, byte-identical; `AGENTS.md`:45 + `skills/setup/SKILL.md`:65 carry the same delimiter sentence; `CHANGELOG.md` `## [Unreleased]` entry added. `npm test` 7/7 green. `SPEC.md` `next: C13 I12 R8 V30` untouched, ⊥ row diff.
+F3.T1-T5 (Theme D): `encode-docs` `## PLAN.md File` status paragraph rewritten execution-keyed + baked PLAN `Tracked:` line synced verbatim to the live `PLAN.md` header wording; `cook`:22 + `cater`:24 LOAD gate now runs on `wip`|`new`-with-phases and stops only on the empty stub; the `new`→`wip` flip added as an explicit step at `cook` `## PICK PHASE`:28 + `cater` `## SELECT PHASES TO DISPATCH`:30; `prep`:94 writes `new` + carries the expand-⟺-≠wip gate; `handoff`:30 is done-else-LEAVE; `CHANGELOG.md` entry added. `git grep "proceed only on" -- skills/` → ⊥ match; `npm test` 7/7 green.
 
 ## in progress (exact stop point)
 -
 mid-edit files: none
 
 ## next
-F3.T1 — in `skills/encode-docs/SKILL.md` `## PLAN.md File`, rewrite the `planning status` paragraph (starts "The baked header carries a mutable `planning status: new | work-in-progress | done` line") to the execution-keyed machine, then sync the baked PLAN header `Tracked:` line to the wording this file's own `PLAN.md` header already carries. preconditions: none.
+F4.T1 — in `skills/encode-docs/SKILL.md` `## HANDOFF.md File`, replace the two fenced template lines `branch <name> | last commit <sha> <subject> | tests <green | RED: named>` + `baseline <green | RED: file+test> | oracle <cmd>` with the single line `branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)`, then reword Rules 2, DELETE Rule 3 and renumber, and rewrite the baked HANDOFF `Header ! carry:` line. preconditions: none.
 
 ## deviations & decisions
 `cook` started on `planning status: new` and flipped it → `work-in-progress` per `SPEC.md` §V29 (plan carries executable phases F1-F7 ∴ ⊥ an empty stub). The `cook` skill body still reads "proceed only on `work-in-progress`" — that stale clause is exactly what F3.T2 fixes; SPEC ≫ skill body.

@@ -91,7 +91,7 @@ Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
 4. a phase-order table;
 5. the full section for each phase.
 
-Set the baked-header `planning status` to `work-in-progress`; that is the gate `cook` and `cater` read before executing a phase.
+Set the baked-header `planning status` to `new`, both on a fresh write and on an expansion. That value tracks execution rather than authorship: `cook` and `cater` own the flip to `work-in-progress` and make it when they actually start executing, so a plan nobody has begun never claims to be running. For the same reason, `prep` may expand or rewrite a plan only while its status is not `work-in-progress` — an in-flight cycle is never clobbered.
 
 Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
 

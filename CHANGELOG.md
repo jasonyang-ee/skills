@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The plan's `planning status` now tracks execution instead of authorship.
+  `prep` leaves a freshly written or expanded plan as `new`, and only `cook`
+  and `cater` mark it work-in-progress, at the moment they actually start a
+  phase. They also now run on a `new` plan that has phase sections rather
+  than refusing it — only a `new` plan with no phases is treated as an empty
+  stub and sent back to `/prep`. This fixes `prep` refusing to expand a plan
+  nobody had begun, and stops a plan claiming to be running before anyone
+  ran it. `handoff` no longer writes work-in-progress; it sets `done` when
+  the cycle finishes and otherwise leaves the value alone.
 - The tables in a generated `SPEC.md` now carry the markdown delimiter row
   under their header, so the constraint, interface, research, and invariant
   sections render as real tables on GitHub instead of a wall of pipe

@@ -133,35 +133,35 @@ inputs: F1.T2 register; §V29 (already correct in `SPEC.md`); §V27; this file's
 files: `skills/encode-docs/SKILL.md`, `skills/cook/SKILL.md`, `skills/cater/SKILL.md`, `skills/prep/SKILL.md`, `skills/handoff/SKILL.md`, `CHANGELOG.md`.
 
 §T  TASKS:
-T1|.|encode-docs: PLAN.md-File paragraph + baked PLAN header
+T1|x|encode-docs: PLAN.md-File paragraph + baked PLAN header
 touch: `skills/encode-docs/SKILL.md`
 details: rewrite the `## PLAN.md File` `planning status` paragraph to the corrected machine — `prep` writes/expands `new` (never `work-in-progress`); `cook`|`cater` alone flip `new`→`work-in-progress` at execution start; `handoff` sets `done` once every `§T` row is `x` and final verification holds; `garnish` resets to `new` when it blanks the file; `cook`|`cater` run on `new` that has executable phases (flip, then start) or `work-in-progress` (resume); `new` with no phases is an empty stub → `/prep`; `done` → `/garnish`. Rewrite the baked PLAN header `Tracked:` line to the same machine, compressed — the live `PLAN.md` header in this repo already carries acceptable wording; sync the template TO it rather than inventing a third phrasing.
 verify: `grep -n "prep writes .work-in-progress" skills/encode-docs/SKILL.md` → ⊥ match; the paragraph and the baked `Tracked:` line describe the same machine; template `Tracked:` line matches this file's header semantics; body ≤500 lines.
 exit: the format owner describes an execution-keyed gate.
 next: F3.T2
 
-T2|.|cook + cater: LOAD gate + the new→wip flip
+T2|x|cook + cater: LOAD gate + the new→wip flip
 touch: `skills/cook/SKILL.md`, `skills/cater/SKILL.md`
 details: replace the identical clause "proceed only on `work-in-progress`; `new` stops and recommends `/prep` (the plan is a stub); `done` stops and recommends `/garnish` (the cycle is complete)" in each LOAD section with: proceed on `work-in-progress` (resume) OR on `new` that carries executable phase sections — in the `new` case flip `new`→`work-in-progress` through `encode-docs` BEFORE starting the first phase; `new` with no phase sections is an empty stub → stop and recommend `/prep`; `done` → stop and recommend `/garnish`. Add the flip as an explicit step in each file's execution kickoff (`cook` `## PICK PHASE`/`## RUN LOOP`, `cater` `## SELECT PHASES TO DISPATCH`) so the gate and the mutation are ⊥ separated. Match each file's own numbering and prose style; keep both statements self-sufficient (⊥ "see cook").
 verify: `grep -n "proceed only on" skills/cook/SKILL.md skills/cater/SKILL.md` → ⊥ match; each file shows both the run-on-`new`|`wip` gate and the flip step; the empty-stub discriminator is phase presence; bodies ≤500 lines.
 exit: only `cook`|`cater` write `work-in-progress`.
 next: F3.T3
 
-T3|.|prep: write `new`, expand ⟺ status ≠ wip
+T3|x|prep: write `new`, expand ⟺ status ≠ wip
 touch: `skills/prep/SKILL.md`
 details: rewrite the `### 4. Draft `PLAN.md`` sentence "Set the baked-header `planning status` to `work-in-progress`; that is the gate `cook` and `cater` read before executing a phase." → set it to `new` on write or expand, and note that `cook`|`cater` own the flip to `work-in-progress` at execution start. State the authorship gate: `prep` may expand or rewrite a plan ⟺ its status is ≠ `work-in-progress` (the defer branch itself lands in F5.T1).
 verify: `grep -n "planning status" skills/prep/SKILL.md` shows the `new` write + the expand gate; ⊥ "Set the baked-header `planning status` to `work-in-progress`"; body ≤500 lines.
 exit: `prep` ⊥ prematurely marks an unstarted plan as running.
 next: F3.T4
 
-T4|.|handoff: done-else-leave
+T4|x|handoff: done-else-leave
 touch: `skills/handoff/SKILL.md`
 details: reword "planning status: `done` when every `§T` row is `x` and the final-verify table holds; else `work-in-progress`." → `done` under the same condition, otherwise LEAVE the value as-is, because `cook`|`cater` own the `new`→`work-in-progress` flip. Keep the "hand the flip to `encode-docs` with the baton" clause.
 verify: `grep -n "work-in-progress" skills/handoff/SKILL.md` shows ⊥ "else `work-in-progress`"; the done-else-leave rule is explicit; body ≤500 lines.
 exit: `handoff` ⊥ claims wip authorship.
 next: F3.T5
 
-T5|.|changelog
+T5|x|changelog
 touch: `CHANGELOG.md`
 details: add a `## [Unreleased]` bullet in plain English: the planning status now tracks execution rather than authorship — `prep` leaves a freshly written plan as `new` and only `cook`/`cater` mark it work-in-progress when they actually start, which fixes `prep` refusing to expand a plan nobody had begun.
 verify: entry present.
