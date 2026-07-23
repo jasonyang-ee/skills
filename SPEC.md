@@ -36,6 +36,7 @@ Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator
 
 non-negotiable boundary. tech/lang/lib locked in
 id|description
+|---|---|
 C1|comply Agent Skills spec (§R1); installable `npx skills add jasonyang-ee/skills` → serves Claude Code + Codex + more via `-a <agent>` from flat `skills/` layout (§R6); Claude Code also CLI-free via plugin marketplace (§R7)
 C2|skills = markdown only; ⊥ runtime deps for installing user; ⊥ Python; ⊥ `scripts/`; ⊥ vendor skills needing hooks \| subagents
 C3|layout `skills/<name>/SKILL.md`; `name` == dir; Agent Skills spec + skills CLI flat discovery (§R1, §R4)
@@ -53,6 +54,7 @@ C12|SPEC mutation = high bar (durable standing guarantee only); prune freely on 
 
 external surface. what world sees.
 id|type|shape → output,purpose,condition
+|---|---|---|
 I1|cmd|`npx skills add jasonyang-ee/skills` → install ∀ skills → detected agents
 I2|cmd|`npx skills add jasonyang-ee/skills --list` → list ∀ skills
 I3|cmd|`npx skills add jasonyang-ee/skills -s prep -s cook -s encode-docs -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
@@ -69,6 +71,7 @@ I11|ci|tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body
 
 each row ! cite source.
 id|claim|source
+|---|---|---|
 R1|Agent Skills spec: `name` 1-64 chars `[a-z0-9-]`, ⊥ lead/trail `-`, ! == parent dir; `description` 1-1024 chars non-empty; body ≤ 500 lines & ≤ 5000 tokens recommended; `name`+`description` = sole startup-loaded metadata, body loads on activation|https://agentskills.io/specification.md
 R2|`skills add owner/repo` → git clone GitHub direct; npm registry ∉ install path ∴ npm publish ⊥ needed|skills CLI README §Source Formats
 R3|`npx skills add <repo>` copies `SKILL.md` + `skills-lock.json` only — ⊥ `NOTICE.md`, ⊥ `LICENSE` ∴ in-body attribution = only notice that would travel; user accepted `NOTICE.md`-only + frontmatter `license:` (MIT exposure accepted, leanness chosen)|empirical: `npx skills add` → temp dir → `find`
@@ -81,6 +84,7 @@ R7|Claude Code CLI-free native install = plugin marketplace: `.claude-plugin/mar
 
 critical design spec. each ! hold.
 id|invariant definition
+|---|---|
 V1|∀ `skills/*/SKILL.md` → frontmatter parses as valid YAML; `name` & `description` = non-empty strings
 V2|∀ skill → `name` == parent dir name; `name` ∈ `/^[a-z0-9]+(-[a-z0-9]+)*$/` & len ≤ 64; unique across repo
 V3|∀ skill → `description` len ≤ 1024
