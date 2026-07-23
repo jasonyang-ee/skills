@@ -12,9 +12,9 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-23
 
-branch main | last commit a2d9a89 docs: plan table delimiters and encode-header | tests green (`npm test` 7/7, run this session)
+branch main | last commit 5d0d853 docs: confirm plan edit sites and start the cycle | tests green (`npm test` 7/7, run this session)
 baseline green | oracle `npm test`
-uncommitted: none (F1 lands `PLAN.md` §T flips + this baton in one commit)
+uncommitted: none (∀ phase lands its edits + §T flips + this baton in ONE commit)
 
 ## done this session
 F1.T1: locked the 4 SPEC table header/delimiter pairs in `skills/encode-docs/SKILL.md` `### Section skeleton`; confirmed PLAN phase-order + HANDOFF final-verify templates are out of scope; confirmed live `SPEC.md` body tables already carry delimiter rows.
@@ -22,13 +22,14 @@ F1.T2: captured ∀ Theme-D + Theme-A anchors verbatim; locked the replacement H
 F1.T3: captured the 5 BACKLOG insertion points with each file's local numbering; confirmed the `prep` mode gate = §V29 status.
 F1.T4: confirmed the 3 templates to move, the supplier/writer split, the §V16/§V20 draft wording, and the `NOTICE.md` decision; confirmed tests + marketplace need ⊥ change.
 F1.T5: oracle 7/7 green; portability grep ⊥ match; ∀ skill body far under the 500-line cap.
+F2.T1-T4 (Theme G): 4 delimiter rows added inside `encode-docs` `### Section skeleton` (`skills/encode-docs/SKILL.md`:132,139,148,155) + lead prose now STATES the rule; SPEC baked-header table line rewritten in BOTH the template (`encode-docs`:295) and live `SPEC.md`:8, byte-identical; `AGENTS.md`:45 + `skills/setup/SKILL.md`:65 carry the same delimiter sentence; `CHANGELOG.md` `## [Unreleased]` entry added. `npm test` 7/7 green. `SPEC.md` `next: C13 I12 R8 V30` untouched, ⊥ row diff.
 
 ## in progress (exact stop point)
 -
 mid-edit files: none
 
 ## next
-F2.T1 — in `skills/encode-docs/SKILL.md` `### Section skeleton`, insert `|---|---|` under `id|description`, `|---|---|---|` under `id|type|shape → output,purpose,condition`, `|---|---|---|` under `id|claim|source`, `|---|---|` under `id|invariant definition`, and extend the lead prose (line "Pipe table using `|`, Fixed order, fixed headers, ...") to STATE the delimiter-row rule. preconditions: none.
+F3.T1 — in `skills/encode-docs/SKILL.md` `## PLAN.md File`, rewrite the `planning status` paragraph (starts "The baked header carries a mutable `planning status: new | work-in-progress | done` line") to the execution-keyed machine, then sync the baked PLAN header `Tracked:` line to the wording this file's own `PLAN.md` header already carries. preconditions: none.
 
 ## deviations & decisions
 `cook` started on `planning status: new` and flipped it → `work-in-progress` per `SPEC.md` §V29 (plan carries executable phases F1-F7 ∴ ⊥ an empty stub). The `cook` skill body still reads "proceed only on `work-in-progress`" — that stale clause is exactly what F3.T2 fixes; SPEC ≫ skill body.

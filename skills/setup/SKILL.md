@@ -62,7 +62,7 @@ Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs, nu
 - `≤` at most | `≥` at least | `&` and | `|` or
 - `§` section reference, e.g. `§V.3`
 
-Tables use `|`; escape literal `\|`. `§T` status: `x` done, `~` wip, `.` todo.
+Tables use `|`; escape literal `\|`. SPEC `§C`/`§I`/`§R`/`§V` tables carry a GFM delimiter row (`|---|---|`, one cell per column) under the header. `§T` status: `x` done, `~` wip, `.` todo.
 
 ## End of Chat Checklist
 - Ensure repo tests pass.

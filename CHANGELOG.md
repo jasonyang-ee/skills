@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The tables in a generated `SPEC.md` now carry the markdown delimiter row
+  under their header, so the constraint, interface, research, and invariant
+  sections render as real tables on GitHub instead of a wall of pipe
+  characters. The rule is stated in `encode-docs`, baked into the `SPEC.md`
+  header, and repeated in the `AGENTS.md` guidance `setup` writes, so a repo
+  bootstrapped from scratch inherits it.
 - Reflow every skill body to unwrapped prose — one line per paragraph, relying
   on the editor's soft-wrap instead of manual line breaks — and tighten the
   wording without dropping any instruction, cutting roughly 320 lines of hard

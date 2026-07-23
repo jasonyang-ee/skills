@@ -118,7 +118,7 @@ Walk the repo. §G from README/package manifest/entrypoint, §C from the stack, 
 
 ### Section skeleton
 
-Pipe table using `|`, Fixed order, fixed headers, addressable, escape a literal `|` as `\|`. Backticks fine. Cells trimmed. Empty cell is `-`.
+Pipe table using `|`, Fixed order, fixed headers, addressable, escape a literal `|` as `\|`. Backticks fine. Cells trimmed. Empty cell is `-`. Every header row is followed by a delimiter row carrying one `---` cell per column, as shown below — without it the section renders as a wall of pipes instead of a table.
 
 ```
 # SPEC
@@ -129,12 +129,14 @@ one line. what code must do.
 ## §C CONSTRAINTS
 non-negotiable boundary. tech/lang/lib locked in
 id|description
+|---|---|
 C1|run on Linux, macOS, Windows
 C2|use Go 1.21
 
 ## §I INTERFACES
 external surface. what world sees.
 id|type|shape → output,purpose,condition
+|---|---|---|
 I1|cmd|`foo bar` → stdout JSON
 I2|api|POST /x → 200 {id}
 I3|file|`config.yaml` schema
@@ -143,12 +145,14 @@ I4|env|`FOO_KEY` required
 ## §R RESEARCH
 each row ! cite source.
 id|claim|source
+|---|---|---|
 R1|lib X rate-limits @ 100 rps|https://docs.x/limits
 R2|`name` 1-64 chars `[a-z0-9-]`, ⊥ lead/trail `-`|https://agentskills.io/specification.md
 
 ## §V INVARIANTS
 critical design spec. each ! hold.
 id|invariant definition
+|---|---|
 V1|∀ req → auth check before handler
 V2|token expiry ≤ ⊥ allowed
 ```
@@ -288,7 +292,7 @@ Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Tables (§C/§I/§R/§V): pipe-delimited, id-keyed. Escape literal \| . Empty cell = -
+Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: C<n> I<n> R<n> V<n>
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.

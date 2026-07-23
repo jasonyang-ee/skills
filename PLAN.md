@@ -99,28 +99,28 @@ inputs: F1.T1 register; user ruling (SPEC tables only; form `|---|---|`); §V16 
 files: `skills/encode-docs/SKILL.md`, `SPEC.md` (baked-header refresh via `encode-docs`), `skills/setup/SKILL.md`, `AGENTS.md`, `CHANGELOG.md`.
 
 §T  TASKS:
-T1|.|encode-docs: Section skeleton delimiter rows + prose
+T1|x|encode-docs: Section skeleton delimiter rows + prose
 touch: `skills/encode-docs/SKILL.md`
 details: in `### Section skeleton`, insert the delimiter row directly under each of the 4 table headers inside the fenced block — `|---|---|` under `id|description`, `|---|---|---|` under `id|type|shape → output,purpose,condition`, `|---|---|---|` under `id|claim|source`, `|---|---|` under `id|invariant definition`. Extend the section's lead prose so the rule is stated, ⊥ only demonstrated: the header row is ! followed by a GFM delimiter row with one cell per column. Leave the PLAN phase-order and HANDOFF final-verification templates untouched (out of scope). ⊥ numbered SPEC-row citations.
 verify: `grep -n "|---|" skills/encode-docs/SKILL.md` → 4 hits, all inside `### Section skeleton`; prose states the rule; PLAN/HANDOFF templates unchanged in the diff; body ≤500 lines.
 exit: the SPEC skeleton emits valid markdown tables.
 next: F2.T2
 
-T2|.|SPEC baked header line (template + live file)
+T2|x|SPEC baked header line (template + live file)
 touch: `skills/encode-docs/SKILL.md` (`## BAKED HEADERS` SPEC block), `SPEC.md` (via `encode-docs`)
 details: rewrite the line `Tables (§C/§I/§R/§V): pipe-delimited, id-keyed. Escape literal \| . Empty cell = -` to also require the delimiter row, e.g. `Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -`. Apply the SAME bytes to the live `SPEC.md` baked header (header refresh only — ⊥ row add, ⊥ row prune, `next:` untouched). Keep it a single line inside the HTML comment.
 verify: template line and live `SPEC.md` line 8 byte-identical; `SPEC.md` `next: C13 I12 R8 V30` unchanged; ⊥ §G/§C/§I/§R/§V row diff.
 exit: the self-describing header teaches the delimiter rule to a cold agent.
 next: F2.T3
 
-T3|.|setup + AGENTS.md table guidance
+T3|x|setup + AGENTS.md table guidance
 touch: `skills/setup/SKILL.md`, `AGENTS.md`
 details: in the `setup` AGENTS template `## Encoding Symbols` block AND the repo `AGENTS.md` `## SYMBOLS` block, extend the line `Tables use `|`; escape literal `\|`.` to state that SPEC `§C`/`§I`/`§R`/`§V` tables carry a GFM delimiter row (`|---|---|`) under the header. Keep both wordings consistent with each other and encoded in the sibling style. `setup` still never writes `SPEC.md` directly — `encode-docs` NEW mode does, and F2.T1+T2 already fixed that path.
 verify: `grep -n "|---|" skills/setup/SKILL.md AGENTS.md` → 1 hit each; the two sentences agree; `skills/setup/SKILL.md` body ≤500 lines.
 exit: a repo bootstrapped by `setup` inherits the rule.
 next: F2.T4
 
-T4|.|changelog
+T4|x|changelog
 touch: `CHANGELOG.md`
 details: add a `## [Unreleased]` bullet in plain English: SPEC tables now include the markdown delimiter row under the header, so generated `SPEC.md` files render as real tables on GitHub instead of a wall of pipes; `setup` and the baked header teach the same rule.
 verify: entry present under `## [Unreleased]`.

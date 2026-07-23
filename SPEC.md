@@ -5,7 +5,7 @@ Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
 Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
 Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Tables (§C/§I/§R/§V): pipe-delimited, id-keyed. Escape literal \| . Empty cell = -
+Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
 next: C13 I12 R8 V30
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
