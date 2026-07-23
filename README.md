@@ -18,13 +18,13 @@ Install with [`Vercel Skills`](https://www.skills.sh/docs).
 - All skills, global scope, non-interactive
 
 	```bash
-	npx skills add jasonyang-ee/skills --all --global --yes
+	npx skills add jasonyang-ee/skills --skill '*' --global --yes
 	```
 
 - Target one agent with `-a`
 
 	```bash
-	npx skills add jasonyang-ee/skills --all --global --yes -a claude-code
+	npx skills add jasonyang-ee/skills --skill '*' --global --yes -a claude-code
 	```
 
 Install with Claude Code or Codex via Marketplace.
