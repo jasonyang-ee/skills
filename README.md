@@ -80,12 +80,13 @@ Both `cook` and `cater` invoke `handoff` at the end of every session, so the nex
 | setup | blank project | AGENTS, CLAUDE, CHANGELOG, SPEC | AGENTS, CLAUDE, CHANGELOG, SPEC | encode-docs |
 | prep | new idea | SPEC, PLAN, HANDOFF, BACKLOG, repo | SPEC, PLAN, HANDOFF, BACKLOG | encode-docs, handoff |
 | review-plan | end of `prep` | PLAN, SPEC, HANDOFF, web | SPEC, PLAN, HANDOFF | encode-docs |
-| cook | end of `prep`/`review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | encode-docs, encode-commit, handoff |
-| cater | end of `prep`/`review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | cook, encode-docs, handoff |
-| garnish | end of `cook`/`cater` | SPEC, PLAN, HANDOFF, git | PLAN, HANDOFF | encode-docs |
+| cook | end of `prep`, `review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | encode-docs, encode-commit, handoff |
+| cater | end of `prep`, `review-plan` | HANDOFF, PLAN, SPEC, git | SPEC, PLAN, HANDOFF | cook, encode-docs, handoff |
+| garnish | end of `cook`, `cater` | SPEC, PLAN, HANDOFF, git | PLAN, HANDOFF | encode-docs |
 | review-code | end of `garnish` | SPEC, PLAN, HANDOFF, diff, tests | SPEC, PLAN, HANDOFF | prep, encode-docs, handoff |
 | handoff | all sessions | git, PLAN, SPEC | HANDOFF | encode-docs |
-| encode-docs | all 7 skills above | target doc | SPEC, PLAN, HANDOFF | - |
+| encode-docs | all main skills | target doc | SPEC, PLAN, HANDOFF | - |
+| encode-header | blank project | SPEC, PLAN, HANDOFF | SPEC, PLAN, HANDOFF | encode-docs |
 | encode-commit | auto by `cook`/`handoff` | staged diff | - | - |
 | encode-pr | user | PR diff | - | - |
 
