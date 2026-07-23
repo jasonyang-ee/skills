@@ -63,7 +63,7 @@ Install with [`Claude Code plugin and marketplace`](https://claude.com/plugins).
    
    Using `/prep` to turn an idea, bug, feature, or expected behavior into an iterative `PLAN.md` and `HANDOFF.md`, while handing durable decisions to `SPEC.md`.
    
-2. **Review the plan** 
+2. **Review the plan**
    
    In a cold session, `review-plan` resolves research questions and refutes the plan until it reaches an explicit GO gate. Repeat as needed.
 
@@ -79,9 +79,10 @@ Install with [`Claude Code plugin and marketplace`](https://claude.com/plugins).
    
    `/review-code` to sweep the completed implementation from its release baseline, then send accepted fixes or improvements into the next `/prep` cycle.
 
-The loop is intentionally iterative: step 1 can refine research and the plan, and step 6 can start another prep cycle. The order and safety gates remain mandatory.
-
-Both `cook` and `cater` invoke `handoff` at the end of every session, so the next session starts by reading it. The plan holds the intent; the handoff holds the state.
+#### The loop is intentionally iterative while the order and safety gates remain mandatory.
+- Step 1 can be used repetitively to refine research and the plan
+- Step 5 can start another prep cycle.
+- `handoff` is invoked every session, so the next cold session can resume work.
 
 ## SUPPORTIVE SKILLS
 
