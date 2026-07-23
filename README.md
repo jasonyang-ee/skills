@@ -73,6 +73,24 @@ Both `cook` and `cater` invoke `handoff` at the end of every session, so the nex
 | [`encode-commit`](skills/encode-commit/SKILL.md) | Generate compressed commits messages. Subject ≤50 chars. |
 | [`encode-pr`](skills/encode-pr/SKILL.md) | Generate compressed summary. One line per finding: location, problem, fix. |
 
+## B. SKILL-LOADING STATE MACHINE
+
+`→` = invokes/loads at runtime. "co-loaded" = present when this skill runs.
+
+| skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | trigger | reads at load | invokes → | guaranteed co-loaded |
+| --- | --- | --- | --- | --- |
+| setup | `/setup` | AGENTS, CLAUDE, CHANGELOG, SPEC | encode-docs (SPEC create) | encode-docs |
+| prep | `/prep`; by review-code | SPEC, PLAN, HANDOFF, BACKLOG, repo | encode-docs (SPEC/PLAN), handoff | encode-docs, handoff |
+| review-plan | `/review-plan`; after NO-GO | PLAN, SPEC, HANDOFF, web | encode-docs (§R/§V/PLAN/HANDOFF) | encode-docs |
+| cook | `/cook` | HANDOFF, PLAN, SPEC, git | encode-docs (PLAN §T/SPEC), encode-commit, handoff | encode-docs, encode-commit, handoff |
+| cater | `/cater` | HANDOFF, PLAN, SPEC, git | sub-agents→cook; encode-docs, handoff | encode-docs, handoff (+cook in sub-agents) |
+| garnish | `/garnish`; by cook/cater end | SPEC, PLAN, HANDOFF, git | encode-docs (prune/blank) | encode-docs |
+| review-code | `/review-code`; by garnish end | SPEC, PLAN, HANDOFF, diff, tests | prep (→encode-docs, handoff) | prep, encode-docs, handoff |
+| handoff | `/handoff`; end of prep/cook/cater/review-plan session | git, PLAN, SPEC | encode-docs (writes HANDOFF) | encode-docs |
+| encode-docs | any SPEC/PLAN/HANDOFF write; `/encode-docs`; invoked by 7 skills above | target doc | — (terminal writer) | whichever skill invoked it |
+| encode-commit | `/encode-commit`; auto on stage; by cook/handoff | staged diff | — | cook (when in cook) |
+| encode-pr | `/encode-pr` | PR diff | — | none (standalone) |
+
 ## License
 
 [MIT](LICENSE) for original work. see [NOTICE.md](NOTICE.md) for modified upstream source.
