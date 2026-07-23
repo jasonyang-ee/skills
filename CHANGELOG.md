@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- The handoff header is now a single line for test state — the pass count, or
+  the exact failing file and case, followed by the command that produced it —
+  and it records only the commit hash. The separate baseline line was dropped
+  because it repeated the same fact under a second name.
 - The plan's `planning status` now tracks execution instead of authorship.
   `prep` leaves a freshly written or expanded plan as `new`, and only `cook`
   and `cater` mark it work-in-progress, at the moment they actually start a

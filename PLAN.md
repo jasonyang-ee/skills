@@ -174,21 +174,21 @@ inputs: F1.T2 register; locked scope (one tests line; HANDOFF-only — ⊥ harmo
 files: `skills/encode-docs/SKILL.md`, `skills/handoff/SKILL.md`, `CHANGELOG.md`.
 
 §T  TASKS:
-T1|.|encode-docs: HANDOFF template + rules + baked header
+T1|x|encode-docs: HANDOFF template + rules + baked header
 touch: `skills/encode-docs/SKILL.md`
 details: in the `## HANDOFF.md File` fenced template, replace the two lines `branch <name> | last commit <sha> <subject> | tests <green | RED: named>` and `baseline <green | RED: file+test> | oracle <cmd>` with the single line `branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)`. In the Rules list, reword "Red tests named exactly — file + test name — ⊥ \"some failing\"." to "Failing tests named exactly — file + case — ⊥ \"some failing\"." and DELETE "Baseline ≠ current oracle; each carries its exact command.", renumbering the remaining rules. Rewrite the baked HANDOFF header carry-line to `Header ! carry: branch | last commit sha (⊥ subject) | tests pass N/N \| FAIL: file+case + command | uncommitted files + why` and align the header's "Red tests ! named exactly" line with the reworded rule.
 verify: `grep -n -i "oracle\|baseline" skills/encode-docs/SKILL.md` → ⊥ hit inside `## HANDOFF.md File` or the HANDOFF baked header; ⊥ `<subject>`; rules renumbered contiguously; body ≤500 lines.
 exit: the owner emits a one-line HANDOFF header.
 next: F4.T2
 
-T2|.|handoff: align GATHER list + rules
+T2|x|handoff: align GATHER list + rules
 touch: `skills/handoff/SKILL.md`
 details: in `## GATHER → hand to encode-docs`, replace the branch/tests bullet and the `baseline ... | oracle ...` bullet with one bullet matching the F4.T1 shape: branch, last commit sha, and one tests field carrying `pass N/N` or `FAIL: file+case` plus the command in parentheses. In `## RULES`, apply the same "Failing tests named exactly (file + case)" wording and DELETE "Test state distinguishes baseline from current oracle — each with its exact command and named failures.", renumbering.
 verify: `grep -n -i "oracle\|baseline" skills/handoff/SKILL.md` → ⊥ match; the gather bullet and the `encode-docs` template describe the same fields in the same order; body ≤500 lines.
 exit: gatherer and owner agree on the header bytes.
 next: F4.T3
 
-T3|.|changelog
+T3|x|changelog
 touch: `CHANGELOG.md`
 details: add a `## [Unreleased]` bullet in plain English: the handoff header is now one line for test state — pass count or the exact failing file and case plus the command — and records only the commit hash, dropping the separate baseline/oracle line that repeated the same fact.
 verify: entry present.

@@ -242,8 +242,7 @@ Pointers = `F<n>.T<n>` (phase.task → `PLAN.md`), ⊥ bare step numbers. The `i
 ```md
 # HANDOFF <YYYY-MM-DD>
 
-branch <name> | last commit <sha> <subject> | tests <green | RED: named>
-baseline <green | RED: file+test> | oracle <cmd>
+branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)
 uncommitted: <none | files + why>
 
 ## done this session
@@ -271,12 +270,11 @@ item|status|evidence|decision
 Rules:
 
 1. Uncommitted work = first-class fact. Name ∀ file + why. Prefer committing (even a `~` wip §T flip) over a dirty tree.
-2. Red tests named exactly — file + test name — ⊥ "some failing".
-3. Baseline ≠ current oracle; each carries its exact command.
-4. `in progress` ! name the NEXT TASK executable verbatim: action, file, function — ⊥ "continue the phase". Reference done tasks & next as `F<n>.T<n>`.
-5. Material deviations already live in `PLAN.md`/`SPEC.md`; baton points at them, ⊥ becomes their only record.
-6. Empty section → `-`, ⊥ deleted (the shape is the checklist).
-7. Only the final-verify phase fills the result table; else header row alone.
+2. Failing tests named exactly — file + case — ⊥ "some failing".
+3. `in progress` ! name the NEXT TASK executable verbatim: action, file, function — ⊥ "continue the phase". Reference done tasks & next as `F<n>.T<n>`.
+4. Material deviations already live in `PLAN.md`/`SPEC.md`; baton points at them, ⊥ becomes their only record.
+5. Empty section → `-`, ⊥ deleted (the shape is the checklist).
+6. Only the final-verify phase fills the result table; else header row alone.
 
 ## BAKED HEADERS
 
@@ -323,10 +321,10 @@ planning status: <new | work-in-progress | done>
 <!-- HANDOFF FORMAT (baked by /encode-docs — keep; makes this file self-describing)
 Session baton. Overwritten in full ∀ session. Records STATE, ⊥ intent (intent → PLAN.md, truth → SPEC.md).
 Sections: header | done this session | in progress (exact stop point) | next | deviations & decisions | watchouts | final verification. Empty section → `-`, ⊥ deleted.
-Header ! carry: branch | last commit | tests | baseline + oracle command | uncommitted files + why
+Header ! carry: branch | last commit sha (⊥ subject) | tests pass N/N \| FAIL: file+case + command | uncommitted files + why
 Pointers = F<n>.T<n> (phase.task → PLAN.md), ⊥ bare step numbers. "in progress" & "next" ! use them.
 "in progress" ! name current working task precisely: action, file, function. mid-edit files ! listed | `none`.
-Red tests ! named exactly (file + test name), ⊥ "some failing".
+Failing tests ! named exactly (file + case), ⊥ "some failing".
 final verification table ! filled only by the final verify phase; else header row alone.
 Encoding: same symbol set as SPEC.md.
 Full rules: /encode-docs skill.

@@ -21,8 +21,7 @@ The next session starts cold. HANDOFF.md is everything it must know that PLAN.md
 
 Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md` (repo root, overwritten in full — git keeps history) with its own lean template; do NOT reproduce that template here — encode-docs owns the shape.
 
-- branch | last commit `<sha>` `<subject>` | tests `<green | RED: named>`
-- baseline `<green | RED: file+test>` | oracle `<cmd>`
+- branch | last commit `<sha>` | tests `<pass N/N | FAIL: file+case>` `(<cmd>)`
 - uncommitted: `<none | files + why>`
 - done this session: `<F<n>.T<n>>: <one line> → <sha>`
 - in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
@@ -34,11 +33,10 @@ Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md` (
 ## RULES
 
 1. **Uncommitted work is a first-class fact.** Name every uncommitted file and why it was left so. Prefer committing (even a `~` wip §T flip) over a dirty tree.
-2. **Red tests named exactly** — file + test name — never "some failing".
-3. **Test state distinguishes baseline from current oracle** — each with its exact command and named failures.
-4. **NEXT TASK is executable verbatim** by a cold agent: file, function, action — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
-5. **Only the final-verify phase fills the final verification table**; others leave the header row.
-6. **Commit HANDOFF.md** — inside the session's final phase commit or its own, per repo conventions. A standalone baton commit goes through `encode-commit`: which phase closed, the next task, and the test state, in plain English. No phase ids, no encoding symbols, never a bare `docs: handoff`.
+2. **Failing tests named exactly** — file + case — never "some failing".
+3. **NEXT TASK is executable verbatim** by a cold agent: file, function, action — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
+4. **Only the final-verify phase fills the final verification table**; others leave the header row.
+5. **Commit HANDOFF.md** — inside the session's final phase commit or its own, per repo conventions. A standalone baton commit goes through `encode-commit`: which phase closed, the next task, and the test state, in plain English. No phase ids, no encoding symbols, never a bare `docs: handoff`.
 
 ## NON-GOALS
 
