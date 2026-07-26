@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code, paths, ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: new
+planning status: work-in-progress
 -->
 
 # PLAN
@@ -52,14 +52,14 @@ files: `SPEC.md`, `skills/cater/SKILL.md`, `skills/cook/SKILL.md`, `skills/encod
 
 §T TASKS
 
-T1|.|map multi-task delegated phase ownership + closure (§V21, §V22, §V30)
+T1|x|map multi-task delegated phase ownership + closure (§V21, §V22, §V30)
 touch: `PLAN.md`, `HANDOFF.md`
 details: trace ready selection, assignment id/scope, acceptance, status flips, implementation commit, assignment purge, phase baton commit, retry path; settle one worker owns all remaining tasks in one phase; ∀ remaining task ids + contracts included in assignment; acceptance flips all assigned task rows only after full phase verification; main agent owns accepted implementation commit + committed phase handoff; worker default = do not commit
 verify: `rg -n "phase|task|commit|handoff|HANDOFF-<phase-id>|completion" skills/cater/SKILL.md skills/cook/SKILL.md skills/encode-agent/SKILL.md SPEC.md`; evidence maps every §V21/§V22/§V30 clause to F2 edit or preserved line
 exit: delegated lifecycle order unambiguous; no partial phase-close state; retry + failure preserve ownership
 next: F1.T2
 
-T2|.|confirm assignment writable scope + exact mirror boundary (§V26, §V28, §V30)
+T2|x|confirm assignment writable scope + exact mirror boundary (§V26, §V28, §V30)
 touch: `PLAN.md`, `HANDOFF.md`
 details: confirm `HANDOFF-<phase-id>.md` must be included in worker writable scope solely for completion block; implementation scope stays disjoint; extract FINDING TAXONOMY & GATE from heading through GO rule in both review skills and identify canonical `review-plan` bytes; keep REPORT OUTPUT mirror unchanged
 verify: PowerShell byte/string comparison returns taxonomy mismatch before F3 and REPORT OUTPUT equality; `rg -n "writable scope|completion|HANDOFF-<phase-id>" skills/cater/SKILL.md skills/encode-agent/SKILL.md`
