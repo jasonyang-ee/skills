@@ -44,7 +44,7 @@ Install with Claude Code or Codex via Marketplace.
 | [`prep`](skills/prep/SKILL.md) | Turns a request into a research-first `PLAN.md` + `HANDOFF.md`, hands durable facts to `encode-docs`, and reserves the last phase for final verification. |
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
 | [`cook`](skills/cook/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
-| [`cater`](skills/cater/SKILL.md) | The parallel alternative: assigns phases to sub-agents through per-phase handoff files, never overlapping their file sets, and reviews each diff before accepting it. |
+| [`cater`](skills/cater/SKILL.md) | Adaptively executes a phase directly through `cook` or delegates disjoint work when parallelism, context isolation, or specialist capability pays; shows scope, agent type, model, effort, and rationale before dispatch, then reviews every returned diff. |
 | [`review-code`](skills/review-code/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `prep`. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
 
@@ -64,7 +64,7 @@ Install with Claude Code or Codex via Marketplace.
 
 3. **Work on the plan**
    
-   In another cold session, `/cook` executes all remaining phases in order, verifying, committing, and refreshing `HANDOFF.md` after each phase. Pass a phase to target one phase only. Or use `/cater` to dispatch multiple sub-agents in parallel to run `/cook` for phases whose file sets do not overlap.
+   In another cold session, `/cook` executes all remaining phases in order, verifying, committing, and refreshing `HANDOFF.md` after each phase. Pass a phase to target one phase only. Or use `/cater` to choose per ready phase: direct execution through loaded `cook` when delegation has no material benefit, or bounded sub-agent assignments when safe parallelism, context isolation, or specialist capability pays.
 
 4. **Garnish**
    
@@ -88,6 +88,7 @@ Those skills are loaded by the main skills above, but can also be invoked direct
 | [`handoff`](skills/handoff/SKILL.md) | Gathers `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for, and hands it to `encode-docs` to write. |
 | [`encode-docs`](skills/encode-docs/SKILL.md) | The encoding of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/prep`, `/review-plan`, `/review-code`, `/handoff`, `/cook`, and `/cater`. |
 | [`encode-header`](skills/encode-header/SKILL.md) | Generate compressed header for `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. |
+| [`encode-agent`](skills/encode-agent/SKILL.md) | Generate a compact, self-contained sub-agent prompt with explicit scope, quality, verification, stop, and completion contracts. |
 | [`encode-commit`](skills/encode-commit/SKILL.md) | Generate compressed commits messages. Subject ≤50 chars. |
 | [`encode-pr`](skills/encode-pr/SKILL.md) | Generate compressed summary. One line per finding: location, problem, fix. |
 

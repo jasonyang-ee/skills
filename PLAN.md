@@ -101,14 +101,14 @@ files: `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`, `NOTICE.md`, `CHANGELO
 
 §T TASKS
 
-T1|.|update skill roster + workflow descriptions (§V7, §V15, §V22, §V30)
+T1|x|update skill roster + workflow descriptions (§V7, §V15, §V22, §V30)
 touch: `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`
 details: change count 12→13; add `encode-agent` support entry; describe `cater` adaptive direct/delegated route, visible model+effort selection, and `cook` loading for direct execution; keep setup template generic
 verify: `rg -n "12 skills|13 skills|encode-agent|cater|sub-agent" README.md AGENTS.md skills/setup/SKILL.md`; manually classify every workflow/roster hit as aligned or unrelated history; docs prose remains manual by §C8
 exit: public + bootstrapped guidance matches §V15/§V22/§V30
 next: F3.T2
 
-T2|.|verify provenance + user-visible change (§V10-11)
+T2|x|verify provenance + user-visible change (§V10-11)
 touch: `NOTICE.md`, `CHANGELOG.md`
 details: apply F1 evidence that original `encode-agent` needs ⊥ provenance row; verify plain-English `## [Unreleased]` entries from F2 describe new helper and adaptive `cater`; correct only drift
 verify: `rg -n "encode-agent|adaptive|effort|\[Unreleased\]" NOTICE.md CHANGELOG.md`; manual §V10-11 decision recorded in `HANDOFF.md` because license/release/hygiene are ⊥ test-backed (§C8)

@@ -4,7 +4,7 @@
 
 Public repo. Spec driven design skill collection.
 
-12 skills: `handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-commit`, `encode-pr`, `encode-docs`, and `encode-header`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
+13 skills: `handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-agent`, `encode-commit`, `encode-pr`, `encode-docs`, and `encode-header`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## AI File Purpose
 
@@ -21,11 +21,11 @@ Workflow (spec-driven, in order):
 2. `/prep` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff.
 3. `/review-plan` → research/refute plan → GO/NO-GO.
 4. `/cook` → execute phase → verify → commit → handoff. Single main agent.
-5. `/cater` → parallel execute phases via sub-agents, parallel when file sets ⊥ intersect. 4 | 5 exclusive per phase, ⊥ both.
+5. `/cater` → adapt per ready phase: direct main-agent execution via loaded `cook` when delegation lacks material benefit | sub-agents when parallelism, context isolation, or specialist capability pays; before dispatch show scope, agent type, model, effort, rationale. Top-level 4 | 5 exclusive; one phase ⊥ direct + delegated.
 6. `/garnish` → spec cleanup → blank PLAN.md + HANDOFF.md to template.
 7. `/review-code` → baseline code sweep → prep.
 
-support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-commit` commit summary | `/encode-pr` PR review comments
+support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-agent` bounded sub-agent prompt | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
 ## SYMBOLS
 
