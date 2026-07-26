@@ -7,7 +7,7 @@ Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > 
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: C13 I12 R8 V30
+next: C13 I13 R9 V31
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -21,7 +21,7 @@ Public repo `jasonyang-ee/skills` → personal central skill collection, install
 Core = 5-step spec-driven workflow (order contract → §V15):
 1. `prep` → iterative idea/bug/feature/expected-behavior → `PLAN.md` + `HANDOFF.md` + durable `SPEC.md`
 2. `review-plan` → iterative research/refute until plan ready → GO/NO-GO
-3. `cook`|`cater` → execute `PLAN.md` phases with handoff closure (`cook` = single agent, `cater` = parallel sub-agents; exclusive per phase)
+3. `cook`|`cater` → execute `PLAN.md` phases with handoff closure (`cook` = single main agent; `cater` = adaptive main-agent execution + parallel-safe delegation)
 4. `garnish` → purge short-lived files, preserve + prune durable `SPEC.md`
 5. `review-code` → post-implementation sweep; may trigger next `prep`
 
@@ -30,7 +30,7 @@ Core AI files used in workflow:
 - `PLAN.md` + `HANDOFF.md` = short-lived cycle files. `PLAN.md` = next phase plan & owns task tracking (§T). `HANDOFF.md` = session progress tracking.
 - `BACKLOG.md` = optional, free style pending prep inputs and notes. only ingested by `/prep`.
 
-Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator and owner), `encode-header` (header template) `encode-commit` (commit messages), `encode-pr` (PR review comments).
+Helpers: `setup` (bootstrap repo guidance), `encode-docs` (sole AI files mutator and owner), `encode-header` (header template), `encode-agent` (sub-agent prompt contract), `encode-commit` (commit messages), `encode-pr` (PR review comments).
 
 ## §C CONSTRAINTS
 
@@ -66,6 +66,7 @@ I8|cmd|`npm test` → `node --test` → exit 0 ⟺ automated checks pass (releas
 I9|cmd|`./release.sh [--major\|--minor\|--patch] [-y] [-n]` → preflight (branch, clean tree, tag ⊥ ∃, `[Unreleased]` ⊥ empty) → `npm test` gate → bump → changelog move → commit → tag `v<x.y.z>` → push
 I10|ci|push \| PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 I11|ci|tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
+I12|skill|`/encode-agent` + bounded assignment context → condensed sub-agent prompt carrying scope, quality, verification, stop, completion contracts; ⊥ main-cycle state ingestion
 
 ## §R RESEARCH
 
@@ -79,6 +80,7 @@ R4|skills CLI walks `skills/` 1 deep; `parseSkillMd` → null unless `name` & `d
 R5|Claude Code: ∀ frontmatter optional, `name` ← dir default; `description` always in context & drives auto-invocation ∴ state what + when-to-use|https://code.claude.com/docs/en/skills
 R6|`skills` CLI (npm `skills`; github vercel-labs/skills) installs flat `skills/<name>/SKILL.md` into ∀ detected agent via `npx skills add <repo> -a <claude-code\|codex\|cursor>`; auto-detects installed agents; Codex + Claude Code served from same layout ∴ ⊥ per-agent repo files needed (old `codex.skills.sh/docs` = 404)|https://www.skills.sh/agent/codex + /agent/claude-code (2026-07-22)
 R7|Claude Code CLI-free native install = plugin marketplace: `.claude-plugin/marketplace.json` = `{name, owner{name}, plugins[{name, source, description}]}` @ repo root; plugin `source` = relative path ! start `./` → marketplace-root plugin = `source:"./"`; single root entry (⊥ explicit `skills` path) → default `skills/` full scan = ∀ skills load; `.claude-plugin/plugin.json` optional, `name` = only required field if present; user runs `/plugin marketplace add jasonyang-ee/skills` then `/plugin install <name>@<marketplace>`|https://code.claude.com/docs/en/plugin-marketplaces + /plugins-reference (2026-07-22)
+R8|sub-agent starts with isolated context; host may select per-agent model + effort; full named skill content may preload ∴ portable delegation prompt ! carry required context + quality contract & describe model/effort as host selections, not fixed names|https://code.claude.com/docs/en/sub-agents + https://agentskills.io/specification (2026-07-26)
 
 ## §V INVARIANTS
 
@@ -99,14 +101,14 @@ V11|`CHANGELOG.md` ! ∋ `## [Unreleased]`
 V12|∀ `.github/workflows/*.yml` → ! top-level `permissions:` block
 V13|`.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0`; security updates + alerts stay on
 V14|release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `<x.y.z>`; release via `./release.sh` only
-V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); `cook`\|`cater` exclusive per phase; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`handoff`/`encode-commit`/`encode-pr` = support
+V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); top-level `cook`\|`cater` exclusive; `cater` MAY load `cook` for direct phase execution, but one phase ⊥ simultaneous direct + delegated execution; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`encode-agent`/`handoff`/`encode-commit`/`encode-pr` = support
 V16|`encode-docs` = sole WRITER/mutator of `SPEC.md`/`PLAN.md`/`HANDOFF.md` & owner of their formats; `encode-header` supplies the baked-header format (content supplier like `prep`/`handoff`), ⊥ writes
 V17|`SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; add durable rows only (high bar), prune stale on evidence
 V18|task tracking (§T) lives in `PLAN.md` only; one-time fixes & bugs → `CHANGELOG.md` + git, ⊥ `SPEC.md`
 V19|`PLAN.md` (phase plan; F1 research, Fn final verify; owns §T) + `HANDOFF.md` (session baton) = short-lived cycle files; ∀ their writes route through `encode-docs`
 V20|∀ 3 encoded docs (`SPEC.md`/`PLAN.md`/`HANDOFF.md`) open with own baked header, supplied by `encode-header` & emitted verbatim by `encode-docs`; SPEC header carries `next:` counter; ids monotonic, never reused
 V21|`prep` → durable facts → `SPEC.md` via `encode-docs` (high bar, ⊥ default); §T tasks authored in `PLAN.md`; ∀ phase ≥1 task, ids `T<n>` monotonic within phase, ∀ task cites relevant §V; F1 research-first & Fn final-verify; embeds 1 `review-plan` pass → `handoff`
-V22|`cook`\|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `HANDOFF.md` refreshed + committed ∀ phase; `cook` = single agent, `cater` = parallel sub-agents on disjoint file sets via `HANDOFF-<phase-id>.md`; active plan gate → §V29
+V22|`cook`\|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `HANDOFF.md` refreshed + committed ∀ phase; `cook` = single main agent; `cater` decides per ready work set: direct main-agent execution via loaded `cook` when delegation lacks material parallelism/context/capability benefit, else sub-agents on disjoint file sets via `HANDOFF-<phase-id>.md`; active plan gate → §V29
 V23|`garnish` → evidence-gated (completed cycle: ∀ PLAN §T `x`, final-verify ∀ `HOLD`) → prune stale `SPEC.md` §V/§C/§I on evidence only; blank `PLAN.md` + `HANDOFF.md` to baked-header template (⊥ delete — absent only via fresh repo \| manual user delete); preserve `SPEC.md` + history
 V24|`review-plan` → research gate on dated current primary sources (⊥ model memory); explicit GO/NO-GO
 V25|`review-code` → baseline = latest release tag \| explicit release commit; ! carry security dimension; cite evidence; end → `prep`
@@ -114,3 +116,4 @@ V26|`review-code` & `review-plan` share ONE finding taxonomy {BLOCK, DIVERGENCE,
 V27|`BACKLOG.md` = `prep`-sole-reader freeform request queue (⊥ encoded, ⊥ `encode-docs`-routed, short-lived, ! detailed for cold pickup); ∀ non-`prep` skill (`cook`/`cater`/`review-plan`/`review-code`/`garnish`) ⊥ read it (raw, un-ingested) & `garnish` ⊥ blank/prune/touch it; `prep` ingest/expand (`PLAN.md` planning status ≠ work-in-progress) → read `BACKLOG.md` + new request as input, write/expand `PLAN.md`, THEN blank `BACKLOG.md` (blank only after `PLAN.md` written ∵ session-limit safety); `prep` defer (`PLAN.md` work-in-progress) → append request to `BACKLOG.md`, ⊥ prune, ⊥ clobber in-flight plan
 V28|∀ `skills/**/SKILL.md` self-sufficient loaded alone → ⊥ depend on another skill's body; a shared statement is referenced from a single owner only where that owner is guaranteed co-loaded (invoked skill on compose \| baked header of a doc the skill reads); `review-plan`+`review-code` FINDING TAXONOMY & GATE + REPORT OUTPUT = intentional verbatim mirrors (§V26), ⊥ de-dup
 V29|`PLAN.md` baked-header `planning status: new \| work-in-progress \| done` = cycle gate keyed to EXECUTION state, ⊥ authorship. `prep` writes/expands the plan as `new` (⊥ `work-in-progress`); `cook`\|`cater` ALONE flip `new`→`work-in-progress` at execution start; `handoff`/final-verify → `done` on ∀ §T `x` + verify HOLD (else leave as-is); `garnish` blank resets `new`. `cook`\|`cater` run on `new` (has phases → flip→wip & start) \| `work-in-progress` (resume); `new` + ⊥ phases (empty stub) → stop (/prep); `done` → stop (/garnish). `prep` may expand/rewrite ⟺ status ≠ `work-in-progress`
+V30|`cater` before ∀ dispatch → main-agent output names phase/task, scope, agent capability/type, selected model, selected effort, rationale; unavailable host control shown as `unavailable` \| `inherit`; dispatched prompt generated through `encode-agent` & carries bounded objective/scope, relevant §V, quality + verification contract, stop conditions, completion evidence; ⊥ require sub-agent to ingest main `PLAN.md`/`HANDOFF.md`/`SPEC.md` or load full `cook`
