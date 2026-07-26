@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: new
+planning status: work-in-progress
 -->
 
 # PLAN
@@ -47,17 +47,24 @@ F4|final verify implementation vs spec + plan|F3|full suite green; relevant §I/
 goal: prove exact adaptive-routing and compact-prompt contracts before edits
 inputs: backlog request; §C2-4/§C8/§C11-12; §I7/§I12; §R8; §V1-8/§V15-16/§V22/§V28-30; current `cook`/`cater` contracts; current host primary docs
 files: `SPEC.md`, `skills/cater/SKILL.md`, `skills/cook/SKILL.md`, `skills/encode-docs/SKILL.md`, `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`, `NOTICE.md`, `tests/*.mjs`
+research evidence:
+- direct-route contradictions: `skills/cater/SKILL.md:4`, `:7`, `:9`, `:11`, `:18`, `:29`, `:31`, `:88`, `:126`; existing fallback seed `:55`
+- routing decision: default direct when one ready phase or ⊥ parallel-safe set; single delegation allowed only for named context isolation, specialist capability, or context-budget benefit; one phase ⊥ direct + delegated simultaneously
+- prompt boundary: `encode-agent` receives caller-selected facts only; ⊥ reads cycle docs; output fields = objective, scope, authority, relevant invariants, quality, verification, stop, completion
+- dispatch disclosure: phase/task, scope, capability/type, model, effort, rationale; absent host control → `inherit` | `unavailable`; ⊥ fixed provider model names (§R8)
+- verification split: `tests/skill-contract.test.mjs` exact 5 cases → §V1-4; `tests/cli-discovery.test.mjs` exact 2 cases → §V5; routing/prose/provenance → manual under §C8
+- provenance: `NOTICE.md` table covers modified upstream skills; `AGENTS.md` requires row only for new vendored MIT skill ∴ original `encode-agent` → ⊥ NOTICE row
 
 §T TASKS
 
-T1|.|map direct-vs-delegate decision contract (§V15, §V22)
+T1|x|map direct-vs-delegate decision contract (§V15, §V22)
 touch: `PLAN.md`, `HANDOFF.md`
 details: inventory contradictory dispatcher-only lines; define default direct route for one/non-parallel ready phase, allowed single delegation only with named material context/capability/isolation benefit, disjoint parallel route for ≥2 safe assignments, & prohibition on dual direct/delegated ownership
 verify: cited `file:line` matrix covers description, principles, selection, failure, session close, non-goals; ⊥ unresolved `?`
 exit: every current contradiction mapped to F2 or explicitly preserved with reason
 next: F1.T2
 
-T2|.|prove portable `encode-agent` input/output + verification surface (§I12, §V28, §V30)
+T2|x|prove portable `encode-agent` input/output + verification surface (§I12, §V28, §V30)
 touch: `PLAN.md`, `HANDOFF.md`
 details: confirm helper receives bounded caller-supplied context only; define prompt fields for objective, scope, authority, relevant §V, quality rules, verification, stop conditions, completion evidence; define visible dispatch fields phase/task, scope, capability/type, model, effort, rationale with `inherit`/`unavailable` fallback; map contract checks to existing automated tests + manual `rg`
 verify: primary-source findings dated; exact F2/F3 paths + F4 commands named; no host-specific model name required
