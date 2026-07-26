@@ -118,14 +118,14 @@ files: `SPEC.md`, `PLAN.md`, `HANDOFF.md`, `skills/cater/SKILL.md`, `skills/enco
 
 §T TASKS
 
-T1|.|run automated + manual contract suite (§I7-8/§I12, §V1-8/§V11/§V15-16/§V21-22/§V26/§V28-30)
+T1|x|run automated + manual contract suite (§I7-8/§I12, §V1-8/§V11/§V15-16/§V21-22/§V26/§V28-30)
 touch: `HANDOFF.md`
 details: run full + targeted tests; repeat taxonomy/report byte mirrors; trace multi-task assignment through acceptance, implementation commit, all-task status flip, handoff commit, purge; verify assignment completion file explicitly writable; classify every relevant §I/§V and all §T HOLD/VIOLATE/UNVERIFIABLE with file/test evidence
 verify: `npm.cmd test`; `node --test tests/skill-contract.test.mjs`; `node --test tests/cli-discovery.test.mjs`; mirror script True/True; exact failures named if red
 exit: 7/7 + 5/5 + 2/2 green; no VIOLATE; every UNVERIFIABLE has reason + decision
 next: F4.T2
 
-T2|.|self-review cycle diff + close baton (§V16, §V19, §V21-22, §V29)
+T2|x|self-review cycle diff + close baton (§V16, §V19, §V21-22, §V29)
 touch: `PLAN.md`, `HANDOFF.md`
 details: review full diff for partial-close states, commit-order data loss, assignment scope contradiction, retry ambiguity, unnecessary duplication, wrapped skill prose, security issues, unrelated dirty work; resolve drift in skill or spec; update all task/status state only after evidence; commit through `encode-commit`; ⊥ push/tag
 verify: `git diff --check`; `git status --short`; final table cites review BLOCK/DIVERGENCE/HARDEN closure + each relevant §I/§V/§T
