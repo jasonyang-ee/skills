@@ -12,32 +12,33 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit bc1ddce | tests pass 7/7 (`node --test tests/skill-contract.test.mjs`; `node --test tests/cli-discovery.test.mjs`)
+branch main | last commit aa54154 | tests pass 5/5 (`node --test tests/skill-contract.test.mjs`)
 uncommitted: none after baton commit
 
 ## done this session
 
 F1.T1 + F1.T2: adaptive routing + portable prompt contracts researched → 92b7ea4
 F2.T1 + F2.T2: `encode-agent` + adaptive direct/delegated `cater` shipped → bc1ddce
+F3.T1 + F3.T2: public + bootstrap docs aligned; provenance/changelog verified → aa54154
 
 ## in progress (exact stop point)
 
-F3.T1: ready — align `README.md`, `AGENTS.md`, & `skills/setup/SKILL.md` roster/workflow prose
+F4.T1: ready — run full automated/manual contract suite & classify relevant spec rows
 mid-edit files: none
 
 ## next
 
-F3.T1 | preconditions: F2 accepted; preserve generic setup template
+F4.T1 | preconditions: F3 accepted; inspect full cycle diff from dc55c2b
 
 ## deviations & decisions
 
-plan said changelog authored in F3 → moved to F2 ∵ behavior shipped there; F3 now verifies entry (PLAN.md updated: y)
+plan said `NOTICE.md` touched in F3 → unchanged ∵ `encode-agent` original, not vendored; §V10 + `AGENTS.md` vendor rule HOLD (PLAN.md updated: y)
 user decided: `cater` MAY execute non-parallel work directly by loading `cook`; dispatch output ! include model + effort; sub-agent prompt quality supplied by new compact `encode-agent`
 
 ## watchouts
 
-F3 provenance decision: original `encode-agent` → ⊥ `NOTICE.md` row; vendor-only rule in `AGENTS.md`
-skill-creator scaffold metadata/resources skipped ∵ repo §C2-3 requires markdown-only flat `skills/<name>/SKILL.md`
+F4 full suite on PowerShell → use `npm.cmd test` if `npm.ps1` policy blocks `npm test`
+final table ! classify §I7-8/§I12 + §V1-8/§V10-11/§V15/§V22/§V28-30
 
 ## final verification
 
