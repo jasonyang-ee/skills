@@ -12,31 +12,32 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit 92b7ea4 | tests pass 7/7 (`npm.cmd test`, baseline unchanged)
+branch main | last commit bc1ddce | tests pass 7/7 (`node --test tests/skill-contract.test.mjs`; `node --test tests/cli-discovery.test.mjs`)
 uncommitted: none after baton commit
 
 ## done this session
 
 F1.T1 + F1.T2: adaptive routing + portable prompt contracts researched → 92b7ea4
+F2.T1 + F2.T2: `encode-agent` + adaptive direct/delegated `cater` shipped → bc1ddce
 
 ## in progress (exact stop point)
 
-F2.T1: ready — create `skills/encode-agent/SKILL.md` from F1 bounded prompt contract
+F3.T1: ready — align `README.md`, `AGENTS.md`, & `skills/setup/SKILL.md` roster/workflow prose
 mid-edit files: none
 
 ## next
 
-F2.T1 | preconditions: F1 accepted; read F2 inputs + neighbouring skills in full
+F3.T1 | preconditions: F2 accepted; preserve generic setup template
 
 ## deviations & decisions
 
-plan said original `encode-agent` provenance decision in F3 → F1 proved ⊥ `NOTICE.md` row ∵ repo requires rows only for vendored MIT skills (PLAN.md updated: y)
+plan said changelog authored in F3 → moved to F2 ∵ behavior shipped there; F3 now verifies entry (PLAN.md updated: y)
 user decided: `cater` MAY execute non-parallel work directly by loading `cook`; dispatch output ! include model + effort; sub-agent prompt quality supplied by new compact `encode-agent`
 
 ## watchouts
 
-F2 ! preserve host portability: model/effort values come from available harness; record `inherit` | `unavailable` when control absent
-skill-creator scaffolder skipped ∵ repo §C2-3 requires markdown-only flat `skills/<name>/SKILL.md`
+F3 provenance decision: original `encode-agent` → ⊥ `NOTICE.md` row; vendor-only rule in `AGENTS.md`
+skill-creator scaffold metadata/resources skipped ∵ repo §C2-3 requires markdown-only flat `skills/<name>/SKILL.md`
 
 ## final verification
 
