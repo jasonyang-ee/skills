@@ -53,9 +53,7 @@ For every finding, cite `file:line`, test name, commit, or sourced reference. Fl
 
 ## FINDING TAXONOMY & GATE
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`):
-identical categories and identical GO / NO-GO rule. Each skill keeps its own
-review axes and scope; only this taxonomy and gate are shared.
+Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`): identical categories and identical GO / NO-GO rule. Each skill keeps its own review axes and scope; only this taxonomy and gate are shared.
 
 Every finding is exactly one category — evidence → claim → category:
 

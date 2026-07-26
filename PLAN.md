@@ -96,14 +96,14 @@ files: `skills/review-code/SKILL.md`, `skills/review-plan/SKILL.md`, `CHANGELOG.
 
 §T TASKS
 
-T1|.|restore FINDING TAXONOMY & GATE byte mirror (§V26)
+T1|x|restore FINDING TAXONOMY & GATE byte mirror (§V26)
 touch: `skills/review-code/SKILL.md`
 details: replace only mismatched wrapped intro with canonical `skills/review-plan/SKILL.md` bytes; verify full block from heading through GO rule byte-identical; preserve each skill's surrounding review axes; confirm REPORT OUTPUT remains byte-identical
 verify: PowerShell extraction/comparison returns `taxonomy_equal=True` + `report_equal=True`; `git diff --check`; targeted contract 5/5 green
 exit: both intentional mirrors byte-identical; no unrelated review prose changed
 next: F3.T2
 
-T2|.|update `## [Unreleased]` with review fixes (§V11)
+T2|x|update `## [Unreleased]` with review fixes (§V11)
 touch: `CHANGELOG.md`
 details: add plain-English Fixed entry for multi-task delegated closure, main-owned commits/handoffs, writable completion scope, & taxonomy mirror; avoid plan ids/symbols
 verify: `rg -n "^## \[Unreleased\]|^### Fixed|multi-task|handoff|taxonomy" CHANGELOG.md`; manual changelog scope check
