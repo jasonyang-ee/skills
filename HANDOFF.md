@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit 66f8485 | tests pass 7/7 (`npm.cmd test`); targeted pass 5/5 + 2/2
+branch main | last commit f0bb1d2 | tests pass 7/7 (`npm.cmd test`); targeted pass 5/5 + 2/2; mirrors True/True
 uncommitted: none after prep commit
 
 ## done this session
@@ -22,15 +22,16 @@ uncommitted: none after prep commit
 embedded `review-plan` → GO; research phases remaining: 1; no open `?`
 F1.T1 + F1.T2: delegated lifecycle, writable scope, & mirror boundaries confirmed → 2149a3f
 F2.T1 + F2.T2: atomic multi-task acceptance + main-owned commit closure shipped; contract 5/5 → 66f8485
+F3.T1 + F3.T2: review mirrors restored + Unreleased fix recorded; mirrors True/True; contract 5/5 → f0bb1d2
 
 ## in progress (exact stop point)
 
-F3.T1: ready — restore taxonomy mirror in `skills/review-code/SKILL.md`
+F4.T1: ready — run full + targeted suites, mirror oracle, manual lifecycle trace
 mid-edit files: none
 
 ## next
 
-F3.T1 | preconditions: F2 accepted
+F4.T1 | preconditions: F3 accepted
 
 ## deviations & decisions
 
