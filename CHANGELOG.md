@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `encode-agent`, a compact prompt generator that gives delegated workers complete scope, quality, verification, stop, and completion contracts without loading the parent session's planning state.
+
+### Changed
+
+- Make `cater` execute non-parallel work directly through `cook` by default and delegate only when parallelism, context isolation, or specialist capability provides a material benefit. Before dispatch, it now shows each worker's scope, capability, model, effort, and selection rationale.
+
 ## [0.6.0] - 2026-07-23
 
 ### Changed

@@ -1,72 +1,82 @@
 ---
 name: cater
 description: |
-  Enhanced cook for PLAN.md execution using sub-agents, holding production-quality, verification-driven, evidence-based implementation. You act as dispatcher, not author: each phase is assigned to a sub-agent through its own HANDOFF-<phase-id>.md file at repo root, sized to the phase's complexity, and never dual assign phase to multiple agents. Each sub-agent reports back with a completion block; the dispatcher runs a phase-scoped acceptance review of its diff before accepting, then purges the assignment file. Expects `prep` to have created PLAN.md + HANDOFF.md first, and composes with the encode-docs and handoff skills. Triggers: "/cater".
+  Adaptive PLAN.md executor that preserves cook-quality implementation while choosing between direct main-agent work and sub-agent delegation. Runs a phase directly through cook when delegation has no material parallelism, context, or capability benefit; otherwise dispatches disjoint assignments through encode-agent prompts, discloses agent type, model, effort, scope, and rationale before each dispatch, and acceptance-reviews every returned diff. Expects prep to have created PLAN.md + HANDOFF.md and composes with cook, encode-agent, encode-docs, and handoff. Triggers: "/cater".
 ---
 
-# cater — Assign PLAN.md phases to cook by sub-agents
+# cater — route PLAN.md work
 
-You are dispatcher. You do not write phase's code yourself: you decide what gets assigned, to whom, in what order, and you decide what comes back is good enough to keep.
-
-Each sub-agent execute `cook #` for its own assigned # plan phase with specifying corresponding `HANDOFF-<phase-id>.md` file, and parallelism is the only thing this skill adds.
+You are the adaptive orchestrator. For each ready work set, choose direct main-agent execution or delegation. You own the result on both routes. One phase has one executor: never work directly on a phase while a sub-agent owns it.
 
 ## OPERATING PRINCIPLES
 
-1. **Quality over speed.** Never skip a verification step to save time. A phase is not done until its verification contract passes.
-2. **You own the outcome.** A sub-agent's report is a claim, not evidence. Nothing is accepted until you have read its diff yourself.
-3. **Isolation.** Never allow two assignments to touch the same file.
-4. **Dispatch only.** If a sub-agent fails, you do not fix it yourself. Return it to the same phase for a second attempt with adjusted complexity, assigned to a different sub-agent tier, or stop and re-plan if it fails twice.
-5. **The plan is authoritative — but not infallible.** If reality contradicts `PLAN.md`, report the contradiction, propose the correction, and hand the `PLAN.md` correction to `encode-docs` in the same commit. Silent deviations are forbidden.
+1. **Quality over speed.** Never skip a verification step. A phase is done only when its contract passes.
+2. **Use delegation when it pays.** Parallelism, context isolation, or specialist capability must materially improve execution. Delegation itself is not progress.
+3. **Own the evidence.** A sub-agent report is a claim. Accept only after reading its full scoped diff and verifying its tests.
+4. **Isolate writes.** Never allow concurrent assignments to touch the same file.
+5. **Honor the plan, surface contradictions.** If reality contradicts `PLAN.md`, report it and hand the correction to `encode-docs`; never deviate silently.
 
 ## LOAD
 
-1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed on `work-in-progress` (resume a cycle already under way), and proceed on `new` when the file carries executable phase sections (a plan `prep` wrote that nobody has started yet); `new` with no phase sections is an empty stub, so stop and recommend `/prep`; `done` stops and recommends `/garnish` (the cycle is complete). The discriminator between the two kinds of `new` is the presence of phase sections, never task status.
-3. `SPEC.md` — Long term storage for repo work rules.
+1. `HANDOFF.md` — session resume point; fresh start if absent.
+2. `PLAN.md` — stop if absent. Run on `work-in-progress`, or on `new` when executable phase sections exist. `new` without phases → `/prep`; `done` → `/garnish`.
+3. `SPEC.md` — durable requirements.
 4. `git status`, current branch, and `git log -3 --oneline`.
-5. Never `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and acting on it would execute work the plan never approved.
+5. Never `BACKLOG.md` — raw `prep`-only input.
 
-## SELECT PHASES TO DISPATCH
+Before any direct edit or dispatch, hand `planning status` `new` → `work-in-progress` to `encode-docs` when needed.
 
-Before the first assignment goes out, if `planning status` still reads `new`, hand the flip `new` → `work-in-progress` to `encode-docs`. `cook` and `cater` are the only skills that write that value — it marks execution, not authorship — so it must land before the first dispatch.
+## SELECT READY WORK
 
-A phase is dispatchable when its `task:` §T row is not `x`, its gate is satisfied, and its dependencies are already accepted. Gated phases with unmet gates are skipped with a one-line note.
+A phase is ready when its `§T` task is not `x`, its gate is satisfied, and every dependency is accepted. Skip unmet gates with one line of evidence.
 
-### Shared-file safety
+Build each candidate file set from `files:`, task `touch:`, and files clearly implied by the work. Unknown scope intersects everything.
 
-Build the file set of each candidate phase from its `files:` list plus anything its steps clearly touch. Then:
+- File sets intersect → never run concurrently; preserve dependency order.
+- Shared roster, spec, plan, handoff, or test files intersect even when subjects differ.
+- Only provably disjoint assignments may run in parallel.
 
-- If two phases' file sets intersect at all, they are NOT parallel-safe. Dispatch them sequentially, in dependency order.
-- If a phase's file set cannot be determined from the plan, treat it as intersecting everything. Dispatch it alone.
-- Phases that both edit the same shared roster, spec, or test file intersect even when their subjects differ. Two agents editing one file concurrently produce a lost update, and the loser's work vanishes silently.
+## CHOOSE ROUTE
 
-Only file sets that are provably disjoint may run at once.
+Choose once per phase before work starts:
 
-### Sub-agent selection by complexity
+- **Direct by default:** one ready phase, no parallel-safe set, or delegation overhead exceeds its context/capability benefit. Load `cook` and run that phase as the main agent.
+- **Delegate:** parallel-safe work exists, or one assignment has a named material context-isolation or specialist-capability benefit. Record that benefit; "use a sub-agent" is not a rationale.
+- **Split first:** scope is too broad or ambiguous to assign safely.
 
-Assign matching agent capability for each phase's needs. Describe the tier you need in capability terms and pick whatever the host offers that meets it.
+Never assign and directly edit the same phase. Re-evaluate the remaining ready set after every direct completion or accepted assignment.
 
-| Phase shape | Capability needed |
-| --- | --- |
-| High-complexity, ambiguous, or design-bearing; touches shared modules; the plan leaves judgment to the executor | The most capable general tier available. Do not economize here — a wrong call costs more than the tokens saved. |
-| Mechanical and fully specified; isolated files; the plan names every step and leaves no judgment | A cheaper, faster general tier. |
-| Read-only investigation, search, or fan-out fact-finding with no edits | A search-oriented or read-only tier, if the host offers one. |
+## DIRECT ROUTE
 
-If no tier meets what the phase needs, do not dispatch it: run it yourself under `cook`, or split it until the parts fit.
+Load `cook` and apply its execution loop to the selected phase only. `cook` owns verification-first implementation, failure classification, full-diff self-review, task status, changelog, commit, and phase handoff. Do not dispatch a worker for that phase. After its handoff commit, return here and select the next ready work set.
 
-## PER-ASSIGNMENT LOOP
+## SELECT SUB-AGENTS
 
-Run this for every dispatched phase.
+Match capability and effort to work shape. Use host-supported model and effort controls; never assume provider-specific names.
 
-1. **Write the assignment file.** Create `HANDOFF-<phase-id>.md` at repo root — that exact name, with the phase id from `PLAN.md` (one phase goes to one sub-agent, so the phase id identifies the assignment). Example: phase `F3` gets `HANDOFF-F3.md`. This file is the sub-agent's whole world; it must carry:
-   - the phase id, its `task: T<n>` row, and the §V invariants it must satisfy;
-   - scope: exactly which files it may touch, and that touching anything else is forbidden;
-   - the verification contract: the exact test file and case names that must prove each new or changed §V, plus the oracle command;
-   - the repo's commit convention, and whether to commit at all;
-   - stop conditions: what to do when the plan is wrong, ambiguous, or the base is red — surface it, do not improvise;
-   - a `## completion` block for it to fill in.
-2. **Refresh the main baton, then dispatch.** Hand `encode-docs` the `HANDOFF.md` update — what is going out and to which tier (see REFRESH POINTS). Then dispatch the sub-agent, pointing it at `HANDOFF-<phase-id>.md` as its instructions.
-3. **Sub-agent finishes by writing its completion block.** On finish it must write a `## completion` block into its own `HANDOFF-<phase-id>.md`:
+| Work shape | Agent capability/type | Effort |
+| --- | --- | --- |
+| Ambiguous, design-bearing, security-sensitive, or cross-module | Most capable general implementation tier available | Highest useful supported level |
+| Mechanical, isolated, fully specified | Fast general implementation tier | Lowest level that preserves the verification contract |
+| Read-only search or fact-finding | Read-only/search tier | Low unless synthesis is complex |
+
+If no offered tier fits, use the direct route or split the phase. For a host control that cannot be selected, record `inherit` or `unavailable` instead of inventing a value.
+
+Before every dispatch, show this concise Markdown table in main-agent output:
+
+| Phase/task | Scope | Agent capability/type | Model | Effort | Rationale |
+| --- | --- | --- | --- | --- | --- |
+| `<phase>.<task>` | `<paths>` | `<type + needed capability>` | `<selected \| inherit \| unavailable>` | `<selected \| inherit \| unavailable>` | `<parallelism/context/capability benefit>` |
+
+## DELEGATED ROUTE
+
+Run this loop for every assignment:
+
+1. **Generate bounded prompt.** Load `encode-agent`. Supply assignment id/objective, exact allowed + forbidden scope, relevant requirement and invariant text, existing patterns, exact verification commands/test cases, commit policy, stop conditions, and completion evidence. Do not tell the worker to read main `PLAN.md`, `HANDOFF.md`, `SPEC.md`, or load full `cook`.
+2. **Write assignment file.** Put generated prompt in `HANDOFF-<phase-id>.md` at repo root. One phase gets one assignment file and one worker.
+3. **Refresh + disclose.** Hand the main `HANDOFF.md` state to `encode-docs`, then print the selection table with phase/task, scope, capability/type, model, effort, and rationale.
+4. **Dispatch.** Point the selected worker at its assignment file. Concurrent dispatches require disjoint file sets.
+5. **Collect.** Require the assignment's `## completion` block:
 
    ```md
    ## completion
@@ -75,54 +85,39 @@ Run this for every dispatched phase.
    tests: <command> → <green | exact failing case names>
    ```
 
-   That block is how a sub-agent signals it is finished. It is the only signal; see FORBIDDEN for what it must never do instead.
-4. **Refresh the main baton on completion.** Record the reported result before you review it, so a session cut here does not lose the fact that work came back unreviewed.
-5. **Acceptance review (mandatory, you run it).** Read the FULL diff the sub-agent produced — scoped to that phase, not the whole plan — and check, line by line:
-   - matches the phase section (every numbered item done, or explicitly deferred with a reason recorded);
-   - stayed inside the assigned file scope; nothing touched outside it;
-   - coherent in the larger picture — fits the modules it touches, no logic now duplicated somewhere else, no house pattern broken;
-   - no debug leftovers, no dead code, no drive-by changes;
-   - comments state constraints, not narration;
-   - the named tests exist, actually cover the §V they claim, and pass.
+6. **Refresh before review.** Record the returned result as unreviewed in main `HANDOFF.md`.
+7. **Acceptance review.** Read the full phase-scoped diff. Confirm every task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Reject no-diff completions and tests that prove nothing.
+8. **Accept or return.** Accept only after checks pass, then hand task status `x` to `encode-docs`. On failure, return exact findings once with corrected prompt/selection. A second failure → stop and re-plan; do not silently take over a phase after delegated edits exist.
+9. **Purge + refresh.** Delete accepted `HANDOFF-<phase-id>.md`, refresh main baton, then re-evaluate ready work.
 
-   A reported `status: done` with no diff, or a test that passes because it asserts nothing, is a failed assignment. Verify, do not trust.
-6. **Accept or return.** Accept → hand the phase's §T flip → `x` to `encode-docs`, which writes `PLAN.md`, per the repo's process contract. Return → send the findings back as a new assignment on the same phase id; do not fix it yourself (principle 4).
-7. **Purge the assignment file.** Once accepted, delete `HANDOFF-<phase-id>.md`. Leaving them behind litters the repo root and blocks the cycle close: `garnish` blanks `PLAN.md` and `HANDOFF.md` to their baked-header template, and refuses to run with unrelated files dirty. At cycle close no `HANDOFF-<phase-id>.md` may remain.
-8. **Refresh the main baton after acceptance.** Then continue to the next dispatchable phase.
+## MAIN HANDOFF REFRESH POINTS
 
-## REFRESH POINTS for the main `HANDOFF.md`
+Refresh main `HANDOFF.md` through `encode-docs`:
 
-Parallel work generates state faster than one context can hold, and a cut session loses everything not written down. Refresh the main baton at each of:
+- before dispatch: assignments, agent selections, file sets;
+- after completion: returned, unreviewed state;
+- after acceptance: decision + evidence;
+- after every direct phase through `cook`;
+- before every stop.
 
-- **before dispatch** — which phases are going out, to which tier, and their file sets;
-- **after sub-agent completion** — what came back, still unreviewed;
-- **after acceptance review** — accepted or returned, with evidence;
-- **before stop** — for any reason, including running out of context.
-
-The main `HANDOFF.md` is yours alone and written by `encode-docs`; hand it the baton content at each point above. A sub-agent writes only its own `HANDOFF-<phase-id>.md`; two agents writing one baton lose each other's work.
+Only the main agent owns main `HANDOFF.md`. Each worker writes only its assignment file.
 
 ## FORBIDDEN
 
-- **A sub-agent must never run `garnish`.** Only the dispatcher may run it at plan cycle end, and only when all assignments are accepted or returned.
-- **Never invoke `/review-code` mid-dispatch**, per sub-agent or per phase.
-- **Never let two concurrent assignments touch one file.** See shared-file safety.
-- **Never name a specific harness agent** in an assignment or in this procedure. Express the tier you need in capability terms.
-- **Never accept on the report alone.** No acceptance without reading the diff.
+- A sub-agent never runs `garnish`, `review-code`, or parent-cycle task/status updates.
+- Never run concurrent assignments with intersecting files.
+- Never accept a report without reviewing its diff and proof.
+- Never hide selected model or effort from the pre-dispatch output.
+- Never push, tag, or perform destructive live-system actions without explicit authority.
 
-## STOP CONDITIONS (stop the loop, don't push through)
+## STOP CONDITIONS
 
-- Phase gate unmet, or a dependency not yet accepted.
-- Genuine ambiguity the plan doesn't resolve and a sensible default can't. Ask the user. Never guess on irreversible operations, financial arithmetic, data safety, or security semantics.
-- A returned assignment fails its second attempt — the phase, not the agent, is probably wrong. Stop and re-plan.
-- Context budget low (roughly <15% remaining) — stop BEFORE dispatching another phase, while there is room to collect outstanding work and hand off cleanly. Never leave an assignment in flight with no baton describing it.
-- The user asked for a single phase.
+- Gate unmet or dependency unaccepted.
+- Genuine ambiguity without safe default, especially irreversible, financial, data-safety, or security semantics.
+- Delegated assignment fails its second acceptance attempt.
+- Context budget too low to dispatch and still collect, review, and hand off safely.
+- User requested one phase and that phase has closed.
 
-## END OF SESSION (always, no exceptions)
+## END OF SESSION
 
-Every assignment is accepted or explicitly recorded as outstanding, every accepted `HANDOFF-<phase-id>.md` is purged, and the full suite is run. Then invoke the **handoff** skill to refresh the main `HANDOFF.md`. A session that ends without a fresh baton is a failed session, even if every phase passed.
-
-## NON-GOALS
-
-- Not a replacement for `cook`. Sequential phases, or a plan whose file sets all intersect, belong there.
-- No scope creep: work outside a phase section goes into `HANDOFF.md` watchouts or a `PLAN.md` note, not into an assignment.
-- No pushing or tagging without an explicit ask. No destructive operations against live systems.
+Ensure every assignment is accepted or recorded outstanding, purge every accepted assignment file, run the full suite, then invoke `handoff`. A session without a fresh main baton is incomplete.

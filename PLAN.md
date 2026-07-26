@@ -75,20 +75,20 @@ next: F2.T1
 
 goal: add compact prompt helper and let `cater` route ready work directly or through quality-bound sub-agents
 inputs: F1 decision matrix; §I12; §R8; §V1-8/§V15/§V22/§V28-30; `cook` quality contract
-files: `skills/encode-agent/SKILL.md`, `skills/cater/SKILL.md`
+files: `skills/encode-agent/SKILL.md`, `skills/cater/SKILL.md`, `CHANGELOG.md`
 
 §T TASKS
 
-T1|.|create self-sufficient `encode-agent` support skill (§I12, §V1-4, §V6-8, §V28, §V30)
+T1|x|create self-sufficient `encode-agent` support skill (§I12, §V1-4, §V6-8, §V28, §V30)
 touch: `skills/encode-agent/SKILL.md`
 details: add valid frontmatter + ≤500-line unwrapped body; accept only bounded assignment facts supplied by caller; emit condensed prompt preserving identifiers/paths/errors; mirror necessary `cook` quality outcomes without loading or reading main cycle docs; require scope guard, verification-first execution, full-diff self-review, stop conditions, completion evidence; ⊥ mutate repo state itself
 verify: `node --test tests/skill-contract.test.mjs`; exact cases `ships at least one skill with parseable frontmatter`, `declares name and description as non-empty strings`, `names every skill legally, uniquely, and after its directory`, `keeps every description within the spec limit`, `keeps every body under the recommended length` prove §V1-4; manual file-tree + `rg -n "PLAN.md|HANDOFF.md|SPEC.md|cook|emoji" skills/encode-agent` prove §V6-8/§V28/§V30 per §C8
 exit: helper loads alone and produces executable cold prompt contract
 next: F2.T2
 
-T2|.|rewrite `cater` routing, selection output, & assignment generation (§V15, §V22, §V30)
-touch: `skills/cater/SKILL.md`
-details: replace dispatcher-only premise with adaptive orchestrator; evaluate ready work before execution; default direct for one/non-parallel phase unless named benefit justifies delegation; load `cook` and follow its direct loop when main executes; preserve disjoint-file rule for parallel dispatch; before every dispatch show concise Markdown table with phase/task, scope, capability/type, model, effort, rationale; use `encode-agent` to build bounded prompt/assignment; reconcile retry, acceptance, handoff, stop, end-session, non-goal rules for both routes
+T2|x|rewrite `cater` routing, selection output, & assignment generation (§V15, §V22, §V30)
+touch: `skills/cater/SKILL.md`, `CHANGELOG.md`
+details: replace dispatcher-only premise with adaptive orchestrator; evaluate ready work before execution; default direct for one/non-parallel phase unless named benefit justifies delegation; load `cook` and follow its direct loop when main executes; preserve disjoint-file rule for parallel dispatch; before every dispatch show concise Markdown table with phase/task, scope, capability/type, model, effort, rationale; use `encode-agent` to build bounded prompt/assignment; reconcile retry, acceptance, handoff, stop, end-session, non-goal rules for both routes; record shipped behavior under `CHANGELOG.md` `## [Unreleased]`
 verify: manual `rg -n "dispatcher|do not write|Dispatch only|run it yourself|model|effort|encode-agent|cook" skills/cater/SKILL.md`; inspect every hit against §V15/§V22/§V30; `node --test tests/skill-contract.test.mjs` exact 5 contract cases confirm edited frontmatter/body limits; routing behavior remains manual by §C8
 exit: no contradictory dispatcher-only rule; direct + delegated paths each name quality, state, failure, verification, handoff ownership
 next: F3.T1
@@ -108,9 +108,9 @@ verify: `rg -n "12 skills|13 skills|encode-agent|cater|sub-agent" README.md AGEN
 exit: public + bootstrapped guidance matches §V15/§V22/§V30
 next: F3.T2
 
-T2|.|record provenance + user-visible change (§V10-11)
+T2|.|verify provenance + user-visible change (§V10-11)
 touch: `NOTICE.md`, `CHANGELOG.md`
-details: determine from F1 evidence whether original `encode-agent` needs explicit provenance row; add only if repo convention/§V10 requires it; add plain-English `## [Unreleased]` entries for new helper and adaptive `cater`
+details: apply F1 evidence that original `encode-agent` needs ⊥ provenance row; verify plain-English `## [Unreleased]` entries from F2 describe new helper and adaptive `cater`; correct only drift
 verify: `rg -n "encode-agent|adaptive|effort|\[Unreleased\]" NOTICE.md CHANGELOG.md`; manual §V10-11 decision recorded in `HANDOFF.md` because license/release/hygiene are ⊥ test-backed (§C8)
 exit: provenance decision evidenced; changelog describes shipped behavior without plan ids/symbols
 next: F4.T1
