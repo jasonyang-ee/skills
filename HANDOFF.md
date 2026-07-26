@@ -12,32 +12,31 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit e67e339 (pre-plan baseline) | tests pass 7/7 (`npm.cmd test`)
-uncommitted: none after planning-package commit
+branch main | last commit 92b7ea4 | tests pass 7/7 (`npm.cmd test`, baseline unchanged)
+uncommitted: none after baton commit
 
 ## done this session
 
--
+F1.T1 + F1.T2: adaptive routing + portable prompt contracts researched → 92b7ea4
 
 ## in progress (exact stop point)
 
-F1.T1: ready — inventory dispatcher-only lines & map each to direct/delegated contract
+F2.T1: ready — create `skills/encode-agent/SKILL.md` from F1 bounded prompt contract
 mid-edit files: none
 
 ## next
 
-F1.T1 | preconditions: review-plan gate GO; read named F1 files in full before status flip
+F2.T1 | preconditions: F1 accepted; read F2 inputs + neighbouring skills in full
 
 ## deviations & decisions
 
-plan said baseline `npm test` → PowerShell blocked `npm.ps1`; equivalent `npm.cmd test` passed 7/7 (PLAN.md updated: n)
+plan said original `encode-agent` provenance decision in F3 → F1 proved ⊥ `NOTICE.md` row ∵ repo requires rows only for vendored MIT skills (PLAN.md updated: y)
 user decided: `cater` MAY execute non-parallel work directly by loading `cook`; dispatch output ! include model + effort; sub-agent prompt quality supplied by new compact `encode-agent`
 
 ## watchouts
 
-review-plan: research phases remaining 1; BLOCK 0; DIVERGENCE 0; UNKNOWN 0; HARDEN 0; NOTE 1 (routing prose/provenance require manual evidence under §C8); gate GO
-F1 ! preserve host portability: model/effort values come from available harness; record `inherit` | `unavailable` when control absent
-`BACKLOG.md` intentionally blank; request fully encoded in `SPEC.md` + `PLAN.md`
+F2 ! preserve host portability: model/effort values come from available harness; record `inherit` | `unavailable` when control absent
+skill-creator scaffolder skipped ∵ repo §C2-3 requires markdown-only flat `skills/<name>/SKILL.md`
 
 ## final verification
 
