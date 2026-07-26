@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit 25bdcd2 | tests pass 7/7 (`npm.cmd test`); targeted pass 5/5 + 2/2
+branch main | last commit 0d684b5 | tests pass 7/7 (`npm.cmd test`); targeted pass 5/5 + 2/2
 uncommitted: none after baton commit
 
 ## done this session
@@ -20,6 +20,7 @@ uncommitted: none after baton commit
 F1.T1 + F1.T2: adaptive routing + portable prompt contracts researched → 92b7ea4
 F2.T1 + F2.T2: `encode-agent` + adaptive direct/delegated `cater` shipped → bc1ddce
 F3.T1 + F3.T2: public + bootstrap docs aligned; provenance/changelog verified → aa54154
+F4.T1 + F4.T2: final contract suite + full diff review HOLD → 0d684b5
 
 ## in progress (exact stop point)
 
@@ -28,7 +29,7 @@ mid-edit files: none
 
 ## next
 
-`/garnish` | preconditions: final verification commit + baton commit
+`/garnish` | preconditions: none
 
 ## deviations & decisions
 
