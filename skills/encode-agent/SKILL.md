@@ -13,7 +13,7 @@ Turn caller-supplied assignment facts into one executable prompt. Preserve paths
 Require the caller to supply:
 
 - assignment id + one-line objective;
-- allowed files and explicit forbidden scope;
+- allowed implementation files, any reporting file writable only for completion, and explicit forbidden scope;
 - relevant requirements, invariant definitions, user rulings, and existing patterns;
 - exact verification commands, test files, and case names;
 - commit policy;
@@ -43,7 +43,7 @@ Emit only this filled prompt:
 ```md
 # assignment <id>
 objective: <one line>
-scope: <allowed paths>
+scope: <allowed implementation + reporting paths with per-path authority>
 forbidden: <paths/actions>
 
 ## authority

@@ -74,14 +74,14 @@ files: `skills/cater/SKILL.md`, `skills/encode-agent/SKILL.md`
 
 §T TASKS
 
-T1|.|fix phase readiness, assignment contents, & acceptance status (§V21, §V30)
+T1|x|fix phase readiness, assignment contents, & acceptance status (§V21, §V30)
 touch: `skills/cater/SKILL.md`
 details: define ready phase by ≥1 non-`x` task; one delegated assignment owns all remaining task ids in that phase; disclose phase + task set; prompt includes every remaining task, invariant, touch path, verification case; acceptance reviews all assigned tasks and flips all their rows together only after phase contract passes; keep direct/delegated exclusivity and retry policy
 verify: `rg -n "task|tasks|phase/task|Accept or return" skills/cater/SKILL.md`; manual line-by-line classification against §V21/§V30; `node --test tests/skill-contract.test.mjs` exact 5 cases green
 exit: no singular task rule can partially close a multi-task phase
 next: F2.T2
 
-T2|.|enforce writable assignment file + main-owned commit/handoff closure (§V22, §V28, §V30)
+T2|x|enforce writable assignment file + main-owned commit/handoff closure (§V22, §V28, §V30)
 touch: `skills/cater/SKILL.md`, `skills/encode-agent/SKILL.md`
 details: include `HANDOFF-<phase-id>.md` in worker writable scope only for completion update; require worker do-not-commit policy unless explicit repository contract demands otherwise; after acceptance main agent commits scoped implementation via `encode-commit`, flips all assigned task rows through `encode-docs`, invokes `handoff`, commits baton, then purges assignment file + re-evaluates; order must preserve recoverable state if interrupted; align `encode-agent` required writable-scope wording without coupling it to cycle docs
 verify: `rg -n "HANDOFF-<phase-id>|writable|do not commit|encode-commit|handoff|purge" skills/cater/SKILL.md skills/encode-agent/SKILL.md`; manual lifecycle trace proves §V22 after direct + delegated routes; targeted contract 5/5 green

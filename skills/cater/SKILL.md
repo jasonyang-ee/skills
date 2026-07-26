@@ -28,9 +28,9 @@ Before any direct edit or dispatch, hand `planning status` `new` → `work-in-pr
 
 ## SELECT READY WORK
 
-A phase is ready when its `§T` task is not `x`, its gate is satisfied, and every dependency is accepted. Skip unmet gates with one line of evidence.
+A phase is ready when at least one of its `§T` tasks is not `x`, its gate is satisfied, and every dependency is accepted. The ready task set is every non-`x` task in that phase. Skip unmet gates with one line of evidence.
 
-Build each candidate file set from `files:`, task `touch:`, and files clearly implied by the work. Unknown scope intersects everything.
+Build each candidate file set from `files:`, every ready task's `touch:`, and files clearly implied by the work. Unknown scope intersects everything.
 
 - File sets intersect → never run concurrently; preserve dependency order.
 - Shared roster, spec, plan, handoff, or test files intersect even when subjects differ.
@@ -64,17 +64,17 @@ If no offered tier fits, use the direct route or split the phase. For a host con
 
 Before every dispatch, show this concise Markdown table in main-agent output:
 
-| Phase/task | Scope | Agent capability/type | Model | Effort | Rationale |
+| Phase/tasks | Scope | Agent capability/type | Model | Effort | Rationale |
 | --- | --- | --- | --- | --- | --- |
-| `<phase>.<task>` | `<paths>` | `<type + needed capability>` | `<selected \| inherit \| unavailable>` | `<selected \| inherit \| unavailable>` | `<parallelism/context/capability benefit>` |
+| `<phase>.<task set>` | `<paths>` | `<type + needed capability>` | `<selected \| inherit \| unavailable>` | `<selected \| inherit \| unavailable>` | `<parallelism/context/capability benefit>` |
 
 ## DELEGATED ROUTE
 
 Run this loop for every assignment:
 
-1. **Generate bounded prompt.** Load `encode-agent`. Supply assignment id/objective, exact allowed + forbidden scope, relevant requirement and invariant text, existing patterns, exact verification commands/test cases, commit policy, stop conditions, and completion evidence. Do not tell the worker to read main `PLAN.md`, `HANDOFF.md`, `SPEC.md`, or load full `cook`.
-2. **Write assignment file.** Put generated prompt in `HANDOFF-<phase-id>.md` at repo root. One phase gets one assignment file and one worker.
-3. **Refresh + disclose.** Hand the main `HANDOFF.md` state to `encode-docs`, then print the selection table with phase/task, scope, capability/type, model, effort, and rationale.
+1. **Generate bounded prompt.** Load `encode-agent`. Supply assignment id/objective, every ready task id and contract in the phase, exact allowed + forbidden scope, relevant requirement and invariant text, existing patterns, exact verification commands/test cases, `do not commit` policy, stop conditions, and completion evidence. Do not tell the worker to read main `PLAN.md`, `HANDOFF.md`, `SPEC.md`, or load full `cook`.
+2. **Write assignment file.** Put generated prompt in `HANDOFF-<phase-id>.md` at repo root. One phase gets one assignment file and one worker. Include the assignment file in writable scope only for replacing its `## completion` block; it is not implementation scope.
+3. **Refresh + disclose.** Hand the main `HANDOFF.md` state to `encode-docs`, then print the selection table with phase/task set, scope, capability/type, model, effort, and rationale.
 4. **Dispatch.** Point the selected worker at its assignment file. Concurrent dispatches require disjoint file sets.
 5. **Collect.** Require the assignment's `## completion` block:
 
@@ -86,9 +86,10 @@ Run this loop for every assignment:
    ```
 
 6. **Refresh before review.** Record the returned result as unreviewed in main `HANDOFF.md`.
-7. **Acceptance review.** Read the full phase-scoped diff. Confirm every task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Reject no-diff completions and tests that prove nothing.
-8. **Accept or return.** Accept only after checks pass, then hand task status `x` to `encode-docs`. On failure, return exact findings once with corrected prompt/selection. A second failure → stop and re-plan; do not silently take over a phase after delegated edits exist.
-9. **Purge + refresh.** Delete accepted `HANDOFF-<phase-id>.md`, refresh main baton, then re-evaluate ready work.
+7. **Acceptance review.** Read the full phase-scoped diff. Confirm every assigned task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Reject partial task-set completions, no-diff completions, and tests that prove nothing.
+8. **Accept or return.** Accept the whole ready task set only after every check passes. On failure, return exact findings once with the same task set and corrected prompt/selection. A second failure → stop and re-plan; do not silently take over a phase after delegated edits exist.
+9. **Commit + close phase.** The main agent commits the accepted implementation through `encode-commit`, hands every assigned task status `x` to `encode-docs`, invokes `handoff`, and commits the refreshed baton. Never leave an accepted phase partially marked or without its implementation and handoff commits.
+10. **Purge + re-evaluate.** Delete accepted `HANDOFF-<phase-id>.md`, then re-evaluate ready work.
 
 ## MAIN HANDOFF REFRESH POINTS
 
@@ -100,7 +101,7 @@ Refresh main `HANDOFF.md` through `encode-docs`:
 - after every direct phase through `cook`;
 - before every stop.
 
-Only the main agent owns main `HANDOFF.md`. Each worker writes only its assignment file.
+Only the main agent owns main `HANDOFF.md`, task status, and commits. Each worker writes its allowed implementation files plus only the completion block in its assignment file.
 
 ## FORBIDDEN
 
