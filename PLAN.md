@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code/paths/ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: work-in-progress
+planning status: done
 -->
 
 # PLAN
@@ -123,14 +123,14 @@ files: `SPEC.md`, `PLAN.md`, `HANDOFF.md`, all F2-F3 touched paths
 
 §T TASKS
 
-T1|.|run automated + manual contract suite (§I7-8/§I12, §V1-8/§V10-11/§V15/§V22/§V28-30)
+T1|x|run automated + manual contract suite (§I7-8/§I12, §V1-8/§V10-11/§V15/§V22/§V28-30)
 touch: `HANDOFF.md`
 details: run exact commands; inspect CLI output contains `encode-agent`; run contradiction/roster/provenance searches from F2-F3; classify each relevant §I/§V and every §T as HOLD/VIOLATE/UNVERIFIABLE with file/test evidence
 verify: `npm test`; `node --test tests/skill-contract.test.mjs`; `node --test tests/cli-discovery.test.mjs`; all green with exact counts, else name file+case
 exit: no VIOLATE; every UNVERIFIABLE has reason + decision
 next: F4.T2
 
-T2|.|self-review full cycle diff + close baton (§V16, §V19, §V21-22, §V29)
+T2|x|self-review full cycle diff + close baton (§V16, §V19, §V21-22, §V29)
 touch: `PLAN.md`, `HANDOFF.md`
 details: read full diff for logic, unnecessary complexity, missed reuse, contradictory direct/delegated ownership, host-specific assumptions, scope creep, wrapped skill prose, unrelated dirty work; resolve drift in code or spec; record final result table; mark tasks/status only after evidence holds; commit through `encode-commit`; ⊥ push/tag
 verify: `git diff --check`; `git status --short`; final verification table cites every decision; plan complete only when ∀ §T=`x` + HOLD

@@ -12,7 +12,7 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-26
 
-branch main | last commit aa54154 | tests pass 5/5 (`node --test tests/skill-contract.test.mjs`)
+branch main | last commit 25bdcd2 | tests pass 7/7 (`npm.cmd test`); targeted pass 5/5 + 2/2
 uncommitted: none after baton commit
 
 ## done this session
@@ -23,24 +23,39 @@ F3.T1 + F3.T2: public + bootstrap docs aligned; provenance/changelog verified �
 
 ## in progress (exact stop point)
 
-F4.T1: ready — run full automated/manual contract suite & classify relevant spec rows
+F4.T2: done — full cycle diff self-reviewed; final table HOLD
 mid-edit files: none
 
 ## next
 
-F4.T1 | preconditions: F3 accepted; inspect full cycle diff from dc55c2b
+`/garnish` | preconditions: final verification commit + baton commit
 
 ## deviations & decisions
 
-plan said `NOTICE.md` touched in F3 → unchanged ∵ `encode-agent` original, not vendored; §V10 + `AGENTS.md` vendor rule HOLD (PLAN.md updated: y)
+plan said `npm test` → `npm.cmd test` ∵ PowerShell execution policy blocks `npm.ps1`; Node suite unchanged (PLAN.md updated: n)
 user decided: `cater` MAY execute non-parallel work directly by loading `cook`; dispatch output ! include model + effort; sub-agent prompt quality supplied by new compact `encode-agent`
 
 ## watchouts
 
-F4 full suite on PowerShell → use `npm.cmd test` if `npm.ps1` policy blocks `npm test`
-final table ! classify §I7-8/§I12 + §V1-8/§V10-11/§V15/§V22/§V28-30
+`NOTICE.md` unchanged ∵ `encode-agent` original; vendor-only provenance rule HOLD
+skill-creator scaffold extras skipped ∵ §C2-3 markdown-only flat skill layout
 
 ## final verification
 
 item|status|evidence|decision
 |---|---|---|---|
+§I7|HOLD|`skills/encode-agent/SKILL.md`; contract 5/5|-
+§I8|HOLD|`npm.cmd test` pass 7/7|-
+§I12|HOLD|`skills/encode-agent/SKILL.md:9-81`|-
+§V1-4|HOLD|`tests/skill-contract.test.mjs` pass 5/5|-
+§V5|HOLD|`tests/cli-discovery.test.mjs` pass 2/2; `encode-agent` listed|-
+§V6|HOLD|`skills/encode-agent/` contains `SKILL.md` only|-
+§V7-8|HOLD|manual full read of touched `skills/**`; ⊥ project refs/emoji|-
+§V10|HOLD|`NOTICE.md`; `AGENTS.md` vendor-only row rule; helper original|-
+§V11|HOLD|`CHANGELOG.md:8-16`|-
+§V15|HOLD|`skills/cater/SKILL.md:9-51`; `AGENTS.md:21-28`|-
+§V22|HOLD|`skills/cater/SKILL.md:32-51`, `:73-93`|-
+§V28|HOLD|`skills/encode-agent/SKILL.md:9-81`; ⊥ external skill-body dependency|-
+§V29|HOLD|`PLAN.md` planning status `done`; ∀ task `x`|-
+§V30|HOLD|`skills/cater/SKILL.md:55-77`; `skills/encode-agent/SKILL.md:11-81`|-
+§T F1.T1-F4.T2|HOLD|`PLAN.md` ∀ 8 tasks `x`; named phase evidence above|-
