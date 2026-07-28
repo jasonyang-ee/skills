@@ -12,8 +12,8 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-28
 
-branch main | last commit 43320aa | tests pass 7/7 (`npm.cmd test`)
-uncommitted: `HANDOFF.md` — F2 baton
+branch main | last commit 27ba85c | tests pass 7/7 (`npm.cmd test`)
+uncommitted: `PLAN.md`, `HANDOFF.md` — final verification closure
 
 ## done this session
 
@@ -21,15 +21,17 @@ F1.T1: plugin version authority + equality confirmed → f880653
 F1.T2: release mutation/gate/staging seams mapped → f880653
 F2.T1: plugin manifest preflight + version mutation added → 43320aa
 F2.T2: equality gate + release staging + changelog added → 43320aa
+F3.T1: release path audited vs spec + plan → pending final phase commit
+F3.T2: final oracles + HOLD classification complete → pending final phase commit
 
 ## in progress (exact stop point)
 
-F3.T1: ready — audit release implementation vs §I5, §I9, §V14 + PLAN §T
+F3.T2: done — final oracles green + result table complete
 mid-edit files: none
 
 ## next
 
-F3.T1 | preconditions: F1-F2 complete; implementation oracles green; package + plugin version = `0.6.0`
+F3.T2 | preconditions: cycle complete → `/garnish`
 
 ## deviations & decisions
 
@@ -38,9 +40,18 @@ user decided: sync Claude plugin release version with package release
 
 ## watchouts
 
-`release.sh` executes commit/tag/push outside dry-run → final verification ! use syntax/help/dry-run + isolated mutation oracle; ⊥ run real release
+real release intentionally ⊥ run; dry-run + isolated mutation prove bounded path without commit/tag/push
 Windows PowerShell blocks `npm.ps1` in current environment → use `npm.cmd test` or Bash `npm test`
 
 ## final verification
 
 item|status|evidence|decision
+§I5|HOLD|`.claude-plugin/plugin.json:7`; `.claude-plugin/marketplace.json` ⊥ version; equality oracle|-
+§I9|HOLD|`release.sh:62,169,176-220`; syntax/help/dry-run exit 0|-
+§V14|HOLD|package + plugin = `0.6.0`; `release.sh:213-220` gates + stages next version|-
+§T F1.T1|HOLD|official Claude docs checked 2026-07-28 + equality oracle|-
+§T F1.T2|HOLD|`release.sh:62,149-152,169-226` seam audit|-
+§T F2.T1|HOLD|isolated mutation → `9.8.7`; valid JSON + trailing newline|-
+§T F2.T2|HOLD|dry-run `0.6.1`; `CHANGELOG.md:20`; `release.sh:216-220`|-
+§T F3.T1|HOLD|`git show 43320aa`; full logic/complexity/reuse/security review|-
+§T F3.T2|HOLD|`bash -n`; help; dry-run; equality; `npm.cmd test` 7/7; diff checks|-

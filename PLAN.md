@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code, paths, ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: work-in-progress
+planning status: done
 -->
 
 # PLAN
@@ -92,14 +92,14 @@ files: `release.sh`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.j
 
 §T TASKS:
 
-T1|.|audit spec + release-path coherence
+T1|x|audit spec + release-path coherence
 touch: all F2 files, `SPEC.md`, `PLAN.md`
 details: Re-read §I5, §I9, §V14 + every task; inspect full diff for ordering, failure propagation, JSON safety, duplicate versions, missed staging, unnecessary complexity, reuse, secrets, + unrelated edits.
 verify: Classify §I5, §I9, §V14, + F1-F3 §T as `HOLD`|`VIOLATE`|`UNVERIFIABLE` with file/command evidence; any drift gets code or SPEC decision before closure.
 exit: ⊥ open violation/drift; review findings resolved.
 next: F3.T2
 
-T2|.|run final oracles + record baton
+T2|x|run final oracles + record baton
 touch: repo verification surfaces, `HANDOFF.md`
 details: Run release syntax/help/dry-run oracles, JSON/version oracle, `npm test`, + `git diff --check`; confirm `CHANGELOG.md` Unreleased entry; record exact results + final classification via handoff/encode-docs; ⊥ push/tag.
 verify: `bash -n release.sh`; `bash ./release.sh --help`; `bash ./release.sh --dry-run --patch`; `node -e "const p=require('./package.json');const m=require('./.claude-plugin/plugin.json');if(p.version!==m.version)process.exit(1)"`; `npm test`; `git diff --check`.
