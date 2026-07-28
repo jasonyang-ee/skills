@@ -12,22 +12,24 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-28
 
-branch main | last commit f880653 | tests pass 7/7 (`npm.cmd test`)
-uncommitted: `HANDOFF.md` — F1 baton
+branch main | last commit 43320aa | tests pass 7/7 (`npm.cmd test`)
+uncommitted: `HANDOFF.md` — F2 baton
 
 ## done this session
 
 F1.T1: plugin version authority + equality confirmed → f880653
 F1.T2: release mutation/gate/staging seams mapped → f880653
+F2.T1: plugin manifest preflight + version mutation added → 43320aa
+F2.T2: equality gate + release staging + changelog added → 43320aa
 
 ## in progress (exact stop point)
 
-F2.T1: ready — add plugin manifest preflight + version mutation in `release.sh`
+F3.T1: ready — audit release implementation vs §I5, §I9, §V14 + PLAN §T
 mid-edit files: none
 
 ## next
 
-F2.T1 | preconditions: F1 complete; package + plugin version = `0.6.0`; official rule captured in §R9
+F3.T1 | preconditions: F1-F2 complete; implementation oracles green; package + plugin version = `0.6.0`
 
 ## deviations & decisions
 
@@ -36,7 +38,7 @@ user decided: sync Claude plugin release version with package release
 
 ## watchouts
 
-`release.sh` executes commit/tag/push outside dry-run → verification ! use syntax/help/dry-run + isolated mutation oracle; ⊥ run real release
+`release.sh` executes commit/tag/push outside dry-run → final verification ! use syntax/help/dry-run + isolated mutation oracle; ⊥ run real release
 Windows PowerShell blocks `npm.ps1` in current environment → use `npm.cmd test` or Bash `npm test`
 
 ## final verification
