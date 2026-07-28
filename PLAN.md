@@ -8,7 +8,7 @@ Tracked: planning status ∈ {new, work-in-progress, done} — keyed to EXECUTIO
 Encoding: same symbol set as SPEC.md. Preserve code, paths, ids verbatim.
 Executable cold: a phase ⊥ readable without chat history is ⊥ finished.
 Full rules: /encode-docs skill.
-planning status: new
+planning status: work-in-progress
 -->
 
 # PLAN
@@ -48,14 +48,14 @@ files: `release.sh`, `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.j
 
 §T TASKS:
 
-T1|.|confirm version authority + target
+T1|x|confirm version authority + target
 touch: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `package.json`, `SPEC.md`
 details: Verify `.claude-plugin/plugin.json` owns explicit plugin version, package + plugin begin equal, marketplace entry stays unversioned; check §I5, §R9, §V14.
 verify: `node -e "const p=require('./package.json');const m=require('./.claude-plugin/plugin.json');if(p.version!==m.version)process.exit(1)"`; official version-resolution docs dated 2026-07-28 cited in §R9.
 exit: One authoritative plugin version target + standing equality contract confirmed.
 next: F1.T2
 
-T2|.|map release mutation, validation, + staging seams
+T2|x|map release mutation, validation, + staging seams
 touch: `release.sh`, `package-lock.json`, `CHANGELOG.md`, `PLAN.md`
 details: Locate preflight files, `NEW_VERSION`, post-test mutation order, mirror gates, `git add`, dry-run output; preserve §C7 + §I9; sharpen F2 without changing code.
 verify: Each F2 edit names exact insertion seam + failure oracle; ⊥ unresolved `?`; review-plan gate = GO.
