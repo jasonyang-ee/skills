@@ -70,14 +70,14 @@ files: `release.sh`, `.claude-plugin/plugin.json`, `CHANGELOG.md`
 
 §T TASKS:
 
-T1|.|add manifest preflight + version mutation
+T1|x|add manifest preflight + version mutation
 touch: `release.sh`, `.claude-plugin/plugin.json`
 details: Require plugin manifest at repo-root preflight; after `npm version`, parse existing JSON + set only `version` to `NEW_VERSION` with Node, preserving valid 2-space JSON + trailing newline; emit clear release step; ⊥ add marketplace-entry version. Check §I5, §I9, §V14.
 verify: `bash -n release.sh`; `node -e "JSON.parse(require('node:fs').readFileSync('.claude-plugin/plugin.json','utf8'))"`; full diff confirms mutation runs only after green `npm test` + outside dry-run.
 exit: Real release path writes plugin manifest to computed version or fails before commit/tag.
 next: F2.T2
 
-T2|.|gate + stage synchronized version
+T2|x|gate + stage synchronized version
 touch: `release.sh`, `CHANGELOG.md`
 details: Add mirror check requiring `.claude-plugin/plugin.json` version == `NEW_VERSION`; stage manifest in release commit; update dry-run plan text if needed to expose plugin sync; add plain-English `## [Unreleased]` fix entry. Preserve tag/push order + §C7.
 verify: `bash -n release.sh`; `bash ./release.sh --help`; `bash ./release.sh --dry-run --patch`; static path audit confirms manifest preflight, mutation, equality gate, + `git add`; `git diff --check`.

@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Keep `.claude-plugin/plugin.json` synchronized with `package.json` when `release.sh` cuts a release, so Claude Code users receive plugin updates.
 - Make delegated `cater` phases accept all remaining tasks atomically, reserve assignment-file writes for completion reports, and require the main agent to commit accepted work and its refreshed handoff. Restore the byte-identical finding taxonomy shared by `review-code` and `review-plan`.
 
 ## [0.6.0] - 2026-07-23

@@ -27,6 +27,7 @@ step() { echo "${BLUE}$*${NC}"; }
 FORCE_TYPE=""
 SKIP_CONFIRM=false
 DRY_RUN=false
+PLUGIN_MANIFEST=".claude-plugin/plugin.json"
 
 for arg in "$@"; do
     case $arg in
@@ -58,7 +59,8 @@ done
 # Preflight
 # -----------------------------------------------------------------------------
 
-[ -f package.json ] && [ -f CHANGELOG.md ] || die "run this from the repo root"
+[ -f package.json ] && [ -f CHANGELOG.md ] && [ -f "$PLUGIN_MANIFEST" ] \
+    || die "run this from the repo root"
 command -v node >/dev/null || die "node is not installed"
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
@@ -147,7 +149,7 @@ echo ""
 
 if [ "$DRY_RUN" = true ]; then
     echo "${CYAN}Dry run — nothing changed.${NC}"
-    echo "Would: test → bump to ${NEW_VERSION} → changelog → commit → tag ${TAG} → push"
+    echo "Would: test → bump package + plugin to ${NEW_VERSION} → changelog → commit → tag ${TAG} → push"
     exit 0
 fi
 
@@ -172,6 +174,15 @@ fi
 
 step "Bumping package.json..."
 npm version "$NEW_VERSION" --no-git-tag-version >/dev/null
+
+step "Bumping Claude plugin version..."
+node -e '
+const fs = require("node:fs");
+const [path, version] = process.argv.slice(1);
+const manifest = JSON.parse(fs.readFileSync(path, "utf8"));
+manifest.version = version;
+fs.writeFileSync(path, `${JSON.stringify(manifest, null, 2)}\n`);
+' "$PLUGIN_MANIFEST" "$NEW_VERSION"
 
 step "Updating CHANGELOG.md..."
 DATE_TODAY="$(date +%Y-%m-%d)"
@@ -202,9 +213,11 @@ awk -v version="$NEW_VERSION" -v repo="$REPO_URL" '
 # Mirror the workflow's own gates before creating the tag.
 grep -q "^## \[${NEW_VERSION}\]" CHANGELOG.md || die "changelog section for ${NEW_VERSION} missing"
 [ "$(node -p "require('./package.json').version")" = "$NEW_VERSION" ] || die "package.json bump failed"
+[ "$(node -p "require('./.claude-plugin/plugin.json').version")" = "$NEW_VERSION" ] \
+    || die "Claude plugin version bump failed"
 
 step "Committing and tagging..."
-git add package.json package-lock.json CHANGELOG.md
+git add package.json package-lock.json "$PLUGIN_MANIFEST" CHANGELOG.md
 git commit -q -m "release: ${TAG}"
 git tag "$TAG"
 
