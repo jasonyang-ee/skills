@@ -12,31 +12,31 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-28
 
-branch main | last commit 72b5147 | tests pass 7/7 (`npm.cmd test`)
-uncommitted: `SPEC.md`, `PLAN.md`, `HANDOFF.md` — prep package
+branch main | last commit f880653 | tests pass 7/7 (`npm.cmd test`)
+uncommitted: `HANDOFF.md` — F1 baton
 
 ## done this session
 
--
+F1.T1: plugin version authority + equality confirmed → f880653
+F1.T2: release mutation/gate/staging seams mapped → f880653
 
 ## in progress (exact stop point)
 
-F1.T1: ready — confirm `.claude-plugin/plugin.json` version authority + equality with `package.json`
+F2.T1: ready — add plugin manifest preflight + version mutation in `release.sh`
 mid-edit files: none
 
 ## next
 
-F1.T1 | preconditions: review-plan GO; package + plugin version = `0.6.0`; official version rule captured in §R9
+F2.T1 | preconditions: F1 complete; package + plugin version = `0.6.0`; official rule captured in §R9
 
 ## deviations & decisions
 
 backlog said marketplace version → target `.claude-plugin/plugin.json` ∵ Claude resolves it before marketplace-entry version; ⊥ duplicate version in `.claude-plugin/marketplace.json` (PLAN.md + SPEC.md updated: y)
-review-plan: research phases remaining 1; BLOCK 0; DIVERGENCE 0; UNKNOWN 0; HARDEN 0; NOTE 0; gate GO
 user decided: sync Claude plugin release version with package release
 
 ## watchouts
 
-`release.sh` executes commit/tag/push outside dry-run → implementation verification ! use syntax/help/dry-run + static mutation-path audit; ⊥ run real release
+`release.sh` executes commit/tag/push outside dry-run → verification ! use syntax/help/dry-run + isolated mutation oracle; ⊥ run real release
 Windows PowerShell blocks `npm.ps1` in current environment → use `npm.cmd test` or Bash `npm test`
 
 ## final verification
