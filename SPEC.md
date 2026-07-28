@@ -7,7 +7,7 @@ Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > 
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: C13 I13 R9 V31
+next: C13 I13 R10 V31
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -59,11 +59,11 @@ I1|cmd|`npx skills add jasonyang-ee/skills` → install ∀ skills → detected 
 I2|cmd|`npx skills add jasonyang-ee/skills --list` → list ∀ skills
 I3|cmd|`npx skills add jasonyang-ee/skills -s prep -s cook -s encode-docs -a claude-code -g -y` → 3 skills, 1 agent, global, non-interactive
 I4|cmd|`npx skills add jasonyang-ee/skills -a <claude-code\|codex>` → install ∀ skills into one named agent (§R6)
-I5|file|`.claude-plugin/marketplace.json` = `{name:"jasonyang-ee", owner{name}, plugins[{name:"skills", source:"./", description}]}` + `.claude-plugin/plugin.json` = `{name:"skills", description}` → Claude Code plugin marketplace @ root; root plugin auto-scans `skills/` (§R7)
+I5|file|`.claude-plugin/marketplace.json` = `{name:"jasonyang-ee", owner{name}, plugins[{name:"skills", source:"./", description}]}` + `.claude-plugin/plugin.json` = `{name:"skills", description, version:<package.json version>}` → Claude Code plugin marketplace @ root; root plugin auto-scans `skills/` (§R7, §R9)
 I6|cmd|`/plugin marketplace add jasonyang-ee/skills` → `/plugin install skills@jasonyang-ee` → Claude Code CLI-free install (§R7)
 I7|file|`skills/<name>/SKILL.md` → frontmatter `{name == <name>, description}`
 I8|cmd|`npm test` → `node --test` → exit 0 ⟺ automated checks pass (release/manual checks separate)
-I9|cmd|`./release.sh [--major\|--minor\|--patch] [-y] [-n]` → preflight (branch, clean tree, tag ⊥ ∃, `[Unreleased]` ⊥ empty) → `npm test` gate → bump → changelog move → commit → tag `v<x.y.z>` → push
+I9|cmd|`./release.sh [--major\|--minor\|--patch] [-y] [-n]` → preflight (branch, clean tree, tag ⊥ ∃, `[Unreleased]` ⊥ empty) → `npm test` gate → sync `package.json` + `.claude-plugin/plugin.json` version → changelog move → commit → tag `v<x.y.z>` → push
 I10|ci|push \| PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 I11|ci|tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
 I12|skill|`/encode-agent` + bounded assignment context → condensed sub-agent prompt carrying scope, quality, verification, stop, completion contracts; ⊥ main-cycle state ingestion
@@ -81,6 +81,7 @@ R5|Claude Code: ∀ frontmatter optional, `name` ← dir default; `description` 
 R6|`skills` CLI (npm `skills`; github vercel-labs/skills) installs flat `skills/<name>/SKILL.md` into ∀ detected agent via `npx skills add <repo> -a <claude-code\|codex\|cursor>`; auto-detects installed agents; Codex + Claude Code served from same layout ∴ ⊥ per-agent repo files needed (old `codex.skills.sh/docs` = 404)|https://www.skills.sh/agent/codex + /agent/claude-code (2026-07-22)
 R7|Claude Code CLI-free native install = plugin marketplace: `.claude-plugin/marketplace.json` = `{name, owner{name}, plugins[{name, source, description}]}` @ repo root; plugin `source` = relative path ! start `./` → marketplace-root plugin = `source:"./"`; single root entry (⊥ explicit `skills` path) → default `skills/` full scan = ∀ skills load; `.claude-plugin/plugin.json` optional, `name` = only required field if present; user runs `/plugin marketplace add jasonyang-ee/skills` then `/plugin install <name>@<marketplace>`|https://code.claude.com/docs/en/plugin-marketplaces + /plugins-reference (2026-07-22)
 R8|sub-agent starts with isolated context; host may select per-agent model + effort; full named skill content may preload ∴ portable delegation prompt ! carry required context + quality contract & describe model/effort as host selections, not fixed names|https://code.claude.com/docs/en/sub-agents + https://agentskills.io/specification (2026-07-26)
+R9|Claude Code plugin update cache key resolves version from `.claude-plugin/plugin.json` before marketplace entry; explicit plugin version ! bump each release or installed users keep cached copy; ⊥ set version in both locations|https://code.claude.com/docs/en/plugin-marketplaces + https://code.claude.com/docs/en/plugins-reference (2026-07-28)
 
 ## §V INVARIANTS
 
@@ -100,7 +101,7 @@ V10|vendored/derived skills → `NOTICE.md` row + upstream copyright + permissio
 V11|`CHANGELOG.md` ! ∋ `## [Unreleased]`
 V12|∀ `.github/workflows/*.yml` → ! top-level `permissions:` block
 V13|`.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0`; security updates + alerts stay on
-V14|release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `<x.y.z>`; release via `./release.sh` only
+V14|release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `.claude-plugin/plugin.json` version == `<x.y.z>`; release via `./release.sh` only
 V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); top-level `cook`\|`cater` exclusive; `cater` MAY load `cook` for direct phase execution, but one phase ⊥ simultaneous direct + delegated execution; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`encode-agent`/`handoff`/`encode-commit`/`encode-pr` = support
 V16|`encode-docs` = sole WRITER/mutator of `SPEC.md`/`PLAN.md`/`HANDOFF.md` & owner of their formats; `encode-header` supplies the baked-header format (content supplier like `prep`/`handoff`), ⊥ writes
 V17|`SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; add durable rows only (high bar), prune stale on evidence
