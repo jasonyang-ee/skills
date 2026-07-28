@@ -12,8 +12,8 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-07-28
 
-branch main | last commit 27ba85c | tests pass 7/7 (`npm.cmd test`)
-uncommitted: `PLAN.md`, `HANDOFF.md` — final verification closure
+branch main | last commit 8083fdc | tests pass 7/7 (`npm.cmd test`)
+uncommitted: `HANDOFF.md` — completed-cycle baton
 
 ## done this session
 
@@ -21,8 +21,8 @@ F1.T1: plugin version authority + equality confirmed → f880653
 F1.T2: release mutation/gate/staging seams mapped → f880653
 F2.T1: plugin manifest preflight + version mutation added → 43320aa
 F2.T2: equality gate + release staging + changelog added → 43320aa
-F3.T1: release path audited vs spec + plan → pending final phase commit
-F3.T2: final oracles + HOLD classification complete → pending final phase commit
+F3.T1: release path audited vs spec + plan → 8083fdc
+F3.T2: final oracles + HOLD classification complete → 8083fdc
 
 ## in progress (exact stop point)
 
