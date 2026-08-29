@@ -1,7 +1,7 @@
 ---
 name: cater
 description: |
-  Adaptive PLAN.md executor that preserves cook-quality implementation while choosing between direct main-agent work and sub-agent delegation. Runs a phase directly through cook when delegation has no material parallelism, context, or capability benefit; otherwise dispatches disjoint assignments through encode-agent prompts, discloses agent type, model, effort, scope, and rationale before each dispatch, and acceptance-reviews every returned diff. Expects prep to have created PLAN.md + HANDOFF.md and composes with cook, encode-agent, encode-docs, and handoff. Triggers: "/cater".
+  Adaptive PLAN.md executor for all remaining phases that preserves cook-quality implementation while choosing between direct main-agent work and sub-agent delegation. Runs a phase directly through cook when delegation has no material parallelism, context, or capability benefit; otherwise dispatches disjoint assignments through encode-agent prompts, discloses agent type, model, effort, scope, and rationale before each dispatch, and acceptance-reviews every returned diff. Expects prep to have created PLAN.md + HANDOFF.md and composes with cook, encode-agent, encode-docs, and handoff. Triggers: "/cater".
 ---
 
 # cater — route PLAN.md work
