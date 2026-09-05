@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-09-05
+
 ### Changed
 
 - Refine all 13 skill prompts for concise instructions, precise scope, evidence-based completion, and consistent workflow handoffs.
@@ -506,7 +508,8 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: personal:jasonyang-ee/skills/compare/v0.6.2...HEAD
+[Unreleased]: personal:jasonyang-ee/skills/compare/v0.7.0...HEAD
+[0.7.0]: personal:jasonyang-ee/skills/releases/tag/v0.7.0
 [0.6.2]: personal:jasonyang-ee/skills/releases/tag/v0.6.2
 [0.6.1]: personal:jasonyang-ee/skills/releases/tag/v0.6.1
 [0.6.0]: personal:jasonyang-ee/skills/releases/tag/v0.6.0
