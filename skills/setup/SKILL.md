@@ -1,7 +1,7 @@
 ---
 name: setup
 description: |
-  Bootstrap repository guidance for the spec-driven workflow. Add missing workflow sections to AGENTS.md, create absent CLAUDE.md and CHANGELOG.md, and create an absent SPEC.md through encode-docs. Preserve existing guidance and conventions. Use for "/setup".
+  jasonyang-ee skills. Bootstrap repository guidance for the spec-driven workflow. Add missing workflow sections to AGENTS.md, create absent CLAUDE.md and CHANGELOG.md, and create an absent SPEC.md through encode-docs. Preserve existing guidance and conventions. Use for "/setup".
 ---
 
 # setup — bootstrap repository guidance
