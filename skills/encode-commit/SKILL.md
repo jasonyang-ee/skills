@@ -1,43 +1,33 @@
 ---
 name: encode-commit
-description: >
-  Ultra-compressed commit message generator. Cuts noise from commit messages while preserving intent and reasoning. Conventional Commits format. Subject ≤50 chars, body only when "why" isn't obvious. Triggers: "/encode-commit". Auto-triggers when staging changes.
+description: |
+  Write concise Conventional Commit messages from a reviewed diff. Use for "/encode-commit" or when preparing a commit message. Prefer a subject under 50 characters; include a body when rationale, compatibility, or repository policy requires it.
 ---
 
-Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
+# encode-commit — summarize a reviewed change
 
-## Rules
+Generate the message only; do not stage, commit, amend, or push. Use the staged diff or caller-supplied reviewed changes. Do not infer intent or claim verification absent from the evidence.
 
-**Subject line:**
-- `<type>(<scope>): <imperative summary>` — `<scope>` optional
-- Types: `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `chore`, `build`, `ci`, `style`, `revert`
-- Imperative mood: "add", "fix", "remove" — not "added", "adds", "adding"
-- ≤50 chars when possible, hard cap 72; no trailing period
+## Format
 
-**Body (only if needed):**
-- Skip when subject is self-explanatory
-- Always include for: non-obvious *why*, breaking changes, migrations, reverts, security fixes — never compress these to subject-only
+- Subject: `<type>(<scope>): <imperative summary>`; scope optional.
+- Types: `feat`, `fix`, `refactor`, `perf`, `docs`, `test`, `chore`, `build`, `ci`, `style`, `revert`.
+- Prefer ≤50 characters; maximum 72 unless repository policy differs. No trailing period.
+- Use the affected component as scope. Describe the resulting change in words a reader without planning files understands.
+- Add a body for non-obvious rationale, breaking changes, migrations, reverts, security fixes, or required verification evidence. Omit it when the subject suffices.
+- Mark breaking changes with `!` and a `BREAKING CHANGE:` footer explaining impact and migration.
 
-**What NEVER goes in:**
-- "I", "we", "now", "currently" — the diff says what
-- AI attribution ("Generated with Claude Code") or emoji
-- Encoding symbols (`→ ∴ ∀ ⊥ ∃ §`) — write the English word instead
-- Plan/spec identifiers (`F1`, `T77`, `V77`, `R28`) — expand into what it stood for: PLAN.md is blanked each cycle and SPEC.md rows get pruned, so only the commit message survives to explain the change
+Avoid filler, emoji, AI attribution, encoding operators, and transient phase/task ids. Expand spec references into the actual requirement. Preserve literal identifiers when they are needed to explain the change.
 
 ## Example
 
-Diff: new endpoint for user profile with body explaining the why
-- bad: "feat: add a new endpoint to get user profile information from the database"
-- good:
-  ```
-  feat(api): add GET /users/:id/profile
+```text
+fix(auth): reject expired refresh tokens
 
-  Mobile client needs profile data without the full user payload
-  to reduce LTE bandwidth on cold-launch screens.
+Check expiry before issuing a replacement token so an expired
+session cannot be extended.
 
-  Closes #128
-  ```
+Verified the expiry-boundary regression tests.
+```
 
-## Boundaries
-
-Only generates the commit message. Does not run `git commit`, stage files, or amend. "stop encode-commit" or "normal mode": revert to verbose style.
+Use that verification claim only when supported. Follow explicit user and repository message conventions when they differ from these defaults.

@@ -1,128 +1,70 @@
 ---
 name: cater
 description: |
-  Adaptive PLAN.md executor for all remaining phases that preserves cook-quality implementation while choosing between direct main-agent work and sub-agent delegation. Runs a phase directly through cook when delegation has no material parallelism, context, or capability benefit; otherwise dispatches disjoint assignments through encode-agent prompts, discloses agent type, model, effort, scope, and rationale before each dispatch, and acceptance-reviews every returned diff. Expects prep to have created PLAN.md + HANDOFF.md and composes with cook, encode-agent, encode-docs, and handoff. Triggers: "/cater".
+  Execute remaining PLAN.md phases using cook for direct work or bounded sub-agents when parallelism, context isolation, or specialist capability pays. Disclose scope, agent type, model, effort, and rationale before dispatch; verify every returned assignment. Use "/cater" or "/cater F<n>".
 ---
 
-# cater — route PLAN.md work
+# cater — choose the executor
 
-You are the adaptive orchestrator. For each ready work set, choose direct main-agent execution or delegation. You own the result on both routes. One phase has one executor: never work directly on a phase while a sub-agent owns it.
+Own the result whether work is direct or delegated. One phase has one executor at a time.
 
-## OPERATING PRINCIPLES
+## Load and select
 
-1. **Quality over speed.** Never skip a verification step. A phase is done only when its contract passes.
-2. **Use delegation when it pays.** If safe parallel work could save time or improve quality, delegate it. Otherwise stay direct. Parallelism, context isolation, or specialist capability must materially improve execution. Delegation itself is not progress.
-3. **Own the evidence.** A sub-agent report is a claim. Accept only after reading its full scoped diff and verifying its tests.
-4. **Isolate writes.** Never allow concurrent assignments to touch the same file.
-5. **Honor the plan, surface contradictions.** If reality contradicts `PLAN.md`, report it and hand the correction to `encode-docs`; never deviate silently.
-6. **Follow through.** For authorized implementation work, route and complete the phase through direct execution or verified delegation. Do not stop at a routing proposal when work can proceed.
-7. **Ask only when it matters.** Make reasonable assumptions for routine, reversible orchestration decisions. Ask focused questions only when missing information materially affects correctness, scope, authorization, or safe file-set isolation.
-8. **User instructions win.** If an explicit user instruction conflicts with this skill, follow the user unless a higher-priority instruction or real permission boundary forbids it. If this skill or another loaded instruction causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized work.
-9. **Report plainly.** Lead with the result, use plain language, and name concrete blockers or risks only. Avoid boilerplate warnings about hypothetical risk.
+Read repository guidance, `HANDOFF.md` if present, `PLAN.md`, `SPEC.md`, branch, recent commits, and dirty-tree state. Never ingest `BACKLOG.md`; it belongs to `prep`.
 
-## LOAD
+Require an executable plan. `new` without phases or no plan → `/prep`; `done` → `/garnish`; `new` with phases or `work-in-progress` → execute. Reconcile inconsistent state before starting. Load `encode-docs` and request `new` → `work-in-progress` before phase work.
 
-1. `HANDOFF.md` — session resume point; fresh start if absent.
-2. `PLAN.md` — stop if absent. Run on `work-in-progress`, or on `new` when executable phase sections exist. `new` without phases → `/prep`; `done` → `/garnish`.
-3. `SPEC.md` — durable requirements.
-4. `git status`, current branch, and `git log -3 --oneline`.
-5. Never `BACKLOG.md` — raw `prep`-only input.
+A phase is ready when it has unfinished tasks and all dependencies/gates, including relevant plan-review blockers, are satisfied. Validate the handoff pointer against this rule. An explicit phase argument limits execution to that phase; otherwise continue selecting eligible phases until complete or blocked. Skip unmet gates only for explicitly independent work.
 
-Before any direct edit or dispatch, hand `planning status` `new` → `work-in-progress` to `encode-docs` when needed.
+## Working rules
 
-## SELECT READY WORK
+- Complete authorized work through verification and handoff. Resolve routine choices from context; surface plan corrections through `encode-docs`. Ask only for missing decisions that materially affect scope, correctness, or authority.
+- Explicit user instructions override skill guidance, subject to higher-priority instructions and permissions. If a rule blocks work, cite its file and wording and continue unaffected work.
+- Preserve pre-existing edits. Only the main agent owns shared cycle documents, task status, changelog integration, and commits.
+- Workers may read needed repository context but may write only assigned paths. Include shared/generated files and command side effects when checking isolation; unknown write scope intersects everything.
+- Never run concurrent assignments with overlapping writes. Do not stage or commit while workers can still mutate the shared worktree; collect or pause them first.
+- Verify evidence yourself. A report is not acceptance.
 
-A phase is ready when at least one of its `§T` tasks is not `x`, its gate is satisfied, and every dependency is accepted. The ready task set is every non-`x` task in that phase. Skip unmet gates with one line of evidence.
+## Choose once per ready phase
 
-Build each candidate file set from `files:`, every ready task's `touch:`, and files clearly implied by the work. Unknown scope intersects everything.
+- **Direct:** delegation offers no material benefit, controls are unavailable, or work cannot be safely isolated. Load `cook` and execute the selected phase only. Its single-agent rule applies to that phase; return here after closure.
+- **Delegate:** safe parallel work, context isolation, or a named specialist capability materially improves execution. Assign the entire unfinished task set of the phase to one worker.
+- **Split:** the phase is too broad to assign safely. Refine boundaries through `encode-docs` before dispatch, preserving dependencies and task references.
 
-- File sets intersect → never run concurrently; preserve dependency order.
-- Shared roster, spec, plan, handoff, or test files intersect even when subjects differ.
-- Only provably disjoint assignments may run in parallel.
+Use host-supported agent, model, and effort controls. Choose capable reasoning for ambiguous or sensitive work and a faster tier for fully specified mechanical work when appropriate. Record unsupported selections as `inherit` or `unavailable`; never invent model names or settings.
 
-## CHOOSE ROUTE
+Before every dispatch, show:
 
-Choose once per phase before work starts:
-
-- **Direct by default:** one ready phase, no parallel-safe set, or delegation overhead exceeds its context/capability benefit. Load `cook` and run that phase as the main agent.
-- **Delegate:** parallel-safe work exists, or one assignment has a named material context-isolation or specialist-capability benefit. Record that benefit; "use a sub-agent" is not a rationale.
-- **Split first:** scope is too broad or ambiguous to assign safely.
-
-Never assign and directly edit the same phase. Re-evaluate the remaining ready set after every direct completion or accepted assignment.
-
-## DIRECT ROUTE
-
-Load `cook` and apply its execution loop to the selected phase only. `cook` owns verification-first implementation, failure classification, full-diff self-review, task status, changelog, commit, and phase handoff. Do not dispatch a worker for that phase. After its handoff commit, return here and select the next ready work set.
-
-## SELECT SUB-AGENTS
-
-Match capability and effort to work shape. Use host-supported model and effort controls; never assume provider-specific names.
-
-| Work shape | Agent capability/type | Effort |
-| --- | --- | --- |
-| Ambiguous, design-bearing, security-sensitive, or cross-module | Most capable general implementation tier available | Highest useful supported level |
-| Mechanical, isolated, fully specified | Fast general implementation tier | Lowest level that preserves the verification contract |
-| Read-only search or fact-finding | Read-only/search tier | Low unless synthesis is complex |
-
-If no offered tier fits, use the direct route or split the phase. For a host control that cannot be selected, record `inherit` or `unavailable` instead of inventing a value.
-
-Before every dispatch, show this concise Markdown table in main-agent output:
-
-| Phase/tasks | Scope | Agent capability/type | Model | Effort | Rationale |
+| Phase/tasks | Scope | Agent type | Model | Effort | Rationale |
 | --- | --- | --- | --- | --- | --- |
-| `<phase>.<task set>` | `<paths>` | `<type + needed capability>` | `<selected \| inherit \| unavailable>` | `<selected \| inherit \| unavailable>` | `<parallelism/context/capability benefit>` |
+| <ids> | <paths> | <capability> | <selected or inherit/unavailable> | <selected or inherit/unavailable> | <specific benefit> |
 
-## DELEGATED ROUTE
+## Delegate and accept
 
-Run this loop for every assignment:
+1. Load `encode-agent`. Supply objective, task contracts, allowed/forbidden scope, relevant requirement text, patterns, verification methods and expected results, `do not commit`, stop conditions, and completion evidence. Carry necessary context into the assignment; do not require workers to ingest main `PLAN.md`, `HANDOFF.md`, `SPEC.md`, or full `cook`.
+2. Write the generated prompt to `HANDOFF-<phase-id>.md` at repository root. Never overwrite an existing unresolved assignment. The worker may replace only its `## completion` block in that file.
+3. Refresh main `HANDOFF.md` through `encode-docs` with assignment, ownership, selection, and state. Disclose the selection table, then dispatch. Require disjoint writes for concurrent assignments.
+4. Collect results and mark them unreviewed in the main baton. Read the entire scoped diff and relevant context; check every assigned requirement, write boundary, logic, reuse, and verification result. Run required acceptance checks, repeating broader checks only when evidence warrants it. Research or verification tasks may validly finish without an implementation diff.
+5. Accept only after all assigned exit criteria pass. Return exact findings for correction when needed. Repeated failure requires diagnosing the contract, approach, or worker fit; stop the worker before reassigning or taking over. Preserve useful edits and record any ownership transfer.
+6. Once writers are quiescent, integrate accepted results. Update task statuses through `encode-docs`, incorporate durable facts and changelog entries as warranted, and load `handoff` to preserve completion evidence. Remove only accepted assignment files created for this cycle; preserve unresolved assignments. Commit owned changes, tracked removals, and the refreshed baton using `encode-commit` and repository conventions.
+7. Re-evaluate ready work after each closure.
 
-1. **Generate bounded prompt.** Load `encode-agent`. Supply assignment id/objective, every ready task id and contract in the phase, exact allowed + forbidden scope, relevant requirement and invariant text, existing patterns, exact verification commands/test cases, `do not commit` policy, stop conditions, and completion evidence. Do not tell the worker to read main `PLAN.md`, `HANDOFF.md`, `SPEC.md`, or load full `cook`.
-2. **Write assignment file.** Put generated prompt in `HANDOFF-<phase-id>.md` at repo root. One phase gets one assignment file and one worker. Include the assignment file in writable scope only for replacing its `## completion` block; it is not implementation scope.
-3. **Refresh + disclose.** Hand the main `HANDOFF.md` state to `encode-docs`, then print the selection table with phase/task set, scope, capability/type, model, effort, and rationale.
-4. **Dispatch.** Point the selected worker at its assignment file. Concurrent dispatches require disjoint file sets.
-5. **Collect.** Require the assignment's `## completion` block:
+## Completion evidence
 
-   ```md
-   ## completion
-   status: <done | blocked: reason>
-   evidence: <file:line changed, decisions made, deviations + why>
-   tests: <command> → <green | exact failing case names>
-   ```
+Workers return:
 
-6. **Refresh before review.** Record the returned result as unreviewed in main `HANDOFF.md`.
-7. **Acceptance review.** Read the full phase-scoped diff. Confirm every assigned task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Complete the required checks for the assignment, and broaden or repeat testing only when new changes, failures, or unresolved concerns justify it. Reject partial task-set completions, no-diff completions, and tests that prove nothing.
-8. **Accept or return.** Accept the whole ready task set only after every check passes. On failure, return exact findings once with the same task set and corrected prompt/selection. A second failure → stop and re-plan; do not silently take over a phase after delegated edits exist.
-9. **Commit + close phase.** The main agent commits the accepted implementation through `encode-commit`, hands every assigned task status `x` to `encode-docs`, invokes `handoff`, and commits the refreshed baton. Never leave an accepted phase partially marked or without its implementation and handoff commits.
-10. **Purge + re-evaluate.** Delete accepted `HANDOFF-<phase-id>.md`, then re-evaluate ready work.
+```md
+## completion
+status: <done | blocked: reason>
+evidence: <file:line or source + result; decisions and deviations>
+tests: <command + result | inspection method + result | not run: reason>
+remaining: <unfinished work or none>
+```
 
-## MAIN HANDOFF REFRESH POINTS
+A missing test or failing baseline is not automatically an assignment defect: distinguish planned new tests, in-scope defects, and unrelated/environment failures. Required proof must still be satisfied before acceptance.
 
-Refresh main `HANDOFF.md` through `encode-docs`:
+## Stop and close
 
-- before dispatch: assignments, agent selections, file sets;
-- after completion: returned, unreviewed state;
-- after acceptance: decision + evidence;
-- after every direct phase through `cook`;
-- before every stop.
+Stop dependent work for unmet gates, unresolved scope/authority, unavailable required proof, or insufficient context to collect and review safely. Record outstanding workers and resume instructions before ending; never leave ownership implicit.
 
-Only the main agent owns main `HANDOFF.md`, task status, and commits. Each worker writes its allowed implementation files plus only the completion block in its assignment file.
-
-## FORBIDDEN
-
-- A sub-agent never runs `garnish`, `review-code`, or parent-cycle task/status updates.
-- Never run concurrent assignments with intersecting files.
-- Never accept a report without reviewing its diff and proof.
-- Never hide selected model or effort from the pre-dispatch output.
-- Never push, tag, or perform destructive live-system actions without explicit authority.
-
-## STOP CONDITIONS
-
-- Gate unmet or dependency unaccepted.
-- Genuine ambiguity without safe default, especially irreversible, financial, data-safety, or security semantics.
-- Delegated assignment fails its second acceptance attempt.
-- Context budget too low to dispatch and still collect, review, and hand off safely.
-- User requested one phase and that phase has closed.
-
-## END OF SESSION
-
-Ensure every assignment is accepted or recorded outstanding, purge every accepted assignment file, run the full suite, then invoke `handoff`. A session without a fresh main baton is incomplete.
+For final verification, load `cook` and apply its closure contract: run required repository checks, record evidence against the goal and relevant spec/task items, and mark the cycle `done` only when all tasks and final verification pass. Keep the main baton current at every stop. Never push, tag, or perform destructive live-system actions without explicit authority.

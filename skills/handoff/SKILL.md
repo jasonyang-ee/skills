@@ -1,43 +1,39 @@
 ---
 name: handoff
 description: |
-  Gather the session-to-session baton for HANDOFF.md at repo root and hand it to encode-docs, which writes it — the baton for multi-phase PLAN.md execution. Captures current phase.task status, exact stopping point, next phase.task pointer, and watchouts. It will flip status and mark completion in PLAN.md if task is done. The cook skill invokes this at the end of every session; also triggers on "/handoff".
+  Capture current cycle state, verification evidence, exact stopping point, and next task in HANDOFF.md through encode-docs. Use for "/handoff", phase closure, or a session ending during PLAN.md work. Mark the cycle done only when all tasks and final verification pass.
 ---
 
-# handoff — session baton
+# handoff — preserve the resume point
 
-The next session starts cold. HANDOFF.md is everything it must know that PLAN.md, SPEC.md, and git history do NOT already record. Never duplicate what those files say — point at them.
+Gather what the next session needs beyond `PLAN.md`, `SPEC.md`, and git history. Load `encode-docs` to write the baton; do not delegate or write encoded files through another skill.
 
-`handoff` GATHERS the baton content; it does NOT write `HANDOFF.md` directly. This skill collects the state below, then hands it to `encode-docs`.
+## Gather
 
-## WHEN
+Read the current plan, existing baton, branch, latest commit, dirty-tree state, and actual verification results. Never ingest `BACKLOG.md`. Record:
 
-- End of every working session.
-- Context budget running low mid-phase.
-- Before any risky long-running operation.
-- User asks.
+- branch and current HEAD SHA; the baton records the commit before its own write, not an invented future SHA;
+- checks run and exact results, including failing file/case names, environment failures, and `not run` with reasons;
+- every uncommitted file and why, distinguishing owned edits from pre-existing work;
+- completed tasks with `F<n>.T<n>` pointers and evidence;
+- current task, exact action/file/function or document section, and mid-edit files;
+- next executable `F<n>.T<n>`, dependencies, and blockers; use `none — cycle complete` after closure;
+- decisions, deviations, watchouts, and any outstanding delegated assignments with ownership.
 
-## GATHER → hand to encode-docs
+Validate pointers against current task status and dependencies. Missing plan or ambiguous execution state must be reported; do not invent phase ids.
 
-Collect the facts below and pass them to `encode-docs`. It writes `HANDOFF.md` (repo root, overwritten in full — git keeps history) with its own lean template; do NOT reproduce that template here — encode-docs owns the shape.
+## Completion and verification
 
-- branch | last commit `<sha>` | tests `<pass N/N | FAIL: file+case>` `(<cmd>)`
-- uncommitted: `<none | files + why>`
-- done this session: `<F<n>.T<n>>: <one line> → <sha>`
-- in progress: `<F<n>.T<n>>: <status: mid-edit | done>`, `mid-edit files: <paths | none>`
-- next: `<F<n>.T<n>> | preconditions: <gates | none>`
-- planning status: `done` when every `§T` row is `x` and the final-verify table holds; otherwise leave the value exactly as it is, because `cook` and `cater` own the `new` → `work-in-progress` flip. Hand the flip to `encode-docs` with the baton.
-- deviations & decisions; watchouts
-- final verification table
+Reconcile task status only against observed exit criteria through `encode-docs`; a summary of work is not proof of completion. Preserve unfinished tasks.
 
-## RULES
+Set `planning status: done` only for a populated plan with every task `x` and a nonempty final verification table covering the goal and relevant spec/task items, all `HOLD` with current evidence. Otherwise preserve status; `cook`/`cater` own the initial `new` → `work-in-progress` transition.
 
-1. **Uncommitted work is a first-class fact.** Name every uncommitted file and why it was left so. Prefer committing (even a `~` wip §T flip) over a dirty tree.
-2. **Failing tests named exactly** — file + case — never "some failing".
-3. **NEXT TASK is executable verbatim** by a cold agent: file, function, action — never "continue the phase". Reference done tasks and next as `F<n>.T<n>`.
-4. **Only the final-verify phase fills the final verification table**; others leave the header row.
-5. **Commit HANDOFF.md** — inside the session's final phase commit or its own, per repo conventions. A standalone baton commit goes through `encode-commit`: which phase closed, the next task, and the test state, in plain English. No phase ids, no encoding symbols, never a bare `docs: handoff`.
+Only final verification creates the result table. Preserve valid results on later baton refreshes; mark affected evidence stale if subsequent changes invalidate it and return the cycle to `work-in-progress` when reopened. Never erase final results merely because this invocation is not the final phase.
 
-## NON-GOALS
+## Write and close
 
-- Not a status dashboard (PLAN §T is), not a changelog (CHANGELOG.md is), not a diary. State that helps the NEXT session act — nothing else.
+Pass the gathered state to `encode-docs` for a full, concise replacement of `HANDOFF.md`. Keep required sections; use `-` for empty sections and no invented test counts. Put requirements and intended work in the spec/plan, with references from the baton.
+
+Follow repository and user commit policy. Include the baton in the phase commit when possible; use `encode-commit` for any standalone commit. Stage only owned work, and do not commit incomplete implementation merely to make the tree clean. No new write or commit is needed when the existing baton is already current.
+
+Report the saved stopping point, verification state, and next action. A handoff records a blocker; it does not authorize unrelated work or expand the current assignment.

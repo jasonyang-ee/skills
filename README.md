@@ -45,8 +45,8 @@ Install with Claude Code or Codex via Marketplace.
 | [`review-plan`](skills/review-plan/SKILL.md) | Adversarial senior review that tries to *refute* the spec and plan before implementation. Ends in an explicit go/no-go. |
 | [`cook`](skills/cook/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
 | [`cater`](skills/cater/SKILL.md) | Adaptively executes a phase directly through `cook` or delegates disjoint work when parallelism, context isolation, or specialist capability pays; shows scope, agent type, model, effort, and rationale before dispatch, then reviews every returned diff. |
-| [`review-code`](skills/review-code/SKILL.md) | Principal-engineer sweep since the last release baseline for correctness, complexity, reuse, and coherence; hands fixes to `prep`. |
-| [`garnish`](skills/garnish/SKILL.md) | Verifies a completed plan cycle, then removes short-lived `PLAN.md` and `HANDOFF.md` while preserving `SPEC.md`. |
+| [`review-code`](skills/review-code/SKILL.md) | Reviews an explicit baseline or the latest reachable release for correctness, security, complexity, reuse, and coherence; hands accepted follow-up work to `prep` when authorized. |
+| [`garnish`](skills/garnish/SKILL.md) | Verifies a completed cycle, prunes superseded requirements on evidence, and resets `PLAN.md` and `HANDOFF.md` to their headers while preserving `SPEC.md`. |
 
 ## WORKFLOW
 
@@ -68,16 +68,16 @@ Install with Claude Code or Codex via Marketplace.
 
 4. **Garnish**
    
-   After all phases pass, `/garnish` routes durable cleanup, then remove short-lived `PLAN.md` and `HANDOFF.md`. Then `SPEC.md` is reviewed and pruned for out of scope spec.
+   After all phases pass, `/garnish` preserves completion evidence, reviews durable requirements, and resets `PLAN.md` and `HANDOFF.md` to their baked headers. It prunes spec rows only when evidence shows the requirement was retired or superseded.
 
 5. **Review the implementation**
    
-   `/review-code` to sweep the completed implementation from its release baseline, then send accepted fixes or improvements into the next `/prep` cycle.
+   Use `/review-code` to review the completed implementation from an explicit baseline or the latest reachable release. Accepted fixes or improvements enter the next `/prep` cycle when follow-up planning is authorized.
 
 #### The loop is intentionally iterative while the order and safety gates remain mandatory.
 - Step 1 can be used repetitively to refine research and the plan
 - Step 5 can start another prep cycle.
-- `handoff` is invoked every session, so the next cold session can resume work.
+- `handoff` keeps the baton current at phase closure and session stops during active cycle work.
 
 ## SUPPORTIVE SKILLS
 
@@ -86,11 +86,11 @@ Those skills are loaded by the main skills above, but can also be invoked direct
 | Skill&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | What it does |
 | --- | --- |
 | [`handoff`](skills/handoff/SKILL.md) | Gathers `HANDOFF.md`, the baton the next cold session reads to know exactly where work stopped and what to watch out for, and hands it to `encode-docs` to write. |
-| [`encode-docs`](skills/encode-docs/SKILL.md) | The encoding of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` are written in. Loaded by `/prep`, `/review-plan`, `/review-code`, `/handoff`, `/cook`, and `/cater`. |
+| [`encode-docs`](skills/encode-docs/SKILL.md) | Owns the compact format and all writes to `SPEC.md`, `PLAN.md`, and `HANDOFF.md`; other workflow skills supply content. |
 | [`encode-header`](skills/encode-header/SKILL.md) | Generate compressed header for `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. |
 | [`encode-agent`](skills/encode-agent/SKILL.md) | Generate a compact, self-contained sub-agent prompt with explicit scope, quality, verification, stop, and completion contracts. |
-| [`encode-commit`](skills/encode-commit/SKILL.md) | Generate compressed commits messages. Subject ≤50 chars. |
-| [`encode-pr`](skills/encode-pr/SKILL.md) | Generate compressed summary. One line per finding: location, problem, fix. |
+| [`encode-commit`](skills/encode-commit/SKILL.md) | Writes concise Conventional Commit messages, preferably under 50 characters, with rationale when needed. |
+| [`encode-pr`](skills/encode-pr/SKILL.md) | Drafts concise review comments with location, problem, impact, and fix direction; expands when clarity requires it. |
 
 ## License
 

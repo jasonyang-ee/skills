@@ -1,295 +1,180 @@
 ---
 name: encode-docs
 description: |
-  Owns the format and the writing of the three project documents: SPEC.md, PLAN.md, and HANDOFF.md. Lossless compression: cuts input tokens while  staying precise by using the symbols and notations. Each document gets its own baked header to help a cold agent bootstrap. Triggers on any write to SPEC.md, PLAN.md, or HANDOFF.md, and on "/encode-docs".
+  Write and maintain SPEC.md, PLAN.md, and HANDOFF.md using compact, precise notation and baked headers. Use for any mutation of these three documents or "/encode-docs". Other workflow skills supply content; this skill owns their format and writes.
 ---
 
-# encode-docs
+# encode-docs — write the workflow documents
 
-Owns three documents and nothing else. It is the **sole mutator** of `SPEC.md`, `PLAN.md`, and `HANDOFF.md`: no other skill writes those files directly — other skills supply content, this skill performs every write. Sectioned ownership keeps concurrent edits from clobbering each other.
+The main agent applies this skill for every write to the three documents, including task status and header values. Other skills supply content; composition does not require another agent or a separate tool. Serialize writes from the latest file state.
 
-| doc | lifetime | written by | this skill supplies |
-| --- | --- | --- | --- |
-| `SPEC.md` | durable | this skill only | format + all mutation |
-| `PLAN.md` | one cycle | this skill (content from `prep`/`cook`/`cater`) | format + all mutation |
-| `HANDOFF.md` | one session | this skill (content from `handoff`) | format + all mutation |
+| Document | Purpose | Lifetime |
+| --- | --- | --- |
+| `SPEC.md` | Durable goal, constraints, interfaces, research, invariants | Across cycles |
+| `PLAN.md` | Cycle scope, dependencies, tasks, verification | One cycle |
+| `HANDOFF.md` | Current progress, evidence, blockers, resume point | Current baton |
 
-Applies to those three files and spec-referencing prose. Does NOT apply to code, error strings, commit messages, or PR descriptions.
+Keep edits within the requested scope. Infer the mode from the request and existing files; do not require magic argument prefixes or another approval for already-authorized edits. Ask only when missing intent materially changes requirements or authority. Explicit user instructions take precedence over skill guidance within higher-priority instructions and permissions.
 
-## GRAMMAR
+## Encoding
 
-Shared by all three documents.
+Remove filler and repetition; use fragments when unambiguous. Preserve negation, conditions, causality, uncertainty, quantities, and requirement strength. Compact wording must not change meaning. Use familiar words; do not invent abbreviations or claim a token saving without measuring it.
 
-- Drop articles (a, an, the).
-- Drop filler (just, really, basically, simply, actually).
-- Drop aux verbs where a fragment works (is, are, was, were, being).
-- Drop pleasantries.
-- No hedging (skip "might", "perhaps", "could be worth").
-- Fragments fine.
-- Short synonyms: fix > implement, big > extensive, run > execute.
+| Symbol | Meaning |
+| --- | --- |
+| `→` | leads to, becomes, triggers |
+| `∴` | therefore, consequence |
+| `∀` / `∃` | every / exists |
+| `!` | must, required |
+| `?` | unknown or optional; state which when ambiguous |
+| `⊥` | forbidden or absent; state which when ambiguous |
+| `≠` / `∈` / `∉` | differs / member of / not member of |
+| `≤` / `≥` | at most / at least |
+| `&` / `\|` | and / or |
+| `§` | section reference |
 
-## SYMBOLS
+Preserve verbatim code, paths, URLs, identifiers, numbers, versions, error strings, quoted text, SQL, regex, and structured data. Symbols apply to prose, not replacements inside those literals.
 
-Prefer over words:
+Every Markdown table needs a header and delimiter row with matching columns; escape literal pipes in cells. Empty cells use `-`. Use plain English for user explanations, external documents, code comments, and PR descriptions; `encode-commit` owns commit messages.
 
-```
-→   leads to / becomes / triggers
-∴   therefore / fix
-∀   for all / every
-∃   exists / some
-!   must / required
-?   may / optional / unknown
-⊥   never / forbidden / nil
-≠   not equal
-∈   in
-∉   not in
-≤   at most
-≥   at least
-&   and
-|   or
-§   section reference
+## SPEC.md
 
-```
+Use sections in this order: `§G` goal, `§C` constraints, `§I` interfaces, optional `§R` research, `§V` invariants. No task section.
 
-## PRESERVE VERBATIM
+Default to no spec change. A new row must record durable truth or a standing requirement useful across cycles. Tasks, one-time fixes, and bug history belong in the plan, changelog, and git. Keep cycle-specific research in the plan.
 
-Never compress:
+For a new spec, extract only supported goal, constraints, and interfaces; leave unsupported sections empty. Distilling an existing repository requires checking implementation and tests, not promoting every current implementation detail into a requirement. Label uncertain claims explicitly.
 
-- Code blocks, snippets, one-liners with backticks.
-- Paths: `src/auth/mw.go`.
-- URLs.
-- Identifiers: function names, variable names, env vars.
-- Numbers and versions.
-- Error message strings.
-- SQL, regex, JSON, YAML.
-- Quoted strings.
+For amendments, inspect the affected requirement and evidence. Prefer a precise correction over another overlapping row. A violated invariant is not automatically obsolete: fix the work unless evidence or user intent establishes that the requirement changed. Prune only demonstrably retired or superseded facts.
 
-## SPEC.md File
+### Tables and ids
 
-`SPEC.md` is the durable one. It outlives every plan and every session, and it is **mutable** — when scope changes, rows are added, rewritten, or deleted. Its rules are about stable addressing and sectioned ownership. Never renumber. Never reuse an id. Sections are `§G` goal, `§C` constraints, `§I` interfaces, `§R` research (optional), and `§V` invariants — and nothing else. Tasks and one-time work never live here (see What belongs here).
-
-### What belongs here
-
-SPEC holds durable truth only: facts true across cycles, not this cycle's work. The bar to add a row is high. A new `§V`/`§C`/`§I` row must be a standing guarantee a future reviewer keeps checking — never a one-time fix, never a task, never a bug record. Tasks (`§T`) live in `PLAN.md`. One-time fixes and bug history live in `CHANGELOG.md` and git. When unsure whether a line is durable, leave it out: an over-full spec drifts, and every session pays to read it. Prefer removing a stale row to keeping it (garnish prunes on evidence).
-
-### Dispatch
-
-Inspect the request and the project state:
-
-1. No `SPEC.md` at repo root AND args describe an idea → **NEW**
-2. No `SPEC.md` AND `from-code` in args → **DISTILL**
-4. `SPEC.md` exists AND args start `amend` → **AMEND**
-5. `SPEC.md` exists, no args → ask which mode
-
-Every mode that writes `SPEC.md` must leave the baked header present. Absent from a legacy file → trigger `encode-header` for the bytes and prepend them in the same write.
-
-### Inputs from other skills
-
-The other skills produce material; this one writes it. Ingest their handoff blocks into the named section, show a diff, write on OK:
-
-- **prep** → drafted §G/§C/§I, sourced §R rows, proposed §V invariants (durable only). Its `PLAN.md` tasks (§T) stay in `PLAN.md`; they are never handed here.
-- **review-plan** → drafted §V lines + the risk verdict
-- **garnish** → rows to prune, with the evidence that they are stale
-
-Never rewrite a section the handoff did not name. Sectioned ownership.
-
-### NEW — idea to spec
-
-1. Trigger `encode-header` for the SPEC baked header and emit it verbatim as the first bytes of the file.
-2. Extract repo goal, one line, encoded → §G
-3. Define core repo constraints → §C
-4. List external surfaces → §I
-5. research result → §R
-6. Propose initial critical design spec invariants → §V
-
-Then show the full file and ask: "spec OK? `/review-plan` if the blast radius is large, else `/cook`."
-
-### DISTILL — code to spec
-
-Walk the repo. §G from README/package manifest/entrypoint, §C from the stack, §I from public APIs/CLIs/configs, §V derived from tests and assertions. Baked header first. Flag every uncertain item with `?` so the user can confirm it.
-
-### AMEND — update spec per reports or user request
-
-1. Parse the description.
-2. Find the root cause; read the relevant code.
-3. Prefer editing or deleting a §V over adding one. If an existing invariant is now violated or the behavior changed, remove or rewrite it.
-4. Add a new §V only when it clears the What-belongs-here bar: a durable, standing guarantee, not a one-time fix or a task. A recurrence that a code change already prevents does not need an invariant. When in doubt, do not add.
-5. Append any new invariant to §V using the `next:` counter for its id.
-
-### Section skeleton
-
-Pipe table using `|`, Fixed order, fixed headers, addressable, escape a literal `|` as `\|`. Backticks fine. Cells trimmed. Empty cell is `-`. Every header row is followed by a delimiter row carrying one `---` cell per column, as shown below — without it the section renders as a wall of pipes instead of a table.
-
-```
+```md
 # SPEC
 
 ## §G GOAL
-one line. what code must do.
+<durable goal>
 
 ## §C CONSTRAINTS
-non-negotiable boundary. tech/lang/lib locked in
 id|description
 |---|---|
-C1|run on Linux, macOS, Windows
-C2|use Go 1.21
 
 ## §I INTERFACES
-external surface. what world sees.
-id|type|shape → output,purpose,condition
+id|type|shape → output, purpose, condition
 |---|---|---|
-I1|cmd|`foo bar` → stdout JSON
-I2|api|POST /x → 200 {id}
-I3|file|`config.yaml` schema
-I4|env|`FOO_KEY` required
 
 ## §R RESEARCH
-each row ! cite source.
 id|claim|source
 |---|---|---|
-R1|lib X rate-limits @ 100 rps|https://docs.x/limits
-R2|`name` 1-64 chars `[a-z0-9-]`, ⊥ lead/trail `-`|https://agentskills.io/specification.md
 
 ## §V INVARIANTS
-critical design spec. each ! hold.
 id|invariant definition
 |---|---|
-V1|∀ req → auth check before handler
-V2|token expiry ≤ ⊥ allowed
 ```
 
-### Addressing
+Rows use `C<n>`, `I<n>`, `R<n>`, or `V<n>`. Cite `V2` as `§V.2`; preserve existing references when editing.
 
-Item are addressed by section abbriviation + id.
+Allocate ids from the header's per-section `next:` counters and advance the relevant counter after allocation. Never renumber or reuse retired ids. Deleting a row does not reduce a counter. For a missing legacy counter, recover the high-water mark from history; current rows alone cannot establish it. If history is unavailable, disclose the uncertainty before allocating ids.
 
-`<Sn>` — `C1` is constrains item 1.
-`<Sn>` — `V2` is invariants item 2.
+Research rows require supporting sources; include a checked date for time-sensitive external claims. Keep the spec in one file. If it grows unwieldy, prune supported redundancy and stale facts without discarding live requirements to hit a length target.
 
-Ids are monotonic and never reused, including after a row is deleted. The baked header carries one `next:` counter per id-keyed section (`§C`/`§I`/`§R`/`§V`) and it is the only source for the next id — scanning for the highest current id is wrong once rows have been pruned, because the highest is no longer the newest.
+## PLAN.md
 
-When prune a stale row, delete the row outright, bump nothing, and leave `next:` where it is. An id whose row is gone stays retired forever.
+Preserve ids, completed work, decisions, and task evidence during a cycle. Update affected sections as research or implementation changes the plan; replace the cycle wholesale only when authorized to start or supersede a cycle. Handoff and assignment pointers depend on stable task ids.
 
-### Delete or rewrite
+Structure: goal, ground rules, existing assets, phase-order table, then each phase with goal, inputs, files, dependencies/gates, tasks, verification, exit, and next pointer.
 
-Deletes stale §C/§R/§V/§I rows if no longer relevent, with evidence. Rewrites if row is partically relevent but need corrections to steer repo toward users intent　or instruction.
-
-## PLAN.md File
-
-`PLAN.md` is a contract for one cycle. It is replaced wholesale rather than amended, and it is read by an executor who was not present when it was written. So its rules are the opposite of the spec's: nothing here is addressed from outside, nothing needs a stable id, and the whole file is disposable. What it must do instead is be **executable cold** — every phase self-contained enough that an agent can start it with no chat history.
-
-Structure, in this order:
-
-1. one-line goal;
-2. ground rules for the run, including the evidence each phase must produce;
-3. existing assets already in the repo;
-4. a phase-order table;
-5. the full section for each phase.
-6. multiple task for detailed work instruction in each phase, citing the §V invariants if relevant for reviewer to check.
-
-Phase ids are `F1`, `F2`, ... and stay monotonic within the file. First phase is always research; last phase is always final verification. No coding before the research phase or after the verify phase.
-
-Task ids are `T1`, `T2`, ... and stay monotonic within the phase.
-
-The baked header carries a mutable `planning status: new | work-in-progress | done` line — the one header value that changes through the cycle, like `SPEC.md`'s `next:` counter. It tracks **execution**, not authorship: `prep` writes and expands the plan as `new` and never as `work-in-progress`, `cook` and `cater` alone flip `new` → `work-in-progress` at the moment they start executing, `handoff` sets `done` once every `§T` row is `x` and final verification holds and otherwise leaves the value untouched, and `garnish` resets it to `new` when it blanks the file. `cook` and `cater` run on `work-in-progress` (resume) or on a `new` plan that carries executable phase sections (flip first, then start); a `new` plan with no phase sections is an empty stub and stops for `/prep`, and `done` stops for `/garnish`. The discriminator between the two kinds of `new` is the presence of phase sections, never task status. `prep` may expand or rewrite a plan only while its status is not `work-in-progress`, so an in-flight cycle is never clobbered.
-
-Every phase section names its goal, inputs, and files touched, then one or more `§T` tasks. Each task carries an id, status, touch paths, work details (citing the relevant §V), a verification contract, exit criteria, and the next pointer.
+Phase ids `F1..Fn` are monotonic. First phase is research/confirmation, last is final verification. Keep implementation between them; verification failures reopen affected work before verification repeats. Each phase has at least one task; `T<n>` ids are unique and monotonic within that phase. Status: `.` todo, `~` in progress, `x` verified done.
 
 ```md
 # PLAN
 
-goal: <one line>
+goal: <outcome>
 
 ## ground rules
-- <encoded bullets>
+- <scope, authority, verification requirements>
 
 ## existing assets
-- <repo facts, tests, docs, constraints>
+- <reusable work and evidence>
 
 ## phase order
 id|goal|depends|exit
-F1|research unknowns & refine plan|-|facts logged, later phases updated
-F2|implement approved work|F1|target tests green
-F3|final verify code vs spec & plan|F2|full suite green, drift resolved
+|---|---|---|---|
+F1|confirm research|-|unknowns resolved or gated
+F2|deliver change|F1|acceptance checks pass
+F3|final verification|F2|goal and contracts verified
 
 ## F1 research
-goal: <one line>
-inputs: <specs, questions, sources, instructions>
-files: <paths likely touched>
+goal: <outcome>
+inputs: <requirements, questions, sources>
+files: <paths>
+depends: <phase ids or none>
 
-§T  TASKS:
-T.id|status|description
-touch: <paths>
-details: <how|what to work>
-verify: <what proves this phase done>
-exit: <state>
-next: <F<n>.T<n>>
+### §T tasks
+id|status|description|cites
+|---|---|---|---|
+T1|.|<task>|<relevant §V ids or ->
 
-T.id|status|cites
-touch: <paths>
-details: <how|what to work>
-verify: <what proves this phase done>
-exit: <state>
-next: <F<n>.T<n>>
+task: T1
+touch: <paths or none>
+details: <work and necessary context>
+verify: <method and expected result>
+exit: <acceptance criteria>
+next: <F<n>.T<n> or none>
 ```
 
-Keep it compact. `PLAN.md` is a working document, not an RFC. Durable facts belong in `SPEC.md`; if a line would still matter after the cycle closes, it is in the wrong file.
+Repeat the task detail block for every row and the phase structure for every phase. Verification can be a named test, command, source check, or explicit inspection criteria. Do not manufacture invariants or tests for documentary work.
 
-## HANDOFF.md File
+### Cycle state
 
-`HANDOFF.md` = baton. Overwritten in full ∀ session, read by an agent with ⊥ memory. Records **state, ⊥ intent** — intent → `PLAN.md`, truth → `SPEC.md`. Failure mode it guards: session dies mid-edit & the next cannot tell finished from merely started. ∴ only doc that ! record uncommitted work, exact test state, & precise next action (file + function).
+The header tracks execution:
 
-Pointers = `F<n>.T<n>` (phase.task → `PLAN.md`), ⊥ bare step numbers. The `in progress` & `next` lines ! use them. Lean: one line per fact, symbols > words.
+- `prep` creates/expands an unstarted plan as `new`. While `work-in-progress`, it queues new requests instead of replacing active work, unless the user explicitly supersedes the cycle.
+- `cook`/`cater` request `new` → `work-in-progress` before execution. They run only populated plans and resume unfinished eligible tasks.
+- `handoff` requests `done` only when all tasks are `x` and a nonempty final verification table covers the goal and relevant contracts with current `HOLD` evidence.
+- Reopened work returns to `work-in-progress`; affected tasks and evidence must reflect the reopening.
+- `garnish` resets the completed plan to its header with `new`.
+
+This skill performs those writes for the caller. A missing or contradictory state requires reconciliation from evidence, not a guessed overwrite.
+
+## HANDOFF.md
+
+Replace the baton with current state, preserving still-valid decisions and verification evidence. Do not duplicate the plan; point to it. Use `F<n>.T<n>` for current/next tasks, or `none` with a reason when no task applies.
 
 ```md
 # HANDOFF <YYYY-MM-DD>
 
-branch <name> | last commit <sha> | tests <pass N/N | FAIL: file+case> (<cmd>)
-uncommitted: <none | files + why>
+branch <name> | last commit <current HEAD sha>
+checks: <command/method + result, or not run + reason>
+uncommitted: <files + ownership/reason, or none>
 
 ## done this session
-<F<n>.T<n>>: <one line> → <sha>
+<F<n>.T<n>>: <result and evidence>
 
 ## in progress (exact stop point)
-<F<n>.T<n>>: <status: mid-edit | done>
-mid-edit files: <paths | none>
+<F<n>.T<n>>: <action, file, function or section>
+mid-edit files: <paths or none>
 
 ## next
-<F<n>.T<n>> | preconditions: <gates | none>
+<F<n>.T<n> or none> | preconditions: <gates or none>
 
 ## deviations & decisions
-plan said <X> → did <Y> ∵ <Z> (PLAN.md updated: y|n)
-user decided: <ruling | none>
+<decision and reference to updated plan/spec>
 
 ## watchouts
-<trap: flaky test | env quirk | live-server state | doc half-truth>
+<resume hazard or outstanding assignment + ownership>
 
 ## final verification
 item|status|evidence|decision
-<§V/§I id>|<HOLD | VIOLATE | UNVERIFIABLE>|<file/test>|<code | SPEC | ->
+|---|---|---|---|
 ```
 
-Rules:
+Name exact failures and unavailable checks; never invent counts or call an unrun check green. Record pre-existing changes separately and do not commit unfinished code to make the tree clean. The SHA is HEAD before the baton write; it cannot identify the commit that will contain that write.
 
-1. Uncommitted work = first-class fact. Name ∀ file + why. Prefer committing (even a `~` wip §T flip) over a dirty tree.
-2. Failing tests named exactly — file + case — ⊥ "some failing".
-3. `in progress` ! name the NEXT TASK executable verbatim: action, file, function — ⊥ "continue the phase". Reference done tasks & next as `F<n>.T<n>`.
-4. Material deviations already live in `PLAN.md`/`SPEC.md`; baton points at them, ⊥ becomes their only record.
-5. Empty section → `-`, ⊥ deleted (the shape is the checklist).
-6. Only the final-verify phase fills the result table; else header row alone.
+Only final verification creates result rows: `HOLD`, `VIOLATE`, or `UNVERIFIABLE`, with evidence and resolution. Preserve valid rows on later refreshes. If changes invalidate proof, mark affected rows `UNVERIFIABLE` with a stale-evidence reason until rechecked. Keep empty sections as `-`; an unfilled verification table keeps its header and delimiter only.
 
-## BAKED HEADERS
+## Baked headers and verification
 
-Each of the three documents opens with its own baked header, emitted verbatim as the first bytes. When a header is missing, or a header or format update is requested, trigger `encode-header` to supply the bytes and emit them exactly as given — this skill still performs the write.
+Load `encode-header` when creating a document or repairing/updating its header. Copy its template exactly except the declared state/counter placeholders. Preserve the existing body and mutable values during header-only repairs.
 
-## BOUNDARIES
-
-- User asks for a prose explanation → switch to normal English.
-- Spec documents for external review (RFC, pitch) → normal English.
-- Commit message → `encode-commit` owns that format.
-- Diff comment in code → normal English.
-- No sub-agents. The main thread writes.
-- No dashboards, no logs, no state files beyond these three documents.
-- No auto-execute after a spec write. The user invokes `/cook` explicitly.
-
-## WHEN UNSURE
-
-If cutting a word loses a fact, keep it. This is compression, not amputation.
+After writing, inspect the diff for lost facts, changed requirement strength, broken pointers, malformed tables, and inconsistent state. Check plan/baton consistency together. Report material changes and unresolved uncertainty without starting implementation unless already authorized.

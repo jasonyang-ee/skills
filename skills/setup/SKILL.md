@@ -1,18 +1,18 @@
 ---
 name: setup
 description: |
-  Bootstrap repository guidance for the spec-driven workflow. Creates or safely completes AGENTS.md with lifecycle commands, pre-filled encoding symbols, and an end checklist; creates CLAUDE.md containing @AGENTS.md when absent; and asks encode-docs to create minimal CHANGELOG.md and SPEC.md files when absent. Never overwrites existing user guidance or durable file. Triggers: "/setup".
+  Bootstrap repository guidance for the spec-driven workflow. Add missing workflow sections to AGENTS.md, create absent CLAUDE.md and CHANGELOG.md, and create an absent SPEC.md through encode-docs. Preserve existing guidance and conventions. Use for "/setup".
 ---
 
 # setup — bootstrap repository guidance
 
-Use `setup` once at the start of a repository, or later to audit missing workflow sections. It prepares the  files needed by spec-driven workflow skills.
+Use once to initialize the workflow, or later to complete missing guidance. Inspect the repository first; the template supplies workflow defaults, not permission to replace project policy.
 
 ## Preflight
 
-1. Load `encode-docs` before reading or writing `AGENTS.md`.
+1. Read applicable repository guidance before editing. Load `encode-docs` when a `SPEC.md` write is needed; it does not own the other setup files.
 2. Read existing `AGENTS.md`, `CLAUDE.md`, `CHANGELOG.md`, and `SPEC.md` in full when present.
-3. If `AGENTS.md` is absent, create it from the template below. Preserve all existing content and add only missing sections by the structure below. Only mutate content if user specifically asked.
+3. If `AGENTS.md` is absent, create it from the template below. Otherwise add only missing workflow guidance, recognizing equivalent existing sections. Preserve existing rules; do not append a contradictory default. Report unresolved conflicts instead of rewriting user policy.
 4. If `CLAUDE.md` is absent, create it with exactly:
 
    ```md
@@ -21,11 +21,11 @@ Use `setup` once at the start of a repository, or later to audit missing workflo
 
    If it exists, preserve it; report if it does not import `@AGENTS.md` instead of overwriting it.
 5. If `CHANGELOG.md` is absent, create the minimal structure below.
-6. If `SPEC.md` is absent, invoke `encode-docs` in NEW mode to create its baked-header minimal structure. `setup` never writes `SPEC.md` directly.
+6. If `SPEC.md` is absent, load `encode-docs` to create its minimal structure with a baked header and supported repository facts. `setup` never writes `SPEC.md` directly.
 
 ## AGENTS.md required sections
 
-When creating or completing `AGENTS.md`, append the following sections if they are missing. Preserve all user content, and never overwrite project-specific instructions.
+Use these defaults for missing sections. Adapt the checklist to documented repository commands and commit policy; do not invent commands or impose a conflicting workflow.
 
 ```md
 # AGENTS.md
@@ -43,7 +43,7 @@ When creating or completing `AGENTS.md`, append the following sections if they a
 4. `/cook` → execute all remaining phases in order → verify → commit → handoff after each phase. Optional phase arg → target one phase. Single main agent.
 5. `/cater` → adapt per ready phase: direct via loaded `cook` when delegation lacks material benefit | sub-agents when parallelism, context isolation, or specialist capability pays; before dispatch show scope, agent type, model, effort, rationale. Top-level 4 | 5 exclusive; one phase ⊥ direct + delegated.
 6. `/garnish` → SPEC.md cleanup → blank PLAN.md + HANDOFF.md to template
-7. `/review-code` → baseline code sweep → prep
+7. `/review-code` → baseline code sweep → prep for accepted, authorized follow-up work
 
 support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-agent` bounded sub-agent prompt | `/encode-commit` commit summary | `/encode-pr` PR review comments
 
@@ -65,12 +65,12 @@ Use symbols below as short, exact operators. Preserve paths, code, IDs, URLs, nu
 Tables use `|`; escape literal `\|`. SPEC `§C`/`§I`/`§R`/`§V` tables carry a GFM delimiter row (`|---|---|`, one cell per column) under the header. `§T` status: `x` done, `~` wip, `.` todo.
 
 ## End of Chat Checklist
-- Ensure repo tests pass.
+- Run required repository checks; report exact failures or unavailable checks.
 - Update `CHANGELOG.md` `## [Unreleased]` ∀ feature/fix.
-- Commit directly (single summary commit, no AI co-author trailer). ⊥ push | tag without explicit ask.
+- Follow user/repository commit policy; stage only owned work. ⊥ push | tag without explicit ask.
 ```
 
-Do not invent project commands, paths, or constraints. Mark unknowns `?` until the user or research resolves them.
+Do not invent project commands, paths, or constraints. Resolve routine details from repository evidence; mark unresolved facts `?`. Explicit user instructions override these defaults within higher-priority instructions and permissions.
 
 ## CHANGELOG.md minimal Sections
 
@@ -88,12 +88,11 @@ All notable changes to this project will be documented in this file.
 
 Report each action and preservation decision. Confirm:
 
-- `AGENTS.md` has all seven bootstrap commands in order, Encoding symbols, and checklist;
-- a new `AGENTS.md` template includes AI-file purpose, workflow skills, project-script placeholders, and the full end-of-chat checklist;
+- new guidance covers AI-file purpose, workflow commands, encoding symbols, and an applicable checklist without duplicating or contradicting existing policy;
 - `CLAUDE.md` is exactly `@AGENTS.md` when setup created it;
 - `CHANGELOG.md` has `## [Unreleased]`;
 - `SPEC.md` exists with the baked header and fixed sections;
-- existing files were not overwritten.
+- existing content was preserved except for explicitly authorized changes.
 
 ## Boundaries
 

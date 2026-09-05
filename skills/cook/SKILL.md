@@ -1,76 +1,48 @@
 ---
 name: cook
 description: |
-  Execute all remaining PLAN.md phases in order as the SINGLE main agent, with production-quality, verification-driven, evidence-based implementation. Session kick-off for multi-phase PLAN.md execution: loads HANDOFF.md + PLAN.md + SPEC.md, then works each phase at principal-engineer quality — quality over speed, codebase consistency over easiness, lean low-complexity code. An optional phase arg (e.g. `/cook F1`) targets one phase. Every phase ends green, self-reviewed, and committed with named evidence. Composes with the encode-docs and handoff skills, and expects `prep` to have created `PLAN.md` + `HANDOFF.md` first. Always ends the session by invoking the handoff skill. Triggers: "/cook".
+  Execute remaining PLAN.md phases in order as a single main agent, with verification, self-review, commits, and a current HANDOFF.md. Use "/cook" for the remaining cycle or "/cook F<n>" for one phase. Requires an executable plan; composes with encode-docs, encode-commit, and handoff.
 ---
 
-# cook — Execute all remaining PLAN.md phases
+# cook — execute the plan
 
-You are the single main agent. No sub-agents, no swarm, no parallel workers. You work like a principal engineer: the goal is code the NEXT reader maintains without asking questions — not code that was fast to write.
+Work as the single main agent; do not delegate. Complete all eligible phases unless the user selects one phase or a blocker prevents progress.
 
-## OPERATING PRINCIPLES (non-negotiable, in priority order)
+## Working rules
 
-1. **Quality over speed.** Never skip a verification step to save time. A phase is not done until its verification contract passes.
-2. **Codebase consistency over easiness.** Before writing ANY new helper, grep for an existing one. Match the house patterns exactly: file and directory naming, log and error formats, the shapes existing types extend, config conventions, UI patterns. Infer these from neighbouring code, not from habit. The consistent-but-verbose way beats the clever-but-foreign way.
-3. **Lean code, low complexity.** Smallest coherent diff that satisfies the phase. No speculative abstraction, no flags for futures that may never come, no re-implementation of anything the plan says to reuse. Every layer of indirection must pay rent.
-4. **Accuracy.** Read every file IN FULL before editing it. Read the plan phase section IN FULL before starting. Never edit from memory of the file.
-5. **The plan is authoritative — but not infallible.** If reality contradicts PLAN.md (API changed, claim wrong), STOP improvising: surface the contradiction, propose the correction, and hand the PLAN.md correction to `encode-docs` in the same commit. Silent deviations are forbidden.
-6. **Follow through.** When the user asks for implementation or a fix, carry authorized phase work through the relevant verification. Do not stop at a plan, partial diff, or review summary when the phase can be completed.
-7. **Ask only when it matters.** Make reasonable assumptions for routine, reversible decisions. Ask focused questions only when missing information materially affects correctness, scope, or authorization.
-8. **Respect approval gates.** Before asking for approval on a destructive, irreversible, or otherwise unauthorized action, finish the preparation already authorized and present a concrete, reviewable result.
-9. **User instructions win.** If an explicit user instruction conflicts with this skill, follow the user unless a higher-priority instruction or real permission boundary forbids it. If this skill or another loaded instruction causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized work.
+- Make the smallest coherent change that satisfies the task. Inspect existing helpers, callers, and neighboring conventions before adding abstractions.
+- Read the full phase and enough of each affected file and its dependencies to understand the change. Do not edit from memory or truncated evidence.
+- Establish observable verification before editing. Complete required checks; broaden or repeat them only for new changes, failures, or unresolved concerns.
+- Correct routine plan errors through `encode-docs` and continue within authorized scope. Explain material deviations. Ask only when an unresolved choice changes requirements, scope, or authority.
+- Explicit user instructions override skill guidance, subject to higher-priority instructions and permissions. If a rule blocks progress, cite its file and wording; finish unaffected authorized work.
+- Preserve pre-existing changes. Stage only owned work. Never push, tag, or perform destructive live-system actions without explicit authority.
 
-## LOAD (in this order, before any edit)
+## Load and select
 
-1. `HANDOFF.md` — Defines session resume point. Fresh start if absent.
-2. `PLAN.md` — Multi phase implementation plan. Stop if absent. Then read its baked-header `planning status`: proceed on `work-in-progress` (resume a cycle already under way), and proceed on `new` when the file carries executable phase sections (a plan `prep` wrote that nobody has started yet); `new` with no phase sections is an empty stub, so stop and recommend `/prep`; `done` stops and recommends `/garnish` (the cycle is complete). The discriminator between the two kinds of `new` is the presence of phase sections, never task status.
-3. `SPEC.md` — Long term storage for repo work rules.
-4. `git status`, current branch, and `git log -3 --oneline`.
-5. Never `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and acting on it would execute work the plan never approved.
+1. Read repository guidance, `HANDOFF.md` if present, `PLAN.md`, and `SPEC.md`. Check branch, recent commits, and dirty-tree state. Never ingest `BACKLOG.md`; it is `prep` input.
+2. No executable plan, or `new` with no phases: recommend `/prep`. `done`: recommend `/garnish`. Run on `new` with phases or `work-in-progress`. Reconcile missing or contradictory status from task evidence before execution.
+3. Load `encode-docs`. Before the first phase, request `new` → `work-in-progress`; this skill owns the transition, and the encoder performs the write.
+4. Use an explicit phase argument if supplied. Otherwise validate the handoff pointer against task status and dependencies; fall back to the first unfinished eligible phase in plan order. A stale pointer never overrides the plan.
+5. Run only tasks whose dependencies and gates are satisfied, including unresolved blockers from plan review. Skip a blocked phase only when a later phase is explicitly independent; record why. Never bypass a dependency to reach final verification.
 
-## PICK PHASE
+## Execute each phase
 
-- Before any phase work starts, if `planning status` still reads `new`, hand the flip `new` → `work-in-progress` to `encode-docs`. `cook` and `cater` are the only skills that write that value — it marks execution, not authorship — so it must land before the first phase begins.
-- Arg given (`/cook F1`) → that phase only; stop after its handoff.
-- No arg → start at the `HANDOFF.md` "next" pointer.
-- If no pointer exists → start at the first phase in PLAN.md's recommended sequence whose `task:` §T row is not `x` and whose gate (if any) is satisfied. Gated phases with unmet gates — anything waiting on elapsed time, external evidence, or a soak period — are skipped with a one-line note.
+1. Read all phase tasks. Require unique `T<n>` ids within the phase and valid `F<n>.T<n>` references; repair malformed tracking through `encode-docs` before proceeding. Mark each started task `~`.
+2. Establish each task's verification method and expected result. For changed behavior, identify meaningful tests and use a failing regression test when it demonstrates the defect. For research or documents, use sourced findings or explicit inspection criteria. Do not invent tests merely to attach one to every invariant.
+3. Implement the task and run required checks. Classify failures as implementation defect, requirement conflict, unspecified behavior, pre-existing failure, or environment limitation. Investigate before retrying. Fix in-scope defects; record other failures and their effect on completion.
+4. Read the full owned diff and relevant surrounding context. Check requirements, logic, reuse, interfaces, error handling, security boundaries, and unintended edits. Remove dead/debug code and unnecessary complexity. Repeat affected checks after corrections.
+5. Mark a task `x` through `encode-docs` only when its verification and exit criteria pass. Record blocked or deferred work as unfinished; explicit scope changes must update the plan. Update durable spec facts only when warranted, and the changelog per repository policy.
+6. Load `handoff` and capture phase results, checks, decisions, and the next eligible task. Commit reviewed work and baton together where repository conventions allow; otherwise use a separate baton commit. Load `encode-commit` for the message. Do not create empty commits for already-current state.
+7. Report completed behavior, verification, commit, and any concrete limitation concisely. With no phase argument, continue to the next eligible phase; with an argument, stop after that phase.
 
-## RUN LOOP
+## Final verification and closure
 
-- No arg → after each completed phase and committed handoff, continue with the next eligible phase in PLAN.md order until every remaining phase is complete, a gate blocks progress, or a genuine ambiguity requires the user.
-- Explicit phase arg → execute only that phase, then invoke `handoff` and stop.
-- A `next` pointer identifies the starting phase, not a default one-phase limit.
+In the final phase, verify the cycle goal, relevant `§V`/`§I`, and all `§T` tasks. Run the required repository suite and record a nonempty `HOLD`/`VIOLATE`/`UNVERIFIABLE` table with evidence through `handoff`. A failure reopens affected work and invalidates its earlier completion evidence until corrected and checked again.
 
-## EXECUTE (per phase)
+Mark the final verification task `x` after its checks and evidence table are complete, then let `handoff` set the cycle to `done` when every task is `x` and final verification holds. Tests passing alone do not establish that every requirement was checked.
 
-1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing, duplicated, or absent from `PLAN.md`. Hand the §T flip `.` → `~` for that exact row to `encode-docs`, which writes `PLAN.md`.
-2. **Verification contract first:** from the phase's `§T` cites (the §V invariants it names in `SPEC.md`), name the exact test file + case that will prove each new or changed §V, plus the oracle command. A new invariant without a named test = lie. Write failing tests first where phase logic is pure.
-3. Implement per the plan section, honoring OPERATING PRINCIPLES.
-4. Run the oracle command and named tests. Once the required checks pass, broaden or repeat testing only when new changes, failures, or unresolved concerns justify it. Fail → classify the cause as code bug, spec bug, or unspecified edge. Fix code bugs directly; invoke `encode-docs` with `bug:` for spec bugs/edges before retrying. Never retry blindly or silently patch around the root cause.
-5. **Self-review before committing (mandatory):** read the FULL `git diff` and check, line by line:
-   - matches the plan section (every numbered item done, or explicitly deferred with a reason recorded);
-   - coherent in the larger picture — fits the modules it touches, no logic now duplicated somewhere else, no house pattern broken;
-   - no debug leftovers, no dead code, no drive-by changes outside phase scope;
-   - no secret material in the diff, no new untrusted-input path left unvalidated;
-   - comments state constraints, not narration.
-   Fix everything found; re-run the tests if code changed.
-6. **Close out per the repo's process contract:** any `SPEC.md` update the phase calls for (new §V / §I lines exactly as its SPEC block specifies — durable truth only), the phase's §T flip → `x` handed to `encode-docs` which writes `PLAN.md`, a `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Hand the §T → `x` flip only after the oracle + named tests pass. At session end, run the full suite. Write the message through `encode-commit`: scope is the component the diff touched, never the phase id, and the body names the changed paths and what was verified, in plain English a reader without `PLAN.md` can follow. Never push unless repo policy says to.
-7. Invoke `handoff` immediately after every phase commit. It must refresh `HANDOFF.md` with the exact phase result, test/oracle state, stop point, and next executable step, then commit the baton before any next phase or report.
-8. Report to the user in 3–6 sentences: lead with what shipped, then give verification evidence, the baton commit, any deviation, and any remaining concrete risk. Use plain language and concise paragraphs. Avoid boilerplate warnings about hypothetical risk. With no arg, continue to the next phase; with an explicit phase arg, stop after that phase.
+## Stop and resume
 
-## STOP CONDITIONS (stop the loop, don't push through)
+Stop dependent work for an unmet gate, a material unresolved decision, unavailable required evidence, or insufficient context to complete and hand off safely. Record exact evidence and the smallest next action; continue independent authorized work where possible.
 
-- Phase gate unmet.
-- Genuine ambiguity the plan doesn't resolve and a sensible default can't. Ask the user. Never guess on irreversible operations, financial arithmetic, data safety, or security semantics.
-- Context budget low (roughly <15% remaining) — stop BEFORE starting another phase, while there is room to hand off cleanly.
-- The user explicitly passed one phase argument.
-
-## END OF SESSION (always, no exceptions)
-
-Invoke the **handoff** skill again at session end. A session that ends without a fresh HANDOFF.md is a failed session, even if every phase passed.
-
-## NON-GOALS
-
-- No sub-agents — this loop is sequential by design.
-- No scope creep: work outside the phase section goes into HANDOFF.md watchouts or a PLAN.md note, not into the diff.
-- No pushing or tagging without an explicit ask. No destructive operations against live systems.
+Before ending an active cycle session, ensure `HANDOFF.md` matches the current state. Reuse an unchanged fresh baton instead of rewriting it. If execution never started because the plan is absent or already complete, report that state without inventing a phase or handoff.

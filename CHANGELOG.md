@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Refine all 13 skill prompts for concise instructions, precise scope, evidence-based completion, and consistent workflow handoffs.
+- Match verification to the work, preserve task references and final evidence, and clarify when planning or review should ask for a decision.
+- Make delegated assignments accept research evidence, account for shared command side effects, and support explicit ownership transfers after failed reviews.
+- Clarify review baselines and follow-up authority, protect valid requirements during spec cleanup, and remove conflicting document and setup instructions.
 - Add portable latest-model collaboration guidance to `prep`, `cook`, `cater`, and `review-code`: role-appropriate follow-through, explicit user-instruction precedence, concise result-first reporting, and verification scoped to the change.
 
 ## [0.6.2] - 2026-08-28

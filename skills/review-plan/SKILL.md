@@ -1,119 +1,61 @@
 ---
 name: review-plan
 description: |
-  Find gaps in PLAN.md phases before any implementation starts — plan gap finding backed by research with latest web data. Opens with a research gate — if open unknowns remain, runs targeted research against current primary sources, records sourced findings in §R via encode-docs, and tightens later phases. Then refutes phase ordering, verification contracts, §T mappings, and phase dependencies. Hands PLAN.md, HANDOFF.md, and §V updates to encode-docs, and ends with an explicit GO / NO-GO gate. Iterative: each round can reduce the number of needed research phases until none remain. Triggers: "/review-plan".
+  Review an executable PLAN.md before implementation or after material revision. Resolve planning unknowns, check dependencies and verification contracts, update the plan and matching handoff through encode-docs, and report GO or NO-GO. Use for "/review-plan".
 ---
 
-# review-plan — validate PLAN.md before cook
+# review-plan — test whether the plan is executable
 
-A cold session that reads the plan and the spec together, resolves any remaining unknowns through research, and decides whether the work is safe to hand to `cook`. Every finding is corrected before the gate closes.
+Review the plan against the user's intent, repository evidence, and durable requirements. Correct supported planning defects; preserve unresolved decisions as explicit blockers. Do not implement the plan.
 
-## WHEN
+## Load and scope
 
-Before the first `/cook`, or after a previous `/review-plan` returns NO-GO.
+Load `encode-docs`; read repository guidance, `PLAN.md`, `SPEC.md`, and `HANDOFF.md` if present. Require a populated plan; an empty template needs `/prep`. Never ingest `BACKLOG.md`.
 
-Skip when there are no `?` items, all phase contracts are named, and the previous `/review-plan` already returned GO.
+Review before `cook` or `cater`, after NO-GO fixes, or after material changes to requirements, evidence, or the plan. Reuse a previous GO only for unchanged scope and evidence; honor an explicit request to review again. During active execution, preserve completed work and task statuses.
 
-## LOAD
+## Resolve unknowns
 
-1. Load `encode-docs` — PLAN.md and HANDOFF.md use that encoding.
-2. Read `PLAN.md` in full: goal, ground rules, phase order table, and every phase section.
-3. Read `SPEC.md`: §G, §C, §I, §R, §V. Note which `PLAN.md` `§T` rows map to which phases.
-4. Read `HANDOFF.md` if present: current next pointer and watchouts.
-5. Count open research phases: phases with unresolved `?` items or an explicit research goal. Record as "research phases remaining: N".
-6. Never read `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and reviewing against it would judge the plan on work nobody approved.
+Find explicit `?` items and implicit assumptions that affect implementation, phase boundaries, or verification. Use repository files/tests for local questions and current primary sources for external APIs, versions, or behavior. Cite evidence and date external checks. Ask only for decisions that cannot be resolved from context; continue independent review.
 
-## RESEARCH GATE
+Keep cycle-specific research in `PLAN.md`; route only durable findings to `SPEC.md §R`. Update affected steps with confirmed facts. If research was already resolved, retain the required first research phase as brief confirmation of that evidence. Do not remove the research-first structure or mark execution tasks done.
 
-Before reviewing plan structure, resolve open unknowns.
+If sources or required decisions are unavailable, record what remains unknown and how it affects the gate. Do not downgrade a consequential uncertainty merely because proof is unavailable.
 
-For each open research phase in order:
+## Review axes
 
-1. List every `?` item in the phase.
-2. Research them: read codebase modules, existing tests, and current primary web sources (official docs, changelogs, release notes) — never trust model memory for versions, APIs, or external behavior. Every finding must cite a source (file:line or URL) and carry the date it was checked. Items that cannot be resolved stay `?` with a note on why.
-3. Record sourced findings in `§R` by invoking `encode-docs`.
-4. Rewrite the affected phase steps with confirmed facts; remove guesses.
-5. If all `?` items in this phase are resolved with no new unknowns, mark it as a removal candidate. Note it in the gate output so the user can confirm removal on the next `/prep` cycle.
-
-Skip this gate entirely when no `?` items remain in any phase.
-
-## REFUTE THE PLAN
-
-Attack the plan on these axes. Every finding cites evidence or is tagged `[unverified]` and down-ranked to NOTE.
-
-- **Phase ordering** — does each phase depend on its predecessor's output?
-- **Verification contracts** — does every phase name the exact test file and case that proves each touched `§V`? "add tests" without a file name is a BLOCK.
-- **§T mapping** — does every phase carry at least one `task: T<n>`, ids monotonic within the phase, each existing in `PLAN.md §T` and not already `x`? A phase with no task, or an id missing from `§T` or out of order, is a BLOCK. (Task ids restart per phase, so the same `T<n>` recurring across phases is expected, not a duplicate.)
-- **Phase gates** — are all preconditions achievable? Does any gate depend on elapsed time, external approval, or a soak period?
-- **Blast radius** — does any phase touch shared modules, auth, data migrations, or public `§I` surfaces? Does any step handle secrets, untrusted input, or injection-prone surfaces? Flag for an extra safety step in that phase's verification contract.
-- **Altitude** — are steps concrete enough to finish in one session? Unverifiable steps are a BLOCK.
-- **Drift** — is the plan deviating from `SPEC.md`? Deviation is a DIVERGENCE.
+- **Coverage:** do tasks cover the requested outcome and acceptance criteria without unrelated work?
+- **Ordering:** research first, final verification last; dependencies are explicit, achievable, and acyclic. Independent phases need not depend on their immediate predecessor.
+- **Task references:** each phase has at least one task, unique monotonic `T<n>` ids within that phase, valid `F<n>.T<n>` pointers, touch paths, work details, and exit criteria. Completed rows may remain during a resumed-cycle review.
+- **Verification:** each task names an observable result and a concrete method. Require meaningful tests where behavior warrants them; use inspection criteria or sourced evidence for documents and research. Vague "add tests" or "looks good" is insufficient.
+- **Gates and ownership:** distinguish dependencies, external decisions, elapsed-time gates, and shared file ownership. Parallel assignments must account for generated files and command side effects.
+- **Risk:** inspect relevant auth, untrusted input, secrets, migrations, public interfaces, and recovery paths. Add checks for concrete failure modes.
+- **Feasibility and drift:** can an agent execute each phase from its inputs without chat history? Does the plan contradict the user's requirements or spec? Is needed research deferred until after the decision it informs?
 
 ## FINDING TAXONOMY & GATE
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`): identical categories and identical GO / NO-GO rule. Each skill keeps its own review axes and scope; only this taxonomy and gate are shared.
+Keep this section identical in `review-plan` and `review-code`. Assign each finding one category:
 
-Every finding is exactly one category — evidence → claim → category:
+- **BLOCK** — an evidenced correctness, safety, or release defect, including a demonstrated security vulnerability. Fix before proceeding.
+- **DIVERGENCE** — work conflicts with a stated `SPEC.md` requirement. Resolve against user intent: fix the work or amend a superseded requirement through `encode-docs`. Existing behavior alone does not justify weakening a requirement.
+- **UNKNOWN** (`?`) — a question requiring repository evidence, current primary sources, or a user decision. State whether it blocks and why. An unresolved question affecting correctness, safety, scope, or required verification remains blocking.
+- **HARDEN** — an optional, evidenced improvement to resilience, tests, complexity, or reuse. Speculative security advice is not a demonstrated vulnerability.
+- **NOTE** — context with no required action. Label unsupported observations `[unverified]`; investigate consequential uncertainty as UNKNOWN.
 
-- **BLOCK** — a correctness, safety, or release-level defect. A security finding is always BLOCK. Action: fix before proceeding. Gate: any open BLOCK forces NO-GO.
-- **DIVERGENCE** — reality (the code or the plan) has drifted from `SPEC.md`. Action: resolve one way — change the work to match `SPEC.md`, or amend `SPEC.md` through `encode-docs`. Gate: any open DIVERGENCE forces NO-GO; once resolved it no longer holds the gate.
-- **UNKNOWN** (`?`) — an open question that needs current primary-source research, never model memory. Action: resolve it with a cited source and the date checked, or record it as a non-blocking `?` with the reason it cannot be resolved yet. Gate: any open blocking `?` forces NO-GO.
-- **HARDEN** — an invariant, test, simplification, or reuse improvement that lowers complexity or prevents recurrence. Action: carry it to the next `prep`. Gate: never holds the gate.
-- **NOTE** — an observation with no required action. A finding with no evidence is down-ranked here and tagged `[unverified]`. Action: carry it as a note. Gate: never holds the gate.
+**NO-GO** if any open BLOCK, DIVERGENCE, or blocking UNKNOWN remains. **GO** otherwise. HARDEN and NOTE do not block. Report resolved findings separately from open counts. GO applies only to the reviewed scope; it does not authorize deployment, merging, or additional work.
 
-GO / NO-GO — exhaustive, never a shrug:
+## Update and report
 
-- **NO-GO** if any open BLOCK, any open DIVERGENCE, or any open blocking `?` (UNKNOWN) remains.
-- **GO** otherwise. HARDEN and NOTE never hold the gate — they carry to the next `prep`.
+Use `encode-docs` to write supported plan corrections and a matching `HANDOFF.md` next pointer, blockers, and review evidence. Preserve task statuses and stable references. Amend `SPEC.md` only for durable, evidence-backed changes; do not make it match a flawed plan.
 
-## UPDATE
-
-1. Hand new `§R` rows and proposed `§V` additions to `encode-docs`.
-2. Rewrite affected `PLAN.md` phases with resolved facts and sharper contracts; hand the revised `PLAN.md` to `encode-docs`, which writes it at repo root.
-3. Hand `encode-docs` the `HANDOFF.md` next-pointer and watchout updates. If a research phase resolved cleanly, add a watchout: "on next `/prep`, remove F<n> — all unknowns resolved."
-
-## GATE
-
-```
-## review-plan verdict
-research phases remaining: <n>
-BLOCK: <count>
-- <phase>: <finding> — <fix required>
-DIVERGENCE: <count>
-- <phase>: <SPEC.md §V/§I claim vs plan> — <resolution: fix plan | amend SPEC>
-UNKNOWN: <count>
-- <phase>: <? item> — <source + date | unresolved reason>
-HARDEN: <count>
-- <phase>: <finding> — <improvement>
-NOTE: <count>
-- <evidence> — <observation>
-gate: <GO | NO-GO>
-next: /cook | /review-plan after fixes
-```
-
-Decide GO / NO-GO by the exhaustive rule in FINDING TAXONOMY & GATE — never a shrug.
+Report GO/NO-GO, scope, unresolved research, open finding counts, corrections made, and the next step: `/cook` or `/cater` when ready, otherwise the exact research or decision needed. Do not invoke implementation automatically.
 
 ## REPORT OUTPUT
 
-Shared verbatim with the paired review skill (`review-plan` ⟷ `review-code`), mirror-check byte-identical, like FINDING TAXONOMY & GATE.
+Keep this section identical in `review-plan` and `review-code`. Lead with the verdict and scope. For each finding, give location/evidence, problem, concrete impact, and fix direction. Preserve exact paths, identifiers, errors, and uncertainty.
 
-Always on, for every report this skill produces. It does not drift back to prose after a long session, and it is not something the user has to ask for.
+Use concise plain language. Omit empty categories and repeated evidence. Prefer a full sentence when compression would obscure causality, security impact, or an order-sensitive fix. State verification limits; never imply that green checks prove unexamined behavior.
 
-Drop articles, filler (just/really/basically/simply), pleasantries, and hedging. Fragments are fine. Prefer short synonyms — "fix", not "implement a solution for". Do not narrate tool calls. No decorative tables or emoji. Use standard well-known acronyms (API, DB, HTTP), but never invent new ones (cfg/impl/req): the tokenizer splits an invented abbreviation into the same pieces as the full word, so it saves nothing and costs the reader a decode. No causal arrows in report prose for the same reason — spell out the word. Do not restate evidence the gate block already carries.
+## Boundaries
 
-**Carve-out — these stay explicit, uncompressed prose:**
-
-- Security findings. A compressed vulnerability report is a missed vulnerability.
-- Warnings about irreversible or destructive actions.
-- Every `BLOCK` item.
-- `file:line` evidence, quoted error strings, and code. Never reword these.
-
-Compression that eats a finding has destroyed the thing the report exists to deliver. When terseness would make an order-sensitive sequence or a risk ambiguous, write the full sentence.
-
-## BOUNDARIES
-
-- Do not write code.
-- Do not mark `§T` rows done or alter `§T` status.
-- Do not skip the research gate when `?` items exist.
-- Do not revise `PLAN.md` without a matching `HANDOFF.md` update; hand both to `encode-docs`.
-- `encode-docs` is the sole mutator of `SPEC.md`; hand findings, do not write directly.
+Explicit user instructions override skill guidance within higher-priority instructions and permissions. Explain any rule-caused pause with its file and wording. Do not edit implementation, mark tasks done, or change execution status. Planning and baton edits stay with `encode-docs`.

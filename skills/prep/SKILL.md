@@ -1,156 +1,55 @@
 ---
 name: prep
 description: |
-  Turn a user request into an encoded execution package: refine the goal just enough, research the unknowns first, hand durable requirements to the encode-docs skill, draft a phased PLAN.md, and trigger handoff so a cold session can resume review or cook or cater. The generated plan always include with research, implementation phases, and ends with final verification. It must hold a production-quality verification-driven, evidence-based implementation contract. Triggers: "/prep".
+  Turn a request into a research-first, verifiable PLAN.md and matching HANDOFF.md for work spanning phases or sessions. Update SPEC.md only for durable requirements. Queue new requests in BACKLOG.md while execution is active. Use for "/prep" or explicit planning requests.
 ---
 
-# prep — user input -> detailed plan → PLAN.md -> handoff -> HANDOFF.md
+# prep — prepare an executable cycle
 
-`prep` is the planning front door for work that is too fuzzy, too large, or too session-spanning. It analysis and summarize between new idea, research setup, and a final drift-check pass by packaging them into short lived memory files.
+Complete the planning package so an agent can execute it without chat history. Stay within planning scope; implementation belongs to `cook` or `cater`.
 
-## Quality contract
+## Working rules
 
-Use these operational cues in the generated plan. “Principal engineer” is a quality signal, not a substitute for an observable contract. Each cue also lives in the description of the skill that owns its step; this contract mirrors them, it is not their sole carrier.
+- Preserve the user's goal and smallest coherent scope. Resolve routine, reversible choices from context; ask only when a missing answer materially changes correctness, scope, or authorization. Continue independent planning while waiting.
+- Explicit user instructions override skill guidance, subject to higher-priority instructions and permissions. If a rule blocks work, cite its file and wording and explain the unresolved decision.
+- Prefer concrete outcomes, dependencies, and evidence over quality slogans or detailed instructions for obvious steps.
+- Load composed skills when needed: `encode-docs` writes the three encoded documents, `review-plan` checks the draft, and `handoff` gathers the baton. Composition runs in the main agent.
 
-1. **Distill the request:** make the goal, constraints, interfaces, and unknowns explicit. Preserve the smallest coherent scope. Make reasonable assumptions for routine, reversible planning decisions. Ask focused questions only when missing information materially affects correctness, scope, durable-truth judgment, or authorization.
-2. **Plan:** 
-   - research first, then implementation, then final verification;
-   - each phase must be executable and verifiable;
-   - each phase must have a clear exit criteria and next phase pointer;
-   - each phase must have a task table with at least one task, each citing the relevant §V invariants if any.
-   - each task must be explicit and easy to follow by a lower tier agent to complete the work without extra context.
-3. **Encode:** keep `PLAN.md` compact, lossless, and encoded so a cold agent can resume without hidden context.
-4. **Review the plan:** embed one cycle of review-plan after encoding to ensure the plan is complete, executable, and verifiable.
-5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
-6. **Carry prep to completion:** carry authorized planning work through request distillation, targeted repo and source research, `PLAN.md` drafting, plan self-review, and `HANDOFF.md`. Do not stop at a proposal when those outputs can be written.
-7. **Instruction priority:** explicit user instructions override conflicting skill guidance, subject to higher-priority instructions and actual permission boundaries. If a skill causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized planning work.
-8. **Report and verify:** lead with the result. Use plain language, active voice, and concise paragraphs. Use lists only when they improve readability. Summarize the plan, highlight the implementation phases, report what changed, what was verified, and any remaining uncertainty, then say whether another `review-plan` cycle is worth it. Match verification to planning scope, and expand checks only when a concrete unresolved concern justifies it.
+## Choose mode before drafting
 
-The quality contract is complete only when each applicable cue has evidence. Do not use “best effort”, “looks good”, or “principal engineer” as completion criteria.
+Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. Inspect the plan's baked-header `planning status`:
 
-## When to use
+- `work-in-progress`: append the new request, constraints, and acceptance criteria to `BACKLOG.md`. Preserve existing entries and the active plan/baton. Report the queued work and stop; the output pair requirement applies to ingest mode.
+- `new`, `done`, or no plan: ingest the request and any `BACKLOG.md` entries. Preserve unfinished planned work unless the user supersedes it. Produce `PLAN.md` and `HANDOFF.md` as a pair.
+- Missing or contradictory status in a populated plan: reconcile task evidence and the baton before replacing anything. Ask only if execution state cannot be established.
 
-- The user gives a desire, idea, expected behaviour, or fully defined feature and wants the agent to turn it into executable work.
-- The work will likely span multiple files, phases, or sessions.
-- A cold implementation session should be able to begin work without extra chat context.
+Only `prep` ingests `BACKLOG.md`. Clear incorporated entries only after both output files are written and checked; retain deferred entries. Do not create an empty backlog unnecessarily.
 
-## Hard outputs
+## Build the package
 
-Every `prep` run must produce all of these:
+1. **Distill.** State the goal, constraints, affected interfaces, acceptance criteria, and unresolved questions. Offer alternatives only when their tradeoff matters to the request.
+2. **Inspect and research.** Read relevant repository guidance, implementation, tests, and existing patterns. Resolve questions that affect phase design now. Use current primary sources for external APIs, versions, or behavior; cite local evidence by path and external evidence by URL and date. Keep cycle-specific findings in the plan; send only durable findings to `SPEC.md §R`.
+3. **Guard durable truth.** Default to no spec change. Through `encode-docs`, amend or prune existing rows when evidence warrants it. Add a constraint, interface, or invariant only for a standing requirement; tasks, bug history, and one-time fixes belong in the plan, changelog, and git.
+4. **Draft through encode-docs.** Write the goal, ground rules, existing assets, phase-order table, and complete phase sections. Set `planning status: new`; this records unstarted execution, even when drafting is complete.
+5. **Review.** Load `review-plan` and perform one pass. Correct supported planning defects and preserve unresolved blockers with their gate decision. Do not mark execution tasks complete during planning.
+6. **Hand off.** Load `handoff` and produce a matching `HANDOFF.md` pointing to the first executable task, normally `F1.T1`, with any blockers. Verify the pair before clearing incorporated backlog entries.
 
-1. `PLAN.md` at repo root, carrying the phase task details.
-2. `HANDOFF.md` at repo root, written via the `handoff` skill after the plan exists.
-3. `SPEC.md` at repo root, **only when** the cycle changes durable truth — goal, constraint, interface, sourced research, or a standing invariant. Many cycles need no new `SPEC.md` rows at all. Tasks and one-time fixes are not durable truth and never land in `SPEC.md`.
-4. `BACKLOG.md` at repo root, handled in one of two modes chosen by the `PLAN.md` baked-header `planning status`. **Defer mode** — the status reads `work-in-progress`, so a cycle is already running: distill the user request and append it to `BACKLOG.md` for the next cycle, without pruning what is already there and without clobbering the in-flight plan. Do not interrupt an ongoing implementation phase. **Ingest mode** — the status is anything else: read `BACKLOG.md` as part of the request, write or expand `PLAN.md`, and blank `BACKLOG.md` only after that plan is on disk. Blanking any earlier loses the request outright if the session dies before the plan is written. `BACKLOG.md` does not need to be encoded, in fact, it must be detailed enough for a cold agent to pick up the next cycle. No fixed format for `BACKLOG.md` is required.
+## Phase contract
 
-`PLAN.md`, `HANDOFF.md`, and `BACKLOG.md` are short-lived execution state. `SPEC.md` is the durable memory, and it stays lean with high bar for new inclusion.
+Use monotonic phase ids `F1..Fn`. Research comes first, implementation follows, and final verification comes last. Keep `F1` as a brief confirmation of gathered evidence when research is already resolved; do not invent research to fill it.
 
-## Load
+Split phases at real dependency or ownership boundaries. Independent phases may share a prerequisite; do not force a chain or split work merely to create delegation opportunities.
 
-1. Read the user request carefully.
-2. Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md` for full context.
-3. Read `BACKLOG.md` if it exists, and treat it as part of the user request — but in ingest mode only, meaning the `PLAN.md` `planning status` does not read `work-in-progress`. While a plan is running, `BACKLOG.md` is a write target rather than an input.
-4. Read just enough repo context to plan real work: existing tests, entrypoints, configs, public interfaces, and nearby conventions.
+Each phase names goal, inputs, files, dependencies/gates, and at least one `§T` task. Each task has a stable within-phase id `T<n>`, status (`.` todo, `~` in progress, `x` done), touch paths, work details, relevant `§V` citations if any, verification, exit criteria, and next pointer. Supply enough context to proceed without guessing requirements; leave routine implementation choices to the executor.
 
-## Workflow
+Verification must identify an observable result and how to obtain it: named tests for behavior, commands for integration, or specific inspection criteria for documents and research. Do not require new tests that merely repeat wording or implementation.
 
-### 1. Distill the request
+## Final verification contract
 
-Extract:
+The final phase checks delivered work against the goal, relevant `§V`/`§I`, and all cycle `§T` tasks. Run required repository checks and review touched surfaces for correctness, coherence, complexity, and missed reuse. Record each checked item as `HOLD`, `VIOLATE`, or `UNVERIFIABLE` in `HANDOFF.md`, with evidence and a resolution for drift.
 
-- the goal the code must accomplish;
-- non-negotiable constraints;
-- public interfaces or files the outside world touches;
-- unknowns that need proof rather than guesses.
-- ask the user to resolve any ambiguity, one question at a time, until the request is unambiguous.
-- be creative and suggest other possible constrains and approaches that the user may not have considered.
+Failed verification returns work to the affected task; fix it and repeat affected checks before closing. Never label an unverified requirement complete.
 
-### 2. Always research first
+## Report
 
-The first plan phase is always research to confirm local code patterns, APIs, external latest documentations, and tests that the later phases must honor. Research is allowed to refine the rest of the plan; when it changes reality, update the later phases instead of pretending the first draft was right. External findings require a source. Only write external sourced findings into `§R` through `encode-docs`.
-
-### 3. Guard the spec, then hand durable facts to `encode-docs`
-
-- **Default to no spec change.** Most cycles touch behaviour that the skill files, `PLAN.md`, and `CHANGELOG.md` already record. A new spec row is the exception, not the norm.
-- A new `§V`/`§C`/`§I` row must be a **standing guarantee** a future reviewer keeps checking — never a one-time fix, a task, a bug record, or a note that only matters this cycle.
-- Prefer **editing or deleting** an existing row over adding one. If the cycle makes a row false, hand `encode-docs` the removal, not a second row beside it.
-- When unsure whether a fact is durable, leave it out. An over-full spec drifts, and every session pays to read it.
-
-Invoke `encode-docs` to update `SPEC.md` with only the sections that genuinely need a durable update:
-
-- `§G` goal — only if the mission changed
-- `§C` constraints — only a new non-negotiable boundary
-- `§I` interfaces — only a changed external surface
-- `§R` sourced research rows — findings that carry a citation
-- `§V` proposed invariants — durable standing guarantees only
-
-### 4. Draft `PLAN.md`
-
-Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
-
-1. a one-line goal;
-2. ground rules / process contract for the run, including the applicable quality-contract cues and evidence required for each phase;
-3. existing assets or evidence already present;
-4. a phase-order table;
-5. the full section for each phase.
-6. clear seperation of unrelated bug, request, or fix into different phases to enable cater to work on them in parallel.
-
-Set the baked-header `planning status` to `new`, both on a fresh write and on an expansion. That value tracks execution rather than authorship: `cook` and `cater` own the flip to `work-in-progress` and make it when they actually start executing, so a plan nobody has begun never claims to be running. For the same reason, `prep` may expand or rewrite a plan only while its status is not `work-in-progress` — an in-flight cycle is never clobbered.
-
-Use phase ids `F1`, `F2`, `F3`, ... and keep them monotonic.
-
-### 5. Make the phase skeleton predictable
-
-The recommended minimum shape is:
-
-- `F1` — research: confirm unknowns, collect sources, refine `SPEC.md`, tighten the later phases.
-- `F2..Fn-1` — implementation phases: code, tests, migrations, docs, or rollout work, split only when a real boundary exists.
-- `Fn` — final verification: a check-style pass that compares code against `SPEC.md`, `PLAN.md`, and touched tests before the work is declared done.
-
-The first phase must be research. The last phase must be final verification. Do not put coding ahead of research or after the final verification phase.
-
-### 6. Make every phase executable
-
-Each phase section must name:
-
-- goal;
-- inputs of original instructions and research findings;
-- files / modules / surfaces likely touched;
-
-Then with multiple implementation tasks block containing the following:
-
-- task id, status, and short description;
-- touch paths;
-- details of the work to be done including the `§V` invariants to be checked;
-- verification contract;
-- exit criteria;
-- next phase and task pointer.
-
-A cold agent should be able to work on any single phase without extra context.
-
-### 7. Trigger `handoff`
-
-After `PLAN.md` is written, invoke the `handoff` skill so `HANDOFF.md` points at the starting phase `F1`.
-
-## Final verification phase rules
-
-- re-read the relevant `SPEC.md` sections and touched `PLAN.md` phases;
-- run verification and unit test command / script to confirm the work is correct;
-- classify every relevant `§V`, `§I`, and `§T` item as `HOLD`, `VIOLATE`, or `UNVERIFIABLE`, with file/test evidence;
-- sweep touched implementation for logic correctness, unnecessary complexity, missed reuse, and codebase incoherence; cite each finding;
-- name any drift explicitly and decide whether code or spec changes;
-- record the result table in `HANDOFF.md` before closing the phase.
-
-If the final phase cannot prove the work, the plan is not finished.
-
-## Boundaries
-
-- Do not write code from `prep`.
-- Do not skip `PLAN.md`.
-- Do not skip `HANDOFF.md`.
-- Do not skip the research-first phase.
-- Do not skip the final verification phase.
-- Do not make `PLAN.md` or `HANDOFF.md` the long-term source of truth; that is `SPEC.md`.
-- Do not put tasks, one-time fixes, or bug records in `SPEC.md`; those belong in `PLAN.md`, `CHANGELOG.md`, and git.
-- Do not add a `§V`/`§C`/`§I` row that is not a durable standing guarantee. When unsure, leave it out.
-- Do not blank `BACKLOG.md` before `PLAN.md` has been written; a session that dies in between would take the request with it.
+Summarize the plan, implementation phases, review verdict, and remaining decisions. Name the next workflow step. A blocked package still needs a precise baton; a queued request needs only the backlog update.
