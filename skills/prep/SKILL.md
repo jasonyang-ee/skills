@@ -12,7 +12,7 @@ description: |
 
 Use these operational cues in the generated plan. “Principal engineer” is a quality signal, not a substitute for an observable contract. Each cue also lives in the description of the skill that owns its step; this contract mirrors them, it is not their sole carrier.
 
-1. **Distill the request:** make the goal, constraints, interfaces, and unknowns explicit. preserve the smallest coherent scope. Ask questions to resolve ambiguity.
+1. **Distill the request:** make the goal, constraints, interfaces, and unknowns explicit. Preserve the smallest coherent scope. Make reasonable assumptions for routine, reversible planning decisions. Ask focused questions only when missing information materially affects correctness, scope, durable-truth judgment, or authorization.
 2. **Plan:** 
    - research first, then implementation, then final verification;
    - each phase must be executable and verifiable;
@@ -22,7 +22,9 @@ Use these operational cues in the generated plan. “Principal engineer” is a 
 3. **Encode:** keep `PLAN.md` compact, lossless, and encoded so a cold agent can resume without hidden context.
 4. **Review the plan:** embed one cycle of review-plan after encoding to ensure the plan is complete, executable, and verifiable.
 5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
-6. **Report:** summarize the plan and highlight implementation plan in the final message to the user. Then suggest if secondary review-plan cycle is needed before the first implementation phase starts.
+6. **Carry prep to completion:** carry authorized planning work through request distillation, targeted repo and source research, `PLAN.md` drafting, plan self-review, and `HANDOFF.md`. Do not stop at a proposal when those outputs can be written.
+7. **Instruction priority:** explicit user instructions override conflicting skill guidance, subject to higher-priority instructions and actual permission boundaries. If a skill causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized planning work.
+8. **Report and verify:** lead with the result. Use plain language, active voice, and concise paragraphs. Use lists only when they improve readability. Summarize the plan, highlight the implementation phases, report what changed, what was verified, and any remaining uncertainty, then say whether another `review-plan` cycle is worth it. Match verification to planning scope, and expand checks only when a concrete unresolved concern justifies it.
 
 The quality contract is complete only when each applicable cue has evidence. Do not use “best effort”, “looks good”, or “principal engineer” as completion criteria.
 

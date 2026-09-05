@@ -30,6 +30,13 @@ Record baseline ref, `HEAD`, branch, and dirty-tree state in the review. Review 
 4. Run the documented verification command and record its exact result. A red baseline is a finding, not evidence that the new code is correct.
 5. Never read `BACKLOG.md` — it is raw, un-ingested `prep`-only input, and sweeping against it would report on work nobody approved.
 
+## REVIEW AUTONOMY
+
+- Carry authorized review work through baseline selection, evidence gathering, gate decision, and `prep` handoff. Do not stop at a rough note list when the review can be completed.
+- Make reasonable assumptions for routine, reversible review choices. Ask focused questions only when missing baseline, scope, user intent, or authorization materially affects correctness.
+- If an explicit user instruction conflicts with this skill, follow the user unless a higher-priority instruction or real permission boundary forbids it. If this skill or another loaded instruction causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized work.
+- Lead with the result. Use plain language, active voice, concise paragraphs, and lists only when they help. Report what changed, what was verified, and any remaining concrete risk or uncertainty. Avoid boilerplate warnings about hypothetical risk.
+
 ## REVIEW DIMENSIONS
 
 For every finding, cite `file:line`, test name, commit, or sourced reference. Flag `[unverified]` when evidence is unavailable.
@@ -47,7 +54,7 @@ For every finding, cite `file:line`, test name, commit, or sourced reference. Fl
 1. Inventory baseline-to-HEAD files and classify behavior vs mechanical edits.
 2. Trace changed entrypoints through callers, shared helpers, persistence, and error paths; inspect both the happy path and failure path.
 3. Search for duplicate logic and near-identical abstractions before proposing new helpers. Prefer reducing concepts and hiding decisions at boundaries.
-4. Test or reason through edge cases; run focused tests, then the full oracle.
+4. Test or reason through edge cases; run focused tests and the documented oracle. Once the required checks pass, broaden or repeat testing only when changed files, failures, or unresolved concerns justify it.
 5. Classify each finding by the taxonomy in FINDING TAXONOMY & GATE below (evidence → claim → category).
 6. Produce the gate below. Never report “looks good” without listing the scope, commands, and evidence reviewed.
 

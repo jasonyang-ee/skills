@@ -15,6 +15,10 @@ You are the single main agent. No sub-agents, no swarm, no parallel workers. You
 3. **Lean code, low complexity.** Smallest coherent diff that satisfies the phase. No speculative abstraction, no flags for futures that may never come, no re-implementation of anything the plan says to reuse. Every layer of indirection must pay rent.
 4. **Accuracy.** Read every file IN FULL before editing it. Read the plan phase section IN FULL before starting. Never edit from memory of the file.
 5. **The plan is authoritative — but not infallible.** If reality contradicts PLAN.md (API changed, claim wrong), STOP improvising: surface the contradiction, propose the correction, and hand the PLAN.md correction to `encode-docs` in the same commit. Silent deviations are forbidden.
+6. **Follow through.** When the user asks for implementation or a fix, carry authorized phase work through the relevant verification. Do not stop at a plan, partial diff, or review summary when the phase can be completed.
+7. **Ask only when it matters.** Make reasonable assumptions for routine, reversible decisions. Ask focused questions only when missing information materially affects correctness, scope, or authorization.
+8. **Respect approval gates.** Before asking for approval on a destructive, irreversible, or otherwise unauthorized action, finish the preparation already authorized and present a concrete, reviewable result.
+9. **User instructions win.** If an explicit user instruction conflicts with this skill, follow the user unless a higher-priority instruction or real permission boundary forbids it. If this skill or another loaded instruction causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized work.
 
 ## LOAD (in this order, before any edit)
 
@@ -42,7 +46,7 @@ You are the single main agent. No sub-agents, no swarm, no parallel workers. You
 1. Read phase `task: T<n>`; stop and invoke `encode-docs` if it is missing, duplicated, or absent from `PLAN.md`. Hand the §T flip `.` → `~` for that exact row to `encode-docs`, which writes `PLAN.md`.
 2. **Verification contract first:** from the phase's `§T` cites (the §V invariants it names in `SPEC.md`), name the exact test file + case that will prove each new or changed §V, plus the oracle command. A new invariant without a named test = lie. Write failing tests first where phase logic is pure.
 3. Implement per the plan section, honoring OPERATING PRINCIPLES.
-4. Run the oracle command and named tests. Fail → classify the cause as code bug, spec bug, or unspecified edge. Fix code bugs directly; invoke `encode-docs` with `bug:` for spec bugs/edges before retrying. Never retry blindly or silently patch around the root cause.
+4. Run the oracle command and named tests. Once the required checks pass, broaden or repeat testing only when new changes, failures, or unresolved concerns justify it. Fail → classify the cause as code bug, spec bug, or unspecified edge. Fix code bugs directly; invoke `encode-docs` with `bug:` for spec bugs/edges before retrying. Never retry blindly or silently patch around the root cause.
 5. **Self-review before committing (mandatory):** read the FULL `git diff` and check, line by line:
    - matches the plan section (every numbered item done, or explicitly deferred with a reason recorded);
    - coherent in the larger picture — fits the modules it touches, no logic now duplicated somewhere else, no house pattern broken;
@@ -52,7 +56,7 @@ You are the single main agent. No sub-agents, no swarm, no parallel workers. You
    Fix everything found; re-run the tests if code changed.
 6. **Close out per the repo's process contract:** any `SPEC.md` update the phase calls for (new §V / §I lines exactly as its SPEC block specifies — durable truth only), the phase's §T flip → `x` handed to `encode-docs` which writes `PLAN.md`, a `CHANGELOG.md` `## [Unreleased]` entry, then ONE summary commit. Hand the §T → `x` flip only after the oracle + named tests pass. At session end, run the full suite. Write the message through `encode-commit`: scope is the component the diff touched, never the phase id, and the body names the changed paths and what was verified, in plain English a reader without `PLAN.md` can follow. Never push unless repo policy says to.
 7. Invoke `handoff` immediately after every phase commit. It must refresh `HANDOFF.md` with the exact phase result, test/oracle state, stop point, and next executable step, then commit the baton before any next phase or report.
-8. Report to the user in 3–6 sentences: what shipped, verification evidence, the baton commit, and any deviation. With no arg, continue to the next phase; with an explicit phase arg, stop after that phase.
+8. Report to the user in 3–6 sentences: lead with what shipped, then give verification evidence, the baton commit, any deviation, and any remaining concrete risk. Use plain language and concise paragraphs. Avoid boilerplate warnings about hypothetical risk. With no arg, continue to the next phase; with an explicit phase arg, stop after that phase.
 
 ## STOP CONDITIONS (stop the loop, don't push through)
 

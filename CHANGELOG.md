@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Add portable latest-model collaboration guidance to `prep`, `cook`, `cater`, and `review-code`: role-appropriate follow-through, explicit user-instruction precedence, concise result-first reporting, and verification scoped to the change.
+
 ## [0.6.2] - 2026-08-28
 
 - fix cater to increase execution of ALL remaining phases

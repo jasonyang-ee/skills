@@ -11,10 +11,14 @@ You are the adaptive orchestrator. For each ready work set, choose direct main-a
 ## OPERATING PRINCIPLES
 
 1. **Quality over speed.** Never skip a verification step. A phase is done only when its contract passes.
-2. **Use delegation when it pays.** Parallelism, context isolation, or specialist capability must materially improve execution. Delegation itself is not progress.
+2. **Use delegation when it pays.** If safe parallel work could save time or improve quality, delegate it. Otherwise stay direct. Parallelism, context isolation, or specialist capability must materially improve execution. Delegation itself is not progress.
 3. **Own the evidence.** A sub-agent report is a claim. Accept only after reading its full scoped diff and verifying its tests.
 4. **Isolate writes.** Never allow concurrent assignments to touch the same file.
 5. **Honor the plan, surface contradictions.** If reality contradicts `PLAN.md`, report it and hand the correction to `encode-docs`; never deviate silently.
+6. **Follow through.** For authorized implementation work, route and complete the phase through direct execution or verified delegation. Do not stop at a routing proposal when work can proceed.
+7. **Ask only when it matters.** Make reasonable assumptions for routine, reversible orchestration decisions. Ask focused questions only when missing information materially affects correctness, scope, authorization, or safe file-set isolation.
+8. **User instructions win.** If an explicit user instruction conflicts with this skill, follow the user unless a higher-priority instruction or real permission boundary forbids it. If this skill or another loaded instruction causes a pause or deviation, name the file and rule, and say whether it is explicit or your interpretation. Continue unaffected authorized work.
+9. **Report plainly.** Lead with the result, use plain language, and name concrete blockers or risks only. Avoid boilerplate warnings about hypothetical risk.
 
 ## LOAD
 
@@ -86,7 +90,7 @@ Run this loop for every assignment:
    ```
 
 6. **Refresh before review.** Record the returned result as unreviewed in main `HANDOFF.md`.
-7. **Acceptance review.** Read the full phase-scoped diff. Confirm every assigned task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Reject partial task-set completions, no-diff completions, and tests that prove nothing.
+7. **Acceptance review.** Read the full phase-scoped diff. Confirm every assigned task item, allowed scope, surrounding-code coherence, reuse, comments, security boundaries, and named test assertion. Complete the required checks for the assignment, and broaden or repeat testing only when new changes, failures, or unresolved concerns justify it. Reject partial task-set completions, no-diff completions, and tests that prove nothing.
 8. **Accept or return.** Accept the whole ready task set only after every check passes. On failure, return exact findings once with the same task set and corrected prompt/selection. A second failure → stop and re-plan; do not silently take over a phase after delegated edits exist.
 9. **Commit + close phase.** The main agent commits the accepted implementation through `encode-commit`, hands every assigned task status `x` to `encode-docs`, invokes `handoff`, and commits the refreshed baton. Never leave an accepted phase partially marked or without its implementation and handoff commits.
 10. **Purge + re-evaluate.** Delete accepted `HANDOFF-<phase-id>.md`, then re-evaluate ready work.

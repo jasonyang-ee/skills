@@ -7,7 +7,7 @@ Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > 
 Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
 Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
 ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: C13 I13 R10 V31
+next: C13 I13 R11 V31
 One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
 Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
 -->
@@ -82,6 +82,7 @@ R6|`skills` CLI (npm `skills`; github vercel-labs/skills) installs flat `skills/
 R7|Claude Code CLI-free native install = plugin marketplace: `.claude-plugin/marketplace.json` = `{name, owner{name}, plugins[{name, source, description}]}` @ repo root; plugin `source` = relative path ! start `./` → marketplace-root plugin = `source:"./"`; single root entry (⊥ explicit `skills` path) → default `skills/` full scan = ∀ skills load; `.claude-plugin/plugin.json` optional, `name` = only required field if present; user runs `/plugin marketplace add jasonyang-ee/skills` then `/plugin install <name>@<marketplace>`|https://code.claude.com/docs/en/plugin-marketplaces + /plugins-reference (2026-07-22)
 R8|sub-agent starts with isolated context; host may select per-agent model + effort; full named skill content may preload ∴ portable delegation prompt ! carry required context + quality contract & describe model/effort as host selections, not fixed names|https://code.claude.com/docs/en/sub-agents + https://agentskills.io/specification (2026-07-26)
 R9|Claude Code plugin update cache key resolves version from `.claude-plugin/plugin.json` before marketplace entry; explicit plugin version ! bump each release or installed users keep cached copy; ⊥ set version in both locations|https://code.claude.com/docs/en/plugin-marketplaces + https://code.claude.com/docs/en/plugins-reference (2026-07-28)
+R10|latest-model guide portable coding-agent cues = carry authorized work through completion; ask focused questions only when missing info materially changes outcome; explicit user instructions override conflicting skill guidance; tune sub-agent delegation to workflow; keep output plain + concise; match verification to change scope. model/API-specific migration guidance stays separate|https://developers.openai.com/api/docs/guides/latest-model (checked 2026-09-05)
 
 ## §V INVARIANTS
 
