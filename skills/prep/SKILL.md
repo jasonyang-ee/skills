@@ -18,6 +18,7 @@ Use these operational cues in the generated plan. “Principal engineer” is a 
    - each phase must be executable and verifiable;
    - each phase must have a clear exit criteria and next phase pointer;
    - each phase must have a task table with at least one task, each citing the relevant §V invariants if any.
+   - each task must be explicit and easy to follow by a lower tier agent to complete the work without extra context.
 3. **Encode:** keep `PLAN.md` compact, lossless, and encoded so a cold agent can resume without hidden context.
 4. **Review the plan:** embed one cycle of review-plan after encoding to ensure the plan is complete, executable, and verifiable.
 5. **Handoff:** trigger `handoff` so `HANDOFF.md` points at the next phase. A fresh plan with no baton is a broken plan.
@@ -90,6 +91,7 @@ Draft `PLAN.md` and hand it to `encode-docs`. It must contain, in this order:
 3. existing assets or evidence already present;
 4. a phase-order table;
 5. the full section for each phase.
+6. clear seperation of unrelated bug, request, or fix into different phases to enable cater to work on them in parallel.
 
 Set the baked-header `planning status` to `new`, both on a fresh write and on an expansion. That value tracks execution rather than authorship: `cook` and `cater` own the flip to `work-in-progress` and make it when they actually start executing, so a plan nobody has begun never claims to be running. For the same reason, `prep` may expand or rewrite a plan only while its status is not `work-in-progress` — an in-flight cycle is never clobbered.
 
