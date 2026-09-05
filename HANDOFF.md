@@ -12,54 +12,28 @@ Full rules: /encode-docs skill.
 
 # HANDOFF 2026-09-05
 
-branch `main` | last commit `331df1d` | tests pass 7/7 (`npm test`) | uncommitted: `CHANGELOG.md`, `HANDOFF.md`, `PLAN.md`, `SPEC.md`, `skills/cater/SKILL.md`, `skills/cook/SKILL.md`, `skills/prep/SKILL.md`, `skills/review-code/SKILL.md` — cycle complete; commit deferred because explicit user ask required
+branch `main` | last commit `8cb7e27` | tests pass 7/7 (`npm test`) | uncommitted: `PLAN.md`, `HANDOFF.md` — new `/prep` cycle for accepted `review-code` finding after `garnish`
 
 ## done this session
-F1.T1-F1.T2: mapped portable latest-model cues to repo roles; fixed blast radius on `CHANGELOG.md` required, `README.md`/`skills/review-plan/SKILL.md` evidence-gated → uncommitted
-F2.T1-F2.T2: updated `prep` quality contract with focused-question autonomy, instruction priority, result-first reporting, and verification scoped to planning work → uncommitted
-F3.T1-F3.T3: updated `cook` + `cater` with follow-through, approval/instruction rules, plain reporting, and calibrated verification wording → uncommitted
-F4.T1-F4.T3: updated `review-code` read-only autonomy guidance; left mirrored `review-plan` blocks untouched; added `CHANGELOG.md` unreleased note → uncommitted
-F5.T1-F5.T3: reread touched docs, self-reviewed diff, ran `npm test` 7/7, marked plan done, routed next step to `/garnish` → uncommitted
+- ran `garnish`: verified prior cycle closable, found no provably stale `SPEC.md` row to prune, blanked `PLAN.md` + `HANDOFF.md`, reran `npm test` green
+- started new `/prep` cycle focused on `skills/prep/SKILL.md` ambiguity-handling contradiction from `review-code`
 
 ## in progress (exact stop point)
-F5.T3: status: done
+-
 mid-edit files: none
 
 ## next
-F5.T3 | preconditions: plan complete; invoke `/garnish`; ask if user wants commits before release workflow
+F1.T1 | preconditions: none
 
 ## deviations & decisions
-- began with `/prep` output already on disk, then executed remaining work through `cook`
-- `SPEC.md` amended only in §R: added source-backed portable guidance row `R10`; durable invariant set unchanged because prose-only behavior lacks a named semantic oracle beyond structural repo checks
-- Context7 docs lookup unavailable (`ctx7sk` API key missing) → used direct source page fetch `https://developers.openai.com/api/docs/guides/latest-model` dated 2026-09-05
-- `README.md` unchanged; current public skill summaries still accurate enough after this wording pass
-- `skills/review-plan/SKILL.md` unchanged; mirrored FINDING TAXONOMY & GATE and REPORT OUTPUT blocks in `review-code` stayed byte-identical by leaving them untouched
-- commit step from `cook` intentionally skipped: higher-priority session policy forbids git commits without explicit user ask
+- narrowed new cycle to enduring finding only: stale baton/state issue resolved by `garnish`, so excluded from new implementation scope
+- default `SPEC.md` unchanged for new cycle; `§R10` already carries intended portable guidance unless F1 disproves it
+- `CHANGELOG.md` expected in scope if wording changes land
 
 ## watchouts
-- `review-code` shares FINDING TAXONOMY & GATE + REPORT OUTPUT blocks with `review-plan`; any edit there ! byte-identical mirror
-- guide source is model-specific (`GPT-6 Astra`); implementation should keep only portable behavioral guidance in public generic skills
-- `prep` must increase follow-through without authorizing code edits; `review-code` must increase follow-through without losing read-only boundary
-- on next `/prep`, remove broad external-guide research for this topic if source unchanged — unknowns already resolved; retain only repo-local confirmation needed for changed files
+- keep `prep` planning-only: follow-through and assumptions must not authorize implementation work
+- preserve one-question-at-a-time behavior while narrowing when questions are required
+- if research shows README summary false or `§R10` wrong, expand only to those exact files
 
 ## final verification
 item|status|evidence|decision
-F2.T1|HOLD|`skills/prep/SKILL.md` quality contract item 1 + item 6|code
-F2.T2|HOLD|`skills/prep/SKILL.md` quality contract items 7-8|code
-F3.T1|HOLD|`skills/cook/SKILL.md` OPERATING PRINCIPLES 6-9 + EXECUTE step 4|code
-F3.T2|HOLD|`skills/cater/SKILL.md` OPERATING PRINCIPLES 2,6-8|code
-F3.T3|HOLD|`skills/cook/SKILL.md` EXECUTE step 8; `skills/cater/SKILL.md` OPERATING PRINCIPLES 9 + acceptance review step 7|code
-F4.T1|HOLD|`skills/review-code/SKILL.md` `## REVIEW AUTONOMY` + REVIEW PROCEDURE step 4|code
-F4.T2|HOLD|`skills/review-code/SKILL.md` shared mirror blocks unchanged vs `skills/review-plan/SKILL.md`|code
-F4.T3|HOLD|`CHANGELOG.md` `## [Unreleased]` `### Changed` entry present|code
-V1|HOLD|`npm test` → `tests/skill-contract.test.mjs` `ships at least one skill with parseable frontmatter`; `declares name and description as non-empty strings`|code
-V3|HOLD|`npm test` → `tests/skill-contract.test.mjs` `keeps every description within the spec limit`|code
-V4|HOLD|`npm test` → `tests/skill-contract.test.mjs` `keeps every body under the recommended length`|code
-V5|HOLD|`npm test` → `tests/cli-discovery.test.mjs` `lists every skill in skills/`|code
-V11|HOLD|`CHANGELOG.md` contains `## [Unreleased]` + new unreleased note|code
-V21|HOLD|`skills/prep/SKILL.md`; `PLAN.md` keeps F1 research-first, F5 final verify|code
-V22|HOLD|`skills/cook/SKILL.md` keeps verification-first execution + stop conditions|code
-V25|HOLD|`skills/review-code/SKILL.md` remains read-only and still hands work to `prep`|code
-V26|HOLD|`skills/review-code/SKILL.md` mirrored taxonomy/report blocks left unchanged against `skills/review-plan/SKILL.md`|code
-V29|HOLD|`PLAN.md` planning status `done`; all `§T` rows `x`|code
-V30|HOLD|`skills/cater/SKILL.md` still requires model/effort disclosure and bounded delegation|code
