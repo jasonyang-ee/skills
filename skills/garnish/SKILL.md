@@ -35,7 +35,8 @@ Delete retired rows without renumbering remaining rows, reusing ids, or reducing
 
 1. Preserve accepted final evidence and spec decisions according to repository commit policy.
 2. Ask `encode-docs` to replace `PLAN.md` and `HANDOFF.md` with their baked headers only, using `planning status: new`.
-3. Verify the two templates, retained `SPEC.md`, and full owned diff. Preserve source, tests, changelog, backlog, and history.
-4. Commit owned cleanup only when authorized by the user or repository policy; use `encode-commit` for the message.
+3. Preserve `BACKLOG.md` even if it's blank.
+4. Verify the two templates, retained `SPEC.md`, and full owned diff. Preserve source, tests, changelog, backlog, and history.
+5. Commit owned cleanup only when authorized by the user or repository policy; use `encode-commit` for the message.
 
 Report whether cleanup completed, checks and evidence, each pruned/kept candidate with its reason, and the next step (`/review-code` for a post-cycle audit). Do not start another planning cycle automatically.
