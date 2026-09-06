@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add instruction to `garnish` to preserve `BACKLOG.md` even if it's blank, so a queued request is not lost when a cycle closes.
+
 ## [0.7.0] - 2026-09-05
 
 ### Changed
