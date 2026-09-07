@@ -13,26 +13,44 @@ Full rules: /encode-docs.
 
 # HANDOFF 2026-09-07
 
-branch main | last commit fd1d8689b62e14ce19ce2cfd42f12c3ba666705a
-checks: npm.cmd test → 7/7 pass, 0 skipped; npm test initially blocked by PowerShell npm.ps1 execution policy (no test ran); use npm.cmd. Planning review → GO, no open blocking findings; pair/status/pointer inspection and git diff --check passed.
-uncommitted: SPEC.md, PLAN.md, HANDOFF.md = owned security-review planning clarification; no pre-existing dirty work. Snapshot before this commit.
+branch main | last commit 61a4cbd3cec12fbc10ad7c95104e9cb75caf33be
+checks: npm.cmd test = 7/7 pass, 0 skipped; real CLI add . --list = 14 skills including review-vibe; git diff --check passed; both review mirrors byte-identical; 14 README links valid; integrated F2/F3 scenarios and full owned diff inspected.
+uncommitted: PLAN.md, HANDOFF.md, skills/review-vibe/SKILL.md, skills/review-code/SKILL.md, README.md, AGENTS.md, skills/setup/SKILL.md, NOTICE.md, CHANGELOG.md = owned execution work; no pre-existing dirty work.
 
 ## done this session
-Refined F2.T1 with explicit `security review` discovery wording, concrete security topics, and a security scenario; synchronized SPEC interface. Reviewed amendment GO with no blockers; original cycle scope and dependencies preserved. No F1–F5 execution task completed.
+F1.T1: confirmed review-code baseline/context, garnish six closure gates, prep active-cycle queueing, SPEC intent, and dynamic contract/discovery tests. Reused dated format research in PLAN.md; no external behavior change.
+
+F2.T1: Establish scope handles absent docs and unrelated edits; Tests preserves distinct boundaries and justifies consolidation; Services and providers preserves capability differences; Organization verifies move references; Fix and verify reconciles active-cycle evidence; Spec coherence preserves valid obligations; Recovery, Data integrity, Performance, Security, dependencies and User experience cover remaining scenarios. No inspection gaps found.
+
+F3.T1: Baseline and scope records explicit main ref/SHA and task evidence. Follow-up preserves findings outside reset documents; completed authorized chain uses garnish then prep; plain review stays context-only; active execution queues via prep; stale/missing evidence and invariant violations block cleanup; independent improvements permit new work after valid closure; no findings avoids empty plans; absent/template documents need no invented closure. Both intentional mirrors byte-identical to review-plan. All eight scenario branches passed inspection.
+
+F4.T1: README roster now exposes 14 skills; AGENTS roster and setup defaults match standalone and guarded retained-cycle flows. New original skill has NOTICE row; upstream notice retained. Both features have plain-English Unreleased entries. Current roster search found no stale count or mandatory-order wording; historical release notes preserved. Diff whitespace inspection passed.
+
+F5.T1: final suite, discovery, integrated scenarios, mirrors, links and full diff passed; all tasks x and final rows HOLD. Cycle marked done; this baton and owned work enter the single summary commit.
 
 ## in progress (exact stop point)
-F1.T1: ready to confirm PLAN.md existing-assets evidence before product edits; execution unstarted (planning status new).
+none — all F1–F5 tasks verified; cycle complete.
 mid-edit files: none
 
 ## next
-F1.T1 | preconditions: /cook or /cater invocation; no blockers.
+none — cycle complete; /garnish is next when requested.
 
 ## deviations & decisions
-Use review-vibe as standalone skill name. Generalize broker-specific example to provider contracts. Preserve garnish closure gates; invalidated completion blocks cleanup. SPEC §I.13, §V.15, §V.25 record durable changes. Review-plan GO: corrected ordering conflict and specified failed-closure/no-action paths; no outstanding user decision. User follow-up broadens F2.T1 to additional relevant review topics, including recovery, concurrency, data integrity, compatibility, configuration, dependencies, performance, observability and UI accessibility. Review scope remains evidence-led; updated coverage reviewed GO. Latest follow-up explicitly adds security-review keywords and coverage for authentication/authorization, secrets, sensitive data, input/injection and supply-chain risks. New skills and feature changelog entries belong to execution.
+Single summary commit at cycle end per repository policy overrides per-phase commits. Updated stale planning-only ground rule for authorized execution. No BACKLOG.md ingestion.
 
 ## watchouts
-Installed skills may differ from repository product files; edit skills/ here. BACKLOG.md was the only pre-existing dirty file and has been incorporated in PLAN.md; no deferred entries. Use npm.cmd on this host. Manual scenarios verify prompt instructions, not live agent outcomes. Current tests cover 13 shipped skills; F5 must discover 14 after implementation.
+Use npm.cmd test on PowerShell. Scenario walkthroughs inspect prompt instructions, not live agent behavior. One-off inspection failures were tooling defects: PowerShell ASCII piping changed a literal section symbol; notice extraction selected an earlier prose mention. ASCII regex escape and fenced-block extraction fixed the checks; notice content matched after line-ending normalization. No product defect resulted.
 
 ## final verification
 item|status|evidence|decision
 |---|---|---|---|
+Goal + §I.13|HOLD|review-vibe ships direct review/fixes; review-code retains baseline/task evidence across guarded composition; integrated README/AGENTS/setup agree|delivered planned scope
+F1.T1; §V.21, §V.23, §V.25–29|HOLD|local review/garnish/prep contracts and dynamic discovery confirmed before edits; no blocking conflict|GO
+F2.T1; §V.16–18, §V.27–28|HOLD|Establish scope, Review surfaces, Spec coherence and Fix and verify cover all 13 PLAN F2 scenarios; missing docs, distinct/redundant tests, provider differences, moves, ownership, spec conflict, retry, persistence, performance, security, dependencies and absent UI explicitly handled|document inspection passed; no live-agent claim
+F3.T1; §V.15, §V.23, §V.25, §V.27–29|HOLD|all eight PLAN F3 cases traced through Baseline and scope and Follow-up; invalid completion blocks cleanup; active execution queues; preserved record survives successful reset; no findings avoids empty cycle|document inspection passed
+F4.T1; §V.10–11 (changed scope), §V.15, §V.25|HOLD|14 README skill links match directories; AGENTS roster and setup flow agree; new original skill NOTICE row and both feature notes present; existing fenced MIT notice unchanged|integration passed; legacy provenance outside added skill unchanged
+§V.1–5|HOLD|npm.cmd test 7/7 pass, 0 skipped; CLI explicitly Found 14 skills and lists review-vibe|format/discovery verified
+§V.6–8 (changed scope)|HOLD|new skill is one Markdown file; changed bodies remain generic, unwrapped and emoji-free; no runtime code, scripts, dependencies or tests added|manual diff inspection passed
+§V.16–20, §V.22, §V.29|HOLD|encoded writes used encode-docs with loaded headers; SPEC unchanged; stable F1–F5 task ids; baton refreshed per phase; single main agent; repository single-summary-commit rule applied|tracking and authority preserved
+§V.26, §V.28|HOLD|FINDING TAXONOMY & GATE and REPORT OUTPUT both byte-identical to review-plan; new skill standalone with explicit composition loads|mirrors and composition preserved
+F5.T1|HOLD|suite, explicit discovery, mirrors, links, provenance, full owned diff and integrated scenario inspection passed; git diff --check clean|final verification passed; closure commit follows

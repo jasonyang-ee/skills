@@ -46,6 +46,7 @@ Install with Claude Code or Codex via Marketplace.
 | [`cook`](skills/cook/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
 | [`cater`](skills/cater/SKILL.md) | Adaptively executes a phase directly through `cook` or delegates disjoint work when parallelism, context isolation, or specialist capability pays; shows scope, agent type, model, effort, and rationale before dispatch, then reviews every returned diff. |
 | [`review-code`](skills/review-code/SKILL.md) | Reviews an explicit baseline or the latest reachable release for correctness, security, complexity, reuse, and coherence; hands accepted follow-up work to `prep` when authorized. |
+| [`review-vibe`](skills/review-vibe/SKILL.md) | Reviews the current codebase and directly fixes evidenced defects, security issues, and unnecessary complexity without requiring a baseline or planning cycle. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed cycle, prunes superseded requirements on evidence, and resets `PLAN.md` and `HANDOFF.md` to their headers while preserving `SPEC.md`. |
 
 ## WORKFLOW
@@ -74,10 +75,19 @@ Install with Claude Code or Codex via Marketplace.
    
    Use `/review-code` to review the completed implementation from an explicit baseline or the latest reachable release. Accepted fixes or improvements enter the next `/prep` cycle when follow-up planning is authorized.
 
-#### The loop is intentionally iterative while the order and safety gates remain mandatory.
+The loop is iterative. This is the default order; execution and closure gates still apply to the retained-cycle variant below.
+
 - Step 1 can be used repetitively to refine research and the plan
 - Step 5 can start another prep cycle.
 - `handoff` keeps the baton current at phase closure and session stops during active cycle work.
+
+### Review with retained cycle context
+
+You can review before cleanup to retain task and verification context. For example: “Use `/review-code` against `main`, using the retained plan and handoff. Then run `/garnish` if closure checks pass, and `/prep` for accepted actionable findings.” This authorizes the chain without another confirmation. The review preserves findings, baseline, and task evidence before cleanup; `garnish` still requires valid completed work. Stale evidence or unfinished work prevents cleanup. During active execution, authorized `prep` queues findings; no accepted actionable work means no empty remediation plan. A plain review request does not authorize cleanup or planning.
+
+### Standalone review and fixes
+
+Use `/review-vibe` for a broad review with direct fixes: correctness and security, test value, complexity and reuse, provider contracts, recovery and concurrency, data integrity, file organization, performance, and applicable UI behavior. It follows evidence, verifies changes, and reports coverage limits. Existing cycle ownership and unrelated edits are preserved; supported durable spec corrections go through `encode-docs`.
 
 ## SUPPORTIVE SKILLS
 

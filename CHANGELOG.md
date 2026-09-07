@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Add `review-vibe` for broad codebase and security review with direct, verified fixes, meaningful test cleanup, provider consistency, and evidence-based spec corrections without requiring a planning cycle.
+
+### Changed
+
+- Let `review-code` use retained plan and handoff context against an explicit branch, preserve findings through authorized cleanup and remediation planning, and stop cleanup when completion evidence is invalid.
+- Update workflow guidance and the skill roster for standalone review and the guarded review-before-cleanup option.
+
 ## [0.7.1] - 2026-09-05
 
 ### Added

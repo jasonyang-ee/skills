@@ -4,7 +4,7 @@
 
 Public repo. Spec driven design skill collection.
 
-13 skills: `handoff`, `cook`, `cater`, `review-code`, `review-plan`, `garnish`, `setup`, `prep`, `encode-agent`, `encode-commit`, `encode-pr`, `encode-docs`, and `encode-header`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
+14 skills: `handoff`, `cook`, `cater`, `review-code`, `review-vibe`, `review-plan`, `garnish`, `setup`, `prep`, `encode-agent`, `encode-commit`, `encode-pr`, `encode-docs`, and `encode-header`. Derived work of symbols and spec structure from vendored MIT (cavekit, caveman → see `NOTICE.md`). Skills = markdown only. ⊥ runtime code shipped to user.
 
 ## AI File Purpose
 
@@ -15,7 +15,7 @@ Public repo. Spec driven design skill collection.
 
 ## Skills
 
-Workflow (spec-driven, in order):
+Default workflow (spec-driven, in order):
 
 1. `/setup` → bootstrap guidance + minimal durable files.
 2. `/prep` → iterative PLAN.md + HANDOFF.md + SPEC.md handoff.
@@ -24,6 +24,10 @@ Workflow (spec-driven, in order):
 5. `/cater` → adapt per ready phase: direct main-agent execution via loaded `cook` when delegation lacks material benefit | sub-agents when parallelism, context isolation, or specialist capability pays; before dispatch show scope, agent type, model, effort, rationale. Top-level 4 | 5 exclusive; one phase ⊥ direct + delegated.
 6. `/garnish` → spec cleanup → blank PLAN.md + HANDOFF.md to template.
 7. `/review-code` → baseline code sweep → prep.
+
+Standalone `/review-vibe` → current-codebase review + direct evidenced fixes; no baseline or plan required. Preserve active work; durable spec corrections via `encode-docs`.
+
+Authorized retained-cycle variant: `/review-code` against explicit branch/ref with plan/baton context → preserve findings + baseline + task evidence → `/garnish` only when completion gates pass → `/prep` for accepted actionable work. Failed closure preserves old cycle; active execution → authorized `prep` queues findings. Plain review ⊥ authorize cleanup/planning; no actionable work ⊥ empty cycle.
 
 support: `/handoff` session baton | `/encode-docs` sole mutator of `SPEC.md`, `PLAN.md`, and `HANDOFF.md` | `encode-header` header template | `/encode-agent` bounded sub-agent prompt | `/encode-commit` commit summary | `/encode-pr` PR review comments
 

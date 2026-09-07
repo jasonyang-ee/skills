@@ -16,6 +16,10 @@ here supersedes the terms of those licenses.
 
 ## Modifications:
 
+| Original skill | Origin and license |
+| --- | --- |
+| `skills/review-vibe/` | Original work authored from the user's standalone review-and-fix concept; covered by the root MIT license. No upstream skill body copied. |
+
 | Skill in this repo | Upstream name | Modified |
 | --- | --- | --- |
 | `skills/encode-docs/` | `caveman` + `spec` + `backprop` | Yes — these two upstream skills are merged into one here. Renamed to `encode-docs`. The SPEC format is embedded in the skill and baked as a header into generated files, removing the per-project `FORMAT.md` dependency; the skill accepts `prep` planning handoff plus `encode-docs bug:` in place of a standalone backprop skill; and it now carries a tailored section set and its own baked header for `PLAN.md` and `HANDOFF.md` as well as `SPEC.md`. |

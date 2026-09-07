@@ -1,0 +1,47 @@
+---
+name: review-vibe
+description: |
+  Review the current codebase and directly fix evidenced defects and unnecessary complexity. Use for "/review-vibe", a broad codebase health or security review with fixes, test cleanup, service/provider consistency, file organization, or spec coherence. No baseline or planning cycle required.
+---
+
+# review-vibe — review and improve the current codebase
+
+Carry the requested review through investigation, authorized fixes, and verification. Work from concrete failure modes and repository evidence; prioritize correctness, security, and data loss before maintainability. A review can reveal more work than its scope permits: disclose coverage limits and deferred findings.
+
+## Establish scope
+
+Read repository guidance and any existing SPEC.md before editing. Inspect branch, HEAD, and dirty work; preserve unrelated edits and establish ownership before touching shared work. Read populated PLAN.md and HANDOFF.md for active tasks and verification context when present. Neither a baseline nor these documents is required; do not create missing workflow documents just to run this review. Never ingest BACKLOG.md.
+
+Map entrypoints, modules, data flows, external services, tests, and documented checks. Identify applicable review surfaces and prioritize the paths with the greatest impact. Briefly mark inapplicable topics, such as accessibility without a UI; record unexamined areas. Consult current primary sources when a finding depends on external API behavior, dependency support, or security advisories. Separate verified facts from assumptions.
+
+## Review surfaces
+
+- **Correctness and boundaries:** trace inputs through effects, state transitions, and outputs. Check public API compatibility, validation, configuration/default consistency, and edge cases against callers and requirements.
+- **Security:** trace authentication and authorization at relevant trust boundaries, including object and operation access. Follow untrusted input to queries, commands, rendering, and other sensitive effects. Check secrets, sensitive-data storage and log exposure, and dependency/supply-chain risks. Establish the trigger and impact of a vulnerability; distinguish demonstrated defects from optional hardening.
+- **Recovery and concurrency:** inspect error propagation, partial failure, resource cleanup, cancellation, races, retry limits, and idempotency. Trace concurrent or repeated requests for duplicate effects and leaked resources, including failed and cancelled attempts.
+- **Data integrity:** check persistence, transactions, migrations, compatibility with existing data, and recovery from interrupted writes. Verify integrity and compatibility whenever a fix changes stored data or its lifecycle.
+- **Tests:** assess assertions and distinct behavior covered, including boundaries, failures, and regressions. Similar-looking tests may protect different contracts. Consolidate only when evidence shows redundancy and preserved coverage; do not delete tests merely to reduce their count. Avoid tests that only repeat implementation or document wording.
+- **Complexity and reuse:** inspect nesting, duplication, ownership, and existing helpers before changing structure. Simplify demonstrated complexity with the smallest coherent change. Avoid speculative abstractions and wholesale framework replacement.
+- **Services and providers:** compare interchangeable adapters at their shared caller contract: results, errors, lifecycle, defaults, and side effects. Reuse common behavior where justified; preserve meaningful capability differences explicitly. Verify switching providers for supported common operations and predictable handling of unsupported capabilities.
+- **Organization and dependencies:** assess names, paths, module boundaries, and dependency necessity against actual consumers. For a rename or move, update and verify imports, callers, configuration, tests, and documentation references. Verify maintenance or security claims with current evidence before replacing a dependency.
+- **Performance and diagnosis:** investigate suspected bottlenecks and resource use with measurements before optimizing. Check whether logging and metrics explain failures without exposing sensitive data; avoid instrumentation without a demonstrated need.
+- **User experience:** when a UI exists, inspect accessibility and loading, empty, error, and success states on relevant flows. Verify changed interactions with appropriate UI checks.
+
+## Spec coherence
+
+If SPEC.md exists, compare relevant obligations with implementation and user intent. Identify contradictions and redundant or superseded requirements with evidence. A violated requirement does not justify deleting it: fix the implementation unless evidence establishes a durable requirement change. Load encode-docs for supported spec corrections; preserve valid obligations, stable ids, and counters. Leave material unresolved choices explicit rather than inventing a requirement. Do not create a spec for one-time findings.
+
+## Fix and verify
+
+1. For each actionable finding, establish location, trigger, impact, and the intended observable result. Inspect full affected code and relevant callers before editing. Use a failing behavioral regression test when it demonstrates a defect; select focused inspection or existing checks for changes that do not warrant a new test.
+2. Complete fixes within the user's authority and review scope. Ask only for a material unresolved decision outside existing authority; continue independent authorized work. Preserve active task ownership and unrelated edits rather than silently taking over another task.
+3. Run focused checks and required repository checks. Investigate failures before retrying; distinguish introduced defects, pre-existing failures, and environment limitations. Recheck affected behavior after corrections, retaining meaningful coverage when consolidating tests.
+4. Read the full owned diff and surrounding context for unintended behavior, interface changes, missed references, unnecessary complexity, and security regressions. Resolve in-scope defects before closing.
+5. If fixes invalidate cycle task or final-verification evidence, load encode-docs to reconcile affected statuses and HANDOFF.md with current evidence; reopen affected completed work as work-in-progress and mark stale results UNVERIFIABLE until rechecked. Preserve unfinished work and exact next actions. Do not silently declare a cycle complete, reset it, or invoke prep to replace it.
+6. Update the changelog and commit reviewed owned work according to user/repository policy; load encode-commit when preparing a commit message. Do not push, tag, publish, or perform destructive live-system actions without explicit authority. A blocker on one fix does not stop independent authorized fixes.
+
+## Report
+
+Lead with completed fixes and their practical effect. Give locations, triggers, impact, and fix direction for remaining issues, distinguishing demonstrated defects from optional improvements and unresolved questions. State checks and results, commits if any, deferred work and its reason, and examined/inapplicable/unexamined surfaces. Do not claim exhaustive coverage or treat passing tests as proof of unexamined behavior.
+
+Explicit user instructions override skill guidance within higher-priority instructions and permissions. If a rule prevents authorized progress, identify its file and wording and the exact remaining prerequisite.

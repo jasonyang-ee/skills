@@ -9,7 +9,7 @@ Reopened work → work-in-progress. garnish resets header-only new. Empty new �
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ exists | ! required | ? unknown/optional | ⊥ forbidden/absent | ≠ differs | ∈ member | ∉ not member | ≤ at most | ≥ at least | & and | § section.
 Preserve literals, conditions, negation, uncertainty, quantities, and requirement strength. Tables need delimiter rows.
 Executable without chat history. Full rules: /encode-docs.
-planning status: new
+planning status: done
 -->
 
 # PLAN
@@ -17,7 +17,7 @@ planning status: new
 goal: deliver standalone `review-vibe` for broad codebase review with direct fixes; extend `review-code` to review against an explicit branch with retained cycle context, then perform authorized `garnish` → `prep` without losing evidence or unfinished work.
 
 ## ground rules
-- Planning only this session; all execution tasks remain `.` (todo). Chosen name = `review-vibe`; generalize the backlog's broker example to interchangeable providers/adapters, preserving meaningful provider differences.
+- Execution authorized by /cook; one summary commit after all phases per repository policy. Chosen name = `review-vibe`; generalize the backlog's broker example to interchangeable providers/adapters, preserving meaningful provider differences.
 - Direct fixes belong to `review-vibe`; `review-code` remains an inspection workflow whose explicitly authorized composed skills own cleanup/planning. No additional permission for already-authorized steps.
 - No automatic cycle creation for direct review. Respect active task ownership; preserve unrelated edits and reconcile evidence invalidated by a fix through `encode-docs` without claiming completion or consuming backlog.
 - Preserve `garnish` completion/evidence gates. A review finding that invalidates old final evidence prevents cleanup; do not rewrite failed evidence as HOLD to enable a new plan.
@@ -54,7 +54,7 @@ depends: none; unexpected material conflict → resolve before F2/F3.
 ### §T tasks
 id|status|description|cites
 |---|---|---|---|
-T1|.|Confirm local contracts and acceptance scenarios|§V.16, §V.21, §V.23, §V.25–29
+T1|x|Confirm local contracts and acceptance scenarios|§V.16, §V.21, §V.23, §V.25–29
 
 task: T1
 touch: `PLAN.md`, `HANDOFF.md` through encode-docs for evidence/status only.
@@ -73,7 +73,7 @@ depends: F1.
 ### §T tasks
 id|status|description|cites
 |---|---|---|---|
-T1|.|Author and inspect direct review/fix workflow|§V.1–8, §V.16–18, §V.27–28
+T1|x|Author and inspect direct review/fix workflow|§V.1–8, §V.16–18, §V.27–28
 
 task: T1
 touch: `skills/review-vibe/SKILL.md`.
@@ -92,7 +92,7 @@ depends: F1.
 ### §T tasks
 id|status|description|cites
 |---|---|---|---|
-T1|.|Define review context, preserved findings, and conditional composition|§V.15–19, §V.23, §V.25–29
+T1|x|Define review context, preserved findings, and conditional composition|§V.15–19, §V.23, §V.25–29
 
 task: T1
 touch: `skills/review-code/SKILL.md`.
@@ -111,7 +111,7 @@ depends: F2 and F3.
 ### §T tasks
 id|status|description|cites
 |---|---|---|---|
-T1|.|Update roster, workflow examples, provenance, and release notes|§V.7, §V.10–11, §V.15, §V.25
+T1|x|Update roster, workflow examples, provenance, and release notes|§V.7, §V.10–11, §V.15, §V.25
 
 task: T1
 touch: `README.md`, `AGENTS.md`, `skills/setup/SKILL.md`, `NOTICE.md`, `CHANGELOG.md`.
@@ -130,7 +130,7 @@ depends: F4.
 ### §T tasks
 id|status|description|cites
 |---|---|---|---|
-T1|.|Verify goal, scenarios, contracts, and full diff|§V.1–8, §V.10–11, §V.15–21, §V.25–29
+T1|x|Verify goal, scenarios, contracts, and full diff|§V.1–8, §V.10–11, §V.15–21, §V.25–29
 
 task: T1
 touch: `PLAN.md`, `HANDOFF.md` via encode-docs; failures return to owning task.
