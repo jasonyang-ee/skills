@@ -67,7 +67,7 @@ I9|cmd|`./release.sh [--major\|--minor\|--patch] [-y] [-n]` → preflight (branc
 I10|ci|push \| PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 I11|ci|tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
 I12|skill|`/encode-agent` + bounded assignment context → condensed sub-agent prompt carrying scope, quality, verification, stop, completion contracts; ⊥ main-cycle state ingestion
-I13|skill|`/review-vibe` → current-codebase review + direct evidenced fixes; examine security, test value, complexity, reuse, service/provider contract consistency, file organization, spec coherence; ⊥ require new plan; durable spec writes via `encode-docs`
+I13|skill|`/review-vibe` → current-codebase review + direct evidenced fixes; examine security, test value, complexity, reuse, service/provider contract consistency, file organization, spec coherence; broad reviews retain coverage and resume state in root `REVIEW.md`, splitting large reviews into rounds toward full scoped coverage without repeated user instructions; ⊥ require new plan; durable spec writes via `encode-docs`
 
 ## §R RESEARCH
 
