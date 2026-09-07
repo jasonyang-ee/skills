@@ -12,20 +12,22 @@ Review the plan against the user's intent, repository evidence, and durable requ
 
 Load `encode-docs`; read repository guidance, `PLAN.md`, `SPEC.md`, and `HANDOFF.md` if present. Require a populated plan; an empty template needs `/prep`. Never ingest `BACKLOG.md`.
 
-Review before `cook` or `cater`, after NO-GO fixes, or after material changes to requirements, evidence, or the plan. Reuse a previous GO only for unchanged scope and evidence; honor an explicit request to review again. During active execution, preserve completed work and task statuses.
+Review before `cook` or `cater`, after NO-GO fixes, or after material changes to requirements, evidence, or the plan. Reuse a previous GO when its scope and supporting evidence remain valid; compare relevant requirements, files, callers, dependencies, and external source currency, not just HEAD equality. Recheck affected assumptions; refresh research only where findings/decisions no longer support selected work. Unrelated changes and verified planned edits that preserve that support do not invalidate research. Honor an explicit request to review again. During active execution, preserve completed work and task statuses.
 
 ## Resolve unknowns
 
-Find explicit `?` items and implicit assumptions that affect implementation, phase boundaries, or verification. Use repository files/tests for local questions and current primary sources for external APIs, versions, or behavior. Cite evidence and date external checks. Ask only for decisions that cannot be resolved from context; continue independent review.
+Find explicit `?` items and implicit assumptions that affect implementation, phase boundaries, or verification. Inspect relevant repository files/tests for local questions and current primary sources for external APIs, versions, or behavior; do not approve deferred research without examining the evidence needed for the next work. Ask only for decisions that cannot be resolved from context; continue independent review.
 
-Keep cycle-specific research in `PLAN.md`; route only durable findings to `SPEC.md §R`. Update affected steps with confirmed facts. If research was already resolved, retain the required first research phase as brief confirmation of that evidence. Do not remove the research-first structure or mark execution tasks done.
+Keep a short prior-research record in `PLAN.md` existing assets: covered scope/questions, findings/decisions, local paths and relevant revisions/dirty inputs, external URLs/check dates when applicable, remaining unknowns, and the gate for affected work. Recheck missing or stale evidence; route only durable findings to `SPEC.md §R`. Update affected steps with confirmed facts. Research must precede dependent coding, but a numbered research phase is optional when this evidence covers the scope.
+
+Omit redundant research/confirmation in new plans. In retained plans, remove only unstarted redundant research with no execution or assignment evidence; preserve remaining ids (gaps are valid), started/completed work, and actual task statuses. Repair the phase order, dependencies, citations, and all plan/baton/assignment pointers through their owners. Do not mark execution tasks done during planning.
 
 If sources or required decisions are unavailable, record what remains unknown and how it affects the gate. Do not downgrade a consequential uncertainty merely because proof is unavailable.
 
 ## Review axes
 
 - **Coverage:** do tasks cover the requested outcome and acceptance criteria without unrelated work?
-- **Ordering:** research first, final verification last; dependencies are explicit, achievable, and acyclic. Independent phases need not depend on their immediate predecessor.
+- **Ordering:** current research evidence gates dependent coding; remaining research precedes the work it informs, and final verification is last. Dependencies are explicit, achievable, and acyclic. Independent phases need not depend on their immediate predecessor.
 - **Task references:** each phase has at least one task, unique monotonic `T<n>` ids within that phase, valid `F<n>.T<n>` pointers, touch paths, work details, and exit criteria. Completed rows may remain during a resumed-cycle review.
 - **Verification:** each task names an observable result and a concrete method. Require meaningful tests where behavior warrants them; use inspection criteria or sourced evidence for documents and research. Vague "add tests" or "looks good" is insufficient.
 - **Gates and ownership:** distinguish dependencies, external decisions, elapsed-time gates, and shared file ownership. Parallel assignments must account for generated files and command side effects.

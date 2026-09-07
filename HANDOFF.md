@@ -13,38 +13,38 @@ Full rules: /encode-docs.
 
 # HANDOFF 2026-09-07
 
-branch main | last commit 6309380af49f989882ef8556360dc1883793ee82
-checks: npm.cmd test → 7/7 pass, 0 skipped, Node v25.9.0; source/diff research and main plan review → GO, no blocking unknowns in requested scope.
-uncommitted: SPEC.md, PLAN.md, HANDOFF.md, CHANGELOG.md — owned planning changes for the summary commit; no pre-existing dirty work.
+branch main | last commit 304dcdbc64640242f95456ff27d5cfa119eedc0f
+checks: npm.cmd test → 7/7 pass, 0 skipped, 2 existing suites; git diff --check → clean; main full scoped diff and manual scenario review → accepted.
+uncommitted: accepted F1 skills/guidance, F2 benchmark definitions, PLAN.md, HANDOFF.md, CHANGELOG.md; main owns integration. No active writers.
 
 ## done this session
 
-Planning only: researched current/old prompts and test isolation with two read-only agents; recorded user-approved durable requirements; prepared an executable four-phase plan with three small benchmark cases and frozen old/current baselines. No execution task marked done.
+F1.T1-T3 accepted: completed/missing/stale/blocking research guards traced in both executors; verified planned edits preserve supporting research; retained-plan removal preserves history/ids and repairs references; helper/input/diff/assertion checks retain valid red-regression and no-diff work; tiny/expanded/blocked/resumed review ledger scenarios and standalone references checked. Shared review taxonomy/report and review surfaces unchanged. Revised PLAN header synchronized through encode-docs.
+
+F2.T1 accepted: three fenced fixtures and frozen criteria inspected; main independently materialized baseline/reference checks. Limit visible 2/2, seed reviewer 1/4, reference reviewer 4/4; ids 1/1, 0/5, 5/5; duration 2/2, 1/6, 6/6. All reference visible tests pass. Records: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/author-acceptance/results.json. Accepted assignment files removed.
 
 ## in progress (exact stop point)
 
-F1.T1: not started. Begin with skills/prep/SKILL.md research record and matching producer/reviewer/executor/header changes described in PLAN.md.
+F3.T1: preflight. Commit accepted revised skills, export exact bundle, freeze corpus/hashes, create fresh seeded repositories. No scored subjects yet.
 mid-edit files: none
 
 ## next
 
-F1.T1 | preconditions: completed research in PLAN.md remains current; executable plan review GO. F2.T1 independently eligible with disjoint ownership; main integrates shared documents.
+F3.T1 | preconditions: committed revised skill revision and manifest frozen. First independent subjects: limit/old, ids/current, duration/revised. Main owns checkpoint and evaluation.
 
 ## deviations & decisions
 
-- User explicitly allows omitting a numbered research phase when prep/review-plan already completed the research. This plan applies that instruction now; F1.T1 updates product prompts/templates and guidance that still require F1 research.
-- User requires review-vibe to remain standalone. F1.T3 will verify the small-review ledger exemption by manual policy walkthroughs; no workflow skill or benchmark pipeline invokes it.
-- Benchmark includes old v0.6.2, frozen current 6309380, and committed revised skills; three tiny local tasks, one run per set, nine runs total. No larger application, benchmark framework, or automatic repetitions.
-- Main independently evaluates generated code and evidence. Benchmark subject agents are explicitly within the requested simulation scope; they never own parent cycle files.
-- Current/old comparison claims remain hypotheses until F3; implementation, benchmark files, and benchmark runs have not started.
+- F1 and F2 implemented concurrently with disjoint writers, inherited model/effort, and independently accepted by main.
+- Benchmark root: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb. Frozen old v0.6.2=1f909dd9de24439781911c7a6d33d820d2a0da1a; current=6309380af49f989882ef8556360dc1883793ee82. Revised commit recorded before scoring.
+- Exactly nine single-run tiny tasks, counterbalanced per case. Findings-only review before explicit evaluator checkpoint, then same subject applies gated garnish. No repair coaching or review-vibe invocation.
+- A committed candidate is required to freeze revised; final benchmark integration follows in a separate summary commit. No push/tag.
 
 ## watchouts
 
-- PowerShell blocks npm.ps1; use npm.cmd test without changing execution policy.
-- Freeze revised skill revision and corpus/assertions before scored runs; retain failed/timed-out/contaminated observations. Compare only exposed metrics and report shared host/procedural isolation limits.
-- Preserve fixture review/diff/check/plan/handoff evidence before garnish. Use seed SHA as explicit release baseline, with no tags or remotes; wrapper suppresses old automatic next-prep to follow the requested sequence.
-- Existing installed skills still contain mandatory-F1 wording. Explicit user direction governs this cycle; do not reintroduce a redundant research phase.
-- No outstanding research-agent assignment or pending user decision. Benchmark capabilities are checked at run time; unavailable observations cannot be labeled successful runs.
+- Use npm.cmd test in PowerShell. Temporary fixtures use local signing-disabled commits because inherited signing key is unavailable; no global config changes.
+- Subjects share host instructions/catalog; isolation is procedural. Exact model/effort/token/tool data unavailable unless exposed; disclose limits.
+- Preserve source/diff/check/cycle evidence before garnish; maximum ten minutes per run, retain failed/timed-out observations without repeats.
+- No outstanding assignments or pending user decisions. F3 and F4 remain unfinished; current correctness claims are prompt inspection only.
 
 ## final verification
 

@@ -1,30 +1,34 @@
 ---
 name: review-vibe
 description: |
-  Review the current codebase and directly fix evidenced defects and unnecessary complexity. Use for "/review-vibe", a broad codebase health or security review with fixes, test cleanup, service/provider consistency, file organization, or spec coherence. No baseline or planning cycle required.
+  Review the current codebase and directly fix evidenced defects and unnecessary complexity. Use only for direct user requests: "/review-vibe" or matching natural-language requests for codebase health or security review with fixes, test cleanup, service/provider consistency, file organization, or spec coherence. No baseline or planning cycle required; never invoked by another skill.
 ---
 
 # review-vibe — review and improve the current codebase
 
 Carry the requested review through investigation, authorized fixes, and verification. Work from concrete failure modes and repository evidence; prioritize correctness, security, and data loss before maintainability. A review can reveal more work than its scope permits: disclose coverage limits and deferred findings.
 
+This is a standalone skill for direct user requests, including matching natural language. No other skill may invoke or load it as a phase, hook, or helper. Its own use of encoding helpers below remains valid.
+
 ## Establish scope
 
 Read repository guidance and any existing SPEC.md before editing. Inspect branch, HEAD, and dirty work; preserve unrelated edits and establish ownership before touching shared work. Read populated PLAN.md and HANDOFF.md for active tasks and verification context when present. Neither a baseline nor these documents is required; do not create missing workflow documents just to run this review. Never ingest BACKLOG.md.
 
-Map entrypoints, modules, data flows, external services, tests, and documented checks. Identify applicable review surfaces and prioritize the paths with the greatest impact. Briefly mark inapplicable topics, such as accessibility without a UI; record unexamined areas. Consult current primary sources when a finding depends on external API behavior, dependency support, or security advisories. Separate verified facts from assumptions.
+Map the requested scope's entrypoints, modules, data flows, external services, tests, and documented checks. Identify applicable review surfaces and prioritize the paths with the greatest impact. Briefly mark inapplicable topics, such as accessibility without a UI; record unexamined areas. Consult current primary sources when a finding depends on external API behavior, dependency support, or security advisories. Separate verified facts from assumptions.
 
 ## Track coverage and resume
 
-For a broad review, create or update `REVIEW.md` at the repository root without waiting for a separate tracking request, even if one round suffices. Keep it lightweight and preserve unrelated existing content. Explicit user scope and output preferences override this default. This ledger records review evidence and continuation; it does not replace PLAN.md task tracking or require a planning cycle, encoded header, or another skill.
+For a small identifiable scope, `REVIEW.md` may be omitted when its applicable surfaces, relevant callers, fixes, and required verification finish in the same session/context. This can include a whole tiny codebase; judge by the work and available context, not repository line counts or the word "broad" in a request. The final report must still state coverage, results, and limits. Reviews exceeding this bounded case, including broad or multi-round work, require a root `REVIEW.md` even if one round suffices.
+
+If a small review expands, leaves unresolved coverage, encounters blockers, or cannot finish in the current session/context, create or update the ledger before stopping; preserve gathered evidence, partial fixes/checks, and the exact next action. Keep it lightweight and preserve unrelated existing content. Explicit user scope and output preferences override this default. This ledger records review evidence and continuation; it does not replace PLAN.md task tracking or require a planning cycle, encoded header, or another skill.
 
 Partition the scoped inventory into identifiable sections tied to paths and applicable review surfaces, including callers and data flows across section boundaries. Order sections by impact; split large reviews into bounded rounds when size or available context warrants it. Account for every scoped area, with reasons for exclusions and inapplicable surfaces.
 
-Keep enough in the ledger for a new session to resume without prior chat: scope and exclusions; branch, revision, and relevant dirty-state context; current round; each section's paths, surfaces, and state (pending, in progress, reviewed, or blocked); inspection evidence and checks with results or unavailable-check reasons; findings and their fix/verification disposition; and one exact next section/action with prerequisites. Examined coverage, unresolved findings, and unverified fixes are separate facts. Mark a section reviewed only when its applicable surfaces have inspection evidence; passing tests alone does not establish coverage.
+When using a ledger, keep enough for a new session to resume without prior chat: scope and exclusions; branch, revision, and relevant dirty-state context; current round; each section's paths, surfaces, and state (pending, in progress, reviewed, or blocked); inspection evidence and checks with results or unavailable-check reasons; findings and their fix/verification disposition; and one exact next section/action with prerequisites. Examined coverage, unresolved findings, and unverified fixes are separate facts. Mark a section reviewed only when its applicable surfaces have inspection evidence; passing tests alone does not establish coverage.
 
 Before resuming, read the existing ledger and reconcile its scope, recorded revision, and dirty-state evidence with current files. Include new paths and changes to shared dependencies, callers, and affected flows. Preserve still-valid coverage and findings; reopen affected sections and stale checks. If earlier coverage or its revision cannot be established, mark it uncertain and recheck it instead of trusting a claimed completed round. Resume the next eligible section without requiring the user to repeat the original review instructions.
 
-Refresh the ledger at section boundaries and before stopping, recording exact partial work, check results, finding disposition, and the next action. Continue successive sections and rounds while authorized work is feasible; a section or round boundary alone is not a stopping point. If one area is blocked, record the prerequisite and continue independent areas. At a real context/session limit or when no feasible work remains, save a precise resume point and report remaining coverage and prerequisites.
+When using a ledger, refresh it at section boundaries and before stopping, recording exact partial work, check results, finding disposition, and the next action. Continue successive sections and rounds while authorized work is feasible; a section or round boundary alone is not a stopping point. If one area is blocked, record the prerequisite and continue independent areas. At a real context/session limit or when no feasible work remains, save a precise resume point and report remaining coverage and prerequisites.
 
 Finish scoped examination only when every in-scope section has current evidence and exclusions are explicit. Distinguish round completion, completed examination, and completed fixes/verification; unresolved findings or unavailable required checks must remain visible and prevent a clean verified completion claim.
 

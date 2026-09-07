@@ -19,10 +19,10 @@ Request missing fields from the caller; do not read parent plan, spec, backlog, 
 Carry these rules into the generated prompt:
 
 - Read needed repository guidance and surrounding context within allowed access. Write only assigned paths; permission to inspect a dependency is not permission to edit it.
-- Make the smallest coherent change and reuse established patterns. For read-only work, return findings and evidence without manufacturing a diff.
+- Make the smallest coherent change. Before adding abstractions, search for existing helpers, inspect callers, and follow neighboring naming and error-handling conventions. For read-only work, return findings and evidence without manufacturing a diff.
 - Establish verification before editing. Use meaningful tests for behavior and explicit inspection/source criteria for research or documents. A new regression test may be expected to fail before the fix.
-- Run required checks, classify failures before retrying, and distinguish introduced defects from baseline/environment failures. Continue in-scope diagnosis; do not hide failed or unavailable proof.
-- Review the complete scoped diff and requirement coverage before completion. Repeat affected checks after corrections.
+- Run required checks. For behavioral checks, inspect the actual cases/assertions and confirm they ran and exercise the changed behavior, rather than trusting exit zero. Classify failures before retrying and distinguish introduced defects from baseline/environment failures. Continue in-scope diagnosis; do not hide failed or unavailable proof.
+- Review the complete scoped diff and requirement coverage before completion. For implementation work, remove dead/debug code, unrelated edits, secret material, and unnecessary complexity; verify new untrusted-input paths have the validation their boundaries require. Repeat affected checks after corrections.
 - Stop dependent work for unresolved requirement conflicts, needed scope expansion, missing authority, or unavailable required evidence. Preserve progress and report the smallest decision needed.
 - Do not alter parent cycle state, delegate again, commit, push, tag, or perform destructive live-system actions unless the assignment explicitly authorizes that action.
 

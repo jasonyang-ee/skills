@@ -1,7 +1,7 @@
 ---
 name: prep
 description: |
-  Turn a request into a research-first, verifiable PLAN.md and matching HANDOFF.md for work spanning phases or sessions. Update SPEC.md only for durable requirements. Queue new requests in BACKLOG.md while execution is active. Use for "/prep" or explicit planning requests.
+  Turn a request into a researched, verifiable PLAN.md and matching HANDOFF.md for work spanning phases or sessions. Update SPEC.md only for durable requirements. Queue new requests in BACKLOG.md while execution is active. Use for "/prep" or explicit planning requests.
 ---
 
 # prep — prepare an executable cycle
@@ -28,15 +28,17 @@ Only `prep` ingests `BACKLOG.md`. Clear incorporated entries only after both out
 ## Build the package
 
 1. **Distill.** State the goal, constraints, affected interfaces, acceptance criteria, and unresolved questions. Offer alternatives only when their tradeoff matters to the request.
-2. **Inspect and research.** Read relevant repository guidance, implementation, tests, and existing patterns. Resolve questions that affect phase design now. Use current primary sources for external APIs, versions, or behavior; cite local evidence by path and external evidence by URL and date. Keep cycle-specific findings in the plan; send only durable findings to `SPEC.md §R`.
+2. **Inspect and research.** Read relevant repository guidance, implementation, tests, and existing patterns; do not substitute a future research task for this inspection. Resolve questions that affect phase design now. Use current primary sources for external APIs, versions, or behavior. In the plan's existing assets, record prior research: covered scope/questions, findings/decisions, local evidence paths and relevant revisions/dirty inputs, external URLs/check dates when applicable, remaining unknowns, and the gate for affected work. Reuse still-valid evidence; assess changes to relevant requirements, files, callers, dependencies, or source currency against the findings/decisions. Unrelated changes and verified planned edits that preserve their support for selected work do not invalidate research. Send only durable findings to `SPEC.md §R`.
 3. **Guard durable truth.** Default to no spec change. Through `encode-docs`, amend or prune existing rows when evidence warrants it. Add a constraint, interface, or invariant only for a standing requirement; tasks, bug history, and one-time fixes belong in the plan, changelog, and git.
 4. **Draft through encode-docs.** Write the goal, ground rules, existing assets, phase-order table, and complete phase sections. Set `planning status: new`; this records unstarted execution, even when drafting is complete.
 5. **Review.** Load `review-plan` and perform one pass. Correct supported planning defects and preserve unresolved blockers with their gate decision. Do not mark execution tasks complete during planning.
-6. **Hand off.** Load `handoff` and produce a matching `HANDOFF.md` pointing to the first executable task, normally `F1.T1`, with any blockers. Verify the pair before clearing incorporated backlog entries.
+6. **Hand off.** Load `handoff` and produce a matching `HANDOFF.md` pointing to the first unfinished eligible task, with any blockers. Verify the pair before clearing incorporated backlog entries.
 
 ## Phase contract
 
-Use monotonic phase ids `F1..Fn`. Research comes first, implementation follows, and final verification comes last. Keep `F1` as a brief confirmation of gathered evidence when research is already resolved; do not invent research to fill it.
+Use monotonic phase ids `F1..Fn`. Research must precede the coding decisions it informs; a numbered research phase is optional. When prep/review-plan evidence covers the scope, start with implementation and omit redundant confirmation work. Add a research phase only for remaining work with an explicit output and gate; unresolved consequential unknowns block dependent coding. Final verification remains the last phase.
+
+For a retained plan, remove redundant research only when it is unstarted and has no execution or assignment evidence. Preserve remaining ids (gaps are valid), started/completed history, and task statuses; do not tick tasks done because planning resolved their questions. Repair phase order, dependencies, citations, and all plan/baton/assignment pointers through their owners before handoff.
 
 Split phases at real dependency or ownership boundaries. Independent phases may share a prerequisite; do not force a chain or split work merely to create delegation opportunities.
 

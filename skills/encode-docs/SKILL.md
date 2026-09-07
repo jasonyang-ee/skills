@@ -82,9 +82,9 @@ Research rows require supporting sources; include a checked date for time-sensit
 
 Preserve ids, completed work, decisions, and task evidence during a cycle. Update affected sections as research or implementation changes the plan; replace the cycle wholesale only when authorized to start or supersede a cycle. Handoff and assignment pointers depend on stable task ids.
 
-Structure: goal, ground rules, existing assets, phase-order table, then each phase with goal, inputs, files, dependencies/gates, tasks, verification, exit, and next pointer.
+Structure: goal, ground rules, existing assets (including prior research), phase-order table, then each phase with goal, inputs, files, dependencies/gates, tasks, verification, exit, and next pointer. The prior-research record names covered scope/questions, findings/decisions, local paths and relevant revisions/dirty inputs, external URLs/check dates when applicable, remaining unknowns, and the gate for affected work.
 
-Phase ids `F1..Fn` are monotonic. First phase is research/confirmation, last is final verification. Keep implementation between them; verification failures reopen affected work before verification repeats. Each phase has at least one task; `T<n>` ids are unique and monotonic within that phase. Status: `.` todo, `~` in progress, `x` verified done.
+Phase ids `F1..Fn` are monotonic. Research must precede dependent coding, but a numbered research phase is optional when current prep/review-plan evidence covers the scope; omit redundant confirmation in new cycles. Final verification is last, and failures reopen affected work before verification repeats. Remove redundant research from a retained plan only when it is unstarted and has no execution or assignment evidence. Preserve remaining ids (gaps are valid), started/completed history, and actual statuses; repair phase order, dependencies, citations, and all plan/baton/assignment pointers through their owners. Planning never marks execution tasks done. Each phase has at least one task; `T<n>` ids are unique and monotonic within that phase. Status: `.` todo, `~` in progress, `x` verified done.
 
 ```md
 # PLAN
@@ -96,19 +96,22 @@ goal: <outcome>
 
 ## existing assets
 - <reusable work and evidence>
+prior research: <covered scope/questions; findings/decisions>
+local evidence: <paths + relevant revisions/dirty inputs>
+external evidence: <URLs + checked dates, or not applicable>
+unknowns & gate: <remaining questions + affected work allowed/blocked and why>
 
 ## phase order
 id|goal|depends|exit
 |---|---|---|---|
-F1|confirm research|-|unknowns resolved or gated
-F2|deliver change|F1|acceptance checks pass
-F3|final verification|F2|goal and contracts verified
+F1|deliver change|prior research covers scope; no blocking unknowns|acceptance checks pass
+F2|final verification|F1|goal and contracts verified
 
-## F1 research
+## F1 deliver change
 goal: <outcome>
 inputs: <requirements, questions, sources>
 files: <paths>
-depends: <phase ids or none>
+depends: <phase ids and evidence/gates, or none>
 
 ### §T tasks
 id|status|description|cites
@@ -123,14 +126,14 @@ exit: <acceptance criteria>
 next: <F<n>.T<n> or none>
 ```
 
-Repeat the task detail block for every row and the phase structure for every phase. Verification can be a named test, command, source check, or explicit inspection criteria. Do not manufacture invariants or tests for documentary work.
+Repeat the task detail block for every row and the phase structure for every phase. The example starts with implementation because prior research covers its scope; add a research phase before dependent work only when remaining research warrants one. Verification can be a named test, command, source check, or explicit inspection criteria. Do not manufacture invariants or tests for documentary work.
 
 ### Cycle state
 
 The header tracks execution:
 
 - `prep` creates/expands an unstarted plan as `new`. While `work-in-progress`, it queues new requests instead of replacing active work, unless the user explicitly supersedes the cycle.
-- `cook`/`cater` request `new` → `work-in-progress` before execution. They run only populated plans and resume unfinished eligible tasks.
+- `cook`/`cater` validate relevant prior-research evidence before requesting `new` → `work-in-progress`, direct work, or dispatch. Missing/stale evidence requires main-agent `review-plan` first; unresolved consequential unknowns block dependent coding. They run only populated plans and resume unfinished eligible tasks. Recheck affected assumptions and refresh only evidence whose findings/decisions no longer support selected work; unrelated changes and verified planned edits preserving that support do not stale research.
 - `handoff` requests `done` only when all tasks are `x` and a nonempty final verification table covers the goal and relevant contracts with current `HOLD` evidence.
 - Reopened work returns to `work-in-progress`; affected tasks and evidence must reflect the reopening.
 - `garnish` resets the completed plan to its header with `new`.

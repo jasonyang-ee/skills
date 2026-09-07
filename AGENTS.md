@@ -25,7 +25,7 @@ Default workflow (spec-driven, in order):
 6. `/garnish` → spec cleanup → blank PLAN.md + HANDOFF.md to template.
 7. `/review-code` → baseline code sweep → prep.
 
-Standalone `/review-vibe` → current-codebase review + direct evidenced fixes; no baseline or plan required. Preserve active work; durable spec corrections via `encode-docs`.
+Standalone `/review-vibe` → direct user-requested current-codebase review + evidenced fixes, including matching natural language; no baseline or plan required. No other skill may invoke/load it as a phase, hook, or helper; it may use encoding helpers itself. Small scoped work, including a whole tiny codebase, completed and verified in one session/context may omit `REVIEW.md`; work beyond that scope or unfinished work keeps a coverage/resume record unless user output preferences override. Preserve active work; durable spec corrections via `encode-docs`.
 
 Authorized retained-cycle variant: `/review-code` against explicit branch/ref with plan/baton context → preserve findings + baseline + task evidence → `/garnish` only when completion gates pass → `/prep` for accepted actionable work. Failed closure preserves old cycle; active execution → authorized `prep` queues findings. Plain review ⊥ authorize cleanup/planning; no actionable work ⊥ empty cycle.
 
@@ -67,7 +67,7 @@ Tables use `|`; escape literal `\|`. SPEC `§C`/`§I`/`§R`/`§V` tables carry a
 - ⊥ project-specific refs in `skills/**` (∵ repo public & skills ∀ codebases).
 - ⊥ Python. ⊥ `scripts/` in any skill. ⊥ vendor skills needing hooks | subagents.
 - `skills/**` bodies = unwrapped prose (1 line/paragraph); rely on editor soft-wrap, ⊥ manual line-wrap. Preserve verbatim: code fences, tables, baked-header comments, frontmatter, list structure.
-- `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. `PLAN.md` ! research-first & verify-last. Durable truth ! land in `SPEC.md` via `encode-docs`.
+- `prep` ! emit `PLAN.md` + `HANDOFF.md` pair. Research before coding ! required; numbered research phase optional when current prep/review-plan evidence covers scope. `PLAN.md` records prior research + gate; missing/stale evidence ! main-agent `review-plan` before execution-state transition, direct work, or dispatch. Consequential unknowns block dependent coding; final verification ! last. Durable truth ! land in `SPEC.md` via `encode-docs`.
 - Vendor new MIT skill → ! `NOTICE.md` row + copyright + permission notice.
 - ⊥ npm publish. Install path = GitHub direct (§R.3). `package.json` `private: true` guards.
 - ∀ `.github/workflows/*.yml` ! top-level `permissions:`.

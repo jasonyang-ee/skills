@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Planned
+### Changed
 
-- Prepare research-gated prompt improvements, more concrete implementation checks, a small-fix exception to standalone review tracking, and nine tiny coding comparisons across old, current, and revised skills.
+- Reuse completed planning research while checking its evidence before coding or delegation; omit redundant research phases.
+- Restore concrete helper, input-boundary, diff-cleanup, and behavioral-assertion checks.
+- Keep review-vibe standalone and allow small reviews finished and verified in one session to omit REVIEW.md.
 
 ### Added
 
+- Add three tiny coding fixtures and a frozen comparison protocol for old, current, and revised skills.
 - Make `review-vibe` track broad-review coverage, findings, checks, and resume points in root `REVIEW.md`, continue across sections and rounds, and recheck stale coverage when code changes.
 
 ## [0.8.0] - 2026-09-07
