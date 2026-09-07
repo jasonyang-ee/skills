@@ -9,7 +9,7 @@ Reopened work → work-in-progress. garnish resets header-only new. Empty new �
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ exists | ! required | ? unknown/optional | ⊥ forbidden/absent | ≠ differs | ∈ member | ∉ not member | ≤ at most | ≥ at least | & and | § section.
 Preserve literals, conditions, negation, uncertainty, quantities, and requirement strength. Tables need delimiter rows.
 Executable without chat history. Full rules: /encode-docs.
-planning status: new
+planning status: done
 -->
 
 # PLAN
@@ -57,7 +57,7 @@ depends: none; gate: resolve material drift before F2, without reopening already
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Confirm coverage/resume gap, scope, and verification methods|§V.18/§V.21/§V.27/§V.28
+T1|x|Confirm coverage/resume gap, scope, and verification methods|§V.18/§V.21/§V.27/§V.28
 
 task: T1
 
@@ -85,8 +85,8 @@ depends: F1; gate: F1.T1 verified, preserve unrelated ownership.
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Add the root review ledger and round/resume protocol|§V.1–§V.8/§V.15/§V.16/§V.18/§V.27/§V.28
-T2|.|Document persistent review usage and the delivered change|§V.11/§V.15
+T1|x|Add the root review ledger and round/resume protocol|§V.1–§V.8/§V.15/§V.16/§V.18/§V.27/§V.28
+T2|x|Document persistent review usage and the delivered change|§V.11/§V.15
 
 task: T1
 
@@ -139,7 +139,7 @@ depends: F2; gate: F2.T1/T2 exit criteria satisfied.
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Verify goal, scenarios, contracts, and full owned diff; record closure evidence|§V.1–§V.8/§V.11/§V.15–§V.22/§V.27–§V.29
+T1|x|Verify goal, scenarios, contracts, and full owned diff; record closure evidence|§V.1–§V.8/§V.11/§V.15–§V.22/§V.27–§V.29
 
 task: T1
 
@@ -155,4 +155,4 @@ next: none after verified closure; `/garnish` is the next workflow operation.
 
 ## planning review
 
-2026-09-07: GO after one composed `review-plan` pass against the ingested request, local evidence, §I.13, and relevant invariants. Open findings: 0 BLOCK, 0 DIVERGENCE, 0 blocking UNKNOWN. Clarified in draft: root ledger is coverage evidence rather than PLAN §T; stale revisions reopen affected coverage; round completion differs from full review/fix completion; sectioning does not force an early stop; tests remain contract/discovery-only. No remaining user decisions. Execution remains unstarted; next `/cook` at F1.T1.
+2026-09-07: GO after one composed `review-plan` pass against the ingested request, local evidence, §I.13, and relevant invariants. Open findings: 0 BLOCK, 0 DIVERGENCE, 0 blocking UNKNOWN. Clarified in draft: root ledger is coverage evidence rather than PLAN §T; stale revisions reopen affected coverage; round completion differs from full review/fix completion; sectioning does not force an early stop; tests remain contract/discovery-only. No remaining user decisions. At planning handoff, execution was unstarted with F1.T1 next; subsequent execution and closure evidence are recorded in HANDOFF.md.

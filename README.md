@@ -46,7 +46,7 @@ Install with Claude Code or Codex via Marketplace.
 | [`cook`](skills/cook/SKILL.md) | Executes all remaining `PLAN.md` phases in order as a single main agent by default — verification contract first, self-review before every commit, no sub-agents. Pass a phase such as `F1` to target one phase. |
 | [`cater`](skills/cater/SKILL.md) | Adaptively executes a phase directly through `cook` or delegates disjoint work when parallelism, context isolation, or specialist capability pays; shows scope, agent type, model, effort, and rationale before dispatch, then reviews every returned diff. |
 | [`review-code`](skills/review-code/SKILL.md) | Reviews an explicit baseline or the latest reachable release for correctness, security, complexity, reuse, and coherence; hands accepted follow-up work to `prep` when authorized. |
-| [`review-vibe`](skills/review-vibe/SKILL.md) | Reviews the current codebase and directly fixes evidenced defects, security issues, and unnecessary complexity without requiring a baseline or planning cycle. |
+| [`review-vibe`](skills/review-vibe/SKILL.md) | Reviews the current codebase and directly fixes evidenced defects, security issues, and unnecessary complexity without requiring a baseline or planning cycle. Tracks broad-review coverage in root `REVIEW.md` and continues across sections and rounds. |
 | [`garnish`](skills/garnish/SKILL.md) | Verifies a completed cycle, prunes superseded requirements on evidence, and resets `PLAN.md` and `HANDOFF.md` to their headers while preserving `SPEC.md`. |
 
 ## WORKFLOW
@@ -88,6 +88,8 @@ You can review before cleanup to retain task and verification context. For examp
 ### Standalone review and fixes
 
 Use `/review-vibe` for a broad review with direct fixes: correctness and security, test value, complexity and reuse, provider contracts, recovery and concurrency, data integrity, file organization, performance, and applicable UI behavior. It follows evidence, verifies changes, and reports coverage limits. Existing cycle ownership and unrelated edits are preserved; supported durable spec corrections go through `encode-docs`.
+
+Broad reviews automatically keep scope, coverage, findings, checks, and the next action in root `REVIEW.md`. Large reviews proceed through bounded sections and rounds while work is feasible. Later sessions resume from that record, rechecking coverage affected by changed or new code; you do not need to repeat the tracking instructions. A completed round does not mean the whole review or all fixes are complete. Explicit scope and output preferences take precedence, and unrelated existing ledger content is preserved.
 
 ## SUPPORTIVE SKILLS
 

@@ -13,40 +13,52 @@ Full rules: /encode-docs.
 
 # HANDOFF 2026-09-07
 
-branch main | last commit 2bf23e1cdf3213658b3c71f68d78ac5f3a3bb34a
+branch main | last commit bc67d2ee454b46c3245d1a72c9387d1edd256b40
 
-checks: `npm.cmd test` exit 0, 7 passed, 0 failed, 0 skipped (contract + real CLI discovery). Plain `npm test` could not load `C:\nvm4w\nodejs\npm.ps1` because PowerShell script execution is disabled; `.cmd` ran the same package test script successfully. Planning review GO; no open blocking findings. Pair inspected: baked headers preserved, four todo tasks, valid F1.T1 resume pointer, consistent new state, final table empty. `git diff --check` exit 0 after incorporated backlog was cleared.
+checks: `npm.cmd test` exit 0, 7 passed, 0 failed, 0 skipped; includes real skills CLI discovery. `git diff --check` exit 0. F1 source confirmation, F2 manual scenarios A–F, public guidance comparison, and full owned diff inspection passed. Final evidence below covers the goal and relevant contracts.
 
-uncommitted: `SPEC.md`, `PLAN.md`, `HANDOFF.md` = owned preparation changes for the single summary commit. `BACKLOG.md` = pre-existing user request, fully incorporated into PLAN and cleared after pair verification; now matches its committed empty state. No initial implementation edits.
+uncommitted: `PLAN.md`, `HANDOFF.md` = owned execution tracking; `skills/review-vibe/SKILL.md`, `README.md`, `CHANGELOG.md` = owned feature and public guidance. Initial checkout clean.
 
 ## done this session
 
-Preparation only: ingested the sole backlog request into a three-phase plan; inspected the current skill, public guidance, test contract, and canonical Agent Skills specification (dated evidence in PLAN). Amended existing §I.13 for durable persistent review coverage. Completed one composed review-plan pass: GO. No execution tasks marked done.
+F1.T1: confirmed scope, six scenario criteria, existing safeguards, and test methods against current files; no further external research needed.
+
+F2.T1/T2: added self-contained root ledger, inventory, rounds, resume/reconciliation, stopping, and completion instructions; retained all ten review surfaces and fix/ownership safeguards. Added invalidation after same-review fixes. Public guidance and Unreleased entry match behavior. Scenario walkthroughs verify instruction completeness, not future agent behavior.
+
+F3.T1: contract/discovery suite and manual goal/contract checks passed; final evidence complete. All four tasks verified, cycle done.
 
 ## in progress (exact stop point)
 
-none — planning complete; execution unstarted, planning status new. F1.T1 is the first executable task.
+none — cycle complete; reviewed owned files ready for the required single summary commit.
 
 mid-edit files: none.
 
 ## next
 
-F1.T1 | preconditions: none. Run `/cook` to confirm the plan's gathered evidence against current `skills/review-vibe/SKILL.md`, relevant README sections, and checkout ownership, then proceed to F2.
+none — cycle complete. `/garnish` is the next workflow operation; not invoked by this execution request.
 
 ## deviations & decisions
 
-- Use root `REVIEW.md` by default for broad reviews; split large scopes into rounds and keep continuation automatic within available work/session limits. Explicit user scope/output overrides prevail.
-- Ledger records coverage/evidence/resume state, not encoded cycle §T. Preserve active cycles and unrelated content. No new planning prerequisite, helper skill, runtime, or delegation requirement.
-- Backlog's completed-round wording is an illustrative prompt, not this repository's review status. No REVIEW.md is created during planning.
-- Existing §I.13 amended without allocating new ids; no other durable requirements changed. Feature changelog belongs to F2.T2 when behavior is implemented.
+Repository single-summary-commit policy overrides per-phase commits; accumulate reviewed phases and current baton in one final commit. No delegation. Existing SPEC §I.13 already states the durable requirement.
 
 ## watchouts
 
-- Recheck stale coverage on resume and distinguish examination, findings, fixes, and verification; scenario matrix A–F supplies the acceptance criteria.
-- `npm test` needs the `npm.cmd` launcher on this host. Git emits an inaccessible global-ignore warning; no repository operation has failed from that warning.
-- No delegated assignments. Future agents consume PLAN rather than raw BACKLOG.md.
+Use `npm.cmd test` for this host's PowerShell execution policy. No repository review or root REVIEW.md creation belongs to this cycle. Never ingest BACKLOG.md.
 
 ## final verification
 
 item|status|evidence|decision
 |---|---|---|---|
+Goal / §I.13 / F2.T1|HOLD|Track coverage and resume supplies root REVIEW.md, bounded sections/rounds, persistent evidence, cold-session reconciliation, and continuation; Report exposes resume/completion evidence|Requested skill behavior delivered
+F1.T1|HOLD|Current skill, README, SPEC, test files/helpers, package script, branch/HEAD, and clean initial ownership matched prepared assets; no blocking drift|Research confirmation complete
+A: broad review without ledger|HOLD|Track coverage and resume paragraphs 1–3: create root ledger automatically, inventory all scoped areas, order bounded sections by impact, record state/evidence/next action|Start first eligible section without another tracking prompt
+B: valid round-1 ledger|HOLD|Track coverage and resume paragraph 4: read ledger, preserve valid coverage/findings, resume next eligible section without original prompt|Continue pending section after reconciliation
+C: new module/shared dependency|HOLD|Track coverage and resume paragraph 4 includes new paths, dependencies/callers/flows and uncertain revisions; Fix and verify step 3 invalidates evidence after current-review fixes too|Reopen affected or uncertain coverage/checks, preserve unaffected evidence
+D: limit or blocked section|HOLD|Track coverage and resume paragraph 5 saves partial work/checks/findings and exact action/prerequisites, continuing independent sections when feasible|Stop only at real limits or no feasible work; disclose remaining scope
+E: examined with unresolved issue/check|HOLD|Track coverage and resume paragraphs 3 and 6 separate examination, findings, fixes, verification; Report requires remaining issues and checks|Report examination accurately without clean verified completion
+F: small/override/unrelated content|HOLD|Track coverage and resume paragraph 1 keeps lightweight single-round default, honors explicit scope/output, preserves unrelated ledger content; Establish scope and Fix and verify retain active ownership|Respect overrides and preserve existing work
+F2.T2 / §V.11|HOLD|README skill link targets existing skills/review-vibe/SKILL.md; table and standalone guidance match the protocol and §I.13; CHANGELOG Unreleased Added describes delivered behavior|Public guidance aligned; no repository-review claim
+§V.1–§V.5|HOLD|npm.cmd test exit 0: 7 passed, 0 failed, 0 skipped, including real CLI enumeration and YAML/name/description/body checks|Existing automated contract satisfied
+§V.6–§V.8 / §V.28|HOLD|Full skill/diff inspection: Markdown only, generic unwrapped paragraphs, no private/project-specific references or emoji; inline protocol self-contained; no new runtime/helper/delegation dependency|Portable skill safeguards retained; no prose tests added
+§V.15–§V.21 / §V.27 / §V.29|HOLD|Standalone scope and cycle ownership retained; encoded writes use encode-docs with existing baked headers; SPEC unchanged; PLAN retains research-first/verify-last phases and four stable task ids; BACKLOG unread and untouched; final pair has all x, done, and no active pointer|Cycle/document ownership and closure gates satisfied
+§V.22 / F3.T1 / owned diff|HOLD|Single main agent; checks defined before edits; full five-file owned diff and context reviewed; phase batons refreshed; git diff --check exit 0; initial checkout clean|User-provided AGENTS single-summary-commit rule overrides per-phase commits; commit these five owned files together, no push/tag
