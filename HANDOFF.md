@@ -13,12 +13,12 @@ Full rules: /encode-docs.
 
 # HANDOFF 2026-09-07
 
-branch main | last commit 5d4675799d79c10c451e52fde66973c6235f3a5a
+branch main | last commit fd1d8689b62e14ce19ce2cfd42f12c3ba666705a
 checks: npm.cmd test → 7/7 pass, 0 skipped; npm test initially blocked by PowerShell npm.ps1 execution policy (no test ran); use npm.cmd. Planning review → GO, no open blocking findings; pair/status/pointer inspection and git diff --check passed.
-uncommitted: SPEC.md, PLAN.md, HANDOFF.md = owned planning package; BACKLOG.md = user-authored input, incorporated and cleared only after pair verification. Snapshot before planning commit.
+uncommitted: SPEC.md, PLAN.md, HANDOFF.md = owned security-review planning clarification; no pre-existing dirty work. Snapshot before this commit.
 
 ## done this session
-Prepared new cycle from both backlog ideas; gathered local/source evidence, amended durable review interfaces/order, and completed embedded review-plan pass. No F1–F5 execution task completed.
+Refined F2.T1 with explicit `security review` discovery wording, concrete security topics, and a security scenario; synchronized SPEC interface. Reviewed amendment GO with no blockers; original cycle scope and dependencies preserved. No F1–F5 execution task completed.
 
 ## in progress (exact stop point)
 F1.T1: ready to confirm PLAN.md existing-assets evidence before product edits; execution unstarted (planning status new).
@@ -28,7 +28,7 @@ mid-edit files: none
 F1.T1 | preconditions: /cook or /cater invocation; no blockers.
 
 ## deviations & decisions
-Use review-vibe as standalone skill name. Generalize broker-specific example to provider contracts. Preserve garnish closure gates; invalidated completion blocks cleanup. SPEC §I.13, §V.15, §V.25 record durable changes. Review-plan GO: corrected ordering conflict and specified failed-closure/no-action paths; no outstanding user decision. User follow-up broadens F2.T1 to additional relevant review topics, including recovery, concurrency, data integrity, compatibility, configuration, dependencies, performance, observability and UI accessibility. Review scope remains evidence-led; updated coverage reviewed GO. New skills and feature changelog entries belong to execution.
+Use review-vibe as standalone skill name. Generalize broker-specific example to provider contracts. Preserve garnish closure gates; invalidated completion blocks cleanup. SPEC §I.13, §V.15, §V.25 record durable changes. Review-plan GO: corrected ordering conflict and specified failed-closure/no-action paths; no outstanding user decision. User follow-up broadens F2.T1 to additional relevant review topics, including recovery, concurrency, data integrity, compatibility, configuration, dependencies, performance, observability and UI accessibility. Review scope remains evidence-led; updated coverage reviewed GO. Latest follow-up explicitly adds security-review keywords and coverage for authentication/authorization, secrets, sensitive data, input/injection and supply-chain risks. New skills and feature changelog entries belong to execution.
 
 ## watchouts
 Installed skills may differ from repository product files; edit skills/ here. BACKLOG.md was the only pre-existing dirty file and has been incorporated in PLAN.md; no deferred entries. Use npm.cmd on this host. Manual scenarios verify prompt instructions, not live agent outcomes. Current tests cover 13 shipped skills; F5 must discover 14 after implementation.
