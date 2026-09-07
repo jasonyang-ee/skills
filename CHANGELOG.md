@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Planned
+
+- Prepare research-gated prompt improvements, more concrete implementation checks, a small-fix exception to standalone review tracking, and nine tiny coding comparisons across old, current, and revised skills.
+
 ### Added
 
 - Make `review-vibe` track broad-review coverage, findings, checks, and resume points in root `REVIEW.md`, continue across sections and rounds, and recheck stale coverage when code changes.
