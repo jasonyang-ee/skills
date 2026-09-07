@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-07
+
 ### Added
 
 - Add `review-vibe` for broad codebase and security review with direct, verified fixes, meaningful test cleanup, provider consistency, and evidence-based spec corrections without requiring a planning cycle.
@@ -523,7 +525,8 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: personal:jasonyang-ee/skills/compare/v0.7.1...HEAD
+[Unreleased]: personal:jasonyang-ee/skills/compare/v0.8.0...HEAD
+[0.8.0]: personal:jasonyang-ee/skills/releases/tag/v0.8.0
 [0.7.1]: personal:jasonyang-ee/skills/releases/tag/v0.7.1
 [0.7.0]: personal:jasonyang-ee/skills/releases/tag/v0.7.0
 [0.6.2]: personal:jasonyang-ee/skills/releases/tag/v0.6.2
