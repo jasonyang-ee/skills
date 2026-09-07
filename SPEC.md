@@ -1,15 +1,13 @@
 <!-- SPEC FORMAT (baked by /encode-docs — keep; makes this file self-describing)
-Sections, fixed order: §G goal | §C constraints | §I interfaces | §R research? | §V invariants
-Symbols: → leads to | ∴ therefore | ∀ every | ∃ some | ! must | ? may/unknown | ⊥ never | ≠ | ∈ | ∉ | ≤ | ≥ | & and | § section
-Durable truth only. Mutable: add sparingly (high bar), prune freely on evidence.
-Address §<S>.<n> — §V.2 = invariants item 2. Commits/PRs cite by §.
-Encoding: drop articles/filler/aux verbs. Fragments fine. Short synonyms (fix > implement).
-Preserve verbatim: code, paths, identifiers, URLs, numbers, error strings, SQL, regex.
-Tables (§C/§I/§R/§V): pipe-delimited, id-keyed; header row + GFM delimiter row (|---|---|), one cell per column. Escape literal \| . Empty cell = -
-ids: monotonic, never reused — take the next from `next:` below, ⊥ from the highest row (rows get pruned)
-next: C13 I13 R11 V31
-One file rule: >1000 lines → prune stale §V, ⊥ split into more files.
-Full rules: /encode-docs skill. Cutting a word that loses a fact ⊥ allowed.
+Sections: §G goal | §C constraints | §I interfaces | §R research? | §V invariants.
+Symbols: → leads to | ∴ therefore | ∀ every | ∃ exists | ! required | ? unknown/optional | ⊥ forbidden/absent | ≠ differs | ∈ member | ∉ not member | ≤ at most | ≥ at least | & and | § section.
+Durable truth only. Add sparingly; correct/prune on evidence. A violated requirement is not automatically obsolete.
+Address V2 as §V.2. Never renumber or reuse ids; allocate from next counters, then advance them. Deletion leaves counters unchanged.
+Preserve literals, conditions, negation, uncertainty, quantities, and requirement strength.
+Tables: header + delimiter row, matching columns; escape literal pipes. Empty cell = -.
+next: C13 I14 R11 V31
+Keep one file; prune stale/redundant facts without losing live requirements.
+Full rules: /encode-docs. Compression must preserve meaning.
 -->
 
 # SPEC
@@ -24,6 +22,8 @@ Core = 5-step spec-driven workflow (order contract → §V15):
 3. `cook`|`cater` → execute `PLAN.md` phases with handoff closure (`cook` = single main agent; `cater` = adaptive main-agent execution + parallel-safe delegation)
 4. `garnish` → purge short-lived files, preserve + prune durable `SPEC.md`
 5. `review-code` → post-implementation sweep; may trigger next `prep`
+
+Standalone `/review-vibe` → evidence-led codebase review + direct fixes, without requiring a planning cycle; durable spec corrections through `encode-docs`. Authorized retained-cycle review may run before `garnish` (§V25).
 
 Core AI files used in workflow:
 - `SPEC.md` = single system truth, durable & mutable. Read before any change. only for durable change. ⊥ one-time fixes; high bar to add.
@@ -67,6 +67,7 @@ I9|cmd|`./release.sh [--major\|--minor\|--patch] [-y] [-n]` → preflight (branc
 I10|ci|push \| PR → `.github/workflows/ci.yml` → matrix Node 20, 22, 24
 I11|ci|tag `v*.*.*` → `.github/workflows/release.yml` → GitHub Release, body ← `CHANGELOG.md` section
 I12|skill|`/encode-agent` + bounded assignment context → condensed sub-agent prompt carrying scope, quality, verification, stop, completion contracts; ⊥ main-cycle state ingestion
+I13|skill|`/review-vibe` → current-codebase review + direct evidenced fixes; examine test value, complexity, reuse, service/provider contract consistency, file organization, spec coherence; ⊥ require new plan; durable spec writes via `encode-docs`
 
 ## §R RESEARCH
 
@@ -103,7 +104,7 @@ V11|`CHANGELOG.md` ! ∋ `## [Unreleased]`
 V12|∀ `.github/workflows/*.yml` → ! top-level `permissions:` block
 V13|`.github/dependabot.yml` → ∀ `updates[]` `open-pull-requests-limit: 0`; security updates + alerts stay on
 V14|release tag `v<x.y.z>` → `CHANGELOG.md` ! ∋ `## [<x.y.z>]` & `package.json` version == `.claude-plugin/plugin.json` version == `<x.y.z>`; release via `./release.sh` only
-V15|core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); top-level `cook`\|`cater` exclusive; `cater` MAY load `cook` for direct phase execution, but one phase ⊥ simultaneous direct + delegated execution; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`encode-agent`/`handoff`/`encode-commit`/`encode-pr` = support
+V15|default core workflow order: `prep` → `review-plan` → `cook`\|`cater` → `garnish` → `review-code` → (next `prep`); top-level `cook`\|`cater` exclusive; `cater` MAY load `cook` for direct phase execution, but one phase ⊥ simultaneous direct + delegated execution; `setup` = bootstrap ⊥ core step; `encode-docs`/`encode-header`/`encode-agent`/`handoff`/`encode-commit`/`encode-pr` = support; standalone `review-vibe` outside cycle; authorized retained-cycle review → §V25
 V16|`encode-docs` = sole WRITER/mutator of `SPEC.md`/`PLAN.md`/`HANDOFF.md` & owner of their formats; `encode-header` supplies the baked-header format (content supplier like `prep`/`handoff`), ⊥ writes
 V17|`SPEC.md` = durable truth, mutable; sections §G/§C/§I/§R/§V only; add durable rows only (high bar), prune stale on evidence
 V18|task tracking (§T) lives in `PLAN.md` only; one-time fixes & bugs → `CHANGELOG.md` + git, ⊥ `SPEC.md`
@@ -113,7 +114,7 @@ V21|`prep` → durable facts → `SPEC.md` via `encode-docs` (high bar, ⊥ defa
 V22|`cook`\|`cater` ! `PLAN.md` ∃; verify-first, self-review before commit, `HANDOFF.md` refreshed + committed ∀ phase; `cook` = single main agent; `cater` decides per ready work set: direct main-agent execution via loaded `cook` when delegation lacks material parallelism/context/capability benefit, else sub-agents on disjoint file sets via `HANDOFF-<phase-id>.md`; active plan gate → §V29
 V23|`garnish` → evidence-gated (completed cycle: ∀ PLAN §T `x`, final-verify ∀ `HOLD`) → prune stale `SPEC.md` §V/§C/§I on evidence only; blank `PLAN.md` + `HANDOFF.md` to baked-header template (⊥ delete — absent only via fresh repo \| manual user delete); preserve `SPEC.md` + history
 V24|`review-plan` → research gate on dated current primary sources (⊥ model memory); explicit GO/NO-GO
-V25|`review-code` → baseline = latest release tag \| explicit release commit; ! carry security dimension; cite evidence; end → `prep`
+V25|`review-code` → baseline = explicit ref/commit (branch allowed) else latest reachable release tag; ! security dimension + evidence; populated `PLAN.md`/`HANDOFF.md` = review context, ⊥ completion proof. Authorized retained-cycle flow: review → preserve findings + baseline + task evidence → `garnish` only on §V23 completion gate → `prep` for accepted actionable work. Failed closure preserves old cycle; active execution → `prep` queues findings. Review alone ⊥ authorize cleanup/planning; ⊥ manufacture empty remediation cycle
 V26|`review-code` & `review-plan` share ONE finding taxonomy {BLOCK, DIVERGENCE, UNKNOWN(`?`), HARDEN, NOTE} + ONE exhaustive GO/NO-GO rule, stated verbatim in both (mirror-check: block byte-identical); NO-GO iff ≥1 open BLOCK \| open DIVERGENCE \| open blocking `?`; else GO; HARDEN & NOTE ⊥ block; security → always BLOCK; DIVERGENCE resolves via fix-to-match-SPEC \| amend-SPEC-via-`encode-docs`; REPORT OUTPUT block = 2nd intentional verbatim mirror across both (byte-identical)
 V27|`BACKLOG.md` = `prep`-sole-reader freeform request queue (⊥ encoded, ⊥ `encode-docs`-routed, short-lived, ! detailed for cold pickup); ∀ non-`prep` skill (`cook`/`cater`/`review-plan`/`review-code`/`garnish`) ⊥ read it (raw, un-ingested) & `garnish` ⊥ blank/prune/touch it; `prep` ingest/expand (`PLAN.md` planning status ≠ work-in-progress) → read `BACKLOG.md` + new request as input, write/expand `PLAN.md`, THEN blank `BACKLOG.md` (blank only after `PLAN.md` written ∵ session-limit safety); `prep` defer (`PLAN.md` work-in-progress) → append request to `BACKLOG.md`, ⊥ prune, ⊥ clobber in-flight plan
 V28|∀ `skills/**/SKILL.md` self-sufficient loaded alone → ⊥ depend on another skill's body; a shared statement is referenced from a single owner only where that owner is guaranteed co-loaded (invoked skill on compose \| baked header of a doc the skill reads); `review-plan`+`review-code` FINDING TAXONOMY & GATE + REPORT OUTPUT = intentional verbatim mirrors (§V26), ⊥ de-dup
