@@ -13,7 +13,7 @@ Reopened work → work-in-progress. garnish resets header-only new. Empty new �
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ exists | ! required | ? unknown/optional | ⊥ forbidden/absent | ≠ differs | ∈ member | ∉ not member | ≤ at most | ≥ at least | & and | § section.
 Preserve literals, conditions, negation, uncertainty, quantities, and requirement strength. Tables need delimiter rows.
 Executable without chat history. Full rules: /encode-docs.
-planning status: work-in-progress
+planning status: done
 -->
 
 # PLAN
@@ -34,7 +34,7 @@ goal: Improve current coding prompts with evidence-backed research gates, concre
 ## existing assets
 
 - Frozen current: 6309380af49f989882ef8556360dc1883793ee82 (main before this cycle).
-- Frozen old: v0.6.2 = 1f909dd9de24439781911c7a6d33d820d2a0da1a. Revised: committed F1 skill tree, record exact revision and file hashes before F3; never silently change a compared bundle.
+- Frozen old: v0.6.2 = 1f909dd9de24439781911c7a6d33d820d2a0da1a. Measured revised: 3e61bb66b5015ed7b732c423b6f1a2f5df4da279; exact skill/corpus/seed hashes in benchmark/results/manifest.md. No compared bundle changed after freezing.
 - Existing tests: tests/skill-contract.test.mjs (five contract checks), tests/cli-discovery.test.mjs (two real CLI checks), tests/helpers.mjs.
 - npm.cmd test passed 7/7, 0 skipped on Node v25.9.0 during prep (2026-09-07). PowerShell npm.ps1 is blocked by execution policy; npm.cmd invokes the existing npm test script without policy changes.
 - PLAN.md/HANDOFF.md were header-only new; BACKLOG.md empty; starting worktree clean.
@@ -152,8 +152,8 @@ depends: F1,F2 accepted; corpus, selected skill bundle hashes, Node version, and
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Run nine tiny workflow simulations|§I.13,§I.14,§C.8
-T2|.|Independently evaluate code, evidence, and practical overhead|§I.14,§V.23,§V.25
+T1|x|Run nine tiny workflow simulations|§I.13,§I.14,§C.8
+T2|x|Independently evaluate code, evidence, and practical overhead|§I.14,§V.23,§V.25
 
 task: T1
 touch: benchmark/results/<run-id>.md; isolated temporary fixture repositories only; main integrates results
@@ -184,7 +184,7 @@ depends: F1,F2,F3 accepted; benchmark failures need not be successes, but missin
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Check goal/contracts, repository suite, and all task evidence|§V.1,§V.2,§V.3,§V.4,§V.5,§V.7,§V.11,§V.19,§V.21,§V.24,§V.28,§I.13,§I.14
+T1|x|Check goal/contracts, repository suite, and all task evidence|§V.1,§V.2,§V.3,§V.4,§V.5,§V.7,§V.11,§V.19,§V.21,§V.24,§V.28,§I.13,§I.14
 
 task: T1
 touch: PLAN.md; HANDOFF.md; CHANGELOG.md; corrections only in previously owned scope
@@ -197,10 +197,10 @@ phase verify: Required suite, full owned diff, task/spec evidence, and benchmark
 phase exit: All task exits hold and final verification is nonempty and current; handoff may mark done.
 phase next: none — cycle complete
 
-## plan review
+## plan review before implementation
 
 verdict: GO after main-agent review of scope, dependencies, research, authority, references, and verification; implementation not started.
 open BLOCK: 0; open DIVERGENCE: 0 within this change scope; blocking UNKNOWN: 0.
 resolved: enforced-F1 conflicts replaced by explicit user decision and planned owner updates; old explicit baseline works without tags; benchmark code isolated from root test discovery; same wrapper does not grant revised-only research behavior to old/current; main owns evaluation.
 limits: execution/model/tool visibility checked at runtime; procedural isolation may retain host influence; nine single-run workflow observations cannot establish general performance. Current repository security-taxonomy wording drift is outside this requested change and is not used to weaken prompt evidence requirements.
-next: /cook or /cater; F1.T1 first, F2.T1 independently eligible. Retain this research; repeat only affected investigation if inputs change.
+historical next: /cook or /cater; F1.T1 first, F2.T1 independently eligible. Execution has since progressed; current pointer lives in HANDOFF.md. Retain this research; repeat only affected investigation if inputs change.

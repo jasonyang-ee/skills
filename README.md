@@ -104,6 +104,10 @@ Those skills are loaded by the main skills above, but can also be invoked direct
 | [`encode-commit`](skills/encode-commit/SKILL.md) | Writes concise Conventional Commit messages, preferably under 50 characters, with rationale when needed. |
 | [`encode-pr`](skills/encode-pr/SKILL.md) | Drafts concise review comments with location, problem, impact, and fix direction; expands when clarity requires it. |
 
+## Benchmark
+
+See [the tiny workflow benchmark](benchmark/README.md) for three small coding prompts and [the comparison results](benchmark/RESULTS.md) for old, current, and revised skills, with independent checks and preserved run evidence.
+
 ## License
 
 [MIT](LICENSE) for original work. see [NOTICE.md](NOTICE.md) for modified upstream source.
