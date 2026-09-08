@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-09-07
+
 ### Changed
 
 - Updated the agents file for this repo to match v1.0.0 updates.
@@ -544,7 +546,8 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: personal:jasonyang-ee/skills/compare/v1.0.0...HEAD
+[Unreleased]: personal:jasonyang-ee/skills/compare/v1.0.1...HEAD
+[1.0.1]: personal:jasonyang-ee/skills/releases/tag/v1.0.1
 [1.0.0]: personal:jasonyang-ee/skills/releases/tag/v1.0.0
 [0.8.0]: personal:jasonyang-ee/skills/releases/tag/v0.8.0
 [0.7.1]: personal:jasonyang-ee/skills/releases/tag/v0.7.1
