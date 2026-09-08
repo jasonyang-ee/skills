@@ -1,10 +1,10 @@
-# 06-duration-old
+# 06-duration-v0.6.2
 
 First result: All 6/6 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | old |
+| Variant | v0.6.2 |
 | Executor | cater |
 | Skill revision | 1f909dd9de24439781911c7a6d33d820d2a0da1a |
 | Seed commit | ff3085dec3a973461aa454151db244b9dd7ac2e6 |
@@ -27,13 +27,13 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Code:** Array guarding and Number.isFinite/nonnegative validation reject the required invalid inputs with RangeError. Accumulation invokes the existing helper separately per element; exports and input remain intact. No extra abstraction or source file. Assertions exercise rounding, errors, and frozen input.
 
-**Research:** Dated seed paths, baseline tests, helper search, and a distinguishing rounding example correctly support the plan. Complete read traces/order are unavailable. The old plan retained a confirmation phase despite zero unresolved questions.
+**Research:** Dated seed paths, baseline tests, helper search, and a distinguishing rounding example correctly support the plan. Complete read traces/order are unavailable. The v0.6.2 plan retained a confirmation phase despite zero unresolved questions.
 
 **Verification:** Independent frozen acceptance and six submitted tests pass. Historical red-test execution is subject-reported; its described failures are consistent with the seed defects.
 
 **Closure:** Independent closure inspection: {"PLAN":true,"HANDOFF":true} exact frozen template matches; changed paths HANDOFF.md, PLAN.md. Production, tests, SPEC, and changelog remained unchanged; clean tree. Prerequisites were supported by the committed first-result evidence and independent checks.
 
-**Workflow:** The requested seed baseline and findings-only checkpoint were respected in the first return. Cater selected direct cook for the coupled task, consistent with the common wrapper. The plan says its embedded review satisfies the explicit review request under old skip behavior; a separate explicit review pass is not evidenced. That is a workflow distinction even though the review gate and implementation result hold.
+**Workflow:** The requested seed baseline and findings-only checkpoint were respected in the first return. Cater selected direct cook for the coupled task, consistent with the common wrapper. The plan says its embedded review satisfies the explicit review request under v0.6.2 skip behavior; a separate explicit review pass is not evidenced. That is a workflow distinction even though the review gate and implementation result hold.
 
 **Limits:** One observation with shared host instructions/catalog and procedural isolation. Full traces, actual model/effort, tokens, and reliable speed attribution are unavailable.
 
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/06-duration-old/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/old/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/06-duration-v0.6.2/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.6.2/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix totalDuration(seconds) to accept an array of finite non-negative second values, round each value to the nearest millisecond, and sum them. Empty input returns 0; invalid containers or elements throw RangeError. Preserve both exports and make direct toMilliseconds calls follow the same element rules. Reuse the existing helper. Do not mutate the input.
 
@@ -62,7 +62,7 @@ Run control: maximum ten minutes of subject workflow time, including closure con
 Review-code gate: GO. BLOCK: 0; DIVERGENCE: 0; UNKNOWN: 0; HARDEN: 0; NOTE: 0.
 Reviewed both duration modules, tests, changelog, and preserved cycle documents against baseline ff3085dec3a973461aa454151db244b9dd7ac2e6. Shared-helper validation, per-element rounding, exports, sparse-array rejection, and input preservation satisfy the request.
 Verification: npm.cmd test 6/6 pass; three regressions failed before repair. Baseline-to-HEAD git diff --check passed.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/06-duration-old/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/06-duration-v0.6.2/repo
 Branch: main
 HEAD: 53c5a0c6e53559a1f1f90694aa5e55e309445d50
 Dirty tree: clean

@@ -1,10 +1,10 @@
-# 09-duration-current
+# 09-duration-v0.8.0
 
 First result: All 6/6 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | current |
+| Variant | v0.8.0 |
 | Executor | cater |
 | Skill revision | 6309380af49f989882ef8556360dc1883793ee82 |
 | Seed commit | ff3085dec3a973461aa454151db244b9dd7ac2e6 |
@@ -27,7 +27,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Code:** The array boundary and shared helper enforce required RangeError rules before conversion. Aggregation calls the existing helper once per element without mutating input. Both exports remain; no new abstraction or source file. Eight actual tests cover rounding, input boundaries, direct conversion, and mutation.
 
-**Research:** Recorded seed defects, helper reuse, baseline tests, sparse values, and numerical scope correctly support the local repair. Current retains a separate confirmation phase. Exact read traces/order are unavailable.
+**Research:** Recorded seed defects, helper reuse, baseline tests, sparse values, and numerical scope correctly support the local repair. v0.8.0 retains a separate confirmation phase. Exact read traces/order are unavailable.
 
 **Verification:** Independent frozen checks and all eight submitted tests pass, matching current completion. Historical red-test execution remains subject-reported.
 
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/09-duration-current/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/current/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/09-duration-v0.8.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.8.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix totalDuration(seconds) to accept an array of finite non-negative second values, round each value to the nearest millisecond, and sum them. Empty input returns 0; invalid containers or elements throw RangeError. Preserve both exports and make direct toMilliseconds calls follow the same element rules. Reuse the existing helper. Do not mutate the input.
 
@@ -65,7 +65,7 @@ Verification: baseline 2/2; regressions demonstrated five failures; repaired and
 Reviewed helper reuse, per-element rounding, validation, exports, nonmutation, and F1–F3 evidence. PLAN is done; HANDOFF retains six HOLD rows.
 Branch: main; HEAD: 2e336fcb092af093fc78fc68e108842b70aef46f.
 Dirty tree: clean.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/09-duration-current/repo.
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/09-duration-v0.8.0/repo.
 No network or evaluator tests used. No remediation cycle or garnish run. Stopped at the requested checkpoint, awaiting evaluator continuation. Subject workflow time: approximately 4 minutes 20 seconds.
 ````
 

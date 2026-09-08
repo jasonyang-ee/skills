@@ -1,10 +1,10 @@
-# 05-ids-revised
+# 05-ids-v1.0.0
 
 First result: All 5/5 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | revised |
+| Variant | v1.0.0 |
 | Executor | cook |
 | Skill revision | 3e61bb66b5015ed7b732c423b6f1a2f5df4da279 |
 | Seed commit | c49e3d28fb87b375643466e6d676ad0f4c31d077 |
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/05-ids-revised/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/revised/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/05-ids-v1.0.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v1.0.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix uniqueIds(ids) to return each string ID's first occurrence in input order, case-sensitive, without mutating the input. Empty strings are valid IDs. Reject non-arrays and any non-string element with TypeError. Preserve the export.
 
@@ -66,7 +66,7 @@ F1.T1 and F2.T1 are complete; retained handoff evidence covers the goal and SPEC
 Branch: main
 HEAD: d5510ab908bee396a67bbff94278016f3df187d6
 Dirty tree: clean.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/05-ids-revised/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/05-ids-v1.0.0/repo
 Stopped after review-code, before garnish. PLAN.md and HANDOFF.md remain populated for the evaluator checkpoint. No remediation cycle or review-vibe invoked.
 Verification limit: local fixture tests and source inspection; Git's unreadable global-ignore warning did not prevent checks or commits.
 ````

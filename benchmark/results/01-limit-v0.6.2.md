@@ -1,10 +1,10 @@
-# 01-limit-old
+# 01-limit-v0.6.2
 
 First result: All 4/4 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | old |
+| Variant | v0.6.2 |
 | Executor | cook |
 | Skill revision | 1f909dd9de24439781911c7a6d33d820d2a0da1a |
 | Seed commit | ce3a48c6378c75f670d18629793816acdb845405 |
@@ -33,7 +33,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Closure:** Independent closure inspection: {"PLAN":true,"HANDOFF":true} exact frozen template matches; changed paths HANDOFF.md, PLAN.md. Production, tests, SPEC, and changelog remained unchanged; clean tree. Prerequisites were supported by the committed first-result evidence and independent checks.
 
-**Workflow:** Requested stages are represented in the retained plan, handoff, commits, and first return; findings-only review used the exact seed baseline. No repair coaching was supplied. Old retained a confirmation research phase and produced separate implementation/evidence baton commits: three phases and six pre-garnish commits.
+**Workflow:** Requested stages are represented in the retained plan, handoff, commits, and first return; findings-only review used the exact seed baseline. No repair coaching was supplied. v0.6.2 retained a confirmation research phase and produced separate implementation/evidence baton commits: three phases and six pre-garnish commits.
 
 **Limits:** One observation on a shared host with procedural isolation; model, effort, tokens, and complete tool traces unavailable. Passing groups cover the published checks, not all possible inputs.
 
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/01-limit-old/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/old/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/01-limit-v0.6.2/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.6.2/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix parseLimit(text): undefined or a blank string returns 20. Otherwise accept only trimmed strings of decimal digits representing 1 through 100; throw RangeError for everything else. Preserve the export.
 
@@ -66,7 +66,7 @@ Branch: main; dirty tree: clean.
 Scope: limit.mjs, regression tests, changelog, and cycle documents.
 Verification: npm.cmd test 6/6 passed; baseline diff check passed. Three regression failures observed before repair. Export preserved.
 Prep, review-plan, and all cook phases complete; PLAN marked done and HANDOFF retains all HOLD evidence.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/01-limit-old/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/01-limit-v0.6.2/repo
 Stopped after findings-only review, before garnish. No remediation cycle started. Workflow time approximately 4m 42s; awaiting evaluator continuation.
 ````
 
@@ -213,7 +213,7 @@ index 0000000..5e118ae
 +F3.T1 done | next: findings-only review-code against `ce3a48c6378c75f670d18629793816acdb845405`; then checkpoint, preserve documents; garnish only after evaluator continuation.
 +
 +## deviations & decisions
-+- Supplied old skills only; no durable spec change for repair.
++- Supplied v0.6.2 skills only; no durable spec change for repair.
 +- User requested findings-only review against explicit baseline; preserve checkpoint before garnish.
 +
 +## watchouts
@@ -268,7 +268,7 @@ index 0000000..7cce2fc
 +research phases remaining: 1
 +BLOCK: 0 | DIVERGENCE: 0 | UNKNOWN: 0 | HARDEN: 0 | NOTE: 0
 +gate: GO
-+Evidence: local source/test/package inspection, 2026-09-07; exact named cases and phase tasks present; no external uncertainty. F1 removal candidate on next prep; retained here per old prep research-first contract. Explicit follow-up review-plan reuses this GO under its skip rule.
++Evidence: local source/test/package inspection, 2026-09-07; exact named cases and phase tasks present; no external uncertainty. F1 removal candidate on next prep; retained here per v0.6.2 prep research-first contract. Explicit follow-up review-plan reuses this GO under its skip rule.
 +next: /cook F1 through F3
 +
 +## phase order
@@ -449,7 +449,7 @@ index 5e118ae..9b7cb93 100644
 -F3.T1 done | next: findings-only review-code against `ce3a48c6378c75f670d18629793816acdb845405`; then checkpoint, preserve documents; garnish only after evaluator continuation.
 -
 -## deviations & decisions
--- Supplied old skills only; no durable spec change for repair.
+-- Supplied v0.6.2 skills only; no durable spec change for repair.
 -- User requested findings-only review against explicit baseline; preserve checkpoint before garnish.
 -
 -## watchouts
@@ -494,7 +494,7 @@ index 7cce2fc..2c2552f 100644
 -research phases remaining: 1
 -BLOCK: 0 | DIVERGENCE: 0 | UNKNOWN: 0 | HARDEN: 0 | NOTE: 0
 -gate: GO
--Evidence: local source/test/package inspection, 2026-09-07; exact named cases and phase tasks present; no external uncertainty. F1 removal candidate on next prep; retained here per old prep research-first contract. Explicit follow-up review-plan reuses this GO under its skip rule.
+-Evidence: local source/test/package inspection, 2026-09-07; exact named cases and phase tasks present; no external uncertainty. F1 removal candidate on next prep; retained here per v0.6.2 prep research-first contract. Explicit follow-up review-plan reuses this GO under its skip rule.
 -next: /cook F1 through F3
 -
 -## phase order

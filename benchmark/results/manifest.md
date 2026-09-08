@@ -10,7 +10,7 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
   "effort": "inherit; exact setting unavailable",
   "isolation": "procedural: separate repos and fresh task contexts, shared host instructions/catalog may remain visible",
   "bundles": {
-    "old": {
+    "v0.6.2": {
       "ref": "1f909dd9de24439781911c7a6d33d820d2a0da1a",
       "files": {
         "skills/cater/SKILL.md": "8c1273378868b00e7c6842ce6b93a53a9a51a3d4842afc709322942a53997803",
@@ -29,7 +29,7 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       },
       "bundleHash": "84f4b1578f3f882b3161c3b55c5a2e691737fe97f3ce5b89c25c7c32598960e8"
     },
-    "current": {
+    "v0.8.0": {
       "ref": "6309380af49f989882ef8556360dc1883793ee82",
       "files": {
         "skills/cater/SKILL.md": "9807470e3bdba8665b5dc3e6e5670fe32b1461b649ae2755aa87a93ff702d9ae",
@@ -49,7 +49,7 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       },
       "bundleHash": "5526f51ab27ce33c7086c368fcea258c9a9b6985e3f3519a43093582d9443e1a"
     },
-    "revised": {
+    "v1.0.0": {
       "ref": "3e61bb66b5015ed7b732c423b6f1a2f5df4da279",
       "files": {
         "skills/cater/SKILL.md": "b1c19d1c289767259b165f08bae75dd94b34d2cee705de1edaeb1de12a994e80",
@@ -83,10 +83,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
   },
   "runs": [
     {
-      "id": "01-limit-old",
+      "id": "01-limit-v0.6.2",
       "caseName": "limit",
-      "variant": "old",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\01-limit-old\\repo",
+      "variant": "v0.6.2",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\01-limit-v0.6.2\\repo",
       "seedSha": "ce3a48c6378c75f670d18629793816acdb845405",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -106,10 +106,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "02-ids-current",
+      "id": "02-ids-v0.8.0",
       "caseName": "ids",
-      "variant": "current",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\02-ids-current\\repo",
+      "variant": "v0.8.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\02-ids-v0.8.0\\repo",
       "seedSha": "c49e3d28fb87b375643466e6d676ad0f4c31d077",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -129,10 +129,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "03-duration-revised",
+      "id": "03-duration-v1.0.0",
       "caseName": "duration",
-      "variant": "revised",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\03-duration-revised\\repo",
+      "variant": "v1.0.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\03-duration-v1.0.0\\repo",
       "seedSha": "ff3085dec3a973461aa454151db244b9dd7ac2e6",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -153,10 +153,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "04-limit-current",
+      "id": "04-limit-v0.8.0",
       "caseName": "limit",
-      "variant": "current",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\04-limit-current\\repo",
+      "variant": "v0.8.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\04-limit-v0.8.0\\repo",
       "seedSha": "ce3a48c6378c75f670d18629793816acdb845405",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -176,10 +176,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "05-ids-revised",
+      "id": "05-ids-v1.0.0",
       "caseName": "ids",
-      "variant": "revised",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\05-ids-revised\\repo",
+      "variant": "v1.0.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\05-ids-v1.0.0\\repo",
       "seedSha": "c49e3d28fb87b375643466e6d676ad0f4c31d077",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -199,10 +199,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "06-duration-old",
+      "id": "06-duration-v0.6.2",
       "caseName": "duration",
-      "variant": "old",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\06-duration-old\\repo",
+      "variant": "v0.6.2",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\06-duration-v0.6.2\\repo",
       "seedSha": "ff3085dec3a973461aa454151db244b9dd7ac2e6",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -223,10 +223,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "07-limit-revised",
+      "id": "07-limit-v1.0.0",
       "caseName": "limit",
-      "variant": "revised",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\07-limit-revised\\repo",
+      "variant": "v1.0.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\07-limit-v1.0.0\\repo",
       "seedSha": "ce3a48c6378c75f670d18629793816acdb845405",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -246,10 +246,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "08-ids-old",
+      "id": "08-ids-v0.6.2",
       "caseName": "ids",
-      "variant": "old",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\08-ids-old\\repo",
+      "variant": "v0.6.2",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\08-ids-v0.6.2\\repo",
       "seedSha": "c49e3d28fb87b375643466e6d676ad0f4c31d077",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",
@@ -269,10 +269,10 @@ Captured before scoring; run state/timestamps live in individual reports. Tempor
       "status": "prepared"
     },
     {
-      "id": "09-duration-current",
+      "id": "09-duration-v0.8.0",
       "caseName": "duration",
-      "variant": "current",
-      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\09-duration-current\\repo",
+      "variant": "v0.8.0",
+      "dir": "C:\\Users\\sami\\AppData\\Local\\Temp\\skills-benchmark-20260907-304dcdb\\runs\\09-duration-v0.8.0\\repo",
       "seedSha": "ff3085dec3a973461aa454151db244b9dd7ac2e6",
       "seedHashes": {
         "AGENTS.md": "4650f6ffee04e602b2c2bec21c1d636c7a289f82e390d0cc46d95a460f20a832",

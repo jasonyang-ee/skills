@@ -1,10 +1,10 @@
-# 03-duration-revised
+# 03-duration-v1.0.0
 
 First result: All 6/6 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | revised |
+| Variant | v1.0.0 |
 | Executor | cater |
 | Skill revision | 3e61bb66b5015ed7b732c423b6f1a2f5df4da279 |
 | Seed commit | ff3085dec3a973461aa454151db244b9dd7ac2e6 |
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/03-duration-revised/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/revised/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/03-duration-v1.0.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v1.0.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix totalDuration(seconds) to accept an array of finite non-negative second values, round each value to the nearest millisecond, and sum them. Empty input returns 0; invalid containers or elements throw RangeError. Preserve both exports and make direct toMilliseconds calls follow the same element rules. Reuse the existing helper. Do not mutate the input.
 
@@ -60,7 +60,7 @@ Run control: maximum ten minutes of subject workflow time, including closure con
 
 ````text
 GO — findings-only review found no actionable defects against baseline ff3085dec3a973461aa454151db244b9dd7ac2e6.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/03-duration-revised/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/03-duration-v1.0.0/repo
 Branch: main
 HEAD: e7625b2d93abda201723bd4ccd1ff32293aaec93
 Dirty tree: clean.

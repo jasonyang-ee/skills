@@ -1,10 +1,10 @@
-# 04-limit-current
+# 04-limit-v0.8.0
 
 First result: All 4/4 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | current |
+| Variant | v0.8.0 |
 | Executor | cook |
 | Skill revision | 6309380af49f989882ef8556360dc1883793ee82 |
 | Seed commit | ce3a48c6378c75f670d18629793816acdb845405 |
@@ -33,7 +33,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Closure:** Independent closure inspection: {"PLAN":true,"HANDOFF":true} exact frozen template matches; changed paths HANDOFF.md, PLAN.md. Production, tests, SPEC, and changelog remained unchanged; clean tree. Prerequisites were supported by the committed first-result evidence and independent checks.
 
-**Workflow:** Plan, handoff, commits, and first return support the requested stages and exact seed baseline. Current retained a research confirmation phase. No repair coaching supplied.
+**Workflow:** Plan, handoff, commits, and first return support the requested stages and exact seed baseline. v0.8.0 retained a research confirmation phase. No repair coaching supplied.
 
 **Limits:** One shared-host observation; procedural isolation and unavailable full traces limit attribution. Passing checks do not prove all possible inputs.
 
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/04-limit-current/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/current/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/04-limit-v0.8.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.8.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix parseLimit(text): undefined or a blank string returns 20. Otherwise accept only trimmed strings of decimal digits representing 1 through 100; throw RangeError for everything else. Preserve the export.
 
@@ -65,7 +65,7 @@ Task mapping: F1.T1, F2.T1, F3.T1 complete; goal and applicable spec contracts h
 Branch: main
 HEAD: fec4d4f58147fc159b029f50e3405151f3e22c2a
 Dirty tree: clean.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/04-limit-current/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/04-limit-v0.8.0/repo
 Prep, explicit review-plan, cook, and review-code are complete. PLAN.md and HANDOFF.md remain populated for evaluation. Stopped before garnish; no remediation cycle started. Review was limited to this fixture and local checks.
 ````
 

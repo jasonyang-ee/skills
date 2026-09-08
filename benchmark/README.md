@@ -8,13 +8,13 @@ Three small local repairs compare workflow behavior without building a benchmark
 | [ids](cases/ids.md) | cook | 2 |
 | [duration](cases/duration.md) | cater | 3 |
 
-Use one run per case and variant: nine total. Counterbalance variant order: `limit` old/current/revised; `ids` current/revised/old; `duration` revised/old/current. Do not retry a failed subject or select its best attempt. The evaluator-only [reviewer](reviewer.md) contains checks and minimal reference solutions; never include it in a subject's supplied context or repository.
+Use one run per case and variant: nine total. Counterbalance variant order: `limit` v0.6.2/v0.8.0/v1.0.0; `ids` v0.8.0/v1.0.0/v0.6.2; `duration` v1.0.0/v0.6.2/v0.8.0. Do not retry a failed subject or select its best attempt. The evaluator-only [reviewer](reviewer.md) contains checks and minimal reference solutions; never include it in a subject's supplied context or repository.
 
 | Variant | Frozen source |
 |---|---|
-| old | v0.6.2, `1f909dd9de24439781911c7a6d33d820d2a0da1a` |
-| current | `6309380af49f989882ef8556360dc1883793ee82` |
-| revised | Record the local candidate commit SHA before the first run. |
+| v0.6.2 | `1f909dd9de24439781911c7a6d33d820d2a0da1a` |
+| v0.8.0 | `6309380af49f989882ef8556360dc1883793ee82` |
+| v1.0.0 | Record the local candidate commit SHA before the first run. |
 
 ## Prepare and freeze
 
@@ -30,7 +30,7 @@ Each subject needs a fresh session and repository. The evaluator sees all result
 
 ## Common initial wrapper
 
-Substitute placeholders literally; append the selected case's exact task prompt without edits. This common request intentionally does not add phase exceptions, extra ledgers, or revised skill behavior.
+Substitute placeholders literally; append the selected case's exact task prompt without edits. This common request intentionally does not add phase exceptions, extra ledgers, or v1.0.0 skill behavior.
 
 ```text
 Work only in <fixture-path>. Use the skills under <frozen-bundle-path>/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.

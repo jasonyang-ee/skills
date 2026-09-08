@@ -1,10 +1,10 @@
-# 07-limit-revised
+# 07-limit-v1.0.0
 
 First result: All 4/4 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | revised |
+| Variant | v1.0.0 |
 | Executor | cook |
 | Skill revision | 3e61bb66b5015ed7b732c423b6f1a2f5df4da279 |
 | Seed commit | ce3a48c6378c75f670d18629793816acdb845405 |
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/07-limit-revised/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/revised/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/07-limit-v1.0.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v1.0.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix parseLimit(text): undefined or a blank string returns 20. Otherwise accept only trimmed strings of decimal digits representing 1 through 100; throw RangeError for everything else. Preserve the export.
 
@@ -60,7 +60,7 @@ Run control: maximum ten minutes of subject workflow time, including closure con
 
 ````text
 GO — findings-only review against explicit baseline ce3a48c6378c75f670d18629793816acdb845405; no findings.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/07-limit-revised/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/07-limit-v1.0.0/repo
 Branch: main
 HEAD: bc2db46064734f5eee9d8eb1e0acd27d7f0a46ae
 Dirty tree: clean.

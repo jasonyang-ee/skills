@@ -1,10 +1,10 @@
-# 02-ids-current
+# 02-ids-v0.8.0
 
 First result: All 5/5 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | current |
+| Variant | v0.8.0 |
 | Executor | cook |
 | Skill revision | 6309380af49f989882ef8556360dc1883793ee82 |
 | Seed commit | c49e3d28fb87b375643466e6d676ad0f4c31d077 |
@@ -41,7 +41,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/02-ids-current/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/current/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/02-ids-v0.8.0/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.8.0/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix uniqueIds(ids) to return each string ID's first occurrence in input order, case-sensitive, without mutating the input. Empty strings are valid IDs. Reject non-arrays and any non-string element with TypeError. Preserve the export.
 
@@ -67,7 +67,7 @@ Reviewed utility, tests, changelog, and cycle evidence. F1.T1–F3.T1 are verifi
 Branch: main
 HEAD: 2016d0eda98aac9a344bb7a7d1d438ff19598601
 Dirty tree: clean.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/02-ids-current/repo
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/02-ids-v0.8.0/repo
 Populated PLAN.md and HANDOFF.md remain committed. Stopped after review-code, before garnish; no remediation cycle started. Approximately 5 minutes 10 seconds of the ten-minute workflow budget used.
 ````
 
@@ -276,7 +276,7 @@ index 0000000..310ec8c
 +
 +## ground rules
 +- Scope: ids.mjs, relevant node:test cases, CHANGELOG.md, PLAN.md, HANDOFF.md. SPEC.md already supplies applicable constraints; no durable amendment needed for this repair.
-+- Use supplied current bundle only. No network, installations, dependencies, configuration changes, tags, remotes, or pushes.
++- Use supplied v0.8.0 bundle only. No network, installations, dependencies, configuration changes, tags, remotes, or pushes.
 +- Execute prep → review-plan → cook → findings-only review-code against c49e3d28fb87b375643466e6d676ad0f4c31d077.
 +- Preserve completed cycle evidence after review; no garnish until evaluator continuation. Local commits authorized.
 +
@@ -505,7 +505,7 @@ index 310ec8c..ffc6e89 100644
 -
 -## ground rules
 -- Scope: ids.mjs, relevant node:test cases, CHANGELOG.md, PLAN.md, HANDOFF.md. SPEC.md already supplies applicable constraints; no durable amendment needed for this repair.
--- Use supplied current bundle only. No network, installations, dependencies, configuration changes, tags, remotes, or pushes.
+-- Use supplied v0.8.0 bundle only. No network, installations, dependencies, configuration changes, tags, remotes, or pushes.
 -- Execute prep → review-plan → cook → findings-only review-code against c49e3d28fb87b375643466e6d676ad0f4c31d077.
 -- Preserve completed cycle evidence after review; no garnish until evaluator continuation. Local commits authorized.
 -

@@ -1,10 +1,10 @@
-# 08-ids-old
+# 08-ids-v0.6.2
 
 First result: All 5/5 frozen acceptance groups passed.
 
 | Evidence | Observed value |
 |---|---|
-| Variant | old |
+| Variant | v0.6.2 |
 | Executor | cook |
 | Skill revision | 1f909dd9de24439781911c7a6d33d820d2a0da1a |
 | Seed commit | c49e3d28fb87b375643466e6d676ad0f4c31d077 |
@@ -27,7 +27,7 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Code:** Array and string guards reject invalid inputs; insertion-ordered Set accumulation preserves first occurrences, case and empty IDs without input writes. Export preserved; no extra abstraction. Five actual tests exercise the requested behavior and errors.
 
-**Research:** Recorded local source facts, seed revision, baseline result, and helper assessment support the repair. Old retained a confirmation phase with no unresolved questions. Complete read traces/order unavailable.
+**Research:** Recorded local source facts, seed revision, baseline result, and helper assessment support the repair. v0.6.2 retained a confirmation phase with no unresolved questions. Complete read traces/order unavailable.
 
 **Verification:** Behavioral verification holds: frozen groups 5/5 and submitted tests 5/5. Documentary completion has a discrepancy: the independent baseline-to-HEAD whitespace check exits 1 at HANDOFF.md:47 and PLAN.md:99, while F3.T1 requires a clean check and retained HOLD evidence says it is clean. The subject disclosed the failure in review as HARDEN, but left completion evidence unreconciled. This is an evidence/closure issue, not an implementation failure.
 
@@ -35,13 +35,13 @@ Times are upper bounds from evaluator dispatch/receipt-record timestamps, includ
 
 **Workflow:** Requested stages and exact baseline are recorded; findings-only review disclosed one formatting issue. First submission is preserved without repair coaching. The common continuation asks garnish to evaluate its prerequisites with the failed check visible.
 
-**Limits:** One shared-host observation; no claim that mixed line endings are intrinsic to old skills. It exposes a retained-evidence discrepancy in this run, with no failure in the specified utility behavior.
+**Limits:** One shared-host observation; no claim that mixed line endings are intrinsic to v0.6.2 skills. It exposes a retained-evidence discrepancy in this run, with no failure in the specified utility behavior.
 
 <details>
 <summary>Exact initial request</summary>
 
 ````text
-Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/08-ids-old/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/old/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
+Work only in C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/08-ids-v0.6.2/repo. Use the skills under C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/bundles/v0.6.2/skills for this run; load the relevant SKILL.md files there by exact path. Do not use host-installed alternatives, sibling results, evaluator files, or parent cycle state.
 
 Task: Fix uniqueIds(ids) to return each string ID's first occurrence in input order, case-sensitive, without mutating the input. Empty strings are valid IDs. Reject non-arrays and any non-string element with TypeError. Preserve the export.
 
@@ -66,7 +66,7 @@ Reviewed all six changed files, utility callers, validation, ordering, exports, 
 npm.cmd test: 5/5 pass. Four regression cases failed before repair.
 Branch: main; dirty tree: clean.
 HEAD: 6949985ab60e9162665524328cee610a6045d3ea.
-Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/08-ids-old/repo.
+Repository: C:/Users/sami/AppData/Local/Temp/skills-benchmark-20260907-304dcdb/runs/08-ids-v0.6.2/repo.
 Prep, review-plan, and all cook phases complete. PLAN and HANDOFF preserve completion evidence. Stopped after findings-only review-code, before garnish; awaiting evaluator continuation.
 ````
 
