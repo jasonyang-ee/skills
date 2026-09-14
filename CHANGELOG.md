@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Make cater prefer low worker effort for fully specified mechanical work and medium for ordinary bounded implementation, independently of parent effort; diagnose failures before increasing effort while preserving host restrictions and acceptance checks.
+
 ## [1.0.1] - 2026-09-07
 
 ### Changed

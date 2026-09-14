@@ -13,34 +13,40 @@ Full rules: /encode-docs.
 
 # HANDOFF 2026-09-13
 
-branch main | last commit 951b9969e27d77757b28e24b4109617befc4379f
-checks: `npm.cmd test` → 7 passed, 0 failed, 0 skipped (includes real CLI discovery). Bare `npm test` blocked by PowerShell script policy; `.cmd` equivalent succeeded. `git diff --check` → clean. Manual pair inspection → valid task pointers, preserved headers, unstarted state, and matching scope.
-uncommitted: `PLAN.md`, `HANDOFF.md` — main-agent planning package, to be included in the planning summary commit; no pre-existing edits.
+branch main | last commit 1b7d01f84a872ded0da9f528311d96531a5e483c
+checks: `npm.cmd test` → 7 passed, 0 failed, 0 skipped, including real CLI discovery; `git diff --check` → clean. Full owned diff, five scenarios plus importance case, and goal/contract inspection passed.
+uncommitted: `skills/cater/SKILL.md`, `CHANGELOG.md`, `PLAN.md`, `HANDOFF.md` — owned implementation and progress; initial tree clean.
 
 ## done this session
 
-Prepared the scoped cycle and recorded local/current official research in PLAN existing assets. No execution tasks completed. `SPEC.md` and product skills unchanged; changelog entry belongs to F1 delivery.
+F1.T1: Selection explicitly prefers low for exact fixture/known-command work, medium for ordinary bounded implementation, and justified higher effort for unresolved reasoning. Model inheritance permits independent lower effort; task importance alone does not justify high. Unsupported controls retain truthful fallback; context/environment failures require diagnosis and correction before escalation. All five planned scenarios and the importance case pass manual inspection. Baseline comparison confirms unchanged dispatch, ownership, assignment, and independent acceptance contracts; changelog records delivery.
 
-Embedded `review-plan` pass → GO for F1–F2; 0 open BLOCK, DIVERGENCE, or blocking UNKNOWN. Reviewed coverage, source currency, dependencies, task contracts, host constraints, and SPEC compatibility; no remaining decisions.
+F2.T1: Repository suite and final manual review passed; all required verification rows HOLD.
 
 ## in progress (exact stop point)
 
-none — prep complete; execution unstarted (`planning status: new`, all tasks `.`).
+none — F1.T1 and F2.T1 verified; cycle complete.
 mid-edit files: none
 
 ## next
 
-F1.T1 | `/cook` applies the small worker-effort clarification in `skills/cater/SKILL.md` and records it in `CHANGELOG.md`; preconditions: reuse current reviewed research if affected assumptions remain valid, otherwise main-agent `review-plan` first.
+none — cycle complete; `/garnish` eligible.
 
 ## deviations & decisions
 
-User's final small-change constraint governs scope: retain cater architecture and companion contracts. Prefer low for mechanical work, medium for ordinary bounded implementation, and justify higher effort by remaining reasoning demand. Preserve host fallback and acceptance rigor. No spec amendment needed.
+Reuse same-day reviewed research: baseline-to-HEAD changed only planning pair. One summary commit after F2 per repository/user policy. No SPEC amendment required.
 
 ## watchouts
 
-No workers or unresolved assignments. This host exposes an effort override but disallows it on full-history forks; future executors must use their actual supported controls. No runtime adoption or savings measured. Use `npm.cmd test` in this PowerShell environment.
+No workers or unresolved assignments. Runtime adoption and efficiency savings remain unmeasured; use `npm.cmd test` for PowerShell script-policy compatibility.
 
 ## final verification
 
 item|status|evidence|decision
 |---|---|---|---|
+Goal; F1.T1 scenarios|HOLD|Selection paragraph explicitly covers low/medium/higher effort, model independence, importance, truthful fallback; retry step diagnoses context/environment before escalation|Scoped guidance delivered; no runtime savings claim
+F2.T1; §V.1–5; §I.7–8|HOLD|`npm.cmd test`: 7 passed, 0 failed, 0 skipped; inspected assertions cover frontmatter, names, limits and real CLI discovery|Required suite passed; no prose tests added
+§V.7–8, §V.11, §V.28; §C.4, §C.8|HOLD|Full product diff contains generic unwrapped prose, no private/project references or emoji; existing disclosure/encode-agent composition retained; plain-English Unreleased entry|Portable and self-contained; no new companion dependency
+§V.15, §V.22, §V.30|HOLD|Baseline diff changes only selection paragraph and retry step; direct/delegate/split, ownership, disjoint writes, bounded prompts, no-worker-commit instruction, disclosure, independent acceptance and final verification retained|Architecture and acceptance preserved
+§V.16–21, §V.29|HOLD|encode-docs applied all cycle writes; baked headers and task ids preserved; reviewed research remains current; F1 verified before F2; both tasks verified with final evidence|Close plan as done; SPEC unchanged; one summary commit per user policy
+Scope and hygiene|HOLD|Full owned diff reviewed; `git diff --check` clean; only cater, changelog and cycle pair changed from clean initial tree|No unrelated edits or unresolved findings

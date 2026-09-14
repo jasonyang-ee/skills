@@ -13,7 +13,7 @@ Reopened work → work-in-progress. garnish resets header-only new. Empty new �
 Symbols: → leads to | ∴ therefore | ∀ every | ∃ exists | ! required | ? unknown/optional | ⊥ forbidden/absent | ≠ differs | ∈ member | ∉ not member | ≤ at most | ≥ at least | & and | § section.
 Preserve literals, conditions, negation, uncertainty, quantities, and requirement strength. Tables need delimiter rows.
 Executable without chat history. Full rules: /encode-docs.
-planning status: new
+planning status: done
 -->
 
 # PLAN
@@ -61,7 +61,7 @@ depends: reviewed research remains valid; no blocking findings.
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Clarify selection and evidence-based escalation; document the change|§V.7, §V.15, §V.22, §V.28, §V.30
+T1|x|Clarify selection and evidence-based escalation; document the change|§V.7, §V.15, §V.22, §V.28, §V.30
 
 task: T1
 touch: `skills/cater/SKILL.md`, `CHANGELOG.md`; `PLAN.md`/`HANDOFF.md` through `encode-docs` for progress.
@@ -81,7 +81,7 @@ depends: F1.T1 accepted.
 
 id|status|description|cites
 |---|---|---|---|
-T1|.|Verify goal, contracts, and repository checks; close the cycle|§V.1–5, §V.7, §V.11, §V.15–22, §V.28–30
+T1|x|Verify goal, contracts, and repository checks; close the cycle|§V.1–5, §V.7, §V.11, §V.15–22, §V.28–30
 
 task: T1
 touch: `PLAN.md`, `HANDOFF.md` through `encode-docs`; failures reopen F1.T1 before product corrections.
