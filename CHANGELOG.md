@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-09-13
+
 ### Changed
 
 - Make cater prefer low worker effort for fully specified mechanical work and medium for ordinary bounded implementation, independently of parent effort; diagnose failures before increasing effort while preserving host restrictions and acceptance checks.
@@ -550,7 +552,8 @@ First release: a central collection of 15 skills.
   require hooks, subagents, and Python respectively, none of which survive an
   `npx skills add` install. See [NOTICE.md](NOTICE.md).
 
-[Unreleased]: personal:jasonyang-ee/skills/compare/v1.0.1...HEAD
+[Unreleased]: personal:jasonyang-ee/skills/compare/v1.0.2...HEAD
+[1.0.2]: personal:jasonyang-ee/skills/releases/tag/v1.0.2
 [1.0.1]: personal:jasonyang-ee/skills/releases/tag/v1.0.1
 [1.0.0]: personal:jasonyang-ee/skills/releases/tag/v1.0.0
 [0.8.0]: personal:jasonyang-ee/skills/releases/tag/v0.8.0
