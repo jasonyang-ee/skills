@@ -18,74 +18,67 @@ planning status: done
 
 # PLAN
 
-goal: Make a minor, portable change to `cater` that explicitly encourages lower worker effort for fully specified mechanical work while preserving its orchestration and acceptance architecture.
+goal: Let an authorized review → garnish → prep remediation chain proceed without redundant supersession approval when findings invalidate the retained cycle; preserve evidence and unfinished obligations.
 
 ## ground rules
 
-- Planning scope now; implementation follows via `/cook`. Keep the product change in `skills/cater/SKILL.md`, primarily its executor-selection paragraph, with a short retry clarification only where needed.
-- Prefer the lowest sufficient host-supported worker effort: `low` for mechanical work with exact scope/acceptance and no unresolved design choice; `medium` for ordinary bounded implementation; higher effort for unresolved reasoning the worker must perform. Parent effort or task importance alone does not justify high effort.
-- Explicitly allow choosing lower worker effort independently of the parent. Prefer an explicit effort selection when supported; preserve truthful `inherit`/`unavailable` reporting when controls are absent or constrained. Never claim a prompt changes an unexposed runtime setting; preserve user overrides and host restrictions.
-- Keep model choice separate from effort choice. No fixed model names, model migration, host configuration edits, forced delegation, new scheduling taxonomy, phase decomposition redesign, or broad skill rewrite.
-- Preserve direct/delegate/split choices, phase ownership, disjoint writes, bounded `encode-agent` prompts, no worker commits, disclosure, independent main-agent acceptance, and final verification. No companion-skill or SPEC change is needed for this scoped preference; existing §V.30 permits host-supported selection.
-- Keep skill prose unwrapped and generic. No tests asserting prose; use scenario inspection plus existing `npm test`. Add the delivered change to `CHANGELOG.md` `[Unreleased]` during implementation. One reviewed summary commit per user repository instruction; no push/tag.
+- Portable workflow fix, not the private application defects quoted in backlog. Plain review stays review-only; explicit completion-only conditions remain binding.
+- A direct request to move review findings through garnish into a new remediation cycle authorizes supersession. Never label superseded work successfully completed or fabricate HOLD evidence.
+- Preserve findings, baseline/HEAD/dirty scope, verification limits, invalidated tasks and unfinished obligations outside reset documents. Revalidate prior-session findings against current evidence.
+- Keep ordinary closure checks; separate supersession gate requires recoverable old documents, no outstanding workers or unrelated dirty work, then immediate prep. Only prep ingests backlog.
+- Amend existing durable rows, no new ids. No Python, prose tests, delegation, push or tag. Single summary commit after final verification; generic unwrapped prose.
 
 ## existing assets
 
-prior research (2026-09-13): Inspected current selection, dispatch, retry, acceptance, and assignment contracts. `cater` has one permissive model/effort paragraph under `Choose once per ready phase`; the disclosure table already has Effort and Rationale columns. `Delegate and accept` step 5 already diagnoses repeated failures. Strengthen those existing locations without adding a new architecture. `encode-agent` already supplies bounded context, quality checks, stop conditions, and completion evidence; no edit needed.
-
-local evidence: clean initial tree on `main` at `951b9969e27d77757b28e24b4109617befc4379f`; `AGENTS.md`, `SPEC.md` (§C.4, §C.8, §V.15, §V.22, §V.28–30), `skills/cater/SKILL.md`, `skills/encode-agent/SKILL.md`, `tests/skill-contract.test.mjs`, `tests/cli-discovery.test.mjs`, `package.json`, `CHANGELOG.md`. PLAN/HANDOFF were header-only; no backlog entries to ingest. Only this planning pair changes during prep.
-
-external evidence (checked 2026-09-13): https://developers.openai.com/api/docs/guides/latest-model — prompting can tune subagent delegation; supports a concise instruction change, not an efficiency guarantee. https://learn.chatgpt.com/docs/agent-configuration/subagents — unconfigured workers can inherit parent model/effort; supported overrides exist; low suits straightforward work and medium is a balanced default. This session's spawn tool exposes `reasoning_effort`, but full-history forks cannot override it; host capabilities must be checked at execution, not hard-coded in this portable skill.
-
-verification baseline: `npm.cmd test` → 7 passed, 0 failed, 0 skipped, including real CLI discovery. Bare `npm test` hit PowerShell's disabled-script policy for `C:\nvm4w\nodejs\npm.ps1`; the `.cmd` entry point runs the same package script successfully.
-
-unknowns & gate: No consequential unknowns for the wording change. Runtime adoption and token/latency savings are unmeasured and are not acceptance claims. Prior research covers F1; reuse while selected assumptions remain valid, otherwise run main-agent `review-plan` before execution. No redundant research phase.
-
-review-plan (2026-09-13): GO for F1–F2. One main-agent pass checked user scope, SPEC compatibility, local/source evidence, task pointers, dependencies, host fallback, and observable verification. Open BLOCK/DIVERGENCE/blocking UNKNOWN: 0; no unresolved decisions. Architecture redesign and runtime-efficiency benchmarking remain outside scope. Tasks stay todo; final verification remains last.
+prior research (2026-09-15): review-code Follow-up unconditionally blocks failed closure despite direct garnish/prep authorization; garnish requires successful completion; prep active branch always queues. encode-docs/header already permit authorized supersession, but encoder reset wording needs alignment. README retained-cycle guidance and SPEC §V.23/25/27/29 need matching corrections. Review taxonomy/report mirrors stay unchanged.
+local evidence: clean main at 9c2baca8e950569f32755ab07e77ab766bf3a3fd; inspected AGENTS.md, SPEC.md, completed PLAN.md/HANDOFF.md, BACKLOG.md, skills/{review-code,garnish,prep,encode-docs,encode-header}/SKILL.md, README.md, CHANGELOG.md, package.json, tests/*.mjs. Prior completed cycle recoverable at this SHA. Backlog application findings illustrate workflow failure; they are not verified defects in this repository.
+external evidence: not applicable; local workflow change, no external API/version claims.
+unknowns & gate: None consequential; local evidence covers F1. Missing/stale affected evidence requires main-agent review-plan before execution. No separate research phase.
+review-plan (2026-09-15): GO after main-agent coverage, dependency, evidence, authority, preservation, task-pointer and verification review. Open BLOCK/DIVERGENCE/blocking UNKNOWN: 0. Correction: distinguish completion-only requests from direct remediation authorization, and preserve uncommitted evidence before reset. At review time tasks remained todo; no unresolved decisions.
 
 ## phase order
 
 id|goal|depends|exit
 |---|---|---|---|
-F1|Clarify worker-effort selection|current prior research; review GO|small coherent guidance change and changelog entry pass scenario review
-F2|Final verification|F1|goal, task contracts, and applicable invariants have current HOLD evidence
+F1|Implement evidence-preserving remediation transition|research + review GO|scenario inspection passes; docs agree
+F2|Final verification|F1|required checks and contracts HOLD
 
-## F1 clarify worker-effort selection
+## F1 implement remediation transition
 
-goal: Lower effort for bounded routine workers through a concise selection preference.
-inputs: goal, ground rules, prior research; existing `cater` selection and retry paragraphs.
-files: `skills/cater/SKILL.md`, `CHANGELOG.md`; shared progress through `encode-docs`.
-depends: reviewed research remains valid; no blocking findings.
+goal: Honor remediation authorization without losing failed-cycle evidence.
+inputs: goal, ground rules, local research.
+files: skills/review-code/SKILL.md, skills/garnish/SKILL.md, skills/prep/SKILL.md, skills/encode-docs/SKILL.md, README.md, SPEC.md, CHANGELOG.md.
+depends: current evidence and review GO.
 
 ### §T tasks
 
 id|status|description|cites
 |---|---|---|---|
-T1|x|Clarify selection and evidence-based escalation; document the change|§V.7, §V.15, §V.22, §V.28, §V.30
+T1|x|Align review, supersession, planning and public contracts|§V.7, §V.15–21, §V.23–29
 
 task: T1
-touch: `skills/cater/SKILL.md`, `CHANGELOG.md`; `PLAN.md`/`HANDOFF.md` through `encode-docs` for progress.
-details: Replace the permissive selection guidance with the lowest-sufficient-effort preference in ground rules. Include a couple of mechanical examples such as exact fixture updates or known verification commands. Keep model inheritance allowed independently of an explicit lower effort. Use the existing disclosure rationale to explain the chosen effort, especially higher effort's unresolved reasoning burden. Briefly clarify the existing retry rule: diagnose contract/context/environment failures before escalation; raise effort only when additional reasoning is needed. Preserve existing acceptance rigor. Add a plain-English `[Unreleased]` changelog entry.
-verify: Inspect the diff and walk through five cases: exact fixture/known-command work → prefer low; bounded normal implementation → prefer medium; unresolved cross-component reasoning → justified higher effort; absent/constrained effort control → truthful fallback; missing context or environment failure → correct the cause rather than automatic high retry. Confirm an important but fully specified task is not assigned high solely for importance. Compare surrounding architecture and acceptance text against the baseline; require no unrelated changes or wording tests.
-exit: All scenario outcomes follow from concise guidance; supported lower effort is explicitly allowed independently of parent effort; boundaries and acceptance remain intact; changelog describes delivered behavior.
+touch: phase files; PLAN.md/HANDOFF.md through encode-docs.
+details: Add prior-review validation and authorization routing; compose garnish then prep immediately when authorized. Preserve a persistent review record and recoverable old cycle before reset. Give garnish a distinct supersession gate retaining failed verdicts without requiring successful implementation checks. Align prep carryover, encoder reset semantics, README, existing SPEC rows and Unreleased entry. Preserve shared review blocks.
+verify: Manually trace: supplied NO-GO + direct garnish/prep; plain review; explicitly completion-conditioned cleanup; active cycle with/without supersession; completed cycle + independent improvement; absent/header-only cycle and no actionable findings; stale/unverifiable prior findings; uncommitted evidence, unrelated dirt, outstanding workers and interruption after reset. Require evidence survival, only authorized routing, fresh todo remediation tasks, and unfinished obligations carried or explicitly dispositioned. Inspect generic unwrapped prose and unchanged mirrors.
+exit: All cases coherent; no redundant permission; docs agree and evidence survives reset.
 next: F2.T1
 
 ## F2 final verification
 
-goal: Verify the delivered scope and preserve completion evidence.
-inputs: F1 diff, scenario results, goal/ground rules, applicable SPEC requirements.
-files: touched product/changelog read-only; `PLAN.md`, `HANDOFF.md` through `encode-docs`.
-depends: F1.T1 accepted.
+goal: Verify goal, repository contracts and completion.
+inputs: F1 diff and scenario evidence; SPEC.
+files: touched files read-only; PLAN.md/HANDOFF.md evidence.
+depends: F1.T1 verified.
 
 ### §T tasks
 
 id|status|description|cites
 |---|---|---|---|
-T1|x|Verify goal, contracts, and repository checks; close the cycle|§V.1–5, §V.7, §V.11, §V.15–22, §V.28–30
+T1|x|Run checks, review full diff and record final evidence|§V.1–5, §V.7–8, §V.11, §V.16–29
 
 task: T1
-touch: `PLAN.md`, `HANDOFF.md` through `encode-docs`; failures reopen F1.T1 before product corrections.
-details: Review every touched surface for correctness, coherence, unnecessary complexity, and missed reuse. Check F1 scenarios, preserved orchestration/acceptance, portability, unwrapped prose, changelog, and plan/baton consistency. Record goal, task, and relevant spec checks in HANDOFF final verification as HOLD, VIOLATE, or UNVERIFIABLE with evidence and resolutions. Do not claim observed worker settings or efficiency gains without a run. Close only after every required task and check passes; follow the single-summary-commit instruction.
-verify: `npm.cmd test` (same package script as `npm test`) → all 7 existing tests pass with no skips, including CLI discovery; `git diff --check` → no whitespace errors; scoped manual review → all ground rules and scenario criteria satisfied. Repeat affected checks after any correction.
-exit: All required tasks verified; nonempty final evidence covers goal/contracts with HOLD; cycle marked done only then.
-next: none — cycle complete; `/garnish` eligible after closure.
+touch: PLAN.md/HANDOFF.md through encode-docs; reopen F1.T1 for failures.
+details: Run npm test and git diff --check; confirm assertions and real CLI discovery ran. Review all touched surfaces for correctness, coherence, complexity, reuse, portability and state consistency. Compare intentional review mirrors byte-for-byte as a manual check, not a repository test. Record goal/tasks/contracts as HOLD/VIOLATE/UNVERIFIABLE; close only all HOLD. Commit once via encode-commit.
+verify: npm test passes without skipped CLI checks; diff check clean; scenario and full-diff review pass.
+exit: Every task x; nonempty final evidence all HOLD; reviewed summary commit.
+next: none — cycle complete.

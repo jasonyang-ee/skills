@@ -136,7 +136,7 @@ The header tracks execution:
 - `cook`/`cater` validate relevant prior-research evidence before requesting `new` → `work-in-progress`, direct work, or dispatch. Missing/stale evidence requires main-agent `review-plan` first; unresolved consequential unknowns block dependent coding. They run only populated plans and resume unfinished eligible tasks. Recheck affected assumptions and refresh only evidence whose findings/decisions no longer support selected work; unrelated changes and verified planned edits preserving that support do not stale research.
 - `handoff` requests `done` only when all tasks are `x` and a nonempty final verification table covers the goal and relevant contracts with current `HOLD` evidence.
 - Reopened work returns to `work-in-progress`; affected tasks and evidence must reflect the reopening.
-- `garnish` resets the completed plan to its header with `new`.
+- `garnish` resets the completed plan, or an authorized superseded cycle after its evidence-preservation gate, to its header with `new`. Supersession never sets the old cycle to `done` or turns failed evidence into HOLD.
 
 This skill performs those writes for the caller. A missing or contradictory state requires reconciliation from evidence, not a guessed overwrite.
 

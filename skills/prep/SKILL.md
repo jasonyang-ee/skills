@@ -17,7 +17,7 @@ Complete the planning package so an agent can execute it without chat history. S
 
 ## Choose mode before drafting
 
-Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. Inspect the plan's baked-header `planning status`:
+Read existing `SPEC.md`, `PLAN.md`, and `HANDOFF.md`. If the user authorized replacing a retained cycle with a remediation cycle, preserve it through loaded `garnish` supersession before drafting; a direct review → garnish → prep request already supplies this authority. A failed preservation gate stops replacement; do not fall through to ordinary ingest. If garnish already reset the pair, use its persistent review record without repeating cleanup or approval. If its continuation already produced the reviewed plan/baton pair, return that result instead of drafting again. Carry findings, verification limits, old task mappings and unfinished obligations into the package; give each obligation a new task or an explicit user-supported disposition. Do not copy old completion ticks or treat supersession as successful closure. Otherwise apply the ordinary modes below. Inspect the plan's baked-header `planning status`:
 
 - `work-in-progress`: append the new request, constraints, and acceptance criteria to `BACKLOG.md`. Preserve existing entries and the active plan/baton. Report the queued work and stop; the output pair requirement applies to ingest mode.
 - `new`, `done`, or no plan: ingest the request and any `BACKLOG.md` entries. Preserve unfinished planned work unless the user supersedes it. Produce `PLAN.md` and `HANDOFF.md` as a pair.

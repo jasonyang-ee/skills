@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Let an already-authorized review, cleanup, and remediation planning chain supersede a failed cycle without asking again, preserving findings and unfinished work before reset. Recheck prior review findings and continue directly into the new plan.
+
 ## [1.0.2] - 2026-09-13
 
 ### Changed
